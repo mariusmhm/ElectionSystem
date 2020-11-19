@@ -66,7 +66,10 @@ class Student(NamedBusinessObject):
         return "Student: {}, {}, {}, {}, {}, {}, {}, {}".format(self.get_id, self.get_creationDate, self.get_name, self.get_mail, self.get_password, self.get_role, self.get_matrikelNR, self.get_study)
 
     @staticmethod
+
     def to_dict(dicti=dict()):
+
+        """Umwandeln eines Python dict() in einen Studenten()."""
         student = Student()
         student.set_id(dicti["StudentID"])
         student.set_creationDate(dicti["CreationDate"])
