@@ -80,3 +80,6 @@ class Student(NamedBusinessObject):
         student.set_matrikelNR(dicti["MatrkelNR"])
         student.set_study(dicti["StudentStudy"])
         return student
+
+
+

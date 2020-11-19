@@ -217,7 +217,7 @@ class Project(NamedBusinessObject):
     def to_dict(dicti=dict()):
 
         """Umwandeln eines Python dict() in ein Projekt()."""
-        student = Student()
+        student = Project()
         projekt.set_id(dicti["ProjektID"])
         projekt.name(dicti["ProjektName"])
         projekt.link(dicti["ProjektLink"])

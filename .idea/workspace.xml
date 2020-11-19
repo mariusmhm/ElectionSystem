@@ -5,11 +5,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="Added folders to frontend">
-      <change beforePath="$PROJECT_DIR$/.idea/ElectionSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ElectionSystem.iml" afterDir="false" />
+    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="Business Objectet Project with getter and setter methods, to_dict method">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/bo/Project.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Project.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/bo/Student.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/bo/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/User.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +78,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first test" />
     <MESSAGE value="Added folders to frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added folders to frontend" />
+    <MESSAGE value="Business Objectet Project with getter and setter methods, to_dict method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Business Objectet Project with getter and setter methods, to_dict method" />
   </component>
   <component name="WindowStateProjectService">
     <state x="140" y="123" width="1200" height="628" key="DiffContextDialog" timestamp="1605805732069">
@@ -89,10 +90,10 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605807241864" />
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605781725414">
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605812293172">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605781725414" />
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605812293172" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605724178995" />
     <state x="522" y="178" key="VcsDiffUtil.ChangesDialog" timestamp="1605805440794">
       <screen x="0" y="23" width="1440" height="828" />
