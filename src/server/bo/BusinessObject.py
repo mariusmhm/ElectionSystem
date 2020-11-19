@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
-class BusinessObject (ABC):
+class BusinessObject(ABC):
 
     def __init__(self):
-        self._id = 0
+        self.__id = 0
 
     def get_id(self):
-        return self._id
+        return self.__id
 
     def set_id(self, val):
-        self._id = val
+        self.__id = val
