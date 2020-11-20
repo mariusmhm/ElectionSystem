@@ -39,7 +39,7 @@ class Projecttype(NamedBusinessObject):
     @staticmethod
     def to_dict(dicti=dict()):
 
-        """"Convert a Python dict() in a Project()."""
+        """"Convert a Python dict() in a Projecttype()."""
         projecttype = Projecttype()
         projecttype.set_etcs(dicti["ETCS"])
         project.set_sws(dicti["SWS"])
