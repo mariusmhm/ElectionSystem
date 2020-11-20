@@ -1,5 +1,6 @@
 from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
+from server.Role import Role
 
 
 class Student(NamedBusinessObject):
@@ -10,7 +11,7 @@ class Student(NamedBusinessObject):
         self.__student_name = ""
         self.__mail = ""
         self.__password = ""
-        self.__role = ""
+        self.__role = Role()
         self.__matrikelNR = ""
         self.__study = ""
 
