@@ -6,21 +6,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="completed business object semester">
-      <change beforePath="$PROJECT_DIR$/.idea/ElectionSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ElectionSystem.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/bo/Grading.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Grading.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/bo/Participation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Participation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/bo/Projecttype.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Projecttype.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,13 +29,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SW_Projekt_Holma-Team2-master" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <servers />
-  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -94,22 +85,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="completed business object semester" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="361" y="53" key="#Plugins" timestamp="1605878963967">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="361" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1605878963967" />
     <state x="140" y="123" width="1200" height="628" key="DiffContextDialog" timestamp="1605805732069">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="140" y="123" width="1200" height="628" key="DiffContextDialog/0.23.1440.828@0.23.1440.828" timestamp="1605805732069" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1605876182719">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="249" y="76" key="SettingsEditor" timestamp="1605807241864">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605876182719" />
-    <state x="266" y="53" key="SettingsEditor" timestamp="1605879068997">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="266" y="53" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605879068997" />
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605807241864" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605868089434">
       <screen x="0" y="23" width="1440" height="828" />
