@@ -13,37 +13,13 @@ class Registration extends React.Component {
         // ins backend zu schieben
         console.log("ja es geht");
     }
+
     render(){
         return (
             <div>
                 <Container maxWidth="sm">
-                    <h1>REGISTRATION</h1>
-                    <h3>as a student</h3>
+                    <Typography variant="h3">Registration as a student</Typography>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                autoComplete="StudentName"
-                                name="StudentName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="StudentName"
-                                label="Full Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="StudentMail"
-                                name="StudentMail"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="StudentMail"
-                                label="Your Mailadress"
-                                autoFocus
-                            />
-                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete="MatrikelNR"
@@ -54,18 +30,6 @@ class Registration extends React.Component {
                                 fullWidth
                                 id="MatrikelNR"
                                 label="Your Matrikel-Number"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                autoComplete="StudentStudy"
-                                name="StudentStudy"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="StudentStudy"
-                                label="Your Study"
                                 autoFocus
                             />
                         </Grid>
@@ -81,13 +45,62 @@ class Registration extends React.Component {
                                 label="Your Password"
                                 autoFocus
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="StudentName"
+                                name="StudentName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="StudentName"
+                                label="Full Name"
+                                autoFocus
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="StudentMail"
+                                name="StudentMail"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="StudentMail"
+                                label="Your Mailadress"
+                                autoFocus
+                            />
                         </Grid> 
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="StudentStudy"
+                                name="StudentStudy"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="StudentStudy"
+                                label="Your Study"
+                                autoFocus
+                            />
+                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <Button 
                                 variant="outlined" 
+                                color="secondary" 
+                                href="./index.js"
+                                fullWidth
+                                size="large"
+                                label="Abandom"
+                            >
+                                Back to Log-In Page
+                            </Button>
+                        </Grid>   
+                        <Grid item xs={12} sm={6}>
+                            <Button 
+                                variant="contained" 
                                 color="primary" 
                                 onClick={this.handleOnClickRegistration} 
                                 fullWidth
+                                size="large"
                                 label="Complete Registration"
                             >
                                 Complete Registration
