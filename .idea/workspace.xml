@@ -7,9 +7,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="completed business object semester">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/bo/Grading.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Grading.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/bo/Participation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Participation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/bo/Projecttype.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/bo/Projecttype.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,10 +90,10 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605807241864" />
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605868089434">
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605879758008">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605868089434" />
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605879758008" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605724178995" />
     <state x="522" y="178" key="VcsDiffUtil.ChangesDialog" timestamp="1605805440794">
       <screen x="0" y="23" width="1440" height="828" />
