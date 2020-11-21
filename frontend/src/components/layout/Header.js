@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Avatar, Button, Paper, Tab, Tabs, Icon, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
 
 
-class App extends Component {
+class Header extends Component {
 
   render() {
     return (
 
-      <div className="App">
+      <div className="Header">
         <Paper>
           <Tabs
             indicatorColor="primary"
@@ -34,4 +34,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Header;

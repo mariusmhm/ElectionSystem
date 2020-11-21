@@ -72,7 +72,7 @@ class Signin extends Component {
                         </form>
                     </Grid>
                 </Grid>
-            </Gird>
+            </Grid>
 
         </Container>
       </div>
