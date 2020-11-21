@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
 
 
-class Signin extends Component {
+// Registration only for Testing right now
+
+class App extends Component {
 constructor (props){
     super(props);
     this.state={
@@ -15,73 +16,50 @@ constructor (props){
   render() {
     return (
 
-      <div className="App">
+      <div>
+        <h1 style= {{color:"red", textAlign:"center"}}> Hello World!</h1>
+        <h2 style={{color:"red", textAlign:"center"}} > This is a test! </h2>
 
-        <Grid container, direction="row", spacing={2} justify="space-evenly", alignItems="stretch">
+      <Container maxWidth="sm">
+        <Grid container spacing={1} style={{backgroundColor:"gray"}}>
+            <Paper >Willkommen </Paper>
+                <form noValidate autoComplete="off" style={{}}>
+                    <TextField
+                    id="outlined-basic"
+                    label="E-Mail"
+                    variant="outlined"
+                    label="E-Mail"
+                    />
 
+                    <TextField
+                    id="outlined-basic"
+                    label="Passwort"
+                    variant="outlined"
+                    label="Passwort"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="filled"
+                    />
 
+                    <Button variant="contained" color="secondary">
+                    Log In
+                    </Button>
+
+                </form>
 
 
         </Grid>
-        <Grid container, direction="row", justify="space-evenly", alignItems="stretch">
 
+     </Container>
 
+     </div>
 
-        </Grid>
-
-
-      </div>
     );
   }
 }
 
 export default App;
 
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
-
-export default function AutoGrid() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper className={classes.paper}>xs=6</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
-        </Grid>
-      </Grid>
-    </div>
-  );
-}
 
 

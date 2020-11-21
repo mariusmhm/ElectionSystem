@@ -5,12 +5,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="changes in SecurityDecorater">
-      <change beforePath="$PROJECT_DIR$/.idea/ElectionSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ElectionSystem.iml" afterDir="false" />
+    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="small changes in frontend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/pages/Signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/pages/Signin.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +91,8 @@
     <MESSAGE value="completed business object semester" />
     <MESSAGE value="SecurityDecorater für Firebase" />
     <MESSAGE value="changes in SecurityDecorater" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes in SecurityDecorater" />
+    <MESSAGE value="small changes in frontend" />
+    <option name="LAST_COMMIT_MESSAGE" value="small changes in frontend" />
   </component>
   <component name="WindowStateProjectService">
     <state x="466" y="245" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605956174717">
@@ -104,14 +103,22 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="140" y="123" width="1200" height="628" key="DiffContextDialog/0.23.1440.828@0.23.1440.828" timestamp="1605805732069" />
+    <state x="130" y="94" key="MergeDialog" timestamp="1605962288758">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state x="130" y="94" key="MergeDialog/0.23.1440.828@0.23.1440.828" timestamp="1605962288758" />
+    <state x="347" y="204" key="MultipleFileMergeDialog" timestamp="1605962288799">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state x="347" y="204" key="MultipleFileMergeDialog/0.23.1440.828@0.23.1440.828" timestamp="1605962288799" />
     <state x="249" y="76" key="SettingsEditor" timestamp="1605961759887">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605961759887" />
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605886760267">
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605962313230">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605886760267" />
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605962313230" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605724178995" />
     <state x="522" y="178" key="VcsDiffUtil.ChangesDialog" timestamp="1605805440794">
       <screen x="0" y="23" width="1440" height="828" />
@@ -121,9 +128,9 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="511" y="318" width="604" height="269" key="org.intellij.images.editor.actions.BackgroundImageDialog/0.23.1440.828@0.23.1440.828" timestamp="1605807221829" />
-    <state x="430" y="355" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1605957187778">
+    <state x="430" y="355" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1605962892974">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="430" y="355" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1440.828@0.23.1440.828" timestamp="1605957187778" />
+    <state x="430" y="355" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1440.828@0.23.1440.828" timestamp="1605962892974" />
   </component>
 </project>
