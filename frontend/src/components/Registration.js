@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { StudentBO } from '../api';
 
 // nur um zu üben / wieder in react reinzukommen
 
 
 class Registration extends React.Component {
     
-    handleOnClickRegistration(){
+    handleOnClickRegistration(e){
         // hier muss eine funktion für api rein
         // um die übermittelten daten aus textfields
         // ins backend zu schieben
-        console.log("ja es geht");
+        console.log(e);
     }
 
     render(){
@@ -39,6 +40,9 @@ class Registration extends React.Component {
                                 name="StudentPW"
                                 variant="outlined"
                                 type="password"
+                                // calls handle function, displays every change in
+                                // password field in console, testing how to save the values in Students
+                                onChange={(e) => {this.handleOnClickRegistration(e.target.value);}}
                                 required
                                 fullWidth
                                 id="StudentPW"

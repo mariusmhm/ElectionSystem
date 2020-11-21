@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './components/layout/Header';
 import { Button, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
-import Registration from './components/pages/Registration';
+import Registration from './components/Registration';
 
 // Registration only for Testing right now
 
