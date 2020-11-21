@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import Header from './components/layout/Header';
+import { Button, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import Registration from './components/Registration';
 
+// Registration only for Testing right now
 
 class App extends Component {
 constructor (props){
@@ -13,7 +17,9 @@ constructor (props){
     return (
 
       <div className="App">
-
+        
+        <Header />
+        <Registration />
         <h1 style= {{color:"red", textAlign:"center"}}> Hello World!</h1>
         <h2 style={{color:"red", textAlign:"center"}} > This is a test! </h2>
 

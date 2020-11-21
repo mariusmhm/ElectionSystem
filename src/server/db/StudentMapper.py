@@ -191,8 +191,8 @@ class StudentMapper(Mapper):
 
 
 """ Only For Testing / Not Professional AND DOES NOT WORK CURRENTLY"""
-if (__name__ == "__main__"):
+""" if (__name__ == "__main__"):
     with StudentMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p)
+            print(p) """
