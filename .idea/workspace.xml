@@ -5,10 +5,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="small changes in Signin.js and commented App.js">
+    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="Completed the basic structure of signin.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/pages/Signin.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/pages/Signin.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +91,8 @@
     <MESSAGE value="changes in SecurityDecorater" />
     <MESSAGE value="small changes in frontend" />
     <MESSAGE value="small changes in Signin.js and commented App.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="small changes in Signin.js and commented App.js" />
+    <MESSAGE value="Completed the basic structure of signin.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed the basic structure of signin.js" />
   </component>
   <component name="WindowStateProjectService">
     <state x="466" y="245" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605956174717">
@@ -116,10 +115,10 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605961759887" />
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605967775821">
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605976384211">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605967775821" />
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605976384211" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605724178995" />
     <state x="522" y="178" key="VcsDiffUtil.ChangesDialog" timestamp="1605805440794">
       <screen x="0" y="23" width="1440" height="828" />
