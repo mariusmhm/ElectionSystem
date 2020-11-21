@@ -15,7 +15,7 @@ constructor (props){
       <div className="App">
 
         <h1 style= {{color:"red", textAlign:"center"}}> Hello World!</h1>
-           <h2 style={{color:"red"}}> This is a test! </h2>
+        <h2 style={{color:"red", textAlign:"center"}} > This is a test! </h2>
 
       </div>
     );
@@ -23,4 +23,5 @@ constructor (props){
 }
 
 export default App;
+
 
