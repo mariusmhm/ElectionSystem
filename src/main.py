@@ -48,32 +48,32 @@ BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Teilnahme 
  ab und """
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='__id', description='Der Unique Identifier eines Business Object'),
+    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
 })
 
 """NamedBusinessObject leitet von Business Object ab"""
 nbo = api.model('NamedBusinessObject',bo, {
-    'name': fields.Integer(attribute='__name', description='Der Name eines NamedBusiness Object'),
+    'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
 })
 
 """NamedBusinessObject setzt weiter Strukturen auf, wie User, Student, Grading, Module,
 Participation, Project, Projecttype und Semester."""
 
 user = api.inherit('User', nbo, {
-    'user_id': fields.String(attribute='__user_id', description='ID eines User'),
-    'email': fields.String(attribute='__email', description='E-Mail-Adresse eines User'),
-    'role': fields.String(attribute='__role', description='Role eines User'),
-    'password': fields.String(attribute='__password ', description='Password eines User'),
+    'user_id': fields.String(attribute='_user_id', description='ID eines User'),
+    'email': fields.String(attribute='_email', description='E-Mail-Adresse eines User'),
+    'role': fields.String(attribute='_role', description='Role eines User'),
+    'password': fields.String(attribute='_password ', description='Password eines User'),
 })
 
 student = api.inherit('Student', nbo, {
-    'student_id': fields.String(attribute='__student_id', description='Id eines Studenten'),
-    'student_name': fields.String(attribute='__student_name', description='Name eines Studenten'),
-    'mail': fields.String(attribute='__mail', description='E-Mail-Adresse eines Studenten'),
-    'role': fields.String(attribute='__role', description='Google User ID eines User'),
-    'password': fields.String(attribute='__password ', description='Password eines Studenten'),
-    'MatrikelNR': fields.String(attribute='__MatrikelNR', description='MatrikelNR eines Studenten'),
-    'study':fields.String(attribute='__study', description='Studiengang eines Studenten'),
+    'student_id': fields.String(attribute='_student_id', description='Id eines Studenten'),
+    'student_name': fields.String(attribute='_student_name', description='Name eines Studenten'),
+    'mail': fields.String(attribute='_mail', description='E-Mail-Adresse eines Studenten'),
+    'role': fields.String(attribute='_role', description='Google User ID eines User'),
+    'password': fields.String(attribute='_password ', description='Password eines Studenten'),
+    'MatrikelNR': fields.String(attribute='_MatrikelNR', description='MatrikelNR eines Studenten'),
+    'study':fields.String(attribute='_study', description='Studiengang eines Studenten'),
 })
 
 #transferierbare Strukturen die noch eingefügt werden müssen
