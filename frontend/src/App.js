@@ -19,8 +19,8 @@ constructor (props){
     //This is for testing, do not delete:
 
       <div>
-      <h1 style= {{color:"red", textAlign:"center"}}> Hello World!</h1>
-      <h2 style={{color:"red", textAlign:"center"}} > This is a test! </h2>
+      <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
+      <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
 
        
         <Grid container direction="row" justify="space-around" alignItems="center">
@@ -35,7 +35,7 @@ constructor (props){
                         fullWidth
                         />
                     </Grid>
-                    < Grid item xs={6} sm={5}>
+                    < Grid item xs={12} sm={6}>
                         <TextField
                         id="outlined-basic"
                         label="Password"
