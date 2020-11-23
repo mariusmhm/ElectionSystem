@@ -77,9 +77,14 @@ student = api.inherit('Student', nbo, {
 })
 
 #transferierbare Strukturen die noch eingefügt werden müssen
-#grading=
 
-#module=
+grading= api.inherit('Grading',nbo,{
+    'grading': fields.String (attribute='_grading', descritpion='Note eines Studenten'),
+})
+
+module=api.inherit('Module',nbo, {
+    'module': fields.String (attribute='_module', description='Modul eines Studenten')
+})
 
 #participation=
 
@@ -95,16 +100,6 @@ student = api.inherit('Student', nbo, {
 
 
 
-#@ElectionSystem.route('/login', methods=['POST','GET'])
-#@ElectionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-#def login():
-    #error=None
-    #if request.method=='POST':
-       # if valid_login(request.form['E-Mail'],
-                      # request.form['Passwort']): # MapperKlasse?
-            #return log_the_user_in(request.form['E-Mail'])
-       # else:
-            #error='Invalid E-Mail/Passwort'
-    #return render_template('login.js',error=error)
+
 
 

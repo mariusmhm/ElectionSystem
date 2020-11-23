@@ -9,10 +9,10 @@ class User(NamedBusinessObject):
 
     def __init__(self):
         self.__user_id = 0
+        self.__Username=""
         self.__email = ""
         self.__password = ""
         self.__role = Role()
-
 
     def get_user_id(self):
         """Read out of the UserId."""
@@ -21,6 +21,12 @@ class User(NamedBusinessObject):
     def set_user_id(self, id):
         """Set the UserId."""
         self.__user_id=id
+
+    def set_name(self,name):
+        self.__Username=name
+
+    def get_name(self):
+        return self.__Username
 
     def get_email(self):
         """Read out of the Usermail."""
@@ -61,9 +67,9 @@ class User(NamedBusinessObject):
 
         student = Student()
         student.set_id(dicti["UserID"])
-        student.set_email(dicti["UserEmail"])
-        student.set_password(dicti["UserPassword"])
-        student.set_role(dicti["Role"])
+        student.set_email(dicti["UserMail"])
+        student.set_password(dicti["UserPW"])
+        student.set_role(dicti["UserRole"])
         return user
 
 
