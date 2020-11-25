@@ -24,4 +24,16 @@ CREATE TABLE Students (
     PRIMARY KEY(StudentID)   
 );
 
+DROP TABLE IF EXISTS USER;
+CREATE TABLE USER (
+	UserID INTEGER NOT NULL,
+	CreationDate DATE,
+    UserName VARCHAR (80),
+    UserMail VARCHAR (50),
+    UserPW VARCHAR (20),
+    UserRole VARCHAR (20),
+    MatrikelNR INTEGER,
+    PRIMARY KEY(UserID)
+);
+
 INSERT INTO Students VALUES (1, '1863-05-23', 'Max Mustermann', 'mm1@hdm-stuttgart.de', 'EinPasswort', 'Student', 111111, 'Wirtschaftsinformatik');
