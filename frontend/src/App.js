@@ -51,7 +51,7 @@ constructor (props){
                         Log In
                     </Button>
                 </Grid>
-                <Grid item xs={6} sm={6}>
+                <Grid item xs={12} sm={6}>
                 <Typography variant="h3">First time here?</Typography>
                     <Button 
                     variant="contained" 

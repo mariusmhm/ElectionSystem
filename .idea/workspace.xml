@@ -5,7 +5,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="folder changes in frontend api- folder">
+    <list default="true" id="3b4c3442-5977-4eea-b5e4-56f4e018d392" name="Default Changelist" comment="kleine versuche App.js Layout zu omtimieren">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
     </list>
@@ -96,7 +96,8 @@
     <MESSAGE value="UserBO frontend API completed" />
     <MESSAGE value="GradingBO completed" />
     <MESSAGE value="folder changes in frontend api- folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="folder changes in frontend api- folder" />
+    <MESSAGE value="kleine versuche App.js Layout zu omtimieren" />
+    <option name="LAST_COMMIT_MESSAGE" value="kleine versuche App.js Layout zu omtimieren" />
   </component>
   <component name="WindowStateProjectService">
     <state x="466" y="245" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605956174717">
@@ -119,10 +120,10 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="249" y="76" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1605961759887" />
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1605989263677">
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2" timestamp="1606049384643">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
-    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1605989263677" />
+    <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1606049384643" />
     <state x="315" y="177" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605724178995" />
     <state x="522" y="178" key="VcsDiffUtil.ChangesDialog" timestamp="1605805440794">
       <screen x="0" y="23" width="1440" height="828" />
