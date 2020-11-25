@@ -1,12 +1,28 @@
-import React, { Component } from 'react';
-import Header from './components/layout/Header';
-import Grid from '@material-ui/core/Grid';
-import Registration from './components/Registration';
-import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
 
-//This is for testing approaches
+import React, { Component } from 'react';
+/**import Header from './components/layout/Header';**/
+import Grid from '@material-ui/core/Grid';
+/**import Registration from './components/Registration';**/
+import { Button, Typography} from '@material-ui/core';
+/**import firebase from 'firebase/app';**/
+/**import 'firebase/auth';**/
+/**import SignIn from './components/pages/Signin';**/
+/**import LoadingProgress from './components/dialogs/LoadingProgress';**/
+/**import firebaseConfig from './firebaseconfig';**/
+/**import ContextErrorMessage from './components/dialogs/ContextErrorMessage';**/
+/**import Theme from './Theme';**/
+/**import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';**/
+
+
+
+//!!!This is TESTING for approaches!!!
+
 
 class App extends Component {
+
+handleSignInButtonClicked = () => {
+this.props.onSignIn();
+}
 constructor (props){
     super(props);
     this.state={
@@ -21,56 +37,27 @@ constructor (props){
       <div>
       <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
       <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
-
-       
-        <Grid container direction="row" justify="space-around" alignItems="center">
-            <Grid item xs={12} sm={6}>
-                <Typography variant="h3">Welcome</Typography>
-                    <Grid item xs={6} sm={6}>
-                        <TextField
-                        id="outlined-basic"
-                        label="E-Mail"
-                        variant="outlined"
-                        autoFocus
-                        fullWidth
-                        />
-                    </Grid>
-                    < Grid item xs={12} sm={6}>
-                        <TextField
-                        id="outlined-basic"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        autoFocus
-                        fullWidth
-                        />
-                    </Grid>
-                    <Button 
-                    variant="contained" 
-                    color="secondary">
-                        Log In
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                <Typography variant="h3">First time here?</Typography>
-                    <Button 
-                    variant="contained" 
-                    color="primary">
-                        Register as a <b> Professor</b>
-                    </Button>
-                    <br></br>
-                    <Button 
-                    variant="contained" 
-                    color="secondary">
-                        Register as a <b> Student</b>
-                    </Button>
-                </Grid>
-            </Grid>
-      </div>
-
-    );
-  }
+        <Typography  align='center' variant='h6'>Welcome to the HdM ElectionSystem</Typography>
+	    <Typography  align='center'>It appears, that you are not signed in.</Typography>
+	    <Typography  align='center'>To use the services of the HdM Election System please</Typography>
+	    <Grid container justify='center'>
+					<Grid item>
+						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
+							Sign in with Google
+      			</Button>
+					</Grid>
+				</Grid>
+			</div>
+		);
+	}
 }
+
+
+
+/**PropTypes
+SignIn.propTypes = {
+	classes: PropTypes.object.isRequired,
+	onSignIn: PropTypes.func.isRequired,}**/
 
 export default App;
 

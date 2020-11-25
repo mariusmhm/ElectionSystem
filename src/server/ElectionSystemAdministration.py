@@ -1,9 +1,9 @@
 from server.bo.Grading import Grading
 from server.bo.Module import Module
-from server.bo.Praticipation import Participation
-from server.bo.Projekt import Projekt
-from server.bo.Projecttype import Projekctype
-from server.bo.Semeser import Semester
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Projecttype import Projecttype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
 
@@ -72,7 +72,7 @@ class ElectionSystemAdministration(object):
         user.set_role(role)
 
         with UserMapper() as mapper:
-        return mapper.insert(user)
+            return mapper.insert(user)
 
 
     def delete_user(self, user):

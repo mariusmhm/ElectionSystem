@@ -101,7 +101,7 @@ def __init__(self):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT UserID, Username, UserMail, UserRole FROM users WHERE email={}".format(mail_address)
+        command = "SELECT UserID, UserName, UserMail, UserRole FROM users WHERE email={}".format(mail_address)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
