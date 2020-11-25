@@ -75,7 +75,6 @@ export default class UserBO extends NamedBusinessObject {
 
 
 
-
 }
 )
 }
