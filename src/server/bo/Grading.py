@@ -4,15 +4,15 @@ from server.bo.BusinessObject import BusinessObject
 class Grading(NamedBusinessObject):
     def __init__(self):
 
-        self.__grading = 0
+        self._grading = 0
 
     def get_grading(self):
         """Reads out the grading"""
-        return self.__grading
+        return self._grading
 
     def set_grading(self, grade):
         """Sets the grading"""
-        self.__grading = grade
+        self._grading = grade
 
     def __str__(self):
 

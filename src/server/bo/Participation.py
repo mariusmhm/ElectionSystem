@@ -6,10 +6,10 @@ class Participation(NamedBusinessObject):
 
     def __init__(self):
 
-        self.__student = Student()
-        self.__project = Project()
-        self.__grading  = Grading()
-        self.__priority = []
+        self._student = Student()
+        self._project = Project()
+        self._grading  = Grading()
+        self._priority = []
 
     def get_student(self):
         """Reads out the student."""
@@ -17,19 +17,19 @@ class Participation(NamedBusinessObject):
 
     def set_student(self, student):
         """Sets the student."""
-        self.__student = student
+        self._student = student
 
     def get_project(self):
         """Reads out the project."""
-        return self.__project
+        return self._project
 
     def set_project(self, project):
         """Sets the project."""
-        self.__project = project
+        self._project = project
 
     def get_grading(self):
         """Reads out the grading"""
-        return self.__grading
+        return self._grading
 
     def set_grading(self, grading):
         """Sets the grading"""
@@ -37,11 +37,11 @@ class Participation(NamedBusinessObject):
 
     def get_priority(self):
         """Reads out the priority."""
-        return self.__priority
+        return self._priority
 
     def set_priority(self, priority):
         """Sets the priority."""
-        self.__priority = priority
+        self._priority = priority
 
     def __str__(self):
 
