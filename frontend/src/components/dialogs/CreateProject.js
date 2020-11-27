@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Dialog, 
+import {Dialog,
+    DialogTitle, 
     MenuItem, 
     Select, 
     InputLabel, 
     TextField, 
-    FormLabel,
     RadioGroup, 
     FormControl, 
     FormControlLabel, 
@@ -14,116 +14,191 @@ import {Dialog,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 
-let open= true;
+let open = true;
 
 class CreateProject extends Component {
 
+
+    constructor(props) {
+        super(props);
+
+        /* this.state = {
+            module: module,
+            edvNumber: edvn,
+            projecttype: type,
+            numSpots: nSpots,
+            additionalProfessor: addProfessor,
+            weekly: false,
+            specialRoom: room,
+            shortDescription: sd,
+            language: language,
+            externalPartner: externalP,
+            numBlockdaysPriorLecture: numBdPL,
+            numNlockdaysDuringlecture: nmBdDL,
+            blockdaysInExam: bdExam,
+          } */
+      }
+
+      /* handleClose = () => {
+        this.setState({
+          open: false
+        });
+      } */
+
+      /**Handles value changes of the select input fields */
+      /* selectFieldHandleChange=(event)=>{
+          const value = event.target.value;
+
+          this.setState({
+            module: 
+          });
+      } */
+    
  render(){
     const { classes } = this.props; 
+    /* const { module, edvNumber, projecttype, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
+         numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam } = this.state; */
 
     return(
-        <Dialog open={open}>
-            <Grid container spacing={2} justify="center" className={classes.grid} >
-                <Grid item xs={12}>
-                    <TextField fullWidth variant="outlined" label="Projektname:"/>
+        <Dialog open={open} fullWidth maxWidth='md'>
+            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >PROJEKT EINREICHEN</DialogTitle>
+            <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
+                
+                <Grid item container direction="column" xs={12} md={6} spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth variant="outlined" label="Projektname:"/>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Modul</InputLabel>
+                            <Select label="Modul" /* value={module} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>Informationstechnologie</MenuItem>
+                                <MenuItem>Medien/Kultur</MenuItem>
+                                <MenuItem>Management</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" label="EDV-Nummer:" /* value={edvNumber} *//>
+                    </Grid>
+                    <Grid item>
+                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                                <InputLabel>Projektart</InputLabel>
+                                <Select label="Projektart" /* value={projecttype} */>
+                                    <MenuItem>Fachspezifisches Projekt </MenuItem>
+                                    <MenuItem>Transdisziplinäres Projekt</MenuItem>
+                                </Select>
+                            </FormControl>
+                    </Grid>
+                    <Grid item container justify="space-between">
+                        <Grid item>
+                            <Typography>ETCS:</Typography>
+                        </Grid>
+                        <Grid item>
+                        <Typography>SWS:</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Anzahl der Teilnehmer</InputLabel>
+                            <Select label="Teilnehmer" /* value={numbSpots} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>1</MenuItem>
+                                <MenuItem>2</MenuItem>
+                                <MenuItem>3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel >Weitere Professoren</InputLabel>
+                            <Select label="Professoren" /* value={additionalProfessor} */>
+                                <MenuItem>Susanne Stingel</MenuItem>
+                                <MenuItem>Mike Friedrichsen</MenuItem>
+                                <MenuItem>Martin Engstler</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Sprache</InputLabel>
+                            <Select label="Sprache" /* value={language} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>deutsch</MenuItem>
+                                <MenuItem>englisch</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" label="Externer Koorperationspartner:" /* value={externalPartner} */ />
+                    </Grid>
+                    <Grid item>
+                        <Typography>Wöchentlich:</Typography>
+                        <FormControl>
+                                <RadioGroup row={true} /* value={weekly} */>
+                                <FormControlLabel value="true" control={<Radio />} label="Ja" />
+                                <FormControlLabel value="false" control={<Radio />} label="Nein" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Modul</InputLabel>
-                        <Select label="Modul">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>Informationstechnologie</MenuItem>
-                            <MenuItem>Medien/Kultur</MenuItem>
-                            <MenuItem>Management</MenuItem>
-                        </Select>
-                    </FormControl>
+
+                <Grid item container direction="column" xs={12} md={6} spacing={2}>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" multiline rows={10} label="Kurzbeschreibung:" /* value={shortDescription} *//>
+                    </Grid>
+                    <Grid item>
+                        <Typography>Besonderer Raum:</Typography>
+                        <FormControl>
+                                <RadioGroup row={true} /* value={specialRoom} */>
+                                <FormControlLabel value="true" control={<Radio />} label="Ja" />
+                                <FormControlLabel value="false" control={<Radio />} label="Nein" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" multiline rows={3} label="Raumwünsche:" /* value={roomDesired} *//>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel >Blocktage vor der Vorlesungszeit</InputLabel>
+                            <Select label="Präsenztermine" /* value={numBlockdaysPriorLecture} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>1</MenuItem>
+                                <MenuItem>2</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Blocktage während der Vorlesungszeit</InputLabel>
+                            <Select label="Blocktage" /* value={numBlockdaysDuringLecture} */>
+                                <MenuItem value="">none</MenuItem>
+                                <MenuItem>1</MenuItem>
+                                <MenuItem>2</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <Typography>Bei Interdisziplinären/ Transdisziplinären Projekten:</Typography>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel >Blocktage vor der Prüfungsphase</InputLabel>
+                            <Select label="Blocktage" /* value={blockdaysInExam} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>1</MenuItem>
+                                <MenuItem>2</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Kurzbeschreibung:"/>
+                
+                
+                <Grid item> 
+                    <Button variant="outlined" onClick={this.handleClose}>Abbrechen</Button>
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="EDV-Nummer:"/>
-                </Grid>
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Projektart</InputLabel>
-                        <Select label="Projektart">
-                            <MenuItem>Fachspezifisches Projekt </MenuItem>
-                            <MenuItem>Transdisziplinäres Projekt</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6} direction="row">
-                    <Typography>Anzahl der Teilnehmer:</Typography>
-                    <FormControl variant="outlined" className={classes.FormControl}>
-                        <Select label="Teilnehmer">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
-                            <MenuItem>3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Sprache</InputLabel>
-                        <Select label="Sprache">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>deutsch</MenuItem>
-                            <MenuItem>englisch</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Weitere Professoren:"/>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Externer Koorperationspartner:"/>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography>Blocktage vor der Vorlesungszeit:</Typography>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <Select label="Präsenztermine">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography>Blocktage vor der Vorlesungszeit:</Typography>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <Select label="Blocktage">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography>Blocktage während der Vorlesungszeit:</Typography>
-                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <Select label="Blocktage">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography>Besonderer Raum:</Typography>
-                    <FormControl>
-                            <RadioGroup row={true}>
-                            <FormControlLabel value="true" control={<Radio />} label="Ja" />
-                            <FormControlLabel value="false" control={<Radio />} label="Nein" />
-                        </RadioGroup>
-                    </FormControl>
-                </Grid>
-                <Grid> 
-                    <Button variant="outlined">Abbrechen</Button>
-                </Grid>
-                <Grid> 
-                    <Button variant="outlined">Einreichen</Button>
+                <Grid item> 
+                    <Button variant="contained" color="primary">Einreichen</Button>
                 </Grid>
                 
             </Grid>
@@ -138,7 +213,11 @@ class CreateProject extends Component {
 const styles = theme => ({
     grid:{
         width: '100%',
-        margin: '0px'
+        margin: '0px',
+        padding: '20px'
+    },
+    dialogHeader:{
+        textAlign: "center"
     }
 });
 
