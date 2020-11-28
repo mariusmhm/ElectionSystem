@@ -1,16 +1,20 @@
 CREATE DATABASE IF NOT EXISTS electionsystem;
 USE electionsystem;
 
-DROP TABLE IF EXISTS Users;
-CREATE TABLE Users (
-	UserID INTEGER NOT NULL,
-    CreationDate DATE,
-    UserName VARCHAR (80),
-    UserMail VARCHAR (50),
-    UserPW VARCHAR (20),
-    UserRole VARCHAR (20),
-    PRIMARY KEY(UserID)
-);
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `email` varchar(256) NOT NULL DEFAULT '',
+  `google_user_id` varchar(128) NOT NULL DEFAULT '',
+  `user_role`
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 DROP TABLE IF EXISTS Students;
 CREATE TABLE Students (
 	StudentID INTEGER NOT NULL,
