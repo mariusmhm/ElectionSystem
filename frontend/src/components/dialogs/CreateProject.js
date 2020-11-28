@@ -27,19 +27,18 @@ class CreateProject extends Component {
                 <Grid item xs={12}>
                     <TextField fullWidth variant="outlined" label="Projektname:"/>
                 </Grid>
+                <Grid item xs={12}>
+                    <TextField fullWidth variant="outlined" label="Kurzbeschreibung:"/>
+                </Grid>
                 <Grid item xs={6}>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Modul</InputLabel>
                         <Select label="Modul">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>Informationstechnologie</MenuItem>
-                            <MenuItem>Medien/Kultur</MenuItem>
-                            <MenuItem>Management</MenuItem>
+                            <MenuItem value="1">Informationstechnologie</MenuItem>
+                            <MenuItem value="2">Medien/Kultur</MenuItem>
+                            <MenuItem value="3">Management</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField fullWidth variant="outlined" label="Kurzbeschreibung:"/>
                 </Grid>
                 <Grid item xs={6}>
                     <TextField fullWidth variant="outlined" label="EDV-Nummer:"/>
@@ -48,19 +47,25 @@ class CreateProject extends Component {
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Projektart</InputLabel>
                         <Select label="Projektart">
-                            <MenuItem>Fachspezifisches Projekt </MenuItem>
-                            <MenuItem>Transdisziplinäres Projekt</MenuItem>
+                            <MenuItem value="1">Fachspezifisches Projekt </MenuItem>
+                            <MenuItem value="2">Transdisziplinäres Projekt</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6} direction="row">
-                    <Typography>Anzahl der Teilnehmer:</Typography>
-                    <FormControl variant="outlined" className={classes.FormControl}>
-                        <Select label="Teilnehmer">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
-                            <MenuItem>3</MenuItem>
+                 <Grid item xs={6}>
+                    <TextField fullWidth variant="outlined" label="ECTS:"/>
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField fullWidth variant="outlined" label="SWS:"/>
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Teilnehmeranzahl</InputLabel>
+                        <Select label="Teilnehmeranzahl">
+                            <MenuItem value="1">10</MenuItem>
+                            <MenuItem value="2">20</MenuItem>
+                            <MenuItem value="3">30</MenuItem>
+                            <MenuItem value="4">40</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -68,9 +73,17 @@ class CreateProject extends Component {
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Sprache</InputLabel>
                         <Select label="Sprache">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>deutsch</MenuItem>
-                            <MenuItem>englisch</MenuItem>
+                            <MenuItem value="1">Deutsch</MenuItem>
+                            <MenuItem value="2">Englisch</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Semester</InputLabel>
+                        <Select label="Semester">
+                            <MenuItem value="1">WS</MenuItem>
+                            <MenuItem value="2">SS</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -81,12 +94,12 @@ class CreateProject extends Component {
                     <TextField fullWidth variant="outlined" label="Externer Koorperationspartner:"/>
                 </Grid>
                 <Grid item xs={6}>
-                    <Typography>Blocktage vor der Vorlesungszeit:</Typography>
+                    <Typography>Wöchentliche Präsenztermine:</Typography>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <Select label="Präsenztermine">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
+                            <MenuItem value="1">Keine</MenuItem>
+                            <MenuItem value="1">1</MenuItem>
+                            <MenuItem value="2">2</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -94,9 +107,9 @@ class CreateProject extends Component {
                     <Typography>Blocktage vor der Vorlesungszeit:</Typography>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <Select label="Blocktage">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
+                            <MenuItem value="1">Keine</MenuItem>
+                            <MenuItem value="2">1</MenuItem>
+                            <MenuItem value="3">2</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -104,20 +117,32 @@ class CreateProject extends Component {
                     <Typography>Blocktage während der Vorlesungszeit:</Typography>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <Select label="Blocktage">
-                            <MenuItem value="">none</MenuItem>
-                            <MenuItem>1</MenuItem>
-                            <MenuItem>2</MenuItem>
+                            <MenuItem value="1">Keine</MenuItem>
+                            <MenuItem value="2">1</MenuItem>
+                            <MenuItem value="3">2</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                    <Typography>Besonderer Raum:</Typography>
+                Bei interdisziplinären oder transdisziplinären Projekten:
+                    <Typography>Blocktage innerhalb der Prüfungsphase:</Typography>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <Select label="Blocktage">
+                            <MenuItem value="1">Keine</MenuItem>
+                            <MenuItem value="2">1</MenuItem>
+                            <MenuItem value="3">2</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography>Besonderer Raum notwendig:</Typography>
                     <FormControl>
                             <RadioGroup row={true}>
                             <FormControlLabel value="true" control={<Radio />} label="Ja" />
                             <FormControlLabel value="false" control={<Radio />} label="Nein" />
                         </RadioGroup>
                     </FormControl>
+                    <TextField fullWidth variant="outlined" label="Raumwünsche"/>
                 </Grid>
                 <Grid> 
                     <Button variant="outlined">Abbrechen</Button>
