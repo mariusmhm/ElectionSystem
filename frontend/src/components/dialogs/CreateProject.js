@@ -60,6 +60,7 @@ class CreateProject extends Component {
          numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam } = this.state; */
 
     return(
+      
         <Dialog open={open} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader} >PROJEKT EINREICHEN</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
@@ -191,6 +192,7 @@ class CreateProject extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
+
                 </Grid>
                 
                 

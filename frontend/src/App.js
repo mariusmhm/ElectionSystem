@@ -3,6 +3,9 @@ import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
 import Registration from './components/Registration';
 import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import theme from './theme';
+import CreateProject from './components/dialogs/CreateProject'
+import { ThemeProvider } from '@material-ui/core/styles';
 
 //This is for testing approaches
 
@@ -17,6 +20,9 @@ constructor (props){
   render() {
     return (
     //This is for testing, do not delete:
+
+
+
 
       <div>
       <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
