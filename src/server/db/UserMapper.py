@@ -17,11 +17,12 @@ def __init__(self):
         cursor.execute("SELECT * from users")
         tuples = cursor.fetchall()
 
-        for (name, email, user_id,role) in tuples:
+        for (id, google_user_id, name, email,role) in tuples:
             user = User()
+            user.set_id(id)
+            user.set_google_user(google_user_id)
             user.set_name(name)
             user.set_email(email)
-            user.set_user_id(user_id)
             user.set_role(role)
             result.append(user)
 
@@ -43,14 +44,15 @@ def __init__(self):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT UserID, Username, UserMail, UserRole FROM users WHERE id={}".format(key)
+        command = "SELECT id, google_user_id, name, email, role FROM users WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (user_id, name, email, role) = tuples[0]
+            (id, google_user_id, name, email, role) = tuples[0]
             user = User()
-            user.set_user_id(user_id)
+            user.set_id(id)
+            user.set_google_user(google_user_id)
             user.set_name(name)
             user.set_email(email)
             user.set_role(role)
@@ -74,13 +76,14 @@ def __init__(self):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT UserID, Username, UserMail, UserRole FROM users WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, google_user_id, name, email, role FROM users WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (user_id,name, email,role) in tuples:
+        for (id, google_user_id, name, email,role) in tuples:
             user = User()
-            user.set_user_id(user_id)
+            user.set_id(id)
+            user.set_google_user(google_user_id)
             user.set_name(name)
             user.set_email(email)
             user.set_role(role)
@@ -101,14 +104,15 @@ def __init__(self):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT UserID, UserName, UserMail, UserRole FROM users WHERE email={}".format(mail_address)
+        command = "SELECT id, google_user_id, name, email, role FROM users WHERE email={}".format(mail_address)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (name, email, user_id,role) = tuples[0]
+            (id, google_user_id, name, email,role) = tuples[0]
             user = User()
-            user.set_user_id(user_id)
+            user.set_id(id)
+            user.set_google_user(google_user_id)
             user.set_name(name)
             user.set_email(email)
             user.set_role(role)
@@ -141,14 +145,14 @@ def __init__(self):
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
                 um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
-                user.set_user_id(maxid[0] + 1)
+                user.set_id(maxid[0] + 1)
             else:
                 """Wenn wir KEINE maximale ID feststellen konnten, dann gehen wir
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
-                user.set_user_id(1)
+                user.set_id(1)
 
-        command = "INSERT INTO users (UserID, UserName, UserMail, UserPW,UserRole VALUES (%s,%s,%s,%s,%s)"
-        data = (user.get_user_id(), user.get_name(), user.get_email(), user.get_user_id())
+        command = "INSERT INTO users (id, goole_user_id, name, email, role VALUES (%s,%s,%s,%s,%s)"
+        data = (user.get_id(), user.get_google_user_id(),user.get_name(), user.get_email(), user.get_role())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -163,8 +167,8 @@ def __init__(self):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE users " + "SET UserName=%s, UserMail=%s WHERE UserID=%s"
-        data = (user.get_name(), user.get_email(), user.get_user_id())
+        command = "UPDATE users " + "SET name=%s, email=%s WHERE google_user_id=%s"
+        data = (user.get_name(), user.get_email(), user.get_google_user_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
