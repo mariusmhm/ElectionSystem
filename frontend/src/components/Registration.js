@@ -17,9 +17,6 @@ import { render } from '@testing-library/react';
 
 // nur um zu üben / wieder in react reinzukommen
 function showRegistrationFields () {
-    render(){
-        return(
-        
         <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
                 <TextField
@@ -114,7 +111,6 @@ function showRegistrationFields () {
                         </Grid>                       
                     </Grid>
     
-    )}
 }
 
 function RadioBtnRole (){
