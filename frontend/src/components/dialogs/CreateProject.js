@@ -62,33 +62,33 @@ class CreateProject extends Component {
     return(
       
         <Dialog open={open} fullWidth maxWidth='md'>
-            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >PROJEKT EINREICHEN</DialogTitle>
+            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >SUBMIT PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
                 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item xs={12}>
-                        <TextField fullWidth variant="outlined" label="Projektname:"/>
+                        <TextField fullWidth variant="outlined" label="Projectname:"/>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                            <InputLabel>Modul</InputLabel>
-                            <Select label="Modul" /* value={module} */>
+                            <InputLabel>Module</InputLabel>
+                            <Select label="Module" /* value={module} */>
                                 <MenuItem>none</MenuItem>
-                                <MenuItem>Informationstechnologie</MenuItem>
-                                <MenuItem>Medien/Kultur</MenuItem>
+                                <MenuItem>Technology</MenuItem>
+                                <MenuItem>Media/Cultur</MenuItem>
                                 <MenuItem>Management</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-Nummer:" /* value={edvNumber} *//>
+                        <TextField fullWidth variant="outlined" label="EDV-number:" /* value={edvNumber} *//>
                     </Grid>
                     <Grid item>
                             <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                                <InputLabel>Projektart</InputLabel>
-                                <Select label="Projektart" /* value={projecttype} */>
-                                    <MenuItem>Fachspezifisches Projekt </MenuItem>
-                                    <MenuItem>Transdisziplinäres Projekt</MenuItem>
+                                <InputLabel>Project type</InputLabel>
+                                <Select label="Projecttype" /* value={projecttype} */>
+                                    <MenuItem>Subject-specific Project </MenuItem>
+                                    <MenuItem>Transdisciplinary Project</MenuItem>
                                 </Select>
                             </FormControl>
                     </Grid>
@@ -102,8 +102,8 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Anzahl der Teilnehmer</InputLabel>
-                            <Select label="Teilnehmer" /* value={numbSpots} */>
+                        <InputLabel>Number of spots</InputLabel>
+                            <Select label="Particpiant" /* value={numbSpots} */>
                                 <MenuItem>none</MenuItem>
                                 <MenuItem>1</MenuItem>
                                 <MenuItem>2</MenuItem>
@@ -113,7 +113,7 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel >Weitere Professoren</InputLabel>
+                        <InputLabel>Additional professors</InputLabel>
                             <Select label="Professoren" /* value={additionalProfessor} */>
                                 <MenuItem>Susanne Stingel</MenuItem>
                                 <MenuItem>Mike Friedrichsen</MenuItem>
@@ -123,23 +123,23 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                            <InputLabel>Sprache</InputLabel>
+                            <InputLabel>Language</InputLabel>
                             <Select label="Sprache" /* value={language} */>
                                 <MenuItem>none</MenuItem>
-                                <MenuItem>deutsch</MenuItem>
-                                <MenuItem>englisch</MenuItem>
+                                <MenuItem>german</MenuItem>
+                                <MenuItem>english</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="Externer Koorperationspartner:" /* value={externalPartner} */ />
+                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" /* value={externalPartner} */ />
                     </Grid>
                     <Grid item>
-                        <Typography>Wöchentlich:</Typography>
+                        <Typography>Weekly lecture:</Typography>
                         <FormControl>
                                 <RadioGroup row={true} /* value={weekly} */>
-                                <FormControlLabel value="true" control={<Radio />} label="Ja" />
-                                <FormControlLabel value="false" control={<Radio />} label="Nein" />
+                                <FormControlLabel value="true" control={<Radio />} label="yes" />
+                                <FormControlLabel value="false" control={<Radio />} label="no" />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
@@ -147,23 +147,23 @@ class CreateProject extends Component {
 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={10} label="Kurzbeschreibung:" /* value={shortDescription} *//>
+                        <TextField fullWidth variant="outlined" multiline rows={10} label="Short description:" /* value={shortDescription} *//>
                     </Grid>
                     <Grid item>
-                        <Typography>Besonderer Raum:</Typography>
+                        <Typography>Particular room necessary:</Typography>
                         <FormControl>
                                 <RadioGroup row={true} /* value={specialRoom} */>
-                                <FormControlLabel value="true" control={<Radio />} label="Ja" />
-                                <FormControlLabel value="false" control={<Radio />} label="Nein" />
+                                <FormControlLabel value="true" control={<Radio />} label="yes" />
+                                <FormControlLabel value="false" control={<Radio />} label="no" />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={3} label="Raumwünsche:" /* value={roomDesired} *//>
+                        <TextField fullWidth variant="outlined" multiline rows={3} label="Desired room:" /* value={roomDesired} *//>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel >Blocktage vor der Vorlesungszeit</InputLabel>
+                        <InputLabel >Blockdays prior to semester</InputLabel>
                             <Select label="Präsenztermine" /* value={numBlockdaysPriorLecture} */>
                                 <MenuItem>none</MenuItem>
                                 <MenuItem>1</MenuItem>
@@ -173,7 +173,7 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Blocktage während der Vorlesungszeit</InputLabel>
+                        <InputLabel>Blockdays during the semester</InputLabel>
                             <Select label="Blocktage" /* value={numBlockdaysDuringLecture} */>
                                 <MenuItem value="">none</MenuItem>
                                 <MenuItem>1</MenuItem>
@@ -182,10 +182,10 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <Typography>Bei Interdisziplinären/ Transdisziplinären Projekten:</Typography>
+                        <Typography>For interdisciplinary/ transdisciplinary Projects:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel >Blocktage vor der Prüfungsphase</InputLabel>
-                            <Select label="Blocktage" /* value={blockdaysInExam} */>
+                        <InputLabel >Blockdays during exam week</InputLabel>
+                            <Select label="Blockdays" /* value={blockdaysInExam} */>
                                 <MenuItem>none</MenuItem>
                                 <MenuItem>1</MenuItem>
                                 <MenuItem>2</MenuItem>
@@ -197,10 +197,10 @@ class CreateProject extends Component {
                 
                 
                 <Grid item> 
-                    <Button variant="outlined" onClick={this.handleClose}>Abbrechen</Button>
+                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
                 </Grid>
                 <Grid item> 
-                    <Button variant="contained" color="primary">Einreichen</Button>
+                    <Button variant="contained" color="primary">Submit</Button>
                 </Grid>
                 
             </Grid>
