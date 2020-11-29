@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
-import Registration from './components/Registration';
 import { Button, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
