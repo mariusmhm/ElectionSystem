@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Button, 
+        Icon, 
+        Grid, 
+        Container, 
+        TextField, 
+        Typography, 
+        withStyles, 
+        FormControl,
+        FormControlLabel,
+        FormLabel,
+        RadioGroup,
+        Radio } from '@material-ui/core';
 import { StudentBO } from '../api';
+import { render } from '@testing-library/react';
 
 // nur um zu üben / wieder in react reinzukommen
-
-
-class Registration extends React.Component {
-    
-    handleOnClickRegistration(e){
-        // hier muss eine funktion für api rein
-        // um die übermittelten daten aus textfields
-        // ins backend zu schieben
-        console.log(e);
-    }
-
+function showRegistrationFields () {
     render(){
-        return (
-            <div>
-                <Container maxWidth="sm">
-                    <Typography variant="h3">Registration as a student</Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
+        return(
+        
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+                <TextField
                                 autoComplete="MatrikelNR"
                                 name="MatrikelNR"
                                 variant="outlined"
@@ -32,8 +32,8 @@ class Registration extends React.Component {
                                 id="MatrikelNR"
                                 label="Your Matrikel-Number"
                                 autoFocus
-                            />
-                        </Grid>
+                />
+            </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete="StudentPW"
@@ -86,6 +86,8 @@ class Registration extends React.Component {
                                 autoFocus
                             />
                         </Grid>
+
+                    <RadioBtnRole />
                         <Grid item xs={12} sm={6}>
                             <Button 
                                 variant="outlined" 
@@ -102,7 +104,7 @@ class Registration extends React.Component {
                             <Button 
                                 variant="contained" 
                                 color="primary" 
-                                onClick={this.handleOnClickRegistration} 
+                                //onClick={this.handleOnClickRegistration} 
                                 fullWidth
                                 size="large"
                                 label="Complete Registration"
@@ -111,8 +113,46 @@ class Registration extends React.Component {
                             </Button>
                         </Grid>                       
                     </Grid>
+    
+    )}
+}
+
+function RadioBtnRole (){
+    const [value, setValue] = React.useState('professor');
+    
+    const handleRadioBtnChange = (e) => {
+        setValue(e.target.value);
+    }
+
+    return (
+        <FormControl component="fieldset">
+        <FormLabel component="role">Role</FormLabel>
+        <RadioGroup row aria-label="role" name="role" value={value} onChange={handleRadioBtnChange}>
+            <FormControlLabel value="student" control={<Radio />} label="Student" onClick={showRegistrationFields}/>
+            <FormControlLabel value="professor" control={<Radio />} label="Professor" />
+            <FormControlLabel value="admin" control={<Radio />} label="Administration" />
+        </RadioGroup>
+        </FormControl>
+    )
+}
+class Registration extends React.Component {
+    
+    handleOnClickRegistration(e){
+        // hier muss eine funktion für api rein
+        // um die übermittelten daten aus textfields
+        // ins backend zu schieben
+        console.log(e);
+    }
+
+
+
+    render(){
+        return (
+            <div>
+                <Container maxWidth="sm">
+                    <Typography variant="h3">Complete Registration</Typography>
+                    <RadioBtnRole />
                 </Container>
-            
             </div>
         )
     }    
