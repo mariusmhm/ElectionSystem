@@ -72,7 +72,7 @@ class ElectionSystemAdministration(object):
         user.set_role(role)
 
         with UserMapper() as mapper:
-        return mapper.insert(user)
+            return mapper.insert(user)
 
 
     def delete_user(self, user):
@@ -80,24 +80,7 @@ class ElectionSystemAdministration(object):
         with UserMapper() as mapper:
             mapper.delete(user)
 
-    def create_student(self,name,role,email,matrikelNR,password,study):
-        student=Student()
-        student.set_name(name)
-        student.set_role(role)
-        student.set_mail(email)
-        student.set_matrikelNR(matrikelNR)
-        student.set_password(password)
-        student.set_study(study)
-
-        with StudentMapper() as mapper:
-            return mapper.insert(student)
-
-    def delete_student(self, student):
-        """Den gegebenen Student aus unserem System löschen."""
-        with StudentMapper() as mapper:
-            mapper.delete(student)
-
-    def get_user_by_name(self, name):
+     def get_user_by_name(self, name):
         """Alle Benutzer mit Namen name auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
@@ -122,6 +105,35 @@ class ElectionSystemAdministration(object):
         """Den gegebenen Benutzer speichern."""
         with UserMapper() as mapper:
             mapper.update(user)
+    
+    """Student spezifische Methoen"""
+
+    def create_student(self,name,role,email,matrikelNR,password,study):
+        student=Student()
+        student.set_name(name)
+        student.set_role(role)
+        student.set_mail(email)
+        student.set_matrikelNR(matrikelNR)
+        student.set_password(password)
+        student.set_study(study)
+
+        with StudentMapper() as mapper:
+            return mapper.insert(student)
+
+    def delete_student(self, student):
+        """Den gegebenen Student aus unserem System löschen."""
+        with StudentMapper() as mapper:
+            mapper.delete(student)
+
+    """Projekttyp spezifische Methoden"""
+    def get_all_projecttypes():
+        with ProjecttypeMapper() as mapper:
+            return mapper.find_all()
+
+    """Modul spezifische Methoden"""
+    def get_all_modules():
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
 
 
 
