@@ -1,6 +1,6 @@
 from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
-from server.role import Role
+from server.Role import Role
 
 class User(NamedBusinessObject):
 
@@ -8,25 +8,25 @@ class User(NamedBusinessObject):
     """
 
     def __init__(self):
-        self.__user_id = 0
-        self.__Username=""
+        super().__init__()
+        self.__google_user_id = ""
+        self.__name= ""
         self.__email = ""
-        self.__password = ""
         self.__role = Role()
 
-    def get_user_id(self):
+    def get_google_user(self):
         """Read out of the UserId."""
-        return self.__user_id
+        return self.__google_user_id
 
-    def set_user_id(self, id):
+    def set_google_user(self, id):
         """Set the UserId."""
-        self.__user_id=id
+        self.__google_user_id=id
 
     def set_name(self,name):
-        self.__Username=name
+        self.__name=name
 
     def get_name(self):
-        return self.__Username
+        return self.__name
 
     def get_email(self):
         """Read out of the Usermail."""
@@ -35,14 +35,6 @@ class User(NamedBusinessObject):
     def set_email(self,email):
         """Set the Usermail."""
         self.__email=email
-
-    def get_password(self):
-        """Reade out of the Userpassworts."""
-        return self.__password
-
-    def set_password(self,password):
-        """Set the Userpassworts."""
-        self.__password=password
 
     def get_role(self):
         """Readout of the Rolle."""
@@ -58,19 +50,20 @@ class User(NamedBusinessObject):
 
         The Attributes are UserId, UserMail, Userpasswort und Rolle."""
 
-        return "Project:  {}, {}, {}, {}, ".format(self.get_id(),self.get_mail(), self.get_password(), self.get_role())
+        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role)
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """Convert a Python dict() in a User()."""
 
-        student = Student()
-        student.set_id(dicti["UserID"])
-        student.set_email(dicti["UserMail"])
-        student.set_password(dicti["UserPW"])
-        student.set_role(dicti["UserRole"])
-        return user
+        obj = User()
+        obj.set_id(dicti["id"])
+        obj.set_google_user(dicti["google_user_id"])
+        obj.set_name(dicti["name"])
+        obj.set_email(dicti["email"])
+        obj.set_role(dicti["role"])
+        return obj
 
 
 

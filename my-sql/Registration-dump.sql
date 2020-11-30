@@ -1,16 +1,14 @@
 CREATE DATABASE IF NOT EXISTS electionsystem;
 USE electionsystem;
 
-DROP TABLE IF EXISTS Users;
-CREATE TABLE Users (
-	UserID INTEGER NOT NULL,
-    CreationDate DATE,
-    UserName VARCHAR (80),
-    UserMail VARCHAR (50),
-    UserPW VARCHAR (20),
-    UserRole VARCHAR (20),
-    PRIMARY KEY(UserID)
-);
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `google_user_id` varchar(128) NOT NULL DEFAULT '',
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `email` varchar(256) NOT NULL DEFAULT '',
+  `role` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+	
 DROP TABLE IF EXISTS Students;
 CREATE TABLE Students (
 	StudentID INTEGER NOT NULL,
