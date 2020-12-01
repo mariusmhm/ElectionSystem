@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Header from './components/layout/Header';
-import Grid from '@material-ui/core/Grid';
-import { Button, Typography} from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -9,11 +7,12 @@ import firebaseConfig from './firebaseConfig';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import theme from './theme';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import {Avatar} from '@material-ui/core';
 import Signin from './components/layout/pages/Signin';
 import {ThemeProvider} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Container} from '@material-ui/core';
 
-/**App.js: The main bank administration app. It uses Googles firebase to log into the bank end. For routing the
+/**App.js: The main ElectionSystem administration app. It uses Googles firebase to log into the ElectionSystem end. For routing the
 user to the respective pages, react-router-dom ist used.*/
 
 
@@ -97,18 +96,18 @@ class App extends Component {
 
  /** Renders the whole app */
   render() {
-    const {user, googleUserData, appError, authError, authLoading} = this.state;
+    const { currentUser, appError, authError, authLoading } = this.state;
+
         return (
 
             <div>
-            //soon
-                <ThemeProvider theme={Theme}>
+
+                <ThemeProvider theme={theme}>
 				    <CssBaseline />
 				        <Router basename={process.env.PUBLIC_URL}>
                         <Container maxWidth='md'>
 
-                            <Typography variant='h1' align='center'style={{color:'red'}}> Hochschule der Medien</Typography>
-                            <Typography  align='center' variant='h3'>Electionsystem.</Typography>
+
                                 <Header user={currentUser} />
                                 {
 					            // Is a user signed in?
@@ -124,7 +123,7 @@ class App extends Component {
 								        // else show the sign in page
 								        <>
 									        <Redirect to='/index.html' />
-									        <SignIn onSignin={this.handleSignin} />
+									        <Signin onSignin={this.handleSignin} />
 								        </>
 						        }
 						        <LoadingProgress show={authLoading} />
