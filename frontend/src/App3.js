@@ -14,6 +14,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 
 
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -72,7 +74,7 @@ export default function ScrollableTabsButtonAuto() {
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <h1>Select Project</h1>
+                            <h1>Projektwahl</h1>
                         </Paper>
                     </Grid>
                     <Grid item xs={6}>
@@ -88,7 +90,7 @@ export default function ScrollableTabsButtonAuto() {
 
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <h2>Hier kommen noch nicht gewählte Kurse hin</h2>
+                            <h2>Auswahl</h2>
                             <div className={classes.root}>
                                 <AppBar position="static" color="default">
                                     <Tabs
@@ -96,9 +98,7 @@ export default function ScrollableTabsButtonAuto() {
                                         onChange={handleChange}
                                         indicatorColor="primary"
                                         textColor="primary"
-                                        variant="scrollable"
-                                        scrollButtons="auto"
-                                        aria-label="scrollable auto tabs example"
+                                        centered
                                     >
                                         <Tab label="Semester 1" {...a11yProps(0)} />
                                         <Tab label="Semester 2" {...a11yProps(1)} />
@@ -106,7 +106,7 @@ export default function ScrollableTabsButtonAuto() {
                                         <Tab label="Semester 4" {...a11yProps(3)} />
                                         <Tab label="Semester 5" {...a11yProps(4)} />
                                         <Tab label="Semester 6" {...a11yProps(5)} />
-                                        <Tab label="Schlüsselkompetenzen" {...a11yProps(6)} />
+                                        <Tab label="SK" {...a11yProps(6)} />
                                     </Tabs>
                                 </AppBar>
                                 <TabPanel value={value} index={0}>
@@ -118,24 +118,24 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 2 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 3 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
@@ -143,24 +143,24 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 5 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 6 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={2}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
@@ -168,24 +168,24 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 8 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 9 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={3}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
@@ -193,24 +193,24 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 11 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 12 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={4}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
@@ -218,24 +218,24 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 14 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 15 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={5}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
@@ -243,44 +243,44 @@ export default function ScrollableTabsButtonAuto() {
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 17 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
                                     Projekt 18 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel>
                                 <TabPanel value={value} index={6}>
-                                <div><Checkbox
+                                    <div><Checkbox
                                         value="checkedA"
                                         inputProps={{ 'aria-label': 'Checkbox A' }}
                                     />
-                                    Projekt 19 - Kurzbeschreibung
+                                    Schlüsselkompetenz 2 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
-                                    Projekt 20 - Kurzbeschreibung
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
+                                    Schlüsselkompetenz 2 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                     <div>
-                                    <Checkbox
-                                        value="checkedA"
-                                        inputProps={{ 'aria-label': 'Checkbox A' }}
-                                    />
-                                    Projekt 21 - Kurzbeschreibung
+                                        <Checkbox
+                                            value="checkedA"
+                                            inputProps={{ 'aria-label': 'Checkbox A' }}
+                                        />
+                                    Schlüsselkompetenz 3 - Kurzbeschreibung
                                     <Button label="Button">Wählen</Button>
                                     </div>
                                 </TabPanel></div>
@@ -289,6 +289,9 @@ export default function ScrollableTabsButtonAuto() {
                 </Grid>
             </Container>
         </div>
+        
     );
+
+    
 }
 
