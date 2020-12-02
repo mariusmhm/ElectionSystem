@@ -23,10 +23,11 @@ constructor (props){
     return (
     //This is for testing, do not delete:
 
-
-
-
-      <div>
+        <div>
+          <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>  
+        </div>
+    //Marius Test Code
+      /*<div>
       <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
       <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
 
@@ -74,7 +75,7 @@ constructor (props){
                     </Button>
                 </Grid>
             </Grid>
-      </div>
+      </div>*/
 
     );
   }
