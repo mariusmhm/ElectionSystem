@@ -332,7 +332,7 @@ export default class ElectionSystemAPI {
     }
 
     deleteParticipation(participationID){
-        return this.#fetchAdvanced(this.#deletePartURL(participationID), {
+        return this.#fetchAdvanced(this.#deleteParticipationURL(participationID), {
             method: 'DELETE'
           }).then((responseJSON) => {
             let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
