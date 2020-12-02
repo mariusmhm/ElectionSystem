@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Button } from '@material-ui/core';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-//import AlertTitle from '@material-ui/lab/AlertTitle';
-//import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
+import Alert from '@material-ui/lab/Alert';
 
 /**
  * Shows an in-line error message in a given component context,

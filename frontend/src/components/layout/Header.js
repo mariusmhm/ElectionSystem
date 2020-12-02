@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar, Button, Paper, Tab, Tabs, Icon, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Avatar, Button, Paper, Tab, Tabs} from '@material-ui/core';
 
 
 class Header extends Component {

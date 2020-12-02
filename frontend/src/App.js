@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/layout/Header';
-<<<<<<< HEAD
 import { Typography} from '@material-ui/core';
-=======
->>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -15,12 +12,11 @@ import Signin from './components/layout/pages/Signin';
 import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container} from '@material-ui/core';
+import Test from './Test';
 
 
 /**App.js: The main bank administration app. It uses Googles firebase to log into the bank end. For routing the
-=======
 /**App.js: The main ElectionSystem administration app. It uses Googles firebase to log into the ElectionSystem end. For routing the
->>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
 user to the respective pages, react-router-dom ist used.*/
 
 
@@ -109,29 +105,22 @@ class App extends Component {
         return (
 
             <div>
-<<<<<<< HEAD
-=======
-
->>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
                 <ThemeProvider theme={theme}>
 				    <CssBaseline />
 				        <Router basename={process.env.PUBLIC_URL}>
                         <Container maxWidth='md'>
 
-<<<<<<< HEAD
+
                             <Typography variant='h1' align='center'style={{color:'red'}}> Hochschule der Medien</Typography>
                             <Typography  align='center' variant='h3'>Electionsystem.</Typography>
-=======
-
->>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
                                 <Header user={currentUser} />
                                 {
 					            // Is a user signed in?
 							        currentUser ?
 								        <>
-								        <Redirect to='/Signin'/>
-								        <Route path='/Signin'>
-								            <Signin />
+								        <Redirect to='/Test'/>
+								        <Route path='/Test'>
+								            <Test />
 								        </Route>
 
                                         </>
@@ -139,11 +128,8 @@ class App extends Component {
 								        // else show the sign in page
 								        <>
 									        <Redirect to='/index.html' />
-<<<<<<< HEAD
 									        <Signin on Signin={this.handleSignin} />
-=======
 									        <Signin onSignin={this.handleSignin} />
->>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
 								        </>
 						        }
 						        <LoadingProgress show={authLoading} />
@@ -157,11 +143,4 @@ class App extends Component {
 		);
 	}
 }
-
-<
-
-
-
-
-
 export default App;
