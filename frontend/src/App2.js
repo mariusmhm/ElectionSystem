@@ -6,6 +6,17 @@ import Container from '@material-ui/core/Container';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import Checkbox from "@material-ui/core/Checkbox";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import Table from "@material-ui/core/Table";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import { AppBar } from '@material-ui/core';
+
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -22,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
 export default function CenteredGrid() {
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [selectedTab, setSelectedTab] = React.useState(0);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setSelectedTab(newValue);
     };
 
     return (
@@ -51,19 +62,23 @@ export default function CenteredGrid() {
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
                             <h2>Hier kommen noch nicht gewählte Kurse hin</h2>
-                            <Tabs
-                                value={value}
-                                onChange={handleChange}
-                                indicatorColor="primary"
-                                textColor="primary"
-                                centered
-                            >
-                                <Tab label="Item One">
-                                    <h3>Hurra jetzt steht hier was</h3>
-                                </Tab>
-                                <Tab label="Item Two" />
-                                <Tab label="Item Three" />
-                            </Tabs>
+                            <AppBar position="static" color="default" >
+                                <Tabs
+                                    value={selectedTab}
+                                    onChange={handleChange}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+                                    centered
+                                >
+                                    <Tab label="Selected" />
+                                    <Tab label="Not Selected" />
+                                    <Tab label="Already Enterd" />
+                                </Tabs>
+                            </AppBar>
+                            <h2>{selectedTab}</h2>
+                            <TabPanel selectedTab={selectedTab} index={0}>Item 1</TabPanel>
+                            <TabPanel selectedTab={selectedTab} index={1}>Item 2</TabPanel>
+                            <TabPanel selectedTab={selectedTab} index={2}>Item 3</TabPanel>
                         </Paper>
                     </Grid>
 
@@ -71,4 +86,18 @@ export default function CenteredGrid() {
             </Container>
         </div>
     );
+}
+
+function TabPanel(props) {
+    const { children, selectedTab, index } = props;
+    return (
+        <div>
+            {
+                selectedTab === index && (
+                    <butteon label={children} />
+
+                )
+            }
+        </div>
+    )
 }
