@@ -9,7 +9,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 //This is for testing approaches
 
-// Branch Test Comment 2
+// Branch Test Comment 3
 
 class App extends Component {
 constructor (props){
