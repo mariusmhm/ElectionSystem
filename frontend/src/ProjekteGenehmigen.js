@@ -23,8 +23,13 @@ class ProjekteGenehmigen extends Component {
                  <CssBaseline />
                  <Header/>
                   <Container maxWidth="sm">
+                  <Typography variant='h4'>NEUE PROJEKTE</Typography>
+                     <Grid container direction="row" justify="space-around" alignItems="center">
 
-                             <Typography variant='h4'>NEUE PROJEKTE</Typography>
+                             <br/>
+                             <br/>
+                             <br/>
+                             <br/>
                              <Grid item xs={12} sm={3}>
                                  <Typography variant="body1">
                                  Projekt xy
@@ -48,10 +53,15 @@ class ProjekteGenehmigen extends Component {
                                   BEWERTEN
                              </Button>
                              </Grid>
-                             <Divider/>
+
+                      </Grid>
+                      <Divider/>
+                      <br/>
+                      <br/>
                              <Typography variant='h4'>DIESES SEMESTER</Typography>
                              <Divider/>
                              <Typography variant='h4'>ARCHIVIERTE PROJEKTE</Typography>
+
 
 
 
