@@ -1,3 +1,4 @@
+
 /** The firebase config structure for the Election System as provided by the firebase admin website */
 
 const firebaseConfig = {
@@ -9,3 +10,5 @@ const firebaseConfig = {
   messagingSenderId: "71536688568",
   appId: "1:71536688568:web:362ba23556e246d555e34d"
 };
+
+export default firebaseConfig;

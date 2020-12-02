@@ -120,16 +120,16 @@ class App extends Component {
 								        <>
 								        <Redirect to='/Test'/>
 								        <Route path='/Test'>
-								            <Test />
+								            <Test/>
 								        </Route>
 
                                         </>
 								        :
 								        // else show the sign in page
 								        <>
-									        <Redirect to='/index.html' />
+									        <Redirect to='/Signin'/>
 									        <Signin on Signin={this.handleSignin} />
-									        <Signin onSignin={this.handleSignin} />
+
 								        </>
 						        }
 						        <LoadingProgress show={authLoading} />
