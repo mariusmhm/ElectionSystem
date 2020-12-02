@@ -62,56 +62,38 @@ class ElectionSystemAdministration(object):
     User-spezifische Methoden
     """
 
-    def create_user(self, user_id,name, email,pw, role):
+    def create_user(self, name, creation_date, email, google_user_id, role):
         """Einen Benutzer anlegen"""
         user = User()
-        user.set_user_id(user_id)
         user.set_name(name)
+        user.set_creation_date(creation_date)
         user.set_email(email)
-        user.set_password(pw)
+        user.set_google_user(google_user_id)
         user.set_role(role)
+        user.set_id(1)
 
         with UserMapper() as mapper:
             return mapper.insert(user)
-
-
-    def delete_user(self, user):
-        """Den gegebenen Benutzer aus unserem System löschen."""
-        with UserMapper() as mapper:
-            mapper.delete(user)
-
-    def create_student(self,name,role,email,matrikelNR,password,study):
-        student=Student()
-        student.set_name(name)
-        student.set_role(role)
-        student.set_mail(email)
-        student.set_matrikelNR(matrikelNR)
-        student.set_password(password)
-        student.set_study(study)
-
-        with StudentMapper() as mapper:
-            return mapper.insert(student)
-
-    def delete_student(self, student):
-        """Den gegebenen Student aus unserem System löschen."""
-        with StudentMapper() as mapper:
-            mapper.delete(student)
 
     def get_user_by_name(self, name):
         """Alle Benutzer mit Namen name auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
+    def get_user_by_id(self, number):
+        """Den Benutzer mit der gegebenen ID auslesen."""
+        with UserMapper() as mapper:
+            return mapper.find_by_id(number)
 
     def get_user_by_email(self, email):
         """Alle Benutzer mit gegebener E-Mail-Adresse auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_email(email)
 
-    def get_user_by_id(self, number):
-        """Den Benutzer mit der gegebenen ID auslesen."""
+    def get_user_by_google_user_id(self, id):
+        """Den Benutzer mit der gegebenen Google ID auslesen."""
         with UserMapper() as mapper:
-            return mapper.find_by_id(number)
+            return mapper.find_by_google_user_id(id)
 
     def get_all_users(self):
         """Alle Benutzer auslesen."""
@@ -122,6 +104,59 @@ class ElectionSystemAdministration(object):
         """Den gegebenen Benutzer speichern."""
         with UserMapper() as mapper:
             mapper.update(user)
+
+    def delete_user(self, user):
+        """Den gegebenen Benutzer aus unserem System löschen."""
+        with UserMapper() as mapper:
+            mapper.delete(user)
+
+    def create_student(self, student_lastname,student_firstname,student_role ,student_mail, matrikel_nr, student_study):
+        student = Student()
+        student.set_lastname(student_lastname)
+        student.set_firstname(student_firstname)
+        student.set_role(student_role)
+        student.set_email(student_mail)
+        student.set_matrikel_nr(matrikel_nr)
+        student.set_study(student_study)
+        student.set_id(1)
+
+        with StudentMapper() as mapper:
+            return mapper.insert(student)
+
+    def delete_student(self, student):
+        """Den gegebenen Student aus unserem System löschen."""
+        with StudentMapper() as mapper:
+            mapper.delete(student)
+
+    def get_student_by_name(self, name):
+        """Alle Benutzer mit Namen name auslesen."""
+        with StudentMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_find_by_matrikel_nr(self, matrikel_nr):
+        with StudentMapper() as mapper:
+            return StudentMapper.find_by_matrikel_nr(matrikel_nr)
+
+    def get_student_by_email(self, email):
+        """Alle Benutzer mit gegebener E-Mail-Adresse auslesen."""
+        with StudentMapper() as mapper:
+            return mapper.find_by_email(email)
+
+    def get_student_by_id(self, number):
+        """Den Benutzer mit der gegebenen ID auslesen."""
+        with StudentMapper() as mapper:
+            return mapper.find_by_id(number)
+
+    def get_student_users(self):
+        """Alle Benutzer auslesen."""
+        with StudentMapper() as mapper:
+            return mapper.find_all()
+
+    def save_student(self, user):
+        """Den gegebenen Benutzer speichern."""
+        with StudentMapper() as mapper:
+            mapper.update(user)
+
 
 
 

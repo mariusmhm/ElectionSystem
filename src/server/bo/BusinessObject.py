@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class BusinessObject(ABC):
 
     def __init__(self):

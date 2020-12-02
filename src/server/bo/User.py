@@ -1,6 +1,7 @@
 from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
+from datetime import date
 
 class User(NamedBusinessObject):
 
@@ -10,6 +11,7 @@ class User(NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self.__google_user_id = ""
+        self.__creation_date= date
         self.__name= ""
         self.__email = ""
         self.__role = Role()
@@ -21,6 +23,13 @@ class User(NamedBusinessObject):
     def set_google_user(self, id):
         """Set the UserId."""
         self.__google_user_id=id
+
+    def get_creation_date(self):
+        return self.__creation_date
+
+    def set_creation_date(self,creation_date):
+        return self.__creation_date
+
 
     def set_name(self,name):
         self.__name=name
@@ -57,13 +66,14 @@ class User(NamedBusinessObject):
 
         """Convert a Python dict() in a User()."""
 
-        obj = User()
-        obj.set_id(dicti["id"])
-        obj.set_google_user_id(dicti["google_user_id"])
-        obj.set_name(dicti["name"])
-        obj.set_email(dicti["email"])
-        obj.set_role(dicti["role"])
-        return obj
+        user = User()
+        user.set_id(dicti["id"])
+        user.set_creation_date(["creation_date"])
+        user.set_google_user(dicti["google_user_id"])
+        user.set_name(dicti["name"])
+        user.set_email(dicti["email"])
+        user.set_role(dicti["role"])
+        return user
 
 
 

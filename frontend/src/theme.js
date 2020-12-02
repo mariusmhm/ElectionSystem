@@ -12,29 +12,28 @@ const theme = createMuiTheme({
   palette:{
     primary_gray,
     primary_red,
-    primary_red,
     primary: {
-        contrastText: white,
+        contrastText: primary_white,
         main: primary_gray,
     },
     secondary: {
-        contrastText: white,
+        contrastText: primary_white,
         main:'#3a5353'
     },
     warning:{
-        contrastText: white,
+        contrastText: primary_white,
         dark:'#f57c00',
         main:'#ff9800',
         light:'#ffb74d'
     },
     error: {
-        contrastText: white,
+        contrastText: primary_white,
         dark:'#d32f2f',
         main: colors.red[600],
         light:'#f44336'
     },
     success: {
-        contrastText: white,
+        contrastText: primary_white,
         dark:'#388e3c',
         main: '#4caf50',
         light:'#81c784'
@@ -44,10 +43,10 @@ const theme = createMuiTheme({
     },
     text:{
         primary: primary_gray ,
-        link: #1976d2
+        link: '#1976d2'
     },
     info: {
-        contrastText: white,
+        contrastText: primary_white,
         dark:'#1976d2',
         main:'#2196f3',
         light:'#64b5f6'

@@ -30,9 +30,9 @@ class Project(NamedBusinessObject):
         self.__num_blockdays_during_lecutre = 0
         self.__blockdays_during_lecture = True
         self.__weekly = True
-        self.__short_decription = ""
+        self.__short_description = ""
         self.__num_spots = 0
-        self.__project_type = Projcettype()
+        self.__project_type = Projecttype()
         self.__module = Module()
         self.__project_professor = User()
         self.__participation = Participation()
@@ -45,9 +45,9 @@ class Project(NamedBusinessObject):
         """Set the projectID."""
         self.__project_id = pid
 
-    def set_project_name(self, projectName):
+    def set_project_name(self, project_name):
         """Set the projectname."""
-        self.__project_name = projectName
+        self.__project_name = project_name
 
     def get_project_name(self):
         """Read out if the projectname."""
@@ -87,11 +87,11 @@ class Project(NamedBusinessObject):
 
     def set_short_description(self, description):
         """Set the short description."""
-        self.__short_decription = description
+        self.__short_description = description
 
     def get_short_description(self):
         """Read out the short description."""
-        return self.__short_decription
+        return self.__short_description
 
     def set_weekly(self, weeklyLecture):
         """Set if there will be a weekly lecture."""
@@ -195,9 +195,9 @@ class Project(NamedBusinessObject):
         """Read out the projecttype."""
         return self.__project_type
 
-    def set_project_type(self, projectType):
+    def set_project_type(self, project_type):
         """Set the projecttype ."""
-        self.__project_type = projectType
+        self.__project_type = project_type
 
     def __str__(self):
 
@@ -217,7 +217,7 @@ class Project(NamedBusinessObject):
         project.set_room_desired(dicti["ProjectRoomDesired"])
         return project
 
-        "to be continued"
+
 
 
 

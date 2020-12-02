@@ -9,6 +9,7 @@ class Mapper (AbstractContextManager, ABC):
     def __init__(self):
         self._connection = None
 
+
     def __enter__(self):
         self._connection = connector.connect(user="root", password="12345678", host="127.0.0.1", database="electionsystem")
         return self

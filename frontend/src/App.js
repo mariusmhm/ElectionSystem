@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-//import Header from './components/layout/Header'
-import Grid from '@material-ui/core/Grid';
-//import Registration from './components/Registration';
-import { Button, Typography} from '@material-ui/core';
+import Header from './components/layout/Header';
+import { Typography} from '@material-ui/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-//import SignIn from './components/pages/Signin';
-//import LoadingProgress from './components/dialogs/LoadingProgress';
-import firebaseConfig from './firebaseconfig';
-//import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-//import Theme from './Theme';
-//import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import {Avatar} from '@material-ui/core';
+import LoadingProgress from './components/dialogs/LoadingProgress';
+import firebaseConfig from './firebaseConfig';
+import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import theme from './theme';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import Signin from './components/layout/pages/Signin';
+import {ThemeProvider} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Container} from '@material-ui/core';
+
+
 
 /**App.js: The main bank administration app. It uses Googles firebase to log into the bank end. For routing the
 user to the respective pages, react-router-dom ist used.*/
@@ -37,7 +39,7 @@ class App extends Component {
 		return { appError: error };
 		}
 
-	/**Handles firebase users logged in state changes
+	//Handles firebase users logged in state changes
 	handleAuthStateChange = user => {
 		if (user) {
 			this.setState({
@@ -70,7 +72,7 @@ class App extends Component {
 				authLoading: false
 			});
 		}
-	}*/
+	}
 
     //Handles the sign in request of the SignIn component uses the firebase.auth() component to sign in.
     handleSignIn = () => {
@@ -93,19 +95,20 @@ class App extends Component {
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
-	}
+
 
  /** Renders the whole app */
   render() {
-    const {user, googleUserData, appError, authError, authLoading} = this.state;
+    const { currentUser, appError, authError, authLoading } = this.state;
+
         return (
 
             <div>
-            //soon
-                <ThemeProvider theme={Theme}>
+                <ThemeProvider theme={theme}>
 				    <CssBaseline />
 				        <Router basename={process.env.PUBLIC_URL}>
                         <Container maxWidth='md'>
+
                             <Typography variant='h1' align='center'style={{color:'red'}}> Hochschule der Medien</Typography>
                             <Typography  align='center' variant='h3'>Electionsystem.</Typography>
                                 <Header user={currentUser} />
@@ -113,27 +116,30 @@ class App extends Component {
 					            // Is a user signed in?
 							        currentUser ?
 								        <>
-								        //soon
+								        <Redirect to='/Signin'/>
+								        <Route path='/Signin'>
+								            <Signin />
+								        </Route>
+
                                         </>
 								        :
 								        // else show the sign in page
 								        <>
 									        <Redirect to='/index.html' />
-									        <SignIn onSignIn={this.handleSignIn} />
+									        <Signin on Signin={this.handleSignin} />
 								        </>
 						        }
 						        <LoadingProgress show={authLoading} />
 						        <ContextErrorMessage error={authError} contextErrorMsg={'Etwas ist schief gelaufen während dem Prozess'} onReload={this.handleSignIn} />
 						        <ContextErrorMessage error={appError} contextErrorMsg={'Etwas ist schief geleaufen in der App. Bitte lade die Seite neu.'} />
-						        }
-                        <Container/>
-                    </Router>
+
+                        </Container>
+                        </Router>
 			    </ThemeProvider>
 		    </div>
 		);
 	}
 }
 
+
 export default App;
-
-

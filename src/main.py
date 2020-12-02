@@ -10,9 +10,9 @@ from server.ElectionSystemAdministration import ElectionSystemAdministration
 from server.bo.Grading import Grading
 from server.bo.Module import Module
 from server.bo.Praticipation import Participation
-from server.bo.Projekt import Projekt
-from server.bo.Projecttype import Projekctype
-from server.bo.Semeser import Semester
+from server.bo.Project import Project
+from server.bo.Projecttype import Projectype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 
 #Der Decorator übernimmt die Authentifikation
@@ -38,7 +38,7 @@ api = Api(app, version='1.0', title='Electionsystem API',
 """Namespaces erlauben uns die Strukturierung von APIs. In diesem Fall fasst dieser Namespace alle
 ElectionSystem-relevanten Operationen unter dem Präfix /bank zusammen."""
 
-ElectionSystem = api.namespace('Electionsystem', description='Funktionen des Electionsystems')
+ElectionSystem = api.namespace('Electionsystem', description='function of Electionsystems')
 
 
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen und NamedBusinessObject-Klassen
@@ -60,30 +60,29 @@ nbo = api.model('NamedBusinessObject',bo, {
 Participation, Project, Projecttype und Semester."""
 
 user = api.inherit('User', nbo, {
-    'user_id': fields.String(attribute='_user_id', description='ID eines User'),
+    'google_user_id': fields.String(attribute='_user_id', description='ID eines User'),
+    'name': fields.String(attribute='_name', description='Name eines Users'),
     'email': fields.String(attribute='_email', description='E-Mail-Adresse eines User'),
     'role': fields.String(attribute='_role', description='Role eines User'),
-    'password': fields.String(attribute='_password ', description='Password eines User'),
 })
 
 student = api.inherit('Student', nbo, {
-    'student_id': fields.String(attribute='_student_id', description='Id eines Studenten'),
-    'student_name': fields.String(attribute='_student_name', description='Name eines Studenten'),
-    'mail': fields.String(attribute='_mail', description='E-Mail-Adresse eines Studenten'),
-    'role': fields.String(attribute='_role', description='Google User ID eines User'),
-    'password': fields.String(attribute='_password ', description='Password eines Studenten'),
-    'MatrikelNR': fields.String(attribute='_MatrikelNR', description='MatrikelNR eines Studenten'),
-    'study':fields.String(attribute='_study', description='Studiengang eines Studenten'),
+    'student_lastname': fields.String(attribute='_student_lastname', description='lastname from student'),
+    'student_firstname': fields.String(attribute='_student_lastname', description='firstname student'),
+    'mail': fields.String(attribute='_mail', description='E-Mail adress from student'),
+    'role': fields.String(attribute='_role', description='role'),
+    'matrikel_nr': fields.String(attribute='_matrikel_nr', description='Matrikel number from student'),
+    'study':fields.String(attribute='_study', description='study from student'),
 })
 
 #transferierbare Strukturen die noch eingefügt werden müssen
 
 grading= api.inherit('Grading',nbo,{
-    'grading': fields.String (attribute='_grading', descritpion='Note eines Studenten'),
+    'grading': fields.String(attribute='_grading', descritpion='Grade from student'),
 })
 
 module=api.inherit('Module',nbo, {
-    'module': fields.String (attribute='_module', description='Modul eines Studenten')
+    'module': fields.String(attribute='_module', description='Modul from studenten')
 })
 
 #participation=

@@ -17,15 +17,15 @@ CREATE TABLE `users` (
 
 DROP TABLE IF EXISTS Students;
 CREATE TABLE Students (
-	StudentID INTEGER NOT NULL,
-	CreationDate DATE,
-    StudentName VARCHAR (80),
-    StudentMail VARCHAR (50),
-    StudentPW VARCHAR (20),
-    StudentRole VARCHAR (20),
-    MatrikelNR INTEGER,
-    StudentStudy VARCHAR (50),
-    PRIMARY KEY(StudentID)   
+	`student_id` INTEGER NOT NULL,
+	`creation_date` DATE,
+    `student_lastname` VARCHAR (80),
+    `student_firstname` VARCHAR (80),
+    `student_mail` VARCHAR (50),
+    `student_role` VARCHAR (20),
+    `matrikel_nr` INTEGER,
+    `student_study` VARCHAR (50),
+    PRIMARY KEY(student_id)
 );
 
 DROP TABLE IF EXISTS USER;
