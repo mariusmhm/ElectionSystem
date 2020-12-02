@@ -120,7 +120,7 @@ class App extends Component {
 								        <>
 								        <Redirect to='/Test'/>
 								        <Route path='/Test'>
-								            <Test/>
+								            <Test />
 								        </Route>
 
                                         </>
@@ -128,7 +128,7 @@ class App extends Component {
 								        // else show the sign in page
 								        <>
 									        <Redirect to='/Signin'/>
-									        <Signin on Signin={this.handleSignin} />
+									        <Signin handleSignIn={this.handleSignIn} />
 
 								        </>
 						        }

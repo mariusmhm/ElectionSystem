@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 class Signin extends Component {
 
     handleSignInButtonClicked = () => {
-        this.props.onSignIn();
+        this.props.handleSignIn();
     }
     /** Renders the sign in page, if user objext is null */
 
@@ -50,7 +50,7 @@ class Signin extends Component {
 
 Signin.propTypes = {
 	classes: PropTypes.object.isRequired,
-	onSignIn: PropTypes.func.isRequired}
+	handleSignIn: PropTypes.func.isRequired}
 
 
 export default Signin;
