@@ -5,11 +5,12 @@ from server.bo.Participation import Participation
 from server.bo.User import User
 from server.bo.Module import Module
 from server.bo.Projecttype import Projecttype
+from server.Automat import Automat
 
 
 
 
-class Project(NamedBusinessObject):
+class Project(NamedBusinessObject, Automat):
 
     """Realization of an examplary Project.
     """
