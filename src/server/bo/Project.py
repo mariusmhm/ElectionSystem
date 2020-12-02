@@ -2,14 +2,15 @@ from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
 from server.Participation import Participation
-from server.user import User
-from server.module import Module
-from server.projecttype import Projecttype
+from server.User import User
+from server.Module import Module
+from server.Projecttype import Projecttype
+from server.Automat import Automat
 
 
 
 
-class Project(NamedBusinessObject):
+class Project(NamedBusinessObject, Automat):
 
     """Realization of an examplary Project.
     """
