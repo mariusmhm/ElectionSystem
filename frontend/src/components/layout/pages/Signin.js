@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 /**import {ThemeProvider} from '@material-ui/core/styles';**/
+=======
+
+
+
+>>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
 
 
 //This will be the signin page. The user will thus be able to sign in to the ElectionSystem.
@@ -18,6 +24,10 @@ class Signin extends Component {
     render() {
         return (
             <div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
                     <Typography variant='h1' align='center'textColor='primary_red'> Hochschule der Medien</Typography>
                     <Typography  align='center' variant='h3'>Welcome to the ElectionSystem for HdM Projects.</Typography>
                     <br/>
@@ -41,15 +51,22 @@ class Signin extends Component {
 	}
 }
 
+<<<<<<< HEAD
 /**const styles = theme => ({
 	root: {
 		margin: theme.spacing(2)
 	}
 });**/
 
+=======
+>>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
 
 Signin.propTypes = {
 	classes: PropTypes.object.isRequired,
-	onSignIn: PropTypes.func.isRequired,}
+	onSignIn: PropTypes.func.isRequired}
 
+<<<<<<< HEAD
 export default Signin;
+=======
+export default Signin;
+>>>>>>> 59d36e330a8add3d22639246a6fcf98e6f29345f
