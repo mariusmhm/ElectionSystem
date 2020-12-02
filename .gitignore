@@ -3,3 +3,5 @@
 .idea/
 venv/
 .idea/misc/
+node_modules/
+
