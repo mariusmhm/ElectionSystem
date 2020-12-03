@@ -1,4 +1,4 @@
-from server.bo.Grading import Grading
+rver.bo.Grading import Grading
 from server.bo.Module import Module
 from server.bo.Praticipation import Participation
 from server.bo.Project import Project
@@ -281,7 +281,6 @@ class ElectionSystemAdministration(object):
         with ProjectMapper() as mapper:
             return mapper.find_by_project_professor(project_professor)
 
-
      def get_project_by_participation(self, participation):
         """Read out project by participation."""
         with ProjectMapper() as mapper:
@@ -292,12 +291,23 @@ class ElectionSystemAdministration(object):
         with ProjectMapper() as mapper:
             return mapper.find_all()
 
-    def delete_project(self, project):
+     def delete_project(self, project):
         """delete a proejct"""
         with ProjectMapper() as mapper:
             mapper.delete(project)
 
-    def save_project(self, project):
-        """update a student."""
+     def save_project(self, project):
+        """update a project."""
         with ProjectMapper() as mapper:
             mapper.update(project)
+
+      """Project specific methods"""
+     def create_module(self, edv_number):
+         """Create a ne Project:"""
+         module=Module()
+         module.set_edv_number(edv_number)
+
+         with ModuleMapper() as mapper:
+            return mapper.insert(module)
+
+
