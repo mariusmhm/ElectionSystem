@@ -8,10 +8,12 @@ import Divider from '@material-ui/core/Divider';
 
 
 
-
-
 class ProjekteGenehmigen extends Component {
 
+
+evaluateNewProjektButton = (event) => {
+//soon
+}
 
   render() {
 
@@ -49,7 +51,7 @@ class ProjekteGenehmigen extends Component {
                              </Grid>
 
                              <Grid item xs={12} sm={3}>
-                             <Button size="medium" variant="outlined">
+                             <Button size="medium" variant="outlined" onClick={this.evaluateNewProjektButton}>
                                   BEWERTEN
                              </Button>
                              </Grid>
