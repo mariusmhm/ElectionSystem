@@ -16,7 +16,7 @@ import TableCell from "@material-ui/core/TableCell";
 import { AppBar } from '@material-ui/core';
 import StudentListSelectionLayout from './components/layout/StudentListSelectionLayout';
 import Header from './components/layout/Header';
-import { projects, website, server } from "./general";
+import { projects, dozent, server } from "./general";
 
 
 
@@ -70,7 +70,7 @@ export default function CenteredGrid() {
 
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <h2>Hier kommen noch nicht gewählte Kurse hin</h2>
+                            <h2>Schlüsselkompetenzen 2 Semester</h2>
                             <AppBar position="static" color="default" >
                                 <Tabs
                                     value={selectedTab}
@@ -79,20 +79,20 @@ export default function CenteredGrid() {
                                     textColor="primary"
                                     centered
                                 >
+                                    <Tab label="Select" />
                                     <Tab label="Selected" />
-                                    <Tab label="Not Selected" />
-                                    <Tab label="Already Enterd" />
+
                                 </Tabs>
                             </AppBar>
                             
                         </Paper>
                         {selectedTab === 0 && <StudentListSelectionLayout 
-                        tasksIndexes={[0, 1, 2 , 3]}
+                        tasksIndexes={[0, 1, 2 , 3, 4, 5, 6]}
                         tasks={projects}
                         />}
                         {selectedTab === 1 && <StudentListSelectionLayout
                         tasksIndexes = {[0,1]}
-                        tasks={website}
+                        tasks={dozent}
                         />}
                     </Grid>
 

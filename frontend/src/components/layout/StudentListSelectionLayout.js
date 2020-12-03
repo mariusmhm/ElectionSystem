@@ -15,6 +15,7 @@ import Prio from './Prio';
 import PropTypes from "prop-types";
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
+
 export default function Switches(props) {
     const [state, setState] = React.useState({
         checkedA: true,
@@ -35,7 +36,7 @@ export default function Switches(props) {
                     {tasksIndexes.map(value => (
                         <TableRow key={value}>
 
-                            <TableCell >{tasks[value]}</TableCell>
+                            <TableCell ><h3>{tasks[value]}</h3></TableCell>
                             <TableCell>
 
                             </TableCell>
