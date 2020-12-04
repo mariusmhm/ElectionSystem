@@ -5,6 +5,7 @@ import Registration from './components/Registration';
 import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
 import theme from './theme';
 import CreateProject from './components/dialogs/CreateProject'
+import ProjectContent from './components/pages/ProjectContent'
 import { ThemeProvider } from '@material-ui/core/styles';
 
 //This is for testing approaches
@@ -22,9 +23,7 @@ constructor (props){
     //This is for testing, do not delete:
 
 
-
-
-      <div>
+      /*<div>
       <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
       <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
 
@@ -72,7 +71,7 @@ constructor (props){
                     </Button>
                 </Grid>
             </Grid>
-      </div>
+      </div>*/
 
     );
   }

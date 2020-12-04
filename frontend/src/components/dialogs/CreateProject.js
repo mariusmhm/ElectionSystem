@@ -20,8 +20,32 @@ class CreateProject extends Component {
 
 
     constructor(props) {
-        super(props);
+      super(props);
+/* Test Marie
+      let fn = '';
+    if (props.customer) {
+      fn = props.customer.getProjectName();
+    }
 
+    // Init the State
+    this.state = {
+      projectName: fn,
+      };
+
+    // Add a new Project ???
+     addProject = () => {
+    let newProject = new ProjectBO(this.state.projectNameame);
+    BankAPI.getAPI().addProject(newProject).then(project => {
+      // Backend call sucessfull
+      // reinit the dialogs state for a new empty customer
+      this.setState(this.baseState);
+      this.props.onClose(customer); // call the parent with the customer object from backend
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,    // disable loading indicator
+        updatingError: e              // show error message
+      })
+    );*/
         /* this.state = {
             module: module,
             edvNumber: edvn,
