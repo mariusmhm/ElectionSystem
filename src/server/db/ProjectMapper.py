@@ -10,13 +10,13 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT id, name, short_description FROM projects")
+        cursor.execute("SELECT project_id, project_name, short_description FROM projects")
         tuples = cursor.fetchall()
 
-        for (id, name, project_description) in tuples:
+        for (project_id, project_name, project_description) in tuples:
             project = Project()
-            project.set_id(id)
-            project.set_name(name)
+            project.set_id(project_id)
+            project.set_name(project_name)
             project.set_short_description(project_description)
             result.append(project)
 
@@ -25,21 +25,21 @@ class ProjectMapper(Mapper):
 
         return result
 
-    def find_project_by_id(self,id):
+    def find_project_by_id(self,project_id):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT id, name, short_description FROM projects WHERE id={}" \
-                    .format(id)
+        command = "SELECT project_id, project_name, short_description FROM projects WHERE project_id={}" \
+                    .format(project_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, project_description) = tuples[0]
+            (project_id, project_name, project_description) = tuples[0]
             project = Project()
-            project.set_id(id)
-            project.set_name(name)
+            project.set_id(project_id)
+            project.set_name(project_name)
             project.set_short_description(project_description)
             result = project
 

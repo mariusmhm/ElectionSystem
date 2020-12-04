@@ -217,9 +217,7 @@ class Project(NamedBusinessObject):
         project.set_room_desired(dicti["ProjectRoomDesired"])
         return project
 
-        """ to be continued """
-
-
+        #to be continued
 
 
 
