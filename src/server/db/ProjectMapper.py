@@ -25,19 +25,32 @@ class ProjectMapper(Mapper):
 
         return result
 
-"""  def find_project_by_id(self,id):
+    def find_project_by_id(self,id):
 
+        result = None
         cursor = self._connection.cursor()
+        command = "SELECT id, name, short_description FROM Projects WHERE id={}" \
+                    .format(id)
 
-        command = ("SELECT id, name, short_description from Projects WHERE id==id") #ot sure
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, project_description) in tuples:
+        try:
+            (id, name, project_description) = tuples[0]
             project = Project()
             project.set_id(id)
             project.set_name(name)
-            project.set_short_description(project_description) """
+            project.set_short_description(project_description)
+            result = project
+
+        except IndexError:
+            """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
+                       does not return tuples, but tuples = cursor.fetchall () returns an empty sequence."""
+            result = None
+
+        self._connection.commit()
+        cursor.close()
+        return result
 
 
 
