@@ -1,4 +1,3 @@
-import BusinessObject from './BusinessObject'; // do i have to import it when it's imported in NBO??
 import NamedBusinessObject from './NamedBusinessObject';
 
 export default class ProjecttypeBO extends NamedBusinessObject {

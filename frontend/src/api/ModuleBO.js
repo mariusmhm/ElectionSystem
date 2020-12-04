@@ -1,8 +1,7 @@
-import BusinessObject from './BusinessObject'; // Don`t know if this is needed
 import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class UserBO extends NamedBusinessObject {
+export default class ModuleBO extends NamedBusinessObject {
 
 /// Represents a module which can be given a project.
 
@@ -40,4 +39,6 @@ export default class UserBO extends NamedBusinessObject {
             res.push(s);
         }
 
-        return res;
+        return res
+    }
+}
