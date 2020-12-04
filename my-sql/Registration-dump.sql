@@ -23,6 +23,16 @@ CREATE TABLE Students (
     PRIMARY KEY(student_id)
 );
 
+DROP TABLE IF EXISTS Projects;
+CREATE TABLE Projects (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `name` varchart(128) NOT NULL DEFAULT '',
+  `project_description` varchar(128) NOT NULL DEFAULT '',
+);
+
 
 
 INSERT INTO Students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
+
+
+INSERT INTO Projects VALUES (1, 'Projekt 1', 'Das ist die Beschreibung des ersten Projekts')
