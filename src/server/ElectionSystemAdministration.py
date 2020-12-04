@@ -80,7 +80,7 @@ class ElectionSystemAdministration(object):
         with UserMapper() as mapper:
             mapper.delete(user)
 
-     def get_user_by_name(self, name):
+    def get_user_by_name(self, name):
         """Alle Benutzer mit Namen name auslesen."""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
