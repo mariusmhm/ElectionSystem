@@ -48,8 +48,8 @@ const theme = createMuiTheme({
     },
     text:{
         primary: darkGray ,
-        link: '#1976d2',
-        fontFamily: Arial
+        link: '#1976d2'
+        
     },
     info: {
         contrastText: white,
