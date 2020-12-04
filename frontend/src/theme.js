@@ -49,7 +49,7 @@ const theme = createMuiTheme({
     text:{
         primary: darkGray ,
         link: '#1976d2',
-        fondFamily: arial
+        fontFamily: Arial
     },
     info: {
         contrastText: white,
