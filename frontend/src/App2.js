@@ -17,7 +17,8 @@ import { AppBar } from '@material-ui/core';
 import StudentListSelectionLayout from './components/layout/StudentListSelectionLayout';
 import Header from './components/layout/Header';
 import { projects, dozent, server } from "./general";
-
+import theme from './theme';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 
 
@@ -44,60 +45,62 @@ export default function CenteredGrid() {
     };
 
     return (
-        <div className={classes.root}>
-            <Container >
-                <Header />
-            </Container>
-            <Container maxWidth="xl">
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <h1>Select Project</h1>
-                        </Paper>
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+                <Container >
+                    <Header />
+                </Container>
+                <Container maxWidth="xl">
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <h1>Select Project</h1>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <h2>This is the Space for already selected Courses.</h2>
+
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Paper className={classes.paper}>
+                                <h2>This is the Space for updates inside already selected Courses.</h2>
+
+                            </Paper>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <h2>Schlüsselkompetenzen 2 Semester</h2>
+                                <AppBar position="static" color="default" >
+                                    <Tabs
+                                        value={selectedTab}
+                                        onChange={handleChange}
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                        centered
+                                    >
+                                        <Tab label="Select" />
+                                        <Tab label="Selected" />
+
+                                    </Tabs>
+                                </AppBar>
+
+                            </Paper>
+                            {selectedTab === 0 && <StudentListSelectionLayout
+                                tasksIndexes={[0, 1, 2, 3, 4, 5, 6]}
+                                tasks={projects}
+                            />}
+                            {selectedTab === 1 && <StudentListSelectionLayout
+                                tasksIndexes={[0, 1]}
+                                tasks={dozent}
+                            />}
+                        </Grid>
+
                     </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.paper}>
-                            <h2>This is the Space for already selected Courses.</h2>
-
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Paper className={classes.paper}>
-                            <h2>This is the Space for updates inside already selected Courses.</h2>
-
-                        </Paper>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                            <h2>Schlüsselkompetenzen 2 Semester</h2>
-                            <AppBar position="static" color="default" >
-                                <Tabs
-                                    value={selectedTab}
-                                    onChange={handleChange}
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                    centered
-                                >
-                                    <Tab label="Select" />
-                                    <Tab label="Selected" />
-
-                                </Tabs>
-                            </AppBar>
-                            
-                        </Paper>
-                        {selectedTab === 0 && <StudentListSelectionLayout 
-                        tasksIndexes={[0, 1, 2 , 3, 4, 5, 6]}
-                        tasks={projects}
-                        />}
-                        {selectedTab === 1 && <StudentListSelectionLayout
-                        tasksIndexes = {[0,1]}
-                        tasks={dozent}
-                        />}
-                    </Grid>
-
-                </Grid>
-            </Container>
-        </div>
+                </Container>
+            </div>
+        </ThemeProvider>
     );
 }
