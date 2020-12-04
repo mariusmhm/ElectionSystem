@@ -1,17 +1,18 @@
 CREATE DATABASE IF NOT EXISTS electionsystem;
 USE electionsystem;
 
-CREATE TABLE `users` (
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
   `id` int(11) NOT NULL DEFAULT '0',
   `google_user_id` varchar(128) NOT NULL DEFAULT '',
   `name` varchar(128) NOT NULL DEFAULT '',
   `email` varchar(256) NOT NULL DEFAULT '',
   `role` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-
+);
 	
-DROP TABLE IF EXISTS Students;
-CREATE TABLE Students (
+DROP TABLE IF EXISTS students;
+CREATE TABLE students (
 	`student_id` int(11) NOT NULL DEFAULT '0',
 	`creation_date` DATE,
     `student_lastname` VARCHAR (80),
@@ -23,16 +24,14 @@ CREATE TABLE Students (
     PRIMARY KEY(student_id)
 );
 
-DROP TABLE IF EXISTS Projects;
+DROP TABLE IF EXISTS projects;
 CREATE TABLE Projects (
   `id` int(11) NOT NULL DEFAULT '0',
-  `name` varchart(128) NOT NULL DEFAULT '',
-  `project_description` varchar(128) NOT NULL DEFAULT '',
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `shortdescription` varchar(256) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 );
 
+INSERT INTO students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
 
-
-INSERT INTO Students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
-
-
-INSERT INTO Projects VALUES (1, 'Projekt 1', 'Das ist die Beschreibung des ersten Projekts')
+INSERT INTO projects VALUES (1, 'Project 1', "That's Description Number 1");
