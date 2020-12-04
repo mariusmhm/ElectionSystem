@@ -111,8 +111,7 @@ class App extends Component {
                         <Container maxWidth='md'>
 
 
-                            <Typography variant='h1' align='center'style={{color:'red'}}> Hochschule der Medien</Typography>
-                            <Typography  align='center' variant='h3'>Electionsystem.</Typography>
+
                                 <Header user={currentUser} />
                                 {
 					            // Is a user signed in?
