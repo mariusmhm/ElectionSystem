@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar, Paper, Tab, Tabs, Grid, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import { Avatar, Paper, Tab, Tabs, Grid, Container, TextField, Typography, withStyles, ThemeProvider } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -14,6 +14,7 @@ import Switch from '@material-ui/core/Switch';
 import Prio from './Prio';
 import PropTypes from "prop-types";
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import theme from '../../theme';
 
 
 export default function Switches(props) {
@@ -30,6 +31,7 @@ export default function Switches(props) {
     const { tasksIndexes, tasks } = props;
 
     return (
+        <ThemeProvider theme={theme}>
         <Paper>
             <Table>
                 <TableBody>
@@ -46,7 +48,7 @@ export default function Switches(props) {
                             <TableCell>
                                 <Button
                                     variant="contained"
-                                    color="secondary"
+                                    color="primary_red"
                                     endIcon={<PlaylistAddCheckIcon/>}
                                 >
                                     Choose
@@ -59,7 +61,7 @@ export default function Switches(props) {
                 </TableBody>
             </Table>
         </Paper>
-
+        </ThemeProvider>
     );
 }
 
