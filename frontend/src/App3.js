@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
+import Header from './components/layout/Header';
 
 
 
@@ -70,7 +71,8 @@ export default function ScrollableTabsButtonAuto() {
     };
     return (
         <div className={classes.root}>
-            <Container maxWidth="xl">
+            <Container>
+                <Header />
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
