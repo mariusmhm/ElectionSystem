@@ -10,7 +10,7 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT id, name, short_description from Projects")
+        cursor.execute("SELECT id, name, short_description FROM projects")
         tuples = cursor.fetchall()
 
         for (id, name, project_description) in tuples:
@@ -29,7 +29,7 @@ class ProjectMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT id, name, short_description FROM Projects WHERE id={}" \
+        command = "SELECT id, name, short_description FROM projects WHERE id={}" \
                     .format(id)
 
         cursor.execute(command)
