@@ -1,15 +1,16 @@
 from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
-from server.Participation import Participation
-from server.user import User
-from server.module import Module
-from server.projecttype import Projecttype
+from server.bo.Participation import Participation
+from server.bo.User import User
+from server.bo.Module import Module
+from server.bo.Projecttype import Projecttype
+from server.Automat import Automat
 
 
 
 
-class Project(NamedBusinessObject):
+class Project(NamedBusinessObject, Automat):
 
     """Realization of an examplary Project.
     """
@@ -32,7 +33,7 @@ class Project(NamedBusinessObject):
         self.__weekly = True
         self.__short_decription = ""
         self.__num_spots = 0
-        self.__project_type = Projcettype()
+        self.__project_type = Projecttype()
         self.__module = Module()
         self.__project_professor = User()
         self.__participation = Participation()
@@ -217,7 +218,7 @@ class Project(NamedBusinessObject):
         project.set_room_desired(dicti["ProjectRoomDesired"])
         return project
 
-        "to be continued"
+        """ to be continued """
 
 
 
