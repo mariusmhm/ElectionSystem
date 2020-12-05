@@ -6,9 +6,8 @@ class ParticipationMapper (Mapper):
     def __init__(self):
         super().__init__
 
-        def find_all(self):
-        """Read out all participations
-        :return A collection of participation objects that all participations represent."""
+    def find_all(self):
+        """Read out all participations :return A collection of participation objects that all participations represent."""
 
         result = []
         cursor = self._connection.cursor()
@@ -30,7 +29,7 @@ class ParticipationMapper (Mapper):
 
         return result
 
-        def find_by_id(self, participation_id):
+    def find_by_id(self, participation_id):
         """Read out the participation based on their id.
         : param participation_id of the associated participation.
         : return a participation object with the id number."""
@@ -63,7 +62,7 @@ class ParticipationMapper (Mapper):
         cursor.close()
         return result
 
-        def find_by_student_id(self, student_id):
+    def find_by_student_id(self, student_id):
         """Read out the participations based on the student.
         : param student of the associated participations.
         : return a participation object with the student number."""
@@ -97,7 +96,7 @@ class ParticipationMapper (Mapper):
         return result
 
         
-        def find_by_project_id(self, project):
+    def find_by_project_id(self, project):
         """Read out the participations based on the project.
         : param project of the associated participations.
         : return a participation object with the project number."""
@@ -131,7 +130,7 @@ class ParticipationMapper (Mapper):
         return result
 
         
-        def find_by_priority(self, priority):
+    def find_by_priority(self, priority):
         """Read out the participation based on their priority.
         : param priority of the associated participations.
         : return a participation object with the priority number."""
