@@ -20,9 +20,10 @@ class SemesterMapper(Mapper):
         crs.execute("SELECT * FROM Semester")
         tupsrc = crs.fetchall()
 
-        for (semester_id, creation_date, wintersemester,submit_projects_end_date, grading_end_date) in tupsrc:
+        for (semester_id, creation_date, semester_name, wintersemester,submit_projects_end_date, grading_end_date) in tupsrc:
             semester = Semester()
             semester.set_id(semester_id)
+            semester.set_name(semester_name)
             semester.set_creation_date(creation_date)
             semester.set_wintersemester(wintersemester)
             semester.set_submit_projects_end_date(submit_projects_end_date)
@@ -35,21 +36,22 @@ class SemesterMapper(Mapper):
         return res
 
 
-    def find_by_id(self, student_id):
+    def find_by_id(self, semester_id):
         """Read out the semester based on their id.
         : param student_id of the associated student.
         : return a student object with the id number."""
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT semester_id, creation_date, wintersemester, grading_end_date, submit_projects_end_date FROM semester WHERE student_id={}".format(semester_id)
+        command = "SELECT semester_id, semester_name, creation_date, wintersemester, grading_end_date, submit_projects_end_date FROM semester WHERE student_id={}".format(semester_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, wintersemester, grading_end_date, submit_projects_end_date) = tuples[0]
+            (id, creation_date, semester_name, wintersemester, grading_end_date, submit_projects_end_date) = tuples[0]
             semester = Semester()
             semester.set_id(id)
+            semester.set_name(semester_name)
             semester.set_creation_date(creation_date)
             semester.set_wintersemester(wintersemester)
             semester.set_submit_projects_end_date(submit_projects_end_date)
@@ -74,19 +76,20 @@ class SemesterMapper(Mapper):
         result = None
 
         cursor = self._connection.cursor()
-        command = "SELECT semester_id, creation_date, wintersemester, grading_end_date, submit_projects_end_date FROM semester WHERE student_id={}".format(grading_end_date)
+        command = "SELECT semester_id, creation_date, semester_name, wintersemester, grading_end_date, submit_projects_end_date FROM semester WHERE student_id={}".format(grading_end_date)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, wintersemester, grading_end_date, submit_projects_end_date) = tuples[0]
+            (id, creation_date, wintersemester, semester_name, grading_end_date, submit_projects_end_date) = tuples[0]
             semester = Semester()
             semester.set_id(id)
             semester.set_creation_date(creation_date)
+            semester.set_name(semester_name)
             semester.set_wintersemester(wintersemester)
             semester.set_submit_projects_end_date(submit_projects_end_date)
             semester.set_grading_end_date(grading_end_date)
-            result.append(semester)
+            result = semester
 
         except IndexError:
             """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
@@ -97,21 +100,6 @@ class SemesterMapper(Mapper):
         cursor.close()
 
         return result
-
-    def find_by_submit_projects_end_date(self, submit_projects_end_date):
-        """Read out all semesters based on their submit_projects_end_date.
-                : param submit_projects_end_date of the semester.
-                : return A collection of semester objects that are all 
-                    with the desired submit_projects_end_date."""
-
-
-
-    def find_by_wintersemester(self, wintersemester):
-        
-         """Read out semester based on if they are a wintersemester.
-                : param (wintersemester)  wintersemester of the associated semester.
-                : return the wintersemester object that contain
-                    the desired  wintersemester."""
          
     def insert(self, semester):
         """Insertion of a semester object into the database.
@@ -123,7 +111,7 @@ class SemesterMapper(Mapper):
                 : return the object that has already been transferred, but with a possibly corrected ID.
                 """
         cursor = self._connection.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM semester ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM semester_id ")
         tuples = cursor.fetchall()
         
         for (maxid) in tuples:
@@ -137,7 +125,7 @@ class SemesterMapper(Mapper):
                 assume that the table is empty and that we can start with ID 1. """
                 semester.set_id(1)
                 
-            command = "INSERT INTO semester (id, creation_date, wintersemester, submit_projects_end_date, email, role VALUES (%s,%s,%s,%s,%s,%s)"
+            command = "INSERT INTO semester (semester_id, creation_date, semester_name wintersemester, submit_projects_end_date, email, role VALUES (%s,%s,%s,%s,%s,%s)"
             data = (semester.get_id(), semester.creation_date(), semester.get_submit_projects_end_date(),semester.get_grading_end_date(),semester.get_wintersemester(),)
             cursor.execute(command, data)
 
@@ -153,8 +141,8 @@ class SemesterMapper(Mapper):
         
         cursor = self._connection.cursor()
 
-        command = "UPDATE semester " + "SET wintersemester=%s, creation_date=%s, submit_projects_end_date=%s, grading_end_date=%s  WHERE semester_id=%s"
-        data = (semester.get_wintersemester(), semester.get_grading_end_date(), semester.get_submit_projects_end_date())
+        command = "UPDATE semester " + "SET wintersemester=%s, semester_name=%s, semester_id=%s, creation_date=%s, submit_projects_end_date=%s, grading_end_date=%s  WHERE semester_id=%s"
+        data = (semester.get_wintersemester(), semester.get_name(), semester.get_id(), semester.get_grading_end_date(), semester.get_submit_projects_end_date())
         cursor.execute(command, data)
 
         self._connection.commit()

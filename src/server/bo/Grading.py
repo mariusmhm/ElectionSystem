@@ -5,6 +5,7 @@ class Grading(BusinessObject):
         super().__init__()
         self._grading = 0
 
+
     def get_grading(self):
         """Reads out the grading"""
         return self._grading

@@ -1,8 +1,7 @@
-import BusinessObject from './BusinessObject'; // Don`t know if this is needed
 import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class UserBO extends NamedBusinessObject {
+export default class SemesterBO extends NamedBusinessObject {
 //Represents a semester BO. 
   
   constructor(aWintersemester, aSubmitProjectEndDate, aGradingEndDate){

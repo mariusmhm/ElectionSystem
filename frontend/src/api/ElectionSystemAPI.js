@@ -35,7 +35,7 @@ export default class ElectionSystemAPI {
     #deleteModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
     
     //Grading
-    #getAllGradesURL = () => `${this.#electionSystemServerBaseURL}/grades`;
+    #getGradeForParticipationURL = (id)=> `${this.#electionSystemServerBaseURL}/participation/${id}/grade`;
     #addGradeURL = () => `${this.#electionSystemServerBaseURL}/grade`;
     #updateGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grade/${id}`;
     #deleteGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grade/${id}`;
@@ -50,10 +50,16 @@ export default class ElectionSystemAPI {
     #addSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`;
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
-    //Student
-
+    //Student 
+    #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
+    #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
 
     //User
+    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/users`;
+    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+
 
     static getAPI() {
         if (this.#api == null) {
@@ -117,7 +123,7 @@ export default class ElectionSystemAPI {
     *@public
     */
     updateProject(){
-        return this.#fetchAdvanced(this.#updateProjectURL(projectBO.getID()), {
+        return this.#fetchAdvanced(this.#updateProjectURL(ProjectBO.getID()), {
             method: 'PUT'
             }).then((responseJSON) => {
             let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
@@ -255,14 +261,14 @@ export default class ElectionSystemAPI {
           })
     }
 
-
-    getAllGrades(){
-        return this.#fetchAdvanced(this.#getAllGradesURL()).then((responseJSON) => {
-            let responseGradeBOs = GradingBO.fromJSON(responseJSON);
-            return new Promise(function (resolve){
-                resolve(responseGradeBOs)
-            })
-        }) 
+    getGradeForParticipation(participationID){
+        return this.#fetchAdvanced(this.#getGradeForParticipationURL(participationID))
+        .then((responseJSON) => {
+        let responseGradeBOs = GradingBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseGradeBOs);
+        })
+      })
     }
     
     addGrade(){
@@ -362,6 +368,72 @@ export default class ElectionSystemAPI {
             let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
               resolve(responseSemesterBO);
+            })
+          })
+    }
+
+    getStudent(studentID){
+        return this.#fetchAdvanced(this.#getStudentURL(studentID))
+        .then((responseJSON) => {
+        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseStudentBOs);
+        })
+      })
+    }
+
+    addStudent(){
+        return this.#fetchAdvanced(this.#addStudentURL(), {
+            method: 'POST'
+          })
+            .then((responseJSON) => {
+              let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
+              return new Promise(function (resolve) {
+                resolve(responseStudentBO);
+              })
+            })
+    }
+
+    addUser(userBO){
+      return this.#fetchAdvanced(this.#addUserURL(), {
+          method: 'POST',
+          })
+          .then((responseJSON) => {
+            let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+              resolve(responseUserBO);
+            })
+          })
+  }
+
+    getUser(userID){
+        return this.#fetchAdvanced(this.#getUserURL(userID))
+        .then((responseJSON) => {
+        let responseUserBOs = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseUserBOs);
+        })
+      })
+    }
+
+    updateUser(userBO){
+        return this.#fetchAdvanced(this.#updateUserURL(userBO.getID()), {
+            method: 'PUT'
+            }).then((responseJSON) => {
+            let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+              resolve(responseUserBO);
+            })
+          })
+    }
+
+    deleteUser(userID){
+        return this.#fetchAdvanced(this.#deleteUserURL(userID), {
+            method: 'DELETE'
+          }).then((responseJSON) => {
+            let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+              resolve(responseUserBO);
             })
           })
     }

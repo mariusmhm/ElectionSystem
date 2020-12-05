@@ -17,8 +17,8 @@ class Participation(BusinessObject):
 
     def __str__(self):
 
-        """Creats a simple textually Representation of a Participation() instanz.
-        """
+        """Creats a simple textually Representation of a Participation() instanz."""
+  
 
         return "Project:  {}, {}, ".format(self.get_id(),self.get_priority(),)
 
@@ -30,7 +30,6 @@ class Participation(BusinessObject):
         participation.set_id(dicti["id"])
         participation.set_priority(dicti["participation_priority"])
         return participation
-
 
 
 

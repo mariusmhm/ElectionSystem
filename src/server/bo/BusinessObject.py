@@ -13,8 +13,8 @@ class BusinessObject(ABC):
     def set_id(self, val):
         self.__id = val
         
-    def set_creation_date(self, Date):
-        self.__creation_date = Date
+    def set_creation_date(self, date):
+        self.__creation_date = date
     
     def get_creation_date(self):
         return self.__creation_date
