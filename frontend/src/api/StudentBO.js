@@ -1,12 +1,10 @@
-import BusinessObject from './BusinessObject'; // do i have to import it when it's imported in NBO??
 import NamedBusinessObject from './NamedBusinessObject';
 
 export default class StudentBO extends NamedBusinessObject {
 
-    constructor(aStudentMail, aPassword, aRole, aMatrikelNr, aStudy) {
+    constructor(aStudentMail, aRole, aMatrikelNr, aStudy) {
         super();
         this.studentMail = aStudentMail;
-        this.password = aPassword;
         this.role = aRole;
         this.matrikelNr = aMatrikelNr;
         this.study = aStudy;
@@ -29,23 +27,13 @@ export default class StudentBO extends NamedBusinessObject {
     } */
 
     // setting a new Mail-Adress for Student
-    setStudenMail(aStudentMail) {
+    setStudentMail(aStudentMail) {
         this.studentMail = aStudentMail;
     }
 
     // getting the Students Mail-Adress
     getStudentMail() {
         return this.studentMail;
-    }
-
-    // setting a new Password for Student
-    setPassword(aPassword) {
-        this.password = aPassword;
-    }
-
-    // getting the Students Password
-    getPassword() {
-        return this.password;
     }
 
     // idk if we need this 

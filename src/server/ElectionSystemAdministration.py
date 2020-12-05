@@ -1,4 +1,4 @@
-rver.bo.Grading import Grading
+from server.bo.Grading import Grading
 from server.bo.Module import Module
 from server.bo.Praticipation import Participation
 from server.bo.Project import Project

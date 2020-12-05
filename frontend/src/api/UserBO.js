@@ -1,4 +1,3 @@
-import BusinessObject from './BusinessObject'; // Don`t know if this is needed
 import NamedBusinessObject from './NamedBusinessObject';
 
 
@@ -7,12 +6,12 @@ export default class UserBO extends NamedBusinessObject {
 /// Represents a user of the electionsystem. It is either a sutdent or a professor.
 
 
-    constructor(aUserId, aEmail, aPassword, aRole){
+    constructor(aUserId, aEmail, aRole){
         super();
         this.userId=aUserId;
         this.email=aEmail;
-        this.password=aPassword;
         this.role=aRole;
+    }
 
    //Sets the UserId
     setUserId(aUserId){
@@ -35,18 +34,6 @@ export default class UserBO extends NamedBusinessObject {
 
     }
 
-    //Sets the Users password
-    setPassword(paassword){
-        this.password = aPassword
-
-    }
-
-    //Reads out the Users Password
-    getPassword(){
-        return this.password
-
-    }
-
     //sets the Users Role
     setRole(aRole){
         this.role = aRole
@@ -54,7 +41,7 @@ export default class UserBO extends NamedBusinessObject {
 
     //Returns an Array of CustomerBOs from a given JSON structure.
 
-    static fromJSON(students) {
+    static fromJSON(users) {
         let res = [];
 
         if (Array.isArray(users)) {
@@ -71,10 +58,5 @@ export default class UserBO extends NamedBusinessObject {
         }
 
         return res;
-
-
-
-
-}
-)
+    }
 }
