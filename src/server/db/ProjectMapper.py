@@ -11,14 +11,14 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT project_id, project_name, project_description FROM projects")
+        cursor.execute("SELECT project_id, project_name, short_description FROM projects")
         tuples = cursor.fetchall()
 
-        for (project_id, project_name, project_description) in tuples:
+        for (project_id, project_name, short_description) in tuples:
             project = Project()
             project.set_project_id(project_id)
             project.set_project_name(project_name)
-            project.set_project_description(project_description)
+            project.set_short_description(short_description)
             result.append(project)
 
         self._connection.commit()
@@ -30,18 +30,18 @@ class ProjectMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT project_id, project_name, project_description FROM projects WHERE project_id={}" \
+        command = "SELECT project_id, project_name, short_description FROM projects WHERE project_id={}" \
                     .format(project_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (project_id, project_name, project_description) = tuples[0]
+            (project_id, project_name, short_description) = tuples[0]
             project = Project()
             project.set_project_id(project_id)
             project.set_project_name(project_name)
-            project.set_project_description(project_description)
+            project.set_short_description(short_description)
             result = project
 
         except IndexError:
