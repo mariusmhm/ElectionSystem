@@ -17,7 +17,7 @@ class ProjectMapper(Mapper):
             project = Project()
             project.set_id(project_id)
             project.set_name(project_name)
-            project.set_short_description(project_description)
+            project.set_project_description(project_description)
             result.append(project)
 
         self._connection.commit()
