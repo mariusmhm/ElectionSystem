@@ -5,7 +5,6 @@ from server.bo.Participation import Participation
 from server.bo.User import User
 from server.bo.Module import Module
 from server.bo.Projecttype import Projecttype
-from server.Automat import Automat
 
 
 
@@ -218,5 +217,3 @@ class Project(NamedBusinessObject, Automat):
         project.set_link(dicti["ProjectLink"])
         project.set_room_desired(dicti["ProjectRoomDesired"])
         return project
-
-        """ to be continued """

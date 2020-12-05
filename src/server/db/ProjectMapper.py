@@ -11,7 +11,7 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT project_id, project_name, short_description FROM projects")
+        cursor.execute("SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockday_in_Exam, blockday_in_exam, special_room, date_blockday_during_lecture,num_blockdays_prior_lecture, blockdays_prior_lecturetrue, num_blockdays_during_lecture, blockday_during_lecture, weekly, num_spots, project_type, module, project_professor, participation FROM projects)
         tuples = cursor.fetchall()
 
         for (project_id, project_name, short_description) in tuples:
