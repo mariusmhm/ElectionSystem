@@ -218,11 +218,7 @@ class ElectionSystemAdministration(object):
     def get_semester_by_id(self, semester_id):
         """Read out the semester by ID."""
         with SemesterMapper() as mapper:
-            return mapper.find_projecttype_by_id(semester_id)
-
-    def get_semester_by_name(self, semester_name):
-        with SemesterMapper() as mapper:
-            return mapper.find_semester_by_name(semester_name)
+            return mapper.find_by_id(semester_id)
 
     def get_all_semester(self):
         """Read out all semesters"""
@@ -242,7 +238,7 @@ class ElectionSystemAdministration(object):
 
 
     """Project specific methods"""
-     def create_project(self,project_id, project_name, link, room_desired, grade_average, num_blockdays_in_exam,
+     def create_project(self, project_name, link, room_desired, grade_average, num_blockdays_in_exam,
                         blockdays_in_exam, special_room, date_blockdays_during_lecture,
                         num_blockdays_prior_lecture, blockdays_prior_lecturetrue,
                         num_blockdays_during_lecutre, blockdays_during_lecture, weekly, short_description,
@@ -250,7 +246,7 @@ class ElectionSystemAdministration(object):
 
          """Create a ne Project:"""
          project = Project()
-         project.set_project_id(project_id)
+         project.set_project_id(1)
          project.set_project_name(project_name)
          project.set_link(link)
          project.set_room_desired(room_desired)
@@ -309,3 +305,4 @@ class ElectionSystemAdministration(object):
         """update a project."""
         with ProjectMapper() as mapper:
             mapper.update(project)
+

@@ -455,7 +455,7 @@ class ProjectOperations(Resource):
             return '', 500
 
 
-"""----------------------------Projecttype: warum wird er nicht erkannt?---------------------------"""
+"""----------------------------Projecttype---------------------------"""
 
 
 @electionSystem.route('/projecttypes')
@@ -551,6 +551,51 @@ class ProjectTypeOperations(Resource):
             return '', 500
 
 """-----------------Semester--------------------"""
+
+@electionSystem.route('/semester')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class SemesterListOperations(Resource):
+    @electionSystem.marshal_list_with(semester)
+    @secured
+    def get(self):
+        """Auslesen aller Semester-Objekte.
+
+        Sollten keine Semester-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ElectionSystemAdministration()
+        semester = adm.get_all_semester()
+        return semester
+
+    @electionSystem.marshal_with(semester, code=200)
+    @electionSystem.expect(semester)  # Wir erwarten ein Customer-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Project-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ElectionSystemAdministration()
+
+        proposal = semester.to_dict(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
+            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            c = adm.create_semester(proposal.get_name(semester))
+            return c, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
+
+
+
 
 
 
