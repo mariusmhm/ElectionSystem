@@ -1,6 +1,6 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
+
 
 class User(NamedBusinessObject):
 
@@ -10,9 +10,9 @@ class User(NamedBusinessObject):
     def __init__(self):
         super().__init__()
         self.__google_user_id = ""
-        self.__name= ""
+        self.__name = ""
         self.__email = ""
-        self.__role = Role()
+        self.__role = ""
 
     def get_google_user(self):
         """Read out of the UserId."""
@@ -40,9 +40,9 @@ class User(NamedBusinessObject):
         """Readout of the Rolle."""
         return self.__role
 
-    def set_role(self,role):
+    def set_role(self, role_id):
         """Set the Rolle."""
-        self.__role=role
+        self.__role = Role.role[role_id]
 
     def __str__(self):
 
@@ -66,7 +66,12 @@ class User(NamedBusinessObject):
         return obj
 
 
+hallo = User()
+hallo.set_id('asd')
+hallo.set_name('huhuhu')
+hallo.set_google_user('abc')
+hallo.set_role(3)
 
-
-
+rolleee = hallo.get_role()
+print(rolleee)
 
