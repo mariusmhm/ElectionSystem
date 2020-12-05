@@ -6,6 +6,7 @@ class Grading(NamedBusinessObject):
 
         self.__grading = 0
 
+
     def get_grading(self):
         """Reads out the grading"""
         return self.__grading
