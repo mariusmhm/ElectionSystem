@@ -34,13 +34,17 @@ class Projecttype(NamedBusinessObject):
 
         The Attributes are ECTs and SWS."""
 
-        return "Project:  {}, {}, ".format(self.get_ects(),self.get_sws())
+        return "Project:  {}, {}, ".format(self.get_ects(),self.get_sws(),self.get_id(),self.get_name(),
+                                           self.get_cretion_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """"Convert a Python dict() in a Projecttype()."""
         projecttype = Projecttype()
-        projecttype.set_etcs(dicti["ETCS"])
-        projecttype.set_sws(dicti["SWS"])
+        projecttype.set_etcs(dicti["ects"])
+        projecttype.set_sws(dicti["sws"])
+        projecttype.set_id(dicti["projecttype_id"])
+        projecttype.set_id(dicti["projecttype_name"])
+        projecttype.set_creation_date(dicti["creation_date"])
         return projecttype

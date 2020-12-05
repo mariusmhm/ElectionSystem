@@ -471,6 +471,9 @@ class ProjectTypeListOperations(Resource):
         projecttypes = adm.get_all_projecttypes()
         return projecttypes
 
+@electionSystem.route('/projecttype')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+ class ProjectTypeListOperation(Resource):
     @electionSystem.marshal_with(projecttype, code=200)
     @electionSystem.expect(projecttype)  # Wir erwarten ein Customer-Objekt von Client-Seite.
     @secured
@@ -547,7 +550,9 @@ class ProjectTypeOperations(Resource):
         else:
             return '', 500
 
-""" """
+"""-----------------Semester--------------------"""
+
+
 
 
 
