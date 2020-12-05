@@ -1,0 +1,10 @@
+import React, { Component } from 'react';
+import Header from './components/layout/Header';
+import Grid from '@material-ui/core/Grid';
+import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
+
+class ProjectContent extends Component {
+
+   constructor(props) {
+      super(props);
+}
