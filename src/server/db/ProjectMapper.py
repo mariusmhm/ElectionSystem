@@ -39,9 +39,9 @@ class ProjectMapper(Mapper):
         try:
             (project_id, project_name, project_description) = tuples[0]
             project = Project()
-            project.set_id(project_id)
-            project.set_name(project_name)
-            project.set_short_description(project_description)
+            project.set_project_id(project_id)
+            project.set_project_name(project_name)
+            project.set_project_description(project_description)
             result = project
 
         except IndexError:
