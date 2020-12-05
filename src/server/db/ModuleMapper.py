@@ -42,7 +42,7 @@ class ModuleMapper (Mapper):
 
         res = None
         cursor = self._connection.cursor()
-        command = "SELECT module_id, creation_date, edv_number FROM Module WHERE module_id={}".format(module_id)
+        command = "SELECT module_id, creation_date, module_name edv_number FROM Module WHERE module_id={}".format(module_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -66,30 +66,36 @@ class ModuleMapper (Mapper):
         return res
 
     def find_by_name(self, module_name):
-        """Read out all mmodules based on their name.
+        """Read out all modules based on their name.
         : param module_name of the associated module.
         : return A collection of modules objects
             with the desired name."""
         result = []
         crs = self._connection.cursor()
         crs.execute("SELECT module_id, creation_date, module_name, edv_number"/
-                    " FROM Students WHERE module_name LIKE '{}'"\
+                    " FROM Module WHERE module_name LIKE '{}'"\
                     " ORDER BY module_name"
                     .format(module_name))
 
         tuples = crs.fetchall()
 
-        for (module_id, creation_date, module_name, edv_number) in tuples:
+        try:
+            (module_id, creation_date, module_name, edv_number) = tuples[0]
             module = Module()
             module.set_id(module_id)
             module.set_creation_date(creation_date)
             module.set_module_name(module_name)
             module.set_edv_number(edv_number)
-            result.append(module)
+            result = module
+
+        except IndexError:
+            """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
+            does not return tuples, but tuples = cursor.fetchall () returns an empty sequence."""
+            res = None
 
         self._connection.commit()
         crs.close()
-        return result
+        return res
 
     def find_by_edv_number(self,edv_number):
         """Read out all modules based on the assigned edv numbers.
@@ -99,8 +105,7 @@ class ModuleMapper (Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "module_id, creation_date, module_name, edv_number" \
-                  "student_role, matrikel_nr, student_study FROM Students WHERE mail={}".format(edv_number)
+        command = "module_id, creation_date, module_name, edv_number FROM Module WHERE mail={}".format(edv_number)
         cursor.execute(command)
         tuples = cursor.fetchall()
         
@@ -140,11 +145,8 @@ class ModuleMapper (Mapper):
         for (maxid) in tuples:
             module.set_id(maxid[0]+1)
             
-            crs.execute("INSERT INTO Module(module_id, creation_date,module_name,"
-                        "edv_number)"
-                        "VALUES ('{}', '{}','{}')"
-                        .format(module.get_id(), module.get_creation_date(), module.get_lname(),
-                                module.get_edv_number()))
+            crs.execute("INSERT INTO Module(module_id, creation_date,module_name, edv_number) VALUES ('{}', '{}','{}','{}')"
+                        .format(module.get_id(), module.get_creation_date(), module.get_name(), module.get_edv_number()))
             
         self._connection.commit()
         crs.close()
