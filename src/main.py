@@ -112,15 +112,7 @@ grading= api.inherit('Grading',bo,{
 
 
 
-"""Module"""
-@electionSystem.route('/modules')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ModuleListOperations(Resource):
-    @electionSystem.marshal_list_with(module)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        modules=adm.get_all_modules() #noch nicht definiert in Admin
-        return modules
+
 
 
 """-------------------------Student--------------------"""
@@ -552,6 +544,7 @@ class ProjectTypeOperations(Resource):
 
 """-----------------Semester--------------------"""
 
+
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SemesterListOperations(Resource):
@@ -569,7 +562,7 @@ class SemesterListOperations(Resource):
     @electionSystem.expect(semester)  # Wir erwarten ein Customer-Objekt von Client-Seite.
     @secured
     def post(self):
-        """Anlegen eines neuen Project-Objekts.
+        """Anlegen eines neuen Semester-Objekts.
 
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
         So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
@@ -595,11 +588,66 @@ class SemesterListOperations(Resource):
 
 
 
+@electionSystem.route('/semester/<int:id>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.param('id', 'Die ID des Semester-Objekts')
+class SemesterOperations(Resource):
+    @electionSystem.marshal_with(semester)
+    @secured
+    def get(self, id):
+        """Auslesen eines bestimmten Project-Objekts.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ElectionSystemAdministration()
+        pt = adm.get_semester_by_id(id)
+        return pt
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Project-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ElectionSystemAdministration()
+        semester = adm.get_semester_by_id(id)
+        adm.delete_semester(semester)
+        return '', 200
+
+    @electionSystem.marshal_with(semester)
+    @secured
+    def put(self, id):
+        """Update eines bestimmten semester-Objekts.
+
+        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
+        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
+        Customer-Objekts.
+        """
+        adm = ElectionSystemAdministration()
+        pt = Semester.to_dict(api.payload)
+
+        if pt is not None:
+            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
+            Siehe Hinweise oben.
+            """
+            pt.set_id(id)
+            adm.save_semester(pt)
+            return '', 200
+        else:
+            return '', 500
 
 
+"grading, participation, module)"""
 
 
-
+"""---------------Module-----------------------"""
+@electionSystem.route('/modules')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
+class ModuleListOperations(Resource):
+    @electionSystem.marshal_list_with(module)
+    def get(self):
+        adm=ElectionSystemAdministration()
+        modules=adm.get_all_modules() #noch nicht definiert in Admin
+        return modules
 
 
 
