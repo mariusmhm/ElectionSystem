@@ -159,78 +159,6 @@ class ElectionSystemAdministration(object):
         with StudentMapper() as mapper:
             mapper.delete(student)
 
-<<<<<<< HEAD
-=======
-    def create_project(self,project_id, project_name, link, room_desired, grade_average, num_blockdays_in_exam,
-                        blockdays_in_exam, special_room, date_blockdays_during_lecture,
-                        num_blockdays_prior_lecture, blockdays_prior_lecturetrue,
-                        num_blockdays_during_lecutre, blockdays_during_lecture, weekly, short_description,
-                        num_spots, project_type, module, project_professor, participation,creation_date):
-         """Project specific methods"""
-         """Create a ne Project:"""
-         project = Project()
-         project.set_project_id(project_id)
-         project.set_project_name(project_name)
-         project.set_link(link)
-         project.set_room_desired(room_desired)
-         project.set_grade_average(grade_average)
-         project.set_num_blockdays_in_exam(num_blockdays_in_exam)
-         project.set_blockdays_in_exam(blockdays_in_exam)
-         project.set_special_room(special_room)
-         project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
-         project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
-         project.set_blockdays_prior_lecture(blockdays_prior_lecturetrue)
-         project.set_num_blockdays_during_lecture(num_blockdays_during_lecutre)
-         project.set_blockdays_during_lecture(blockdays_during_lecture)
-         project.set_weekly(weekly)
-         project.set_short_description(short_description)
-         project.set_num_of_spots(num_spots)
-         project.set_project_type(project_type)
-         project.set_module(module)
-         project.set_project_professor(project_professor)
-         project.set_participation(participation)
-         project.set_creation_date(creation_date)
-
-         with ProjectMapper() as mapper:
-            return mapper.insert(project)
-
-    def get_project_by_name(self,project_name):
-         """Read out all projects by name."""
-         with ProjectMapper() as mapper:
-            return mapper.find_by_project_name(project_name)
-
-    def get_project_by_id(self, project_id):
-        """Read out the project by ID."""
-        with ProjectMapper() as mapper:
-            return mapper.find_project_by_id(project_id)
-
-    def get_project_by_project_type(self, project_type):
-        """Read out project by the project type."""
-        with ProjectMapper() as mapper:
-            return mapper.find_by_project_type(project_type)
-
-    def get_project_by_project_professor(self, project_professor):
-        """Read out project by the project professor."""
-        with ProjectMapper() as mapper:
-            return mapper.find_by_project_professor(project_professor)
-
-    def get_all_projects(self):
-        """Read out all projects"""
-        with ProjectMapper() as mapper:
-            return mapper.find_all()
-
-    def delete_project(self, project):
-        """delete a proejct"""
-        with ProjectMapper() as mapper:
-            mapper.delete(project)
-
-    def save_project(self, project):
-        """update a project."""
-        with ProjectMapper() as mapper:
-            mapper.update(project)
-
-
->>>>>>> ccc8d127485f3224565e30d80550cc37bf32692e
     """Projecttype specific methods"""
 
     def create_projecttype(self, creation_date, projecttype_name, sws, ects):
@@ -248,11 +176,7 @@ class ElectionSystemAdministration(object):
     def get_projecttype_by_id(self, projecttype_id):
         """Read out the projecttype by ID."""
         with ProjecttypeMapper() as mapper:
-<<<<<<< HEAD
             return mapper.find_by_id(projecttype_id)
-=======
-            return mapper.find_projecttype_by_id(projecttype_id)
->>>>>>> ccc8d127485f3224565e30d80550cc37bf32692e
 
     def get_projecttype_by_name(self, projecttype_name):
         """Read out the projecttype by name."""
@@ -274,11 +198,8 @@ class ElectionSystemAdministration(object):
         with ProjecttypeMapper() as mapper:
             mapper.update(projecttype)
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ccc8d127485f3224565e30d80550cc37bf32692e
     """Semester specific methods"""
 
     def create_semester(self, creation_date, semester_name, wintersemester, submit_projects_end_date, grading_end_date):
@@ -297,11 +218,7 @@ class ElectionSystemAdministration(object):
     def get_semester_by_id(self, semester_id):
         """Read out the semester by ID."""
         with SemesterMapper() as mapper:
-<<<<<<< HEAD
             return mapper.find_projecttype_by_id(semester_id)
-=======
-            return mapper.find_semester_by_id(semester_id)
->>>>>>> ccc8d127485f3224565e30d80550cc37bf32692e
 
     def get_semester_by_name(self, semester_name):
         with SemesterMapper() as mapper:
@@ -321,81 +238,6 @@ class ElectionSystemAdministration(object):
         """delete a semester"""
         with SemesterMapper() as mapper:
             mapper.delete(semester)
-
-    """Module specific methods"""
-
-    def create_module(self, creation_date, module_name, edv_number, ):
-        """Create a ne Module:"""
-        module = Module()
-        module.set_id(1)
-        module.set_creation_date(creation_date)
-        module.set_name(module_name)
-        module.set_edv_number(edv_number)
-
-        with ModuleMapper() as mapper:
-            return mapper.insert(module)
-
-    def get_module_by_id(self, module_id):
-        """Read out the module by ID."""
-        with ModuleMapper() as mapper:
-            return mapper.find_module_by_id(module_id)
-
-    def get_module_by_name(self, module_name):
-        """Read out the module by name."""
-        with ModuleMapper() as mapper:
-            return mapper.find_module_by_name(module_name)
-
-    def get_module_by_edv_number(self, edv_number):
-        """Read out the module by edv_number."""
-        with ModuleMapper() as mapper:
-            return mapper.find_module_by_edv_number(edv_number)
-
-    def get_all_modules(self):
-        """Read out all modules"""
-        with ModuleMapper() as mapper:
-            return mapper.find_all()
-
-    def save_module(self, module):
-        """update a module."""
-        with ModuleMapper() as mapper:
-            mapper.update(module)
-
-    def delete_module(self, module):
-        """delete a module"""
-        with ModuleMapper() as mapper:
-            mapper.delete(module)
-
-    """Grading specific methods"""
-
-    def create_grading(self, creation_date, grading ):
-        """Create a new grading:"""
-        grading = Grading()
-        grading.set_id(1)
-        grading.set_creation_date(creation_date)
-        grading.set_grading(grading)
-
-        with GradingMapper() as mapper:
-            return mapper.insert(grading)
-
-    def get_all_gradings(self):
-        """Read out all gradings"""
-        with GradingMapper() as mapper:
-            return mapper.find_all()
-
-    def get_grading_by_id(self, grading_id):
-        """Read out the grading by id."""
-        with GradingMapper() as mapper:
-            return mapper.find_module_grading_id(grading_id)
-
-    def save_Grading(self, grading):
-        """update a grading."""
-        with GradingMapper() as mapper:
-            mapper.update(grading)
-
-    def delete_grading(self, grading):
-        """delete a grading"""
-        with GradingMapper() as mapper:
-            mapper.delete(grading)
 
 
 
