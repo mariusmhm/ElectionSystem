@@ -21,7 +21,7 @@ class UserMapper(Mapper):
         cursor.execute("SELECT * from users")
         tuples = cursor.fetchall()
 
-        for (id, creation_date, google_user_id, name, email,role) in tuples:
+        for (id, creation_date, google_user_id, name, email,role, creation_date) in tuples:
             user = User()
             user.set_id(id)
             user.set_creation_date(creation_date)
@@ -29,6 +29,7 @@ class UserMapper(Mapper):
             user.set_name(name)
             user.set_email(email)
             user.set_role(role)
+            user.set_creation_date(creation_date)
             result.append(user)
 
         self._connection.commit()
@@ -44,7 +45,7 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._connection.cursor()
-        command = "SELECT id, creation_date, google_user_id, name, email, role FROM users WHERE id={}".format(key)
+        command = "SELECT id, creation_date, google_user_id, name, email, role FROM users WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -81,13 +82,14 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, name, email, google_user_id) = tuples[0]
+            (id, creation_date, name, email, google_user_id,role) = tuples[0]
             u = User()
             u.set_id(id)
             u.set_creation_date(creation_date)
             u.set_name(name)
             u.set_email(email)
             u.set_google_user(google_user_id)
+            u.set_role(role)
             result = u
 
         except IndexError:

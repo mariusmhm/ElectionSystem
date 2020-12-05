@@ -1,18 +1,15 @@
-from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
-from datetime import date
+from server.bo.User import User
+from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
-class Student(NamedBusinessObject):
+class Student(User):
     """Realization of an student class."""
     def __init__(self):
         super().__init__()
-        self.__student_lastname = ""
+        self.__student_lastname = NamedBusinessObject.get_name()
         self.__student_firstname=""
-        self.__mail = ""
-        self.__role = Role()
         self.__matrikel_nr = 0
-        self.__creation_date = date
         self.__study = ""
 
     def set_lastname(self, student_lastname):
@@ -31,21 +28,6 @@ class Student(NamedBusinessObject):
         """Get the first name of a Student"""
         return self.__student_firstname
 
-    def set_email(self, student_mail):
-        """Set the email name of a Student"""
-        self.__mail = student_mail
-
-    def get_email(self):
-        """Get the email of a Student"""
-        return self.__mail
-
-    def set_role(self, student_role):
-        """Set the role of a Student"""
-        self.__role = student_role
-
-    def get_role(self):
-        """Get the role of a Student"""
-        return self.__role
 
     def set_matrikel_nr(self, matrikel_nr):
         """Set the matricle number of a Student"""
@@ -54,14 +36,6 @@ class Student(NamedBusinessObject):
     def get_matrikel_nr(self):
         """Get the matricle number of a Student"""
         return self.__matrikel_nr
-
-    def get_creation_date(self):
-        """Get the creation date of a Student"""
-        return self.__creation_date
-
-    def set_creation_date(self, creation_date):
-        """Set the creation date of a Student"""
-        self.__creation_date = creation_date
 
     def set_study(self, student_study):
         """Set the study of a Student"""
