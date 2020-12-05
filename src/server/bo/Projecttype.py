@@ -10,7 +10,7 @@ class Projecttype(NamedBusinessObject):
     def __init__(self):
         self.__etcs = 0
         self.__sws = 0
-
+        
     def get_etcs(self):
         """Read out of the ECTs."""
         return self.__etcs
@@ -42,5 +42,5 @@ class Projecttype(NamedBusinessObject):
         """"Convert a Python dict() in a Projecttype()."""
         projecttype = Projecttype()
         projecttype.set_etcs(dicti["ETCS"])
-        project.set_sws(dicti["SWS"])
+        projecttype.set_sws(dicti["SWS"])
         return projecttype
