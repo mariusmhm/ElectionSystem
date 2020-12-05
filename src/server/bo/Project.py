@@ -43,19 +43,3 @@ class Project(bo.BusinessObject):
         project.set_project_name(dicti["ProjectName"])
         project.set_project_description(dicti["ProjectDescription"])
         return project
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
