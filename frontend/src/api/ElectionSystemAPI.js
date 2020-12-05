@@ -50,7 +50,8 @@ export default class ElectionSystemAPI {
     #addSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`;
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
-    //Student 
+    //Student
+
 
     //User
 

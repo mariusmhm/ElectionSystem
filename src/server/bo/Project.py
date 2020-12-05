@@ -31,7 +31,7 @@ class Project(NamedBusinessObject, Automat):
         self.__num_blockdays_during_lecutre = 0
         self.__blockdays_during_lecture = True
         self.__weekly = True
-        self.__short_decription = ""
+        self.__short_description = ""
         self.__num_spots = 0
         self.__project_type = Projecttype()
         self.__module = Module()

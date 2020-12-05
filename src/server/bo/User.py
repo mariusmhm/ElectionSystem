@@ -1,12 +1,9 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
 
 class User(NamedBusinessObject):
-
     """Realization of an examplary Users.
     """
-
     def __init__(self):
         super().__init__()
         self.__google_user_id = ""
@@ -50,20 +47,22 @@ class User(NamedBusinessObject):
 
         The Attributes are UserId, UserMail, Userpasswort und Rolle."""
 
-        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role)
+        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role,
+                                                     self.get_creation_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """Convert a Python dict() in a User()."""
 
-        obj = User()
-        obj.set_id(dicti["id"])
-        obj.set_google_user(dicti["google_user_id"])
-        obj.set_name(dicti["name"])
-        obj.set_email(dicti["email"])
-        obj.set_role(dicti["role"])
-        return obj
+        user = User()
+        user.set_id(dicti["id"])
+        user.set_google_user(dicti["google_user_id"])
+        user.set_name(dicti["name"])
+        user.set_email(dicti["email"])
+        user.set_role(dicti["role"])
+        user.set_creation_date(dicti["Date"])
+        return user
 
 
 

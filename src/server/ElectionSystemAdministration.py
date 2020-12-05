@@ -1,12 +1,11 @@
-rver.bo.Grading import Grading
+from server.bo.Grading import Grading
 from server.bo.Module import Module
-from server.bo.Praticipation import Participation
+from server.bo.Participation import Participation
 from server.bo.Project import Project
-from server.bo.Projecttype import Projekctype
-from server.bo.Semeser import Semester
+from server.bo.Projecttype import Projecttype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
-
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
 from server.db.ParticipationMapper import ParticipationMapper
@@ -140,7 +139,7 @@ class ElectionSystemAdministration(object):
         with StudentMapper() as mapper:
             return mapper.find_by_id(number)
 
-    def get_student_users(self):
+    def get_all_students(self):
         """read out all students"""
         with StudentMapper() as mapper:
             return mapper.find_all()
@@ -160,19 +159,20 @@ class ElectionSystemAdministration(object):
         with StudentMapper() as mapper:
             mapper.delete(student)
 
-    """Project specific methods"""
-     def create_project(self,project_id, project_name, link, room_desired, grade_average, num_blockdays_in_Exam, blockdays_in_exam, special_room, date_blockdays_during_lecture,
-                        num_blockdays_prior_lecture, blockdays_prior_lecturetrue, num_blockdays_during_lecutre, blockdays_during_lecture, weekly, short_description,
-                        num_spots, project_type, module, project_professor, participation):
-
+     def create_project(self,project_id, project_name, link, room_desired, grade_average, num_blockdays_in_exam,
+                        blockdays_in_exam, special_room, date_blockdays_during_lecture,
+                        num_blockdays_prior_lecture, blockdays_prior_lecturetrue,
+                        num_blockdays_during_lecutre, blockdays_during_lecture, weekly, short_description,
+                        num_spots, project_type, module, project_professor, participation,creation_date):
+         """Project specific methods"""
          """Create a ne Project:"""
          project = Project()
-         project.set_project_id(1)
+         project.set_project_id(project_id)
          project.set_project_name(project_name)
          project.set_link(link)
          project.set_room_desired(room_desired)
          project.set_grade_average(grade_average)
-         project.set_num_blockdays_in_exam(num_blockdays_in_Exam)
+         project.set_num_blockdays_in_exam(num_blockdays_in_exam)
          project.set_blockdays_in_exam(blockdays_in_exam)
          project.set_special_room(special_room)
          project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
@@ -187,6 +187,7 @@ class ElectionSystemAdministration(object):
          project.set_module(module)
          project.set_project_professor(project_professor)
          project.set_participation(participation)
+         project.set_creation_date(creation_date)
 
          with ProjectMapper() as mapper:
             return mapper.insert(project)

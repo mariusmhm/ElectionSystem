@@ -1,9 +1,8 @@
 from server.bo.BusinessObject import BusinessObject
 
-
-class Grading(NamedBusinessObject):
+class Grading(BusinessObject):
     def __init__(self):
-
+        super().__init__()
         self._grading = 0
 
     def get_grading(self):
@@ -19,7 +18,7 @@ class Grading(NamedBusinessObject):
         """Creats a simple textually Representation of a Grading() instanz.
         """
 
-        return "Project:  {} ".format(self.get_grading())
+        return "Project:  {} ".format(self.get_grading(),self.get_id(),self.get_creation_date() )
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -27,6 +26,8 @@ class Grading(NamedBusinessObject):
         """"Convert  a Python dict() in a Grading()."""
         grading = Grading()
         grading.set_grading(dicti["Grading"])
+        grading.set_id(dicti["id"])
+        grading.set_creation_date(dicti["creation_date"])
         return grading
 
 
