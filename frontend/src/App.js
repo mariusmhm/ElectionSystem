@@ -10,68 +10,21 @@ import { ThemeProvider } from '@material-ui/core/styles';
 //This is for testing approaches
 
 class App extends Component {
-constructor (props){
-    super(props);
-    this.state={
-    group:"Gruppe 5"
+    constructor (props){
+        super(props);
+        this.state={
+        group:"Gruppe 5"
 
+        }
     }
-}
-  render() {
-    return (
-    //This is for testing, do not delete:
-
-      /*<div>
-      <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
-      <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
-
-       
-        <Grid container direction="row" justify="space-around" alignItems="center">
-            <Grid item xs={12} sm={6}>
-                <Typography variant="h3">Welcome</Typography>
-                    <Grid item xs={6} sm={6}>
-                        <TextField
-                        id="outlined-basic"
-                        label="E-Mail"
-                        variant="outlined"
-                        autoFocus
-                        fullWidth
-                        />
-                    </Grid>
-                    < Grid item xs={12} sm={6}>
-                        <TextField
-                        id="outlined-basic"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        autoFocus
-                        fullWidth
-                        />
-                    </Grid>
-                    <Button 
-                    variant="contained" 
-                    color="secondary">
-                        Log In
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                <Typography variant="h3">First time here?</Typography>
-                    <Button 
-                    variant="contained" 
-                    color="primary">
-                        Register as a <b> Professor</b>
-                    </Button>
-                    <br></br>
-                    <Button 
-                    variant="contained" 
-                    color="secondary">
-                        Register as a <b> Student</b>
-                    </Button>
-                </Grid>
-            </Grid>
-      </div>*/
-
-    );
+    render() {
+        return (
+            <ThemeProvider theme={theme}>
+                <div>
+                    <Header /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
+                </div>
+            </ThemeProvider>
+        )
   }
 }
 

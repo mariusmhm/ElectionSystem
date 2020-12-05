@@ -23,7 +23,7 @@ const theme = createMuiTheme({
     },
     secondary: {
         contrastText: white,
-        main:'red'
+        main: red
     },
     warning:{
         contrastText: white,
@@ -34,7 +34,7 @@ const theme = createMuiTheme({
     error: {
         contrastText: white,
         dark:'#d32f2f',
-        main: colors.red[600],
+        main: red,
         light:'#f44336'
     },
     success: {
