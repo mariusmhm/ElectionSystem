@@ -8,12 +8,12 @@ from server.bo.Student import Student
 from server.bo.User import User
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
-from server.db.ParticipationMapper import ParticipationMapper
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ProjecttypeMapper import ProjecttypeMapper
 from server.db.SemesterMapper import SemesterMapper
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
+from server.db.ParticipationMapper import ParticipationMapper
 
 
 class ElectionSystemAdministration(object):
@@ -272,10 +272,10 @@ class ElectionSystemAdministration(object):
          with ProjectMapper() as mapper:
             return mapper.insert(project)
 
-    def get_project_by_name(self,project_name):
+    def get_project_by_name(self, project_name):
          """Read out all projects by name."""
          with ProjectMapper() as mapper:
-            return mapper.find_by_project_name(project_name)
+            return mapper.find_project_by_name(project_name)
 
     def get_project_by_id(self, project_id):
         """Read out the project by ID."""
@@ -285,12 +285,12 @@ class ElectionSystemAdministration(object):
     def get_project_by_project_type(self, project_type):
         """Read out project by the project type."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_project_type(project_type)
+            return mapper.find_project_by_type(project_type)
 
     def get_project_by_project_professor(self, project_professor):
         """Read out project by the project professor."""
         with ProjectMapper() as mapper:
-            return mapper.find_by_project_professor(project_professor)
+            return mapper.find_project_by_professor(project_professor)
 
     def get_all_projects(self):
         """Read out all projects"""
@@ -373,7 +373,7 @@ class ElectionSystemAdministration(object):
     def get_grading_by_id(self, grading_id):
          """Read out the grading by id."""
          with GradingMapper() as mapper:
-             return mapper.find_module_grading_id(grading_id)
+             return mapper.find_module_by_grading_id(grading_id)
 
     def save_Grading(self, grading):
          """update a grading."""
@@ -384,3 +384,50 @@ class ElectionSystemAdministration(object):
          """delete a grading"""
          with GradingMapper() as mapper:
              mapper.delete(grading)
+
+    """Participation specific methods"""
+
+    def create_participation(self, creation_date, priority ):
+         """Create a new grading:"""
+         participation = Participation()
+         participation.set_id(1)
+         participation.set_creation_date(creation_date)
+         participation.set_priority(priority)
+
+         with ParticipationMapper() as mapper:
+             return mapper.insert(participation)
+
+    def get_participation_by_id(self, participation_id):
+         """Read out the participation by id."""
+         with ParticipationMapper() as mapper:
+             return mapper.find_participation_by_id(participation_id)
+
+    def delete_participation(self, participation):
+         """delete a participation"""
+         with ParticipationMapper() as mapper:
+             mapper.delete(participation)
+
+    def save_participation(self, participation):
+         """update a participation."""
+         with ParticipationMapper() as mapper:
+             mapper.update(participation)
+
+    def get_all_participations(self):
+         """Read out all participations"""
+         with ParticipationMapper() as mapper:
+             return mapper.find_all()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
