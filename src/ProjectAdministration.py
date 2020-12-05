@@ -8,3 +8,7 @@ class ProjectAdministration (object):
     def get_all_projects(self, ):
         with ProjectMapper() as mapper:
             return mapper.find_all()
+
+    def find_project_by_id(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_id(number)

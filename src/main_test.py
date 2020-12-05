@@ -48,5 +48,19 @@ class ProjectListOperations(Resource):
         projects=adm.get_all_projects()
         return projects
 
+@electionSystem.route('/projects/<int:id>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
+class ProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(project)
+    def get(self, id):
+        """Auslesen eines bestimmten Account-Objekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        acc = adm.find_project_by_id(id)
+        return acc
+
+
 if __name__ == '__main__':
     app.run(debug=True)
