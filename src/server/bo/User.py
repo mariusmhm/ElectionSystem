@@ -1,18 +1,16 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
 
-class User(NamedBusinessObject):
 
+class User(NamedBusinessObject):
     """Realization of an examplary Users.
     """
-
     def __init__(self):
         super().__init__()
         self.__google_user_id = ""
-        self.__name= ""
+        self.__name = ""
         self.__email = ""
-        self.__role = Role()
+        self.__role = ""
 
     def get_google_user(self):
         """Read out of the UserId."""
@@ -40,9 +38,9 @@ class User(NamedBusinessObject):
         """Readout of the Rolle."""
         return self.__role
 
-    def set_role(self,role):
+    def set_role(self, role_id):
         """Set the Rolle."""
-        self.__role=role
+        self.__role = Role.role[role_id]
 
     def __str__(self):
 
@@ -50,23 +48,30 @@ class User(NamedBusinessObject):
 
         The Attributes are UserId, UserMail, Userpasswort und Rolle."""
 
-        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role)
+        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role,
+                                                     self.get_creation_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """Convert a Python dict() in a User()."""
 
-        obj = User()
-        obj.set_id(dicti["id"])
-        obj.set_google_user(dicti["google_user_id"])
-        obj.set_name(dicti["name"])
-        obj.set_email(dicti["email"])
-        obj.set_role(dicti["role"])
-        return obj
+        user = User()
+        user.set_id(dicti["id"])
+        user.set_google_user(dicti["google_user_id"])
+        user.set_name(dicti["name"])
+        user.set_email(dicti["email"])
+        user.set_role(dicti["role"])
+        user.set_creation_date(dicti["Date"])
+        return user
 
 
+hallo = User()
+hallo.set_id('asd')
+hallo.set_name('huhuhu')
+hallo.set_google_user('abc')
+hallo.set_role(3)
 
-
-
+rolleee = hallo.get_role()
+print(rolleee)
 

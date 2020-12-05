@@ -1,14 +1,14 @@
-import BusinessObject from './BusinessObject'; // Don`t know if this is needed
 import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class UserBO extends NamedBusinessObject {
+export default class GradingBO extends NamedBusinessObject {
 
 /// Represents a grade which can be given a student.
 
     constructor(aGrading){
         super();
         this.grading=aGrading;
+    }
 
     //Sets the grading
     setGrading(aGrading){
@@ -39,8 +39,5 @@ export default class UserBO extends NamedBusinessObject {
         }
 
         return res;
-
-
-}
-)
+    }
 }

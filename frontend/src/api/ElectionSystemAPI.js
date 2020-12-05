@@ -55,9 +55,10 @@ export default class ElectionSystemAPI {
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
 
     //User
-    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
-    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
-    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
+    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/users`;
+    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
 
 
     static getAPI() {
@@ -122,7 +123,7 @@ export default class ElectionSystemAPI {
     *@public
     */
     updateProject(){
-        return this.#fetchAdvanced(this.#updateProjectURL(projectBO.getID()), {
+        return this.#fetchAdvanced(this.#updateProjectURL(ProjectBO.getID()), {
             method: 'PUT'
             }).then((responseJSON) => {
             let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
@@ -263,7 +264,7 @@ export default class ElectionSystemAPI {
     getGradeForParticipation(participationID){
         return this.#fetchAdvanced(this.#getGradeForParticipationURL(participationID))
         .then((responseJSON) => {
-        let responseGradeBOs = GradeBO.fromJSON(responseJSON);
+        let responseGradeBOs = GradingBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(responseGradeBOs);
         })
@@ -392,6 +393,18 @@ export default class ElectionSystemAPI {
               })
             })
     }
+
+    addUser(userBO){
+      return this.#fetchAdvanced(this.#addUserURL(), {
+          method: 'POST',
+          })
+          .then((responseJSON) => {
+            let responseUserBO = UserBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+              resolve(responseUserBO);
+            })
+          })
+  }
 
     getUser(userID){
         return this.#fetchAdvanced(this.#getUserURL(userID))

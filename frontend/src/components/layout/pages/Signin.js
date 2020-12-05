@@ -1,84 +1,51 @@
 import React, { Component } from 'react';
 import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
-import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
+import Registration from './components/Registration';
+import { Button, Typography} from '@material-ui/core';
+import PropTypes from 'prop-types';
 
-//This will be the Signin page for students and Professors
+//This is for testing approaches
 
-class Signin extends Component {
+class App extends Component {
 
+handleSignInButtonClicked = () => {
+this.props.onSignIn();
+}
+constructor (props){
+    super(props);
+    this.state={
+    group:"Gruppe 5"
+
+    }
 }
   render() {
     return (
     //This is for testing, do not delete:
-    //It is not finished yet
 
       <div>
-      <h1 style= {{color:"red", textAlign:"center"}}> Hello World!</h1>
-      <h2 style={{color:"red", textAlign:"center"}} > This is a test! </h2>
-
-        <Container maxWidth="sm">
-            <Grid item xs={12} sm={6}>
-                <Grid container spacing={1} style={{textAlign:"center", backgroundColor:"white"}}>
-                <Typography variant="h3" style={{textAlign:"center"}}>Wilkommen</Typography>
-                    < Grid item xs={12} sm={12}>
-                        <form noValidate autoComplete="off" style={{}}>
-                            <TextField
-                             id="outlined-basic"
-                             label="E-Mail"
-                             variant="outlined"
-                             label="E-Mail"
-                            />
-                        </form>
-                    </Grid>
-                    < Grid item xs={12} sm={12}>
-                        <form noValidate autoComplete="off" style={{}}>
-                            <TextField
-                               id="outlined-basic"
-                               label="Passwort"
-                               variant="outlined"
-                               label="Passwort"
-                               type="password"
-                            />
-                        </form>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <form noValidate autoComplete="off" style={{}}>
-                            <Button variant="contained" color="secondary">
-                                Log In
-                            </Button>
-                        </form>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </Container>
-
-        <Container maxWidth="sm">
-            <Grid item xs={12} sm={6}>
-                <Grid container spacing={1} style={{textAlign:"center", backgroundColor:"gray"}}>
-                <Typography variant="h3" style={{textAlign:"center", backgroundColor:"gray"}}>Neu Hier?</Typography>
-                    <Grid item xs={12} sm={12}>
-                        <form noValidate autoComplete="off" style={{}}>
-                            <Button variant="contained">
-                                Als Student registrieren
-                            </Button>
-                        </form>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <form noValidate autoComplete="off" style={{}}>
-                            <Button variant="contained">
-                                Als Dozent registrieren
-                            </Button>
-                        </form>
-                    </Grid>
-                </Grid>
-            </Grid>
-
-        </Container>
-      </div>
-
-    );
-  }
+      <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
+      <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
+        <Typography  align='center' variant='h6'>Welcome to the HdM ElectionSystem</Typography>
+	    <Typography  align='center'>It appears, that you are not signed in.</Typography>
+	    <Typography  align='center'>To use the services of the HdM Election System please</Typography>
+	    <Grid container justify='center'>
+					<Grid item>
+						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
+							Sign in with Google
+      			</Button>
+					</Grid>
+				</Grid>
+			</div>
+		);
+	}
 }
+
+
+
+PropTypes
+SignIn.propTypes = {
+	classes: PropTypes.object.isRequired,
+	onSignIn: PropTypes.func.isRequired,}
 
 export default App;

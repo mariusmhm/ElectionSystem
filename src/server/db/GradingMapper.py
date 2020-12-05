@@ -15,10 +15,10 @@ class GradingMapper (Mapper):
         crs.execute("SELECT id, createDate, grade FROM grading")
         tupsrc = crs.fetchall()
 
-        for (id, createDate, grade) in tupsrc:
+        for (id, creation_date, grade) in tupsrc:
             grading = Grading()
             grading.set_id(id)
-            grading.set_createDate(createDate)
+            grading.set_creation_date(creation_date)
             grading.set_grade(grade)
             res.append(grading)
 
@@ -35,10 +35,10 @@ class GradingMapper (Mapper):
         crs.execute("SELECT id, createDate, grade FROM grading WHERE id={} ORDER BY id".format(grading_id))
         tupsrc = crs.fetchall()
 
-        for (id, createDate, grade) in tupsrc:
+        for (id, creation_date, grade) in tupsrc:
             grading = Grading()
             grading.set_id(id)
-            grading.set_createDate(createDate)
+            grading.set_creation_date(creation_date)
             grading.set_grade(grade)
             res.append(grading)
 
