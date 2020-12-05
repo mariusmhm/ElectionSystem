@@ -15,19 +15,19 @@ class Project(bo.BusinessObject):
         self._project_description = None
 
     def set_project_id(self, id):
-        return self._project_id == id
+        self._project_id = id
     
     def get_project_id(self):
         return self._project_id
 
     def set_project_name(self, name):
-        return self._project_name == name 
+        self._project_name = name 
     
     def get_project_name(self):
         return self._project_name
 
     def set_project_description(self, description):
-        return self._project_description == description 
+        self._project_description = description 
     
     def get_project_description(self):
         return self._project_description
@@ -43,19 +43,3 @@ class Project(bo.BusinessObject):
         project.set_project_name(dicti["ProjectName"])
         project.set_project_description(dicti["ProjectDescription"])
         return project
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
