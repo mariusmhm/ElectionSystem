@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
 /**import Header from './components/layout/Header';**/
 import Grid from '@material-ui/core/Grid';
-<<<<<<< HEAD
-/**import Registration from './components/Registration';**/
-import { Button, Typography} from '@material-ui/core';
 /**import firebase from 'firebase/app';**/
 /**import 'firebase/auth';**/
 /**import SignIn from './components/pages/Signin';**/
 /**import LoadingProgress from './components/dialogs/LoadingProgress';**/
 /**import firebaseConfig from './firebaseconfig';**/
 /**import ContextErrorMessage from './components/dialogs/ContextErrorMessage';**/
-/**import Theme from './Theme';**/
 /**import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';**/
 
-
-
-//!!!This is TESTING for approaches!!!
-import Registration from './components/Registration';
-=======
->>>>>>> 17919e7059fb6f78f7261cb14e284ead31201f83
 import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
 import theme from './theme';
 import CreateProject from './components/dialogs/CreateProject'

@@ -90,7 +90,7 @@ project = api.inherit('Project', nbo, {
     'special_room': fields.Boolean(attribute='_special_room', description='Besonderer Raum notwendig für das Projekt'),
     'grade_average': fields.Float(attribute='_grade_average', description='Notendurchschnitt eines Projekts'),
     'room_desired': fields.String(attribute='_room_desired', description='Raumwünsche für ein Projekt'),
-    'creation_date':fields.Date(attribute='_creation_date', description='creation_date of grade')
+
 })
 
 
@@ -110,15 +110,6 @@ grading= api.inherit('Grading',bo,{
 
 })
 
-"""Projekttype"""
-@electionSystem.route('/projecttypes')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ProjekttypeListOperations(Resource):
-    @electionSystem.marshal_list_with(projecttype)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        projecttypes=adm.get_all_projecttypes() #noch nicht definiert in Admin
-        return projecttypes
 
 
 """Module"""
@@ -182,7 +173,7 @@ class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
     @secured
     def get(self, id):
-        """Auslesen eines bestimmten Customer-Objekts.
+        """Auslesen eines bestimmten Student-Objekts.
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
@@ -213,7 +204,7 @@ class StudentOperations(Resource):
         else:
             return '', 500
 
-
+"""muss noch in ElectionSystemAPI eingefügt werden"""
 @electionSystem.route('/student-by-name/<string:lastname>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @electionSystem.param('lastname', 'Der Nachname des Studenten')
@@ -229,7 +220,7 @@ class StudentsByLastnameOperations(Resource):
         student = adm.get_student_by_name(lastname)
         return student
 
-
+"""muss noch in ElectionSystemAPI eingefügt werden"""
 @electionSystem.route('/student-by-matrikel_nr/<int:matrikel_nr>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @electionSystem.param('matrikel_nr', 'Der Nachname des Studenten')
@@ -245,7 +236,7 @@ class StudentByMatrikelNrOperations(Resource):
         student = adm.get_find_by_matrikel_nr(matrikel_nr)
         return student
 
-
+"""muss noch in ElectionSystemAPI eingefügt werden"""
 @electionSystem.route('/student-by-email/<string:email>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @electionSystem.param('email', 'Der Nachname des Studenten')
@@ -356,7 +347,7 @@ class UserOperations(Resource):
         else:
             return '', 500
 
-
+"""noch in ElectionSystemAPI einfügen """
 @electionSystem.route('/user-by-name/<string:lastname>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @electionSystem.param('lastname', 'Der Nachname eines User')
@@ -382,10 +373,38 @@ class ProjectListOperations(Resource):
     def get(self):
         """Auslesen aller Project-Objekte.
 
-        Sollten keine Account-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        Sollten keine Customer-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = ElectionSystemAdministration()
-        project_list = adm.get_all_projects()
-        return project_list
+        project = adm.get_all_projects()
+        return project
+
+    @electionSystem.marshal_with(project, code=200)
+    @electionSystem.expect(project)  # Wir erwarten ein Customer-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Project-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ElectionSystemAdministration()
+
+        proposal = project.to_dict(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
+            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            c = adm.create_project(proposal.get_name(project))
+            return c, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
 
 
 @electionSystem.route('/project/<int:id>')
@@ -396,11 +415,10 @@ class ProjectOperations(Resource):
     @secured
     def get(self, id):
         """Auslesen eines bestimmten Project-Objekts.
-
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ElectionSystemAdministration()
-        acc = adm.get_all_projects()
+        acc = adm.get_project_by_id(id)
         return acc
 
     @secured
@@ -436,6 +454,100 @@ class ProjectOperations(Resource):
         else:
             return '', 500
 
+
+"""----------------------------Projecttype: warum wird er nicht erkannt?---------------------------"""
+
+
+@electionSystem.route('/projecttypes')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProjectTypeListOperations(Resource):
+    @electionSystem.marshal_list_with(projecttype)
+    @secured
+    def get(self):
+        """Auslesen aller Projecttypes-Objekte.
+
+        Sollten keine Customer-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = ElectionSystemAdministration()
+        projecttypes = adm.get_all_projecttypes()
+        return projecttypes
+
+    @electionSystem.marshal_with(projecttype, code=200)
+    @electionSystem.expect(projecttype)  # Wir erwarten ein Customer-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Project-Objekts.
+
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = ElectionSystemAdministration()
+
+        proposal = projecttype.to_dict(api.payload)
+
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
+            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            c = adm.create_projecttype(proposal.get_name(projecttype))
+            return c, 200
+        else:
+            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            return '', 500
+
+
+@electionSystem.route('/projecttype/<int:id>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.param('id', 'Die ID des Account-Objekts')
+class ProjectTypeOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    @secured
+    def get(self, id):
+        """Auslesen eines bestimmten Project-Objekts.
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ElectionSystemAdministration()
+        pt = adm.get_projecttype_by_id(id)
+        return pt
+
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Project-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ElectionSystemAdministration()
+        projecttype = adm.get_projecttype_by_id(id)
+        adm.delete_projecttype(projecttype)
+        return '', 200
+
+    @electionSystem.marshal_with(projecttype)
+    @secured
+    def put(self, id):
+        """Update eines bestimmten Project-Objekts.
+
+        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
+        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
+        Customer-Objekts.
+        """
+        adm = ElectionSystemAdministration()
+        pt = Projecttype.to_dict(api.payload)
+
+        if pt is not None:
+            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
+            Siehe Hinweise oben.
+            """
+            pt.set_id(id)
+            adm.save_projecttype(pt)
+            return '', 200
+        else:
+            return '', 500
+
+""" """
 
 
 

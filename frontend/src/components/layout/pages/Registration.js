@@ -13,10 +13,6 @@ import { Button,
         Radio } from '@material-ui/core';
 
 
-
-
-
-
     
 class Registration extends Component {
     constructor(props) {
@@ -48,7 +44,7 @@ class Registration extends Component {
                 </Grid>
                 <Grid item>
                     <FormControl>
-                        <RadioGroup row={true}>
+                        <RadioGroup row={true} onChange={handleRadioChange}>
                             <FormControlLabel value="student" control={<Radio />} label="Student" />
                             <FormControlLabel value="professor" control={<Radio />} label="Professor" />
                             <FormControlLabel value="admin" control={<Radio />} label="Admin" />
@@ -72,5 +68,11 @@ const styles = theme => ({
         margin: '0px'
     }
 });
+
+const handleRadioChange = (event) => {
+    this.setState({
+        student: true,
+      });
+};
 
 export default withStyles(styles)(Registration);
