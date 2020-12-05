@@ -27,7 +27,7 @@ export default class StudentBO extends NamedBusinessObject {
     } */
 
     // setting a new Mail-Adress for Student
-    setStudenMail(aStudentMail) {
+    setStudentMail(aStudentMail) {
         this.studentMail = aStudentMail;
     }
 

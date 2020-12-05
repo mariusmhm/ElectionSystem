@@ -41,7 +41,7 @@ export default class UserBO extends NamedBusinessObject {
 
     //Returns an Array of CustomerBOs from a given JSON structure.
 
-    static fromJSON(students) {
+    static fromJSON(users) {
         let res = [];
 
         if (Array.isArray(users)) {
