@@ -11,7 +11,7 @@ class ProjectMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockday_in_Exam, blockday_in_exam, special_room, date_blockday_during_lecture,num_blockdays_prior_lecture, blockdays_prior_lecturetrue, num_blockdays_during_lecture, blockday_during_lecture, weekly, num_spots, project_type, module, project_professor, participation FROM projects)
+        cursor.execute("SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockday_in_Exam, blockday_in_exam, special_room, date_blockday_during_lecture,num_blockdays_prior_lecture, blockdays_prior_lecturetrue, num_blockdays_during_lecture, blockday_during_lecture, weekly, num_spots, project_type, module, project_professor, participation FROM projects")
         tuples = cursor.fetchall()
 
         for (project_id, project_name, short_description) in tuples:
@@ -19,7 +19,26 @@ class ProjectMapper(Mapper):
             project.set_project_id(project_id)
             project.set_project_name(project_name)
             project.set_short_description(short_description)
+            project.set_link(link)
+            project.set_room_desired(room_desired)
+            project.set_grade_average(grade_average)
+            project.set_num_blockday_in_Exam(num_blockday_in_Exam)
+            project.set_blockdays_in_exam(blockday_in_exam)
+            project.set_special_room(special_room)
+            project.set_date_blockdays_during_lecture(date_blockday_during_lecture)
+            project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+            project.set_blockdays_prior_lecturetrue(blockdays_prior_lecturetrue)
+            project.set_num_blockdays_during_lecutre(num_blockdays_during_lecture)
+            project.set_blockdays_during_lecture(blockday_during_lecture)
+            project.set_weekly(weekly)
+            project.set_num_spots(num_spots)
+            project.set_project_type(project_type)
+            project.set_module(module)
+            project.set_project_professor(project_professor)
+            project.set_participation(participation)
+
             result.append(project)
+
 
         self._connection.commit()
         cursor.close()
@@ -30,7 +49,7 @@ class ProjectMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT project_id, project_name, short_description FROM projects WHERE project_id={}" \
+        command = "SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockday_in_Exam, blockday_in_exam, special_room, date_blockday_during_lecture,num_blockdays_prior_lecture, blockdays_prior_lecturetrue, num_blockdays_during_lecture, blockday_during_lecture, weekly, num_spots, project_type, module, project_professor, participation FROM projects WHERE project_id={}" \
                     .format(project_id)
 
         cursor.execute(command)
@@ -42,6 +61,23 @@ class ProjectMapper(Mapper):
             project.set_project_id(project_id)
             project.set_project_name(project_name)
             project.set_short_description(short_description)
+            project.set_link(link)
+            project.set_room_desired(room_desired)
+            project.set_grade_average(grade_average)
+            project.set_num_blockday_in_Exam(num_blockday_in_Exam)
+            project.set_blockdays_in_exam(blockday_in_exam)
+            project.set_special_room(special_room)
+            project.set_date_blockdays_during_lecture(date_blockday_during_lecture)
+            project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+            project.set_blockdays_prior_lecturetrue(blockdays_prior_lecturetrue)
+            project.set_num_blockdays_during_lecutre(num_blockdays_during_lecture)
+            project.set_blockdays_during_lecture(blockday_during_lecture)
+            project.set_weekly(weekly)
+            project.set_num_spots(num_spots)
+            project.set_project_type(project_type)
+            project.set_module(module)
+            project.set_project_professor(project_professor)
+            project.set_participation(participation)
             result = project
 
         except IndexError:

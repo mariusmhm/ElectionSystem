@@ -9,7 +9,8 @@ from server.bo.Projecttype import Projecttype
 
 
 
-class Project(NamedBusinessObject, Automat):
+
+class Project(NamedBusinessObject):
 
     """Realization of an examplary Project.
     """
