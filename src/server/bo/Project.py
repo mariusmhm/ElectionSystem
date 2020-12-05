@@ -39,11 +39,11 @@ class Project(bo.BusinessObject):
 
         #Convert  a Python dict() in a Project().
         project = Project()
-        project.set_project_id(dicti["Project_ID"])
-        project.set_name(dicti["ProjectName"])
-        project.set_link(dicti["ProjectLink"])
-        project.set_room_desired(dicti["ProjectRoomDesired"])
+        project.set_project_id(dicti["ProjectID"])
+        project.set_project_name(dicti["ProjectName"])
+        project.set_project_description(dicti["ProjectDescription"])
         return project
+
 
 
 
