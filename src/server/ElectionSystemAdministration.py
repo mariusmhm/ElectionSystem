@@ -159,12 +159,13 @@ class ElectionSystemAdministration(object):
         with StudentMapper() as mapper:
             mapper.delete(student)
 
+    """Project specific methods"""
      def create_project(self,project_id, project_name, link, room_desired, grade_average, num_blockdays_in_exam,
                         blockdays_in_exam, special_room, date_blockdays_during_lecture,
                         num_blockdays_prior_lecture, blockdays_prior_lecturetrue,
                         num_blockdays_during_lecutre, blockdays_during_lecture, weekly, short_description,
                         num_spots, project_type, module, project_professor, participation,creation_date):
-         """Project specific methods"""
+
          """Create a ne Project:"""
          project = Project()
          project.set_project_id(project_id)
@@ -310,5 +311,94 @@ class ElectionSystemAdministration(object):
 
          with ModuleMapper() as mapper:
             return mapper.insert(module)
+
+
+"""Projecttype specific methods"""
+
+    def create_projecttype(self, creation_date, projecttype_name, sws, ects):
+        """Create a ne Projecttype:"""
+        projecttype = Projecttype()
+        projecttype.set_id(1)
+        projecttype.set_creation_date(creation_date)
+        projecttype.set_name(projecttype_name)
+        projecttype.set_sws(sws)
+        projecttype.set_etcs(ects)
+
+        with ProjectMapper() as mapper:
+            return mapper.insert(projecttype)
+
+
+    def get_projecttype_by_id(self, projecttype_id):
+        """Read out the projecttype by ID."""
+        with ProjecttypeMapper() as mapper:
+            return mapper.find_projecttype_by_id(projecttype_id)
+
+
+    def get_projecttype_by_name(self, projecttype_name):
+        """Read out the projecttype by name."""
+        with ProjecttypeMapper() as mapper:
+            return mapper.find_projecttype_by_id(projecttype_name)
+
+    def get_all_projecttypes(self):
+        """Read out all projecttypes"""
+        with ProjecttypeMapper() as mapper:
+            return mapper.find_all()
+
+
+    def delete_project(self, project):
+        """delete a projecttype"""
+        with ProjecttypeMapper() as mapper:
+            mapper.delete(project)
+
+    def save_projecttype(self, projecttype):
+        """update a projecttype."""
+        with ProjecttypeMapper() as mapper:
+            mapper.update(projecttype)
+
+
+
+    """Semester specific methods"""
+
+    def create_semester(self, creation_date, semester_name, wintersemester, submit_projects_end_date, grading_end_date):
+        """Create a ne Semester:"""
+        semester = Semester()
+        semester.set_id(1)
+        semester.set_creation_date(creation_date)
+        semester.set_name(semester_name)
+        semester.set_wintersemester(wintersemester)
+        semester.set_grading_end_date(grading_end_date)
+        semester.set_submit_projects_end_date(submit_projects_end_date)
+
+        with SemesterMapper() as mapper:
+            return mapper.insert(semester)
+
+
+    def get_semester_by_id(self, semester_id):
+        """Read out the semester by ID."""
+        with SemesterMapper() as mapper:
+            return mapper.find_projecttype_by_id(semester_id)
+
+
+    def get_semester_by_name(self, semester_name):
+        with SemesterMapper() as mapper:
+            return mapper.find_semester_by_name(semester_name)
+
+
+    def get_all_semester(self):
+        """Read out all semesters"""
+        with SemesterMapper() as mapper:
+            return mapper.find_all()
+
+
+    def save_semester(self, semester):
+        """update a semesters."""
+        with SemesterMapper() as mapper:
+            mapper.update(semester)
+
+
+    def delete_semester(self, semester):
+        """delete a semester"""
+        with SemesterMapper() as mapper:
+            mapper.delete(semester)
 
 

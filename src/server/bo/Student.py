@@ -1,13 +1,13 @@
 from server.Role import Role
-from datetime import date
 from server.bo.User import User
+from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Student(User):
     """Realization of an student class."""
     def __init__(self):
         super().__init__()
-        self.__student_lastname = ""
+        self.__student_lastname = NamedBusinessObject.get_name()
         self.__student_firstname=""
         self.__matrikel_nr = 0
         self.__study = ""
