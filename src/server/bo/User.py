@@ -48,7 +48,7 @@ class User(NamedBusinessObject):
 
         The Attributes are UserId, UserMail, Userpasswort und Rolle."""
 
-        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role,
+        return "Project:  {}, {}, {}, {}, {}, {}".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role,
                                                      self.get_creation_date())
 
     @staticmethod
@@ -74,4 +74,3 @@ hallo.set_role(3)
 
 rolleee = hallo.get_role()
 print(rolleee)
-
