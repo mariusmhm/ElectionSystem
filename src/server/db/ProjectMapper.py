@@ -1,3 +1,4 @@
+import mysql.connector
 from server.bo.Project import Project
 from server.db.Mapper import Mapper
 
@@ -15,8 +16,8 @@ class ProjectMapper(Mapper):
 
         for (project_id, project_name, project_description) in tuples:
             project = Project()
-            project.set_id(project_id)
-            project.set_name(project_name)
+            project.set_project_id(project_id)
+            project.set_project_name(project_name)
             project.set_project_description(project_description)
             result.append(project)
 
@@ -51,7 +52,5 @@ class ProjectMapper(Mapper):
         self._connection.commit()
         cursor.close()
         return result
-
-
 
 
