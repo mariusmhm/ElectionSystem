@@ -375,7 +375,7 @@ class ElectionSystemAdministration(object):
          with GradingMapper() as mapper:
              return mapper.find_module_by_grading_id(grading_id)
 
-    def save_Grading(self, grading):
+    def save_grading(self, grading):
          """update a grading."""
          with GradingMapper() as mapper:
              mapper.update(grading)
