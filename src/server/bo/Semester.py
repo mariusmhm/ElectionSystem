@@ -1,10 +1,10 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Semester(NamedBusinessObject):
 
     def __init__(self):
+        super().__init__()
         self.__wintersemester = True
         self.__submit_projects_end_date = 0
         self.__grading_end_date = 0
@@ -39,7 +39,8 @@ class Semester(NamedBusinessObject):
 
         The Attributes are wintersemester, submit_project_end_date and grading_end_date."""
 
-        return "Project:  {}, {}, {}, ".format(self.get_wintersemester(),self.get_submit_projects_end_date(), self.get_grading_end_date())
+        return "Project:  {}, {}, {}, ".format(self.get_wintersemester(),self.get_submit_projects_end_date(),
+                                               self.get_grading_end_date(), self.get_id(),self.get_creation_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -50,4 +51,6 @@ class Semester(NamedBusinessObject):
         semester.set_wintersemester(dicti["Wintersemester"])
         semester.set_submit_projects_end_date(dicti["SubmitEndDate"])
         semester.set_grading_end_date(dicti["GradingEndDate"])
+        semester.set_id(dicti["semester_id"])
+        semester.set_creation_date(dicti["creation_date"])
         return semester

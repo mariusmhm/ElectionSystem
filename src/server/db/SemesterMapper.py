@@ -76,7 +76,8 @@ class SemesterMapper(Mapper):
         result = None
 
         cursor = self._connection.cursor()
-        command = "SELECT semester_id, creation_date, semester_name, wintersemester, grading_end_date, submit_projects_end_date FROM semester WHERE student_id={}".format(grading_end_date)
+        command = "SELECT semester_id, creation_date, semester_name, wintersemester, grading_end_date," \
+                  " submit_projects_end_date FROM semester WHERE student_id={}".format(grading_end_date)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -141,8 +142,10 @@ class SemesterMapper(Mapper):
         
         cursor = self._connection.cursor()
 
-        command = "UPDATE semester " + "SET wintersemester=%s, semester_name=%s, semester_id=%s, creation_date=%s, submit_projects_end_date=%s, grading_end_date=%s  WHERE semester_id=%s"
-        data = (semester.get_wintersemester(), semester.get_name(), semester.get_id(), semester.get_grading_end_date(), semester.get_submit_projects_end_date())
+        command = "UPDATE semester " + "SET wintersemester=%s, semester_name=%s, semester_id=%s, creation_date=%s, " \
+                                       "submit_projects_end_date=%s, grading_end_date=%s  WHERE semester_id=%s"
+        data = (semester.get_wintersemester(), semester.get_name(), semester.get_id(), semester.get_grading_end_date(),
+                semester.get_submit_projects_end_date())
         cursor.execute(command, data)
 
         self._connection.commit()

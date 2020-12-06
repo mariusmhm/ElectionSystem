@@ -200,6 +200,7 @@ class Project(NamedBusinessObject, Automat):
         """Set the projecttype ."""
         self.__project_type = projectType
 
+
     def __str__(self):
 
         """Creats a simple textually Representation of a Project() instanz.
