@@ -3,3 +3,8 @@
 .idea/
 venv/
 .idea/misc/
+.src/__pycache__/
+.src/server/__pycache__/
+.src/server/bo/__pycache__/
+.src/server/db/__pycache__/
+
