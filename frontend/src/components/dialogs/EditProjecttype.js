@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { makeStyles} from '@material-ui/core/styles';
 import {Dialog,
     DialogTitle,
     MenuItem,
@@ -10,99 +11,173 @@ import {Dialog,
     FormControlLabel,
     Radio,
     Button,
-    Grid,
     Typography} from'@material-ui/core';
-import {withStyles} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 let open = true;
 
-class EditProjecttype extends Component {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
 
+export default function CenteredGrid() {
+  const classes = useStyles();
 
-    constructor(props) {
-      super(props);
+  return (
+  //Gridlayout for projecttypes
+          <Dialog open={open} fullWidth maxWidth='md'>
+            <DialogTitle fontcolor='primary'className={classes.dialogHeader}><h1>EDIT PROJECTTYPE</h1></DialogTitle>
+                <div className={classes.root}>
+                    <Grid container spacing={3} justify='center'>
+                        <h2>Projecttypes</h2>
+                    </Grid>
+                    <Grid container spacing={3} justify='center'>
 
-      }
-
-
-
- render(){
-    const { classes } = this.props;
-    /* const { module, edvNumber, projecttype, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
-         numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam } = this.state; */
-
-    return(
-
-
-        <Dialog open={open} fullWidth maxWidth='md'>
-            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >EDIT PROJECTTYPE</DialogTitle>
-            <Grid container spacing={2} justify="center" direction="row" className={classes.grid} >
-
-                <Grid item container direction="column" xs={12} md={6} spacing={3}>
-                <DialogTitle fontcolor='primary'className={classes.dialogHeader} >PROJECTTYPE</DialogTitle>
-
-                    <Grid item xs={12} >
-                    <Typography>Subject-specific project</Typography>
+                        <Grid item xs={3}>
+                        <Paper className={classes.paper}>Subject-specific project</Paper>
+                        </Grid>
+                        <Grid item xs={2}>
+                        <Paper className={classes.paper}>ECTS</Paper>
+                        </Grid>
+                        <Grid item xs={2}>
+                        <Paper className={classes.paper}>SWS</Paper>
+                        </Grid>
+                        <Grid item xs={2}>
+                        <Paper className={classes.paper}>Löschen</Paper>
+                        </Grid>
                     </Grid>
 
-                    <Grid item xs={12}>
-                    <Typography>Interdisciplinary projects</Typography>
+        <Grid container spacing={3} justify='center'>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>Interdisciplinary projects</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>ECTS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>SWS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>Löschen</Paper>
+        </Grid>
+      </Grid>
+
+        <Grid container spacing={3} justify='center'>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>Transdisciplinary projects</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>ECTS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>SWS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>Löschen</Paper>
+        </Grid>
+      </Grid>
+
+        <Grid container spacing={3} justify='center'>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>Ways of Working</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>ECTS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>SWS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>Löschen</Paper>
+        </Grid>
+      </Grid>
+
+        <Grid container spacing={3} justify='center'>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>Tools of Working</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>ECTS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>SWS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>Löschen</Paper>
+        </Grid>
+      </Grid>
+
+        <Grid container spacing={3} justify='center'>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>Working in a Media World</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>ECTS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>SWS</Paper>
+        </Grid>
+        <Grid item xs={2}>
+          <Paper className={classes.paper}>Löschen</Paper>
+        </Grid>
+      </Grid>
+
+
+      <Grid container spacing={3} justify='center'>
+                        <h2>Add projecttype</h2>
+                    </Grid>
+                    <Grid container spacing={3} justify='center'>
+                        <Grid item xs={6}>
+                        <TextField fullWidth variant="outlined" label="Name:"/>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={3} justify='center'>
+                        <Grid item xs={3}>
+                        <TextField fullWidth variant="outlined" label="ECTS"/>
+                        </Grid>
+
+                        <Grid item xs={3}>
+                        <TextField fullWidth variant="outlined" label="SWS"/>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={3} justify='center'>
+                        <Grid item xs={6} justify='center'>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Module</InputLabel>
+                            <Select label="Module" /* value={module} */>
+                                <MenuItem value="1">MODULE 1</MenuItem>
+                                <MenuItem value="2">MODULE 2</MenuItem>
+                                <MenuItem value="3">MODULE 3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </Grid>
+                     </Grid>
+                    <Grid container spacing={3} justify='center'>
+                        <Grid item>
+                            <Button variant="contained" color="primary">Add</Button>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={3} justify='center'>
+                        <Grid item>
+                            <Button variant="outlined">Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="primary">Submit</Button>
+                        </Grid>
                     </Grid>
 
-                    <Grid item xs={12}>
-                    <Typography>Transdisciplinary projects</Typography>
-                    </Grid>
 
-                    <Grid item xs={12}>
-                    <Typography>Ways of Working</Typography>
-                    </Grid>
+    </div>
 
-                    <Grid item xs={12}>
-                    <Typography>Tools of Working</Typography>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                    <Typography>Working in a Media World</Typography>
-                    </Grid>
-
-
-                </Grid>
-
-
-
-
-
-
-
-                </Grid>
-
- <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
-                <Grid item>
-                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
-                </Grid>
-                <Grid item>
-                    <Button variant="contained" color="primary">Submit</Button>
-                </Grid>
-</Grid>
-
-
-        </Dialog>
-    );
- }
-
-
+</Dialog>
+  );
 }
 
-const styles = theme => ({
-    grid:{
-        width: '100%',
-        margin: '0px',
-        padding: '20px'
-    },
-    dialogHeader:{
-        textAlign: "center"
-    }
-});
-
-
-export default withStyles(styles)(EditProjecttype);

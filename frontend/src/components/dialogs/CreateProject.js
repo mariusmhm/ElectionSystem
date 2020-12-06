@@ -79,14 +79,15 @@ class CreateProject extends Component {
       } */
     
  render(){
-    const { classes } = this.props; 
+    const { classes } = this.props;
+
     /* const { module, edvNumber, projecttype, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
          numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam } = this.state; */
 
     return(
-      
+
         <Dialog open={open} fullWidth maxWidth='md'>
-            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >SUBMIT PROJECT</DialogTitle>
+            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >CREATE PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
                 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>

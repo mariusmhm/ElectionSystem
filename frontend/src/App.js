@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-/**import Header from './components/layout/Header';**/
+import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
 /**import firebase from 'firebase/app';**/
 /**import 'firebase/auth';**/
@@ -13,6 +13,9 @@ import { Button, Icon, Container, TextField, Typography, withStyles } from '@mat
 import theme from './theme';
 import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
+import EditProjecttype from './components/dialogs/EditProjecttype'
+
+import Paper from './components/layout/pages/paper'
 import { ThemeProvider } from '@material-ui/core/styles';
 
 
@@ -35,7 +38,7 @@ this.props.onSignIn();
         return (
             <ThemeProvider theme={theme}>
                 <div>
-                    <Header /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
+                    <Header /> {/*TEST*/}
                 </div>
             </ThemeProvider>
         )
