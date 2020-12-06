@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjekteGenehmigen from './ProjekteGenehmigen';
+import ProjekteGenehmigen from './components/layout/pages/ProjectGenehmigen/ProjekteGenehmigen';
 
 class App extends Component {
 
