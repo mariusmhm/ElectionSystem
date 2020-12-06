@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import {Typography, Container} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Header from './components/layout/Header';
+import Header from '../../Header';
+import ArchiveProject from './ArchiveProject';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
@@ -62,7 +63,9 @@ evaluateNewProjektButton = (event) => {
                       <br/>
                              <Typography variant='h4'>DIESES SEMESTER</Typography>
                              <Divider/>
-                             <Typography variant='h4'>ARCHIVIERTE PROJEKTE</Typography>
+                               <div>
+                               <ArchiveProject/>
+                               </div>
 
 
 
