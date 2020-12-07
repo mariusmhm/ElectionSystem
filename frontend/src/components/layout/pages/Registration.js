@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
 import { Button, 
-        Icon, 
         Grid, 
-        Container, 
         TextField, 
         Typography, 
         FormControl,
@@ -21,7 +19,11 @@ class Registration extends Component {
         // Init the state
         this.state = { 
             show:false,
-            role:''
+            role:'',
+            firstname:'',
+            lastname:'',
+            matrikelnumber:'',
+            study:''
         };
 
     }
@@ -44,6 +46,14 @@ class Registration extends Component {
               });
         }
     };
+
+    addUser = e => {
+        if(this.state.role==='student'){
+            console.log('addStudent');
+        }else{
+            console.log('addProforAdministration');
+        }
+    };
         
 
     render(){
@@ -63,9 +73,9 @@ class Registration extends Component {
                 <Grid item>
                     <FormControl>
                         <RadioGroup row={true} onChange={this.handleRadioChange} value={this.state.value}>
-                            <FormControlLabel value="student" color="primary" control={<Radio />} label="Student" />
-                            <FormControlLabel value="professor" color="primary" control={<Radio />} label="Professor" />
-                            <FormControlLabel value="admin" color="primary" control={<Radio />} label="Admin" />
+                            <FormControlLabel value="student"  control={<Radio color="primary"/>} label="Student" />
+                            <FormControlLabel value="professor"  control={<Radio color="primary"/>} label="Professor" />
+                            <FormControlLabel value="admin" control={<Radio color="primary"/>} label="Admin" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
@@ -86,10 +96,10 @@ class Registration extends Component {
                 
                 <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
-                        <Button variant="outlined" color="primary">Cancel</Button>
+                        <Button variant="outlined" color="primary" >Cancel</Button>
                     </Grid>
                     <Grid item>
-                    <Button variant="contained" color="primary">Register</Button>
+                    <Button variant="contained" color="primary" onClick={this.addUser}>Register</Button>
                     </Grid>
                 </Grid>
 
