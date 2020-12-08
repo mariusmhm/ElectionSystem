@@ -32,9 +32,9 @@ bo = api.model('BusinessObject', {
 })
 
 project = api.inherit('Project', bo, {
-    'project_id': fields.Integer(attribute='_project_id', description='Project ID'),
-    'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
-    'project_name': fields.String(attribute='_project_name', description='Project Name'),
+    'project_id': fields.Integer(attribute='project_id', description='Project ID'),
+    'short_description': fields.String(attribute='short_description', description='Kurzbeschreibung eines Projekts'),
+    'project_name': fields.String(attribute='project_name', description='Project Name'),
     
 })
 
