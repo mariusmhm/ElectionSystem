@@ -24,10 +24,12 @@ CREATE TABLE students (
     PRIMARY KEY(student_id)
 );
 
-DROP TABLE IF EXISTS projects;
+INSERT INTO students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
+
 CREATE TABLE projects (
   `project_id` int(11) NOT NULL DEFAULT '0',
   `project_name` varchar(128) NOT NULL DEFAULT '',
+  `short_description` varchar(128) NOT NULL DEFAULT '',
   `link` varchar(128) NOT NULL DEFAULT '',
   `room_desired` varchar(128) NOT NULL DEFAULT '',
   `grade_average` int(11) NOT NULL DEFAULT '0',
@@ -40,14 +42,14 @@ CREATE TABLE projects (
   `num_blockdays_during_lecutre` int(11) NOT NULL DEFAULT '0',
   `blockdays_during_lecture` tinyint(1) NOT NULL DEFAULT '0',
   `weekly` tinyint(1) NOT NULL DEFAULT '0',
-  `short_description` varchar(128) NOT NULL DEFAULT '',
   `num_spots`  int(11) NOT NULL DEFAULT '0',
 
   PRIMARY KEY (`project_id`)
 );
 
-INSERT INTO students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
+INSERT INTO projects VALUES (1, "Project 1", "That's Description Number 1", "Link 1","Room 1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");
+INSERT INTO projects VALUES (2, "Project 1", "That's Description Number 2", "Link 2","Room 2", "2", "2", "0", "0", "2", "2", "0", "2", "0", "0", "2");
+INSERT INTO projects VALUES (3, "Project 1", "That's Description Number 3", "Link 3","Room 3", "3", "3", "0", "0", "3", "3", "0", "3", "0", "0", "3");
 
-INSERT INTO projects VALUES (1, 'Project 1', "That's Description Number 1");
-INSERT INTO projects VALUES (2, 'Project 1', "That's Description Number 2");
-INSERT INTO projects VALUES (3, 'Project 1', "That's Description Number 3");
+
+
