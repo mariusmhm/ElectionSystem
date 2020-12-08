@@ -28,7 +28,21 @@ DROP TABLE IF EXISTS projects;
 CREATE TABLE projects (
   `project_id` int(11) NOT NULL DEFAULT '0',
   `project_name` varchar(128) NOT NULL DEFAULT '',
-  `project_description` varchar(256) NOT NULL DEFAULT '',
+  `link` varchar(128) NOT NULL DEFAULT '',
+  `room_desired` varchar(128) NOT NULL DEFAULT '',
+  `grade_average` int(11) NOT NULL DEFAULT '0',
+  `num_blockdays_in_Exam` int(11) NOT NULL DEFAULT '0',
+  `blockdays_in_exam` tinyint(1) NOT NULL DEFAULT '0',
+  `special_room` tinyint(1) NOT NULL DEFAULT '0',
+  `date_blockdays_during_lecture` int(11) NOT NULL DEFAULT '0',
+  `num_blockdays_prior_lecture` int(11) NOT NULL DEFAULT '0',
+  `blockdays_prior_lecturetrue` tinyint(1) NOT NULL DEFAULT '0',
+  `num_blockdays_during_lecutre` int(11) NOT NULL DEFAULT '0',
+  `blockdays_during_lecture` tinyint(1) NOT NULL DEFAULT '0',
+  `weekly` tinyint(1) NOT NULL DEFAULT '0',
+  `short_description` varchar(128) NOT NULL DEFAULT '',
+  `num_spots`  int(11) NOT NULL DEFAULT '0',
+
   PRIMARY KEY (`project_id`)
 );
 
