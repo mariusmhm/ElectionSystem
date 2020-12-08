@@ -1,10 +1,9 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
-from server.bo.User import User
 from server.Role import Role
 from datetime import date
 
 
-class Student(User):
+class Student(NamedBusinessObject):
     """Realization of an student class."""
     def __init__(self):
         super().__init__()
@@ -95,6 +94,3 @@ class Student(User):
         student.set_matrikel_nr(dicti["matrikel_nr"])
         student.set_study(dicti["student_study"])
         return student
-
-
-

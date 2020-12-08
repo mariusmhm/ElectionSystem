@@ -1,4 +1,3 @@
-
 /** The firebase config structure for the Election System as provided by the firebase admin website */
 
 const firebaseConfig = {

@@ -41,6 +41,3 @@ export default class UserBO extends NamedBusinessObject {
         }
 
         return res;
-
-
-

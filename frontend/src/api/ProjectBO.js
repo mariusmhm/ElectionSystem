@@ -1,7 +1,7 @@
 import BusinessObject from './BusinessObject';
 import NamedBusinessObject from './NamedBusinessObject';
 
-export default class ProjectBO extends NamedBusinessObject {
+export default class Project extends NamedBusinessObject {
 /// Represents a Project.
 
     constructor(projectID, aProjectName,aLink, aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aSpecialRoom,
@@ -253,29 +253,4 @@ export default class ProjectBO extends NamedBusinessObject {
      """Set the participation."""
         this.participation = aParticipation;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

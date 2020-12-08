@@ -216,9 +216,3 @@ class UserMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
-
-
-
-
-
-

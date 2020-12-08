@@ -3,39 +3,39 @@ import NamedBusinessObject from './NamedBusinessObject';
 
 
 export default class UserBO extends NamedBusinessObject {
-//Represents a semester BO.
-
+//Represents a semester BO. 
+  
   constructor(aWintersemester, aSubmitProjectEndDate, aGradingEndDate){
   super();
   this.Wintersemester = aWintersemester;
   this.SubmitProjectEndDate = aSubmitProjectEndDate;
   this.GradingEndDate = aGradingEndDate;
  }
-
+ 
  //Set if the semster is a wintersemester
-
+ 
  setWintersemester(aWintersemester){
-    this.Wintersemester = aWintersemester;
+    this.Wintersemester = aWintersemester; 
  }
-
+ 
  //Reads out if the semester is a wintersemester.
-
+ 
  getWintersemester(){
     return this.Wintersemester;
  }
-
+ 
  //Sets the SubmitProjectEndDate.
-
+ 
  setSubmitProjectEndDate(aSubmitProjectEndDate){
     this.SubmitProjectEndDate = aSubmitProjectEndDate;
  }
-
+ 
  //Readout the SubmitProjectEndDate.
-
+ 
  getSubmitProjectEndDate(){
     return this.SubmitProjectEndDate;
  }
-
+  
  //Sets the end date when the project must become a grading.
 
  setGradingEndDate(aGradingEndDate){
@@ -67,6 +67,6 @@ export default class UserBO extends NamedBusinessObject {
         }
 
         return res;
-
+        
   }
  }
