@@ -69,7 +69,7 @@ class Project(NamedBusinessObject):
         """Creats a simple textually Representation of a Project() instanz.
         """
 
-        return "Project:  {}, {}, {}".format(self.get_project_id(),self.get_project_name(),self.get_short_description())"
+        return "Project:  {}, {}, {}".format(self.get_project_id(),self.get_project_name(),self.get_short_description())
 
     @staticmethod
     def to_dict(dicti=dict()):
