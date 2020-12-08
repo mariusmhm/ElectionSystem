@@ -35,6 +35,19 @@ project = api.inherit('Project', bo, {
     'project_id': fields.Integer(attribute='_project_id', description='Project ID'),
     'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
     'project_name': fields.String(attribute='_project_name', description='Project Name'),
+    'link': fields.String(attribute='_link', description='Project Link'),
+    'room_desired': fields.String(attribute='_room_desired', description='Project with desired room'),
+    'grade_average': fields.Integer(attribute='_grade_average', description='grade Average'),
+    'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='Number of Blockdays in Exam'),
+    'blockdays_in_exam': fields.Boolean(attribute='_blockdays_in_exam', description='Blockdays in Exam'),
+    'special_room': fields.Boolean(attribute='_special_room', description='Special Room'),
+    'date_blockdays_during_lecture': fields.Integer(attribute='_date_blockdays_during_lecture', description='Date of Blockdays during Lecture'),
+    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='Number of Blockdays prior Lecture'),
+    'blockdays_prior_lecture': fields.Boolean(attribute='_blockdays_prior_lecture', description='Blockdays prior Lecture'),
+    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='Number of Blockdays during Lecture'),
+    'blockdays_during_lecture': fields.Boolean(attribute='_blockdays_during_lecture', description='Blockdays during Lecture'),
+    'weekly': fields.Boolean(attribute='_weekly', description='Weekly'),
+    'num_spots': fields.Integer(attribute='_num_spots', description='Number of Spots'),
 })
 
 
