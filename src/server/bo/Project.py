@@ -78,11 +78,11 @@ class Project(NamedBusinessObject):
         """Read out the average grade."""
         return self.__grade_average
 
-    def set_num_of_spots(self, numSpots):
+    def set_num_spots(self, numSpots):
         """Set the amount of spots."""
         self.__num_spots = numSpots
 
-    def get_nom_of_spots(self):
+    def get_nom_spots(self):
         """Read out the amount of spots."""
         return self.__num_spots
 
@@ -206,7 +206,7 @@ class Project(NamedBusinessObject):
         """Creats a simple textually Representation of a Project() instanz.
         """
 
-        return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_of_spots())
+        return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_spots())
 
     @staticmethod
     def to_dict(dicti=dict()):
