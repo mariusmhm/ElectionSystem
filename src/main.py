@@ -8,8 +8,7 @@ from flask_cors import CORS
 
 
 #Hier wird auf die Applikationslogik inkl. Business-Ojekt Klassen zugegriffen
-from server.ProjecttypeAdministration import ProjecttypeAdministration
-from server.bo.Projecttype import Projecttype
+from ProjecttypeAdministration import ProjecttypeAdministration
 
 
 #Der Decorator übernimmt die Authentifikation
@@ -55,55 +54,10 @@ nbo = api.model('NamedBusinessObject',bo, {
     'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
 })
 
-"""NamedBusinessObject setzt weiter Strukturen auf, wie User, Student, Grading, Module,
-Participation, Project, Projecttype und Semester."""
-
-user = api.inherit('User', nbo, {
-    'email': fields.String(attribute='_email', description='E-Mail-Adresse eines User'),
-    'role': fields.String(attribute='_role', description='Role eines User'),
-    'password': fields.String(attribute='_password ', description='Password eines User'),
-})
-
-student = api.inherit('Student', nbo, {
-    'matrikelNR': fields.Integer(attribute='_matrikelNR', description='MatrikelNR eines Studenten'),
-    'study':fields.String(attribute='_study', description='Studiengang eines Studenten'),
-})
-
-#transferierbare Strukturen die noch eingefügt werden müssen
-
-grading= api.inherit('Grading',nbo,{
-    'grading': fields.String (attribute='_grading', descritpion='Note eines Studenten'),
-})
-
-module=api.inherit('Module',nbo, {
-    'edvNR': fields.Integer(attribute='_edvNR', description='EDV Nummer eines Moduls')
-})
-
-"""project = api.inherit('Project', nbo, {
-    'num_spots': fields.Integer(attribute='_num_spots', description='Anzahl an freien Plätzen eines Projekts'),
-    'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
-    'weekly': fields.Bool(attribute='_weekly', description='Wöchentliche Vorlesung eines Projekts'),
-    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='Anzahl der Blocktage in der Vorlesungszeit'),
-    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='Anzahl der Blocktage vor Beginn der Vorlesungszeit'),
-    'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='Anzahl der Blocktage in der Prüfungsphase'),
-    'special_room': fields.Bool(attribute='_special_room', description='Besonderer Raum notwendig für das Projekt'),
-    'grade_average': fields.Float(attribute='_grade_average', description='Notendurchschnitt eines Projekts'),
-    'room_desired': fields.String(attribute='_room_desired', description='Raumwünsche für ein Projekt')
-})"""
-
-
-
 projecttype= api.inherit('Projecttype', nbo,{
     'etcs': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
-
-#semester=
-
-#bewertung=
-
-#teilnahme=
-
 
 
 """----------------------------Projecttype---------------------------"""
@@ -196,3 +150,7 @@ class ProjectTypeOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+
