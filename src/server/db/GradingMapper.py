@@ -1,4 +1,4 @@
-from server.bo.Grading import Grading
+"""from server.bo.Grading import Grading
 from server.db.Mapper import Mapper
 
 
@@ -45,4 +45,4 @@ class GradingMapper (Mapper):
         self._connection.commit()
         crs.close()
 
-        return res
+        return res"""

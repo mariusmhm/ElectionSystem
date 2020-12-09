@@ -2,7 +2,7 @@ from flask import request
 from google.auth.transport import requests
 import google.oauth2.id_token
 
-from ElectionSystemAdministration import ElectionsystemAdministration
+from ProjecttypeAdministration import ProjecttypeAdministration
 
 
 def secured(function):

@@ -8,16 +8,16 @@ class Projecttype(NamedBusinessObject):
     """
 
     def __init__(self):
-        self.__etcs = 0
+        self.__ects = 0
         self.__sws = 0
 
-    def get_etcs(self):
+    def get_ects(self):
         """Read out of the ECTs."""
-        return self.__etcs
+        return self.__ects
 
-    def set_etcs(self,etcs):
+    def set_ects(self,ects):
         """Set the ECTs."""
-        self.__etcs = etcs
+        self.__ects = ects
 
     def get_sws(self):
         """Read out of the SWS."""
@@ -34,13 +34,16 @@ class Projecttype(NamedBusinessObject):
 
         The Attributes are ECTs and SWS."""
 
-        return "Project:  {}, {}, ".format(self.get_ects(),self.get_sws())
+        return "Projecttype: {}, {}, {}, {}, {}, ".format(self.get_id(), self.get_creation_date, self.get_name(), self.get_ects(), self.get_sws())
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """"Convert a Python dict() in a Projecttype()."""
         projecttype = Projecttype()
-        projecttype.set_etcs(dicti["ETCS"])
-        project.set_sws(dicti["SWS"])
+        projecttype.set_ects(dicti["ETCS"])
+        projecttype.set_id(dicti["Projecttype_ID"])
+        projecttype.set_name(dicti["Projecttype_Name"])
+        projecttype.set_creation_date(dicti["Creation_Date"])
+        projecttype.set_sws(dicti["SWS"])
         return projecttype
