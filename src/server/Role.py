@@ -1,2 +1,7 @@
 class Role():
-    pass
+
+    role = {
+        'student': 'student',
+        'professor': 'professor',
+        'administration': 'administration'
+        }
