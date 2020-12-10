@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import {Typography} from '@material-ui/core';
 import DeleteButton from '../../../Buttons/DeleteButton';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 
 class ArchiveProject extends Component {
@@ -14,7 +16,10 @@ class ArchiveProject extends Component {
         return (
 
             <div>
-                <Typography variant='h4'>ARCHIVED PROJECT</Typography>
+            <Container maxWidth="sm">
+                <CssBaseline />
+
+                <Typography color="secondary" variant='h4'>ARCHIVED PROJECT</Typography>
                 <Grid container direction="row" justify="space-around" alignItems="center">
                     <br/>
                     <br/>
@@ -41,6 +46,7 @@ class ArchiveProject extends Component {
                         <DeleteButton />
                     </Grid>
                 </Grid>
+                </Container>
 		    </div>
 		);
   }
