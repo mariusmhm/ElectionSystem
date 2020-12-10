@@ -31,6 +31,7 @@ nbo = api.model('NamedBusinessObject', {
 })
 
 user = api.inherit('User', bo, nbo, {
+    'google_user_id': fields.String(attribute='_google_user_id', description='Users Google id from firebase'),
     'firstname': fields.String(attribute='_firstname', description='Users First Name'),
     'mail': fields.String(attribute='_mail', description='Users Mail'),
     'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
@@ -61,7 +62,7 @@ class StudentListOperations(Resource):
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_student(prpl.get_name(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
+            s = adm.create_student(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
 
             return s, 200
         else:
@@ -77,7 +78,8 @@ class StudentOperations(Resource):
         single_student = adm.get_student_by_id(id)
         return single_student
 
-    @electionSystem.marshal_with(student)
+    # irrelevant for user and student as a prototype?
+    """ @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
     def put(self, id):
         adm = StudentUserAdministration()
@@ -88,7 +90,7 @@ class StudentOperations(Resource):
             adm.update_student(s)
             return '', 200
         else:
-            return '', 500
+            return '', 500 """
 
     def delete(self, id):
         adm = StudentUserAdministration()
@@ -108,7 +110,7 @@ class StudentsNameOperations(Resource):
 
 
 # returns an empty list WHY??
-@electionSystem.route('/student/<string:mail>')
+@electionSystem.route('/student-by-mail/<string:mail>')
 @electionSystem.response(500, 'when server has problems')
 class StudentMailOperations(Resource):
     @electionSystem.marshal_with(student)
@@ -119,7 +121,7 @@ class StudentMailOperations(Resource):
 
 
 # returns an empty list WHY??
-@electionSystem.route('/student/<int:matrikel_nr>')
+@electionSystem.route('/student-by-nr/<int:matrikel_nr>')
 @electionSystem.response(500, 'when server has problems')
 class StudentMatrikelNrOperations(Resource):
     @electionSystem.marshal_with(student)
@@ -130,7 +132,7 @@ class StudentMatrikelNrOperations(Resource):
 
 
 # returns an empty list WHY??
-@electionSystem.route('/student/<string:study>')
+@electionSystem.route('/student-by-study/<string:study>')
 @electionSystem.response(500, 'when server has problems')
 class StudentsStudyOperations(Resource):
     @electionSystem.marshal_with(student)
@@ -156,9 +158,9 @@ class UserListOperations(Resource):
     def post(self):
         adm = StudentUserAdministration()
         prpl = User.to_dict(api.payload)
-        
+
         if prpl is not None:
-            u = adm.create_user(prpl.get_name(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
+            u = adm.create_user(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
 
             return u, 200
         else:
@@ -174,7 +176,8 @@ class UserOperations(Resource):
         single_user = adm.get_user_by_id(id)
         return single_user
 
-    @electionSystem.marshal_with(user)
+    # irrelevant for user and student as a prototype?
+    """ @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
     def put(self, id):
         adm = StudentUserAdministration()
@@ -185,7 +188,7 @@ class UserOperations(Resource):
             adm.update_user(u)
             return '', 200
         else:
-            return '', 500
+            return '', 500 """
 
     def delete(self, id):
         adm = StudentUserAdministration()
@@ -205,7 +208,7 @@ class UserNameOperations(Resource):
 
 
 # returns an empty list WHY??
-@electionSystem.route('/user/<string:mail>')
+@electionSystem.route('/user-by-mail/<string:mail>')
 @electionSystem.response(500, 'when server has problems')
 class UserMailOperations(Resource):
     @electionSystem.marshal_with(user)
@@ -216,7 +219,7 @@ class UserMailOperations(Resource):
 
 
 # returns an empty list WHY??
-@electionSystem.route('/user/<string:role>')
+@electionSystem.route('/user-by-role/<string:role>')
 @electionSystem.response(500, 'when server has problems')
 class UserRoleOperations(Resource):
     @electionSystem.marshal_with(user)

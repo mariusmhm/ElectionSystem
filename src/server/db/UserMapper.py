@@ -23,11 +23,12 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User")
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
@@ -49,11 +50,12 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE id={}".format(id))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
@@ -75,11 +77,12 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE name LIKE '{}' ORDER BY name".format(name))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
@@ -101,11 +104,12 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE mail LIKE '{}' ORDER BY mail".format(mail))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
@@ -127,11 +131,12 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE role LIKE '{}' ORDER BY role".format(role))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
@@ -156,8 +161,8 @@ class UserMapper(Mapper):
             else:
                 user.set_id(1)
 
-        cmd = "INSERT INTO User (id, name, creation_date, firstname, mail, role) VALUES (%s, %s, %s, %s, %s, %s)"
-        data = (user.get_id(), user.get_name(), user.get_date(), user.get_firstname(), user.get_mail(), user.get_role())
+        cmd = "INSERT INTO User (id, name, creation_date, google_user_id, firstname, mail, role) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        data = (user.get_id(), user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role())
         crs.execute(cmd, data)
 
         self._connection.commit()
@@ -170,8 +175,8 @@ class UserMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "SET (name=%s, creation_date=%s, firstname=%s, mail=%s, role=%s) WHERE id=%s"
-        data = (user.get_name(), user.get_date(), user.get_firstname(), user.get_mail(), user.get_role(), user.get_id())
+        cmd = "SET (name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, role=%s) WHERE id=%s"
+        data = (user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role(), user.get_id())
         crs.execute("UPDATE User ", cmd, data)
 
         self._connection.commit()

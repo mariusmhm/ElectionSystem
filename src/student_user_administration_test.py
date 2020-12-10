@@ -53,9 +53,10 @@ class StudentUserAdministration (object):
             return mapper.delete(student)
 
 
-    def create_student(self, name, firstname, mail, role, matrikel_nr, study):
+    def create_student(self, name, google_user_id, firstname, mail, role, matrikel_nr, study):
         student = Student()
         student.set_name(name)
+        student.set_google_user_id(google_user_id)
         student.set_firstname(firstname)
         student.set_mail(mail)
         student.set_role(role)
@@ -105,9 +106,10 @@ class StudentUserAdministration (object):
             return mapper.delete(user)
 
 
-    def create_user(self, name, firstname, mail, role):
+    def create_user(self, name, google_user_id, firstname, mail, role):
         user = User()
         user.set_name(name)
+        user.set_google_user_id(google_user_id)
         user.set_firstname(firstname)
         user.set_mail(mail)
         user.set_role(role)
@@ -120,11 +122,11 @@ class StudentUserAdministration (object):
 
 # creating an example dataset for student
 # WHY IS THERE A NEED FOR THE FIRST POSITION AS AN ARGUMENT
-StudentUserAdministration.create_student(0, "Mueller", "Amna", "jdasjn@dd.de", 'student',123456, "Jura")
-StudentUserAdministration.create_student(0, "hallo", "Patrick", "testing@test.de", 'student', 274617, "Medieninformatik")
+StudentUserAdministration.create_student(0, "Mueller", "G1d4L0v3", "Amna", "jdasjn@dd.de", 'student',123456, "Jura")
+StudentUserAdministration.create_student(0, "hallo", "G1d4L0v3", "Patrick", "testing@test.de", 'student', 274617, "Medieninformatik")
 
 
 # creating an example dataset for user
 # WHY IS THERE A NEED FOR THE FIRST POSITION AS AN ARGUMENT
-StudentUserAdministration.create_user(0, "Peters", "Derrick", "de@asd.de", 'administration')
-StudentUserAdministration.create_user(0, "Fischer", "Helene", "prof@ess.or", 'professor')
+StudentUserAdministration.create_user(0, "Peters", "G1d4L0v3", "Derrick", "de@asd.de", 'administration')
+StudentUserAdministration.create_user(0, "Fischer", "G1d4L0v3", "Helene", "prof@ess.or", 'professor')

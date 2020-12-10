@@ -22,11 +22,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student")
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -48,11 +49,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student WHERE id={}".format(id))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -74,11 +76,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student WHERE name LIKE '{}' ORDER BY name".format(name))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -100,11 +103,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student WHERE mail LIKE '{}' ORDER BY mail".format(mail))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -126,11 +130,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student WHERE matrikel_nr={}".format(matrikel_nr))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -152,11 +157,12 @@ class StudentMapper(Mapper):
         crs.execute("SELECT * FROM Student WHERE study LIKE '{}' ORDER BY study".format(study))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, firstname, mail, role, matrikel_nr, study) in tupsrc:
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
             student = Student()
             student.set_id(id)
             student.set_name(name)
             student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
             student.set_firstname(firstname)
             student.set_mail(mail)
             student.set_role(role)
@@ -183,8 +189,8 @@ class StudentMapper(Mapper):
             else:
                 student.set_id(1)
 
-        cmd = "INSERT INTO Student (id, name, creation_date, firstname, mail, matrikel_nr, role, study) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        data = (student.get_id(), student.get_name(), student.get_date(), student.get_firstname(), student.get_mail(), student.get_matrikel_nr(), student.get_role(), student.get_study())
+        cmd = "INSERT INTO Student (id, name, creation_date, google_user_id, firstname, mail, matrikel_nr, role, study) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        data = (student.get_id(), student.get_name(), student.get_date(), student.get_google_user_id(), student.get_firstname(), student.get_mail(), student.get_matrikel_nr(), student.get_role(), student.get_study())
         crs.execute(cmd, data)
 
         self._connection.commit()
@@ -197,8 +203,8 @@ class StudentMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "SET (name=%s, creation_date=%s, student_firstname=%s, mail=%s, matrikel_nr=%s, role=%s, study=%s) WHERE id=%s"
-        data = (student.get_name(), student.get_date(), student.get_firstname(), student.get_mail(), student.get_matrikel_nr(), student.get_role(), student.get_study(), student.get_id())
+        cmd = "SET (name=%s, creation_date=%s, google_user_id=%s, student_firstname=%s, mail=%s, matrikel_nr=%s, role=%s, study=%s) WHERE id=%s"
+        data = (student.get_name(), student.get_date(), student.get_google_user_id(), student.get_firstname(), student.get_mail(), student.get_matrikel_nr(), student.get_role(), student.get_study(), student.get_id())
         crs.execute("UPDATE Student ", cmd, data)
 
         self._connection.commit()

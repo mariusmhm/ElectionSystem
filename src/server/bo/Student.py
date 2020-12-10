@@ -30,9 +30,9 @@ class Student(User):
         return self._study
 
 
-    def __str__(self):
+    """ def __str__(self):
         return "Student: {}, {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_date(), self.get_name(), self._firstname, self._mail, self._role, self._matrikel_nr, self._study)
-
+ """
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -42,6 +42,7 @@ class Student(User):
         student.set_id(dicti["id"])
         student.set_date(dicti["creation_date"])
         student.set_name(dicti["name"])
+        student.set_google_user_id(dicti["google_user_id"])
         student.set_firstname(dicti["firstname"])
         student.set_mail(dicti["mail"])
         student.set_role(dicti["role"])
