@@ -67,11 +67,64 @@ class StudentUserAdministration (object):
         with StudentMapper() as mapper:
             return mapper.insert(student)
 
-# creating an example dataset for student
-# WHY IS THERE A NEED FOR THE FIRST POSITION AS AN ARGUMENT
-StudentUserAdministration.create_student(0, "Mueller", "Amna", "jdasjn@dd.de", 'student',123456, "Jura")
-StudentUserAdministration.create_student(0, "hallo", "Patrick", "testing@test.de", 'professor', 274617, "Medieninformatik")
-
 
     # --- USER SPECIFIC OPERATIONS ---
 
+    def get_all_users (self):
+        with UserMapper() as mapper:
+            return mapper.find_all()
+
+
+    def get_user_by_id (self, id):
+        with UserMapper() as mapper:
+            return mapper.find_by_id(id)
+
+
+    def get_user_by_name (self, name):
+        with UserMapper() as mapper:
+            return mapper.find_by_name(name)
+
+
+    def get_user_by_mail (self, mail):
+        with UserMapper() as mapper:
+            return mapper.find_by_mail(mail)
+
+
+    def get_user_by_role (self, role):
+        with UserMapper() as mapper:
+            return mapper.find_by_role(role)
+
+
+    def update_user(self, user):
+        with UserMapper() as mapper:
+            return mapper.update(user)
+
+
+    def delete_user(self, user):
+        with UserMapper() as mapper:
+            return mapper.delete(user)
+
+
+    def create_user(self, name, user_firstname, mail, role):
+        user = User()
+        user.set_name(name)
+        user.set_firstname(user_firstname)
+        user.set_mail(mail)
+        user.set_role(role)
+        user.set_id(1)
+        user.set_date(1)
+
+        with UserMapper() as mapper:
+            return mapper.insert(user)
+
+
+# creating an example dataset for student
+# WHY IS THERE A NEED FOR THE FIRST POSITION AS AN ARGUMENT
+StudentUserAdministration.create_student(0, "Mueller", "Amna", "jdasjn@dd.de", 'student',123456, "Jura")
+StudentUserAdministration.create_student(0, "hallo", "Patrick", "testing@test.de", 'student', 274617, "Medieninformatik")
+
+
+# creating an example dataset for user
+# WHY IS THERE A NEED FOR THE FIRST POSITION AS AN ARGUMENT
+StudentUserAdministration.create_user(0, "Peters", "Derrick", "de@asd.de", 'administration')
+StudentUserAdministration.create_user(0, "Fischer", "Helene", "prof@ess.or", 'professor')

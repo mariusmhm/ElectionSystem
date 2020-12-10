@@ -4,66 +4,49 @@ from server.Role import Role
 
 class User(NamedBusinessObject):
 
-    """Realization of an examplary Users.
-    """
-
+    # Realization of an User Class
     def __init__(self):
         super().__init__()
-        self.__google_user_id = ""
-        self.__name= ""
-        self.__email = ""
-        self.__role = Role()
+        self._user_firstname = ""
+        self._mail = ""
+        self._role = ""
 
-    def get_google_user(self):
-        """Read out of the UserId."""
-        return self.__google_user_id
+    def set_firstname(self, user_firstname):
+        #Set the first name of an User
+        self._user_firstname = user_firstname
 
-    def set_google_user(self, id):
-        """Set the UserId."""
-        self.__google_user_id=id
+    def get_firstname(self):
+        #Get the first name of an User
+        return self._user_firstname
 
-    def set_name(self,name):
-        self.__name=name
+    def set_mail(self, mail):
+        #Set the email name of an User
+        self._mail = mail
 
-    def get_name(self):
-        return self.__name
+    def get_mail(self):
+        #Get the email of an User
+        return self._mail
 
-    def get_email(self):
-        """Read out of the Usermail."""
-        return self.__email
-
-    def set_email(self,email):
-        """Set the Usermail."""
-        self.__email=email
+    def set_role(self, role):
+        #Set the role of an User
+        self._role = Role.role[role]
 
     def get_role(self):
-        """Readout of the Rolle."""
-        return self.__role
+        #Get the role of an User
+        return self._role
 
-    def set_role(self,role):
-        """Set the Rolle."""
-        self.__role=role
-
-    def __str__(self):
-
-        """Creats a simple textually Representation of a User() instanz.
-
-        The Attributes are UserId, UserMail, Userpasswort und Rolle."""
-
-        return "Project:  {}, {}, {}, {},{} ".format(self.get_id(),self.__google_user_id,self.__name, self.__email, self.__role)
-
+  
     @staticmethod
     def to_dict(dicti=dict()):
 
         """Convert a Python dict() in a User()."""
 
-        obj = User()
-        obj.set_id(dicti["id"])
-        obj.set_google_user(dicti["google_user_id"])
-        obj.set_name(dicti["name"])
-        obj.set_email(dicti["email"])
-        obj.set_role(dicti["role"])
-        return obj
+        user = User()
+        user.set_id(dicti["id"])
+        user.set_name(dicti["name"])
+        user.set_mail(dicti["mail"])
+        user.set_role(dicti["role"])
+        return user
 
 
 

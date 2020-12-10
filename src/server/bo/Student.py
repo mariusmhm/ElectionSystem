@@ -3,7 +3,7 @@ from server.Role import Role
 
 
 class Student(NamedBusinessObject):
-    #Realization of an student class
+    #Realization of a student class
     def __init__(self):
         super().__init__()
         self._student_firstname = ""
