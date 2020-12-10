@@ -10,7 +10,7 @@ class ProjecttypeAdministration (object):
         projecttype = Projecttype()
         projecttype.set_id(1)
         projecttype.set_creation_date(creation_date)
-        projecttype.set_name(projecttype_name)
+        """projecttype.set_name(projecttype_name)"""
         projecttype.set_sws(sws)
         projecttype.set_etcs(ects)
 
@@ -22,10 +22,10 @@ class ProjecttypeAdministration (object):
         with ProjecttypeMapper() as mapper:
             return mapper.find_by_id(projecttype_id)
 
-    def get_projecttype_by_name(self, projecttype_name):
-        """Read out the projecttype by name."""
+    """def get_projecttype_by_name(self, projecttype_name):
+        #Read out the projecttype by name.
         with ProjecttypeMapper() as mapper:
-            return mapper.find_by_name(projecttype_name)
+            return mapper.find_by_name(projecttype_name)"""
 
     def get_all_projecttypes(self):
         """Read out all projecttypes"""

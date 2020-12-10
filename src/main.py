@@ -50,11 +50,11 @@ bo = api.model('BusinessObject', {
 })
 
 """NamedBusinessObject leitet von Business Object ab"""
-nbo = api.model('NamedBusinessObject',bo, {
+"""nbo = api.model('NamedBusinessObject',bo, {
     'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
-})
+})"""
 
-projecttype= api.inherit('Projecttype', nbo,{
+projecttype= api.inherit('Projecttype', bo,{
     'etcs': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
@@ -63,47 +63,65 @@ projecttype= api.inherit('Projecttype', nbo,{
 """----------------------------Projecttype---------------------------"""
 
 
-@electionSystem.route('/projecttypes')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.route('/projecttype')
+@electionSystem.response(500, 'when server has problems')
 class ProjectTypeListOperations(Resource):
     @electionSystem.marshal_list_with(projecttype)
-    @secured
     def get(self):
-        """Auslesen aller Projecttypes-Objekte.
-        Sollten keine Projecttype-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        """Readout of all Projecttype-Objects.
+        If there are no Projecttype-Objects, you will get an empty sequenz."""
         adm = ProjecttypeAdministration()
         projecttype = adm.get_all_projecttypes()
         return projecttype
 
-@electionSystem.route('/projecttype')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectTypeListOperation(Resource):
     @electionSystem.marshal_with(projecttype, code=200)
-    @electionSystem.expect(projecttype)  # Wir erwarten ein Projecttype-Objekt von Client-Seite.
-    @secured
+    @electionSystem.expect(projecttype)
     def post(self):
-        """Anlegen eines neuen Project-Objekts.
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der ElectionSystemAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """Sets a new Projecttype-Object.
+        **ATTENTION:** We take the data sent by the client as a suggestion.
+        For example, the assignment of the ID is not the task of the client.
+        Even if the client should assign an ID in the proposal, it is
+        it is up to the ElectionSystemAdministration (business logic) to create a correct ID
+        to assign. *The corrected object is finally returned.
         """
         adm = ProjecttypeAdministration()
+        prpl = projecttype.to_dict(api.payload)
 
-        proposal = projecttype.to_dict(api.payload)
+        if prpl is not None:
+            s = adm.create_projecttype(prpl.get_name(), prpl.get_ects(), prpl.get_sws(), prpl.get_id(), prpl.get_creation_date())
 
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_projecttype(proposal.get_name(projecttype))
-            return c, 200
+            return s, 200
         else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
+
+
+@electionSystem.route('/projecttype/<int:id>')
+@electionSystem.response(500, 'when server has problems')
+class ProjecttypeOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, id):
+
+        """Reads out the a specific Projecttype-Object by id.
+        The realization of reading out the object is by ```id``` in dem URI.
+        """
+        adm = ProjecttypeAdministration()
+        single_projecttype = adm.get_projecttype_by_id(id)
+        return single_projecttype
+
+    @electionSystem.marshal_with(projecttype)
+    @electionSystem.expect(projecttype, validate=True)
+    def put(self, id):
+        adm = ProjecttypeAdministration()
+        s = projecttype.to_dict(api.payload)
+
+        if s is not None:
+            s.set_id(id)
+            adm.update_projecttype(s)
+            return '', 200
+        else:
+            return '', 500
+
+
 
 
 @electionSystem.route('/projecttype/<int:id>')
@@ -113,44 +131,33 @@ class ProjectTypeOperations(Resource):
     @electionSystem.marshal_with(projecttype)
     @secured
     def get(self, id):
-        """Auslesen eines bestimmten Projecttype-Objekts.
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """Reads out a specific projecttype-Object.
+        The specific projecttype object will be genarated through th attribute ```id``` in the URI.
         """
         adm = ProjecttypeAdministration()
         pt = adm.get_projecttype_by_id(id)
         return pt
 
-    @secured
     def delete(self, id):
-        """Löschen eines bestimmten Project-Objekts.
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """Delete a  specific Projecttype-Object.
+        The realization of deletion of a projecttyppe object will be don by ```id``` in the URI.
         """
         adm = ProjecttypeAdministration()
-        projecttype = adm.get_projecttype_by_id(id)
-        adm.delete_projecttype(projecttype)
+        single_projecttype = adm.get_projecttype_by_id(id)
+        adm.delete_projecttype(single_projecttype[0])
         return '', 200
-
-    @electionSystem.marshal_with(projecttype)
-    @secured
-    def put(self, id):
-        """Update eines bestimmten Project-Objekts.
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
-        """
-        adm = ProjecttypeAdministration()
-        pt = projecttype.to_dict(api.payload)
-
-        if pt is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            pt.set_id(id)
-            adm.save_projecttype(pt)
-            return '', 200
-        else:
-            return '', 500
 
     if __name__ == '__main__':
         app.run(debug=True)
+
+"""@electionSystem.route('/projecttype/<string:name>')
+@electionSystem.response(500, 'when server has problems')
+class ProjecttypeOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, name):
+       #Reads out a specific projecttype-Object by the name. The specific projecttype object will be genarated through th attribute ```name``` in the URI.
+        
+        adm = ProjecttypeAdministration()
+        projecttype = adm.get_projecttype_by_name(name)
+        return projecttype"""
 

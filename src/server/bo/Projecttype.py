@@ -1,7 +1,8 @@
-from server.bo.NamedBusinessObject import NamedBusinessObject
+"""from server.bo.NamedBusinessObject import NamedBusinessObject"""
+from server.bo.BusinessObject import BusinessObject
 
 
-class Projecttype(NamedBusinessObject):
+class Projecttype(BusinessObject):
 
     """Realization of an examplary Projecttype.
     """
@@ -29,11 +30,13 @@ class Projecttype(NamedBusinessObject):
 
     def __str__(self):
 
-        """Creats a simple textually Representation of a Projecttype() instanz.
+        """Creats a simple textually Representation of a Projecttype() instanc.
 
         The Attributes are ECTs and SWS."""
 
-        return "Projecttype: {}, {}, {}, {}, {}, ".format(self.get_id(), self.get_creation_date, self.get_name(), self.get_ects(), self.get_sws())
+        return "Projecttype: {}, {}, {}, {}, {}, ".format(self.get_id(), self.get_creation_date, self.get_ects(), self.get_sws())
+
+    """ self.get_name()"""
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -46,3 +49,7 @@ class Projecttype(NamedBusinessObject):
         projecttype.set_creation_date(dicti["Creation_Date"])
         projecttype.set_sws(dicti["SWS"])
         return projecttype
+
+
+"""projecttype.set_name(dicti["Projecttype_Name"])"""
+
