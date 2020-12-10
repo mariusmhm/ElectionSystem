@@ -1,65 +1,54 @@
-from server.bo.BusinessObject import BusinessObject
-from server.bo.NamedBusinessObject import NamedBusinessObject
+from server.bo import BusinessObject as bo
 
-class Participation(NamedBusinessObject):
+class Participation(bo.BusinessObject):
 
 
     def __init__(self):
+        super().__init__()
+        self._priority = None
+        self._grading_id = None
+        self._student_id = None
+        self._project_id = None
 
-        self.__student = Student()
-        self.__project = Project()
-        self.__grading  = Grading()
-        self.__priority = []
-
-    def get_student(self):
-        """Reads out the student."""
-        return self.__student
-
-    def set_student(self, student):
-        """Sets the student."""
-        self.__student = student
-
-    def get_project(self):
-        """Reads out the project."""
-        return self.__project
-
-    def set_project(self, project):
-        """Sets the project."""
-        self.__project = project
-
-    def get_grading(self):
-        """Reads out the grading"""
-        return self.__grading
-
-    def set_grading(self, grading):
-        """Sets the grading"""
-        self.__grading = grading
 
     def get_priority(self):
         """Reads out the priority."""
-        return self.__priority
+        return self._priority
 
     def set_priority(self, priority):
         """Sets the priority."""
-        self.__priority = priority
+        self._priority = priority
 
-    def __str__(self):
+    def get_grading_id(self):
+        return self._grading_id
 
-        """Creats a simple textually Representation of a Participation() instanz.
-        """
+    def set_grading_id(self, grading_id):
+        self._grading_id = grading_id
 
-        return "Project:  {}, {}, {}, {} ".format(self.get_grading(),self.get_priority(),self.get_project(), self.get_student())
+    def get_student_id(self):
+        return self._student_id
+
+    def set_student_id(self, student_id):
+        self._student_id = student_id 
+
+    def get_project_id(self):
+        return self._project_id
+
+    def set_project_id(self, project_id):
+        self._project_id = project_id 
+
 
 
     @staticmethod
-    def to_dict(dicti=dict()):
+    def from_dict(dicti=dict()):
 
         """"Convert  a Python dict() in a Participation()."""
         participation = Participation()
-        participation.set_grading(dicti["ParticipationGrading"])
-        participation.set_priority(dicti["ParticipationPriority"])
-        participation.set_project(dicti["ParticipationProject"])
-        participation.set_student(dicti["ParticipationStudent"])
+        participation.set_id(dicti["id"])
+        participation.set_priority(dicti["priority"])
+        participation.set_grading_id(dicti["grading_id"])
+        participation.set_student_id(dicti["student_id"])
+        participation.set_project_id(dicti["project_id"])
         return participation
 
 

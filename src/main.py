@@ -5,23 +5,11 @@ from flask_restx import Api, Resource, fields
 # Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
 from flask_cors import CORS
 
-# Hier wird auf die Applikationslogik inkl. Business-Ojekt Klassen zugegriffen
-"""from server.ElectionSystemAdministration import ElectionSystemAdministration
-from server.bo.Grading import Grading
-from server.bo.Module import Module
+from server.ElectionSystemAdministration import ElectionSystemAdministration
 from server.bo.Participation import Participation
-from server.bo.Project import Project
-from server.bo.Projecttype import Projecttype
-from server.bo.Semester import Semester
-from server.bo.Student import Student"""
+from server.bo.Grading import Grading
 
-#Der Decorator übernimmt die Authentifikation
-#from SecurityDecorater import secured
-
-#Instanzieren von Flask
 app = Flask(__name__)
-
-
 
 CORS(app, resources=r'/electionsystem/*')
 
@@ -47,8 +35,7 @@ BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Teilnahme 
  ab und """
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
-    'creation_date': fields.Date(attribute='_creation_date', description='Erstellungszeitpunkt des Business Objekts')
+    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object')
 })
 
 """NamedBusinessObject leitet von Business Object ab"""
@@ -56,76 +43,86 @@ nbo = api.model('NamedBusinessObject',bo, {
     'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
 })
 
-"""NamedBusinessObject setzt weiter Strukturen auf, wie User, Student, Grading, Module,
-Participation, Project, Projecttype und Semester."""
-
-user = api.inherit('User', nbo, {
-    'email': fields.String(attribute='_email', description='E-Mail-Adresse eines User'),
-    'role': fields.String(attribute='_role', description='Role eines User'),
-    'password': fields.String(attribute='_password ', description='Password eines User'),
+grading= api.inherit('Grading', bo, {
+    'grade': fields.Integer (attribute='_grade', descritpion='Grade for evaluation'),
 })
 
-student = api.inherit('Student', nbo, {
-    'matrikelNR': fields.Integer(attribute='_matrikelNR', description='MatrikelNR eines Studenten'),
-    'study':fields.String(attribute='_study', description='Studiengang eines Studenten'),
+participation= api.inherit('Participation', bo, {
+    'priority': fields.Integer(attribute='_priority', description='Priority for the project election'),
+    'grading_id': fields.Integer(attribute='_grading_id', description='Grading id'),
+    'student_id': fields.Integer(attribute='_student_id', description='Student id'),
+    'project_id': fields.Integer(attribute='_project_id', description='Project id')
 })
 
-#transferierbare Strukturen die noch eingefügt werden müssen
+#------Participation---------
 
-grading= api.inherit('Grading',nbo,{
-    'grading': fields.String (attribute='_grading', descritpion='Note eines Studenten'),
-})
+@electionSystem.route('/participation')
+@electionSystem.response(500, 'server error')
+class ParticipationsListOperations(Resource):
+    @electionSystem.marshal_with(participation, code=200)
+    @electionSystem.expect(participation)
+    def post(self):
+        adm = ElectionSystemAdministration()
 
-module=api.inherit('Module',nbo, {
-    'edvNR': fields.Integer(attribute='_edvNR', description='EDV Nummer eines Moduls')
-})
+        proposal = Participation.from_dict(api.payload)
 
-project = api.inherit('Project', nbo, {
-    'num_spots': fields.Integer(attribute='_num_spots', description='Anzahl an freien Plätzen eines Projekts'),
-    'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
-    'weekly': fields.Bool(attribute='_weekly', description='Wöchentliche Vorlesung eines Projekts'),
-    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='Anzahl der Blocktage in der Vorlesungszeit'),
-    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='Anzahl der Blocktage vor Beginn der Vorlesungszeit'),
-    'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='Anzahl der Blocktage in der Prüfungsphase'),
-    'special_room': fields.Bool(attribute='_special_room', description='Besonderer Raum notwendig für das Projekt'),
-    'grade_average': fields.Float(attribute='_grade_average', description='Notendurchschnitt eines Projekts'),
-    'room_desired': fields.String(attribute='_room_desired', description='Raumwünsche für ein Projekt')
-})
-
-#participation=
-
-projecttype= api.inherit('Projecttype', nbo,{
-    'etcs': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
-    'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
-})
-
-#semester=
-
-#bewertung=
-
-#teilnahme=
+        if proposal is not None:
+            p = adm.create_participation(proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
+            return p, 200
+        else:
+            #server error
+            return '', 500
 
 
+@electionSystem.route('/participation/<int:id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_by_participation_id(id)
+        return pp
 
-@electionSystem.route('/projecttypes')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ProjekttypeListOperations(Resource):
-    @electionSystem.marshal_list_with(projecttype)
+@electionSystem.route('/participation-by-project/<int:project_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, project_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_all_by_project_id(project_id)
+        return pp
+
+@electionSystem.route('/participation-by-student/<int:student_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, student_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_all_by_student_id(student_id)
+        return pp
+
+#------Grading---------
+
+@electionSystem.route('/grading')
+@electionSystem.response(500, 'server error')
+class GradingListOperations(Resource):
+    @electionSystem.marshal_list_with(grading)
     def get(self):
-        adm=ElectionSystemAdministration()
-        projecttypes=adm.get_all_projecttypes()
-        return projecttypes
+        adm = ElectionSystemAdministration()
+        grades = adm.get_all_grades()
+        return grades
 
-@electionSystem.route('/modules')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ModuleListOperations(Resource):
-    @electionSystem.marshal_list_with(module)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        modules=adm.get_all_modules()
-        return modules
+@electionSystem.route('/grading/<int:id>')
+@electionSystem.response(500, 'server error')
+class GradingListOperations(Resource):
+    @electionSystem.marshal_list_with(grading)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        gg = adm.get_by_grading_id(id)
+        return gg
 
-
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 

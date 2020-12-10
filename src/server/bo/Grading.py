@@ -1,32 +1,26 @@
-from server.bo.BusinessObject import BusinessObject
+from server.bo import BusinessObject as bo
 
 
-class Grading(NamedBusinessObject):
+class Grading(bo.BusinessObject):
     def __init__(self):
+        super().__init__()
+        self._grade = None
 
-        self.__grading = 0
-
-    def get_grading(self):
+    def get_grade(self):
         """Reads out the grading"""
-        return self.__grading
+        return self._grade
 
-    def set_grading(self, grade):
+    def set_grade(self, grade):
         """Sets the grading"""
-        self.__grading = grade
+        self._grade = grade
 
-    def __str__(self):
-
-        """Creats a simple textually Representation of a Grading() instanz.
-        """
-
-        return "Project:  {} ".format(self.get_grading())
 
     @staticmethod
     def to_dict(dicti=dict()):
 
         """"Convert  a Python dict() in a Grading()."""
         grading = Grading()
-        grading.set_grading(dicti["Grading"])
+        grading.set_grade(dicti["grade"])
         return grading
 
 

@@ -1,3 +1,4 @@
+import mysql.connector
 from server.bo.Grading import Grading
 from server.db.Mapper import Mapper
 
@@ -9,40 +10,38 @@ class GradingMapper (Mapper):
 
     def find_all(self):
 
-        res = []
-        crs = self._connection.cursor()
+        result = []
+        cursor = self._connection.cursor()
 
-        crs.execute("SELECT id, createDate, grade FROM grading")
-        tupsrc = crs.fetchall()
+        cursor.execute("SELECT id, grade FROM Grading")
+        tuples = cursor.fetchall()
 
-        for (id, createDate, grade) in tupsrc:
+        for (id, grade) in tuples:
             grading = Grading()
             grading.set_id(id)
-            grading.set_createDate(createDate)
             grading.set_grade(grade)
-            res.append(grading)
+            result.append(grading)
 
         self._connection.commit()
-        crs.close()
+        cursor.close()
+        return result
 
-        return res
+    def find_by_grading_id(self, id):
 
-    def find_by_grading_id(self, grading_id):
+        result = None
+        cursor = self._connection.cursor()
 
-        res = []
-        crs = self._connection.cursor()
+        command = "SELECT id, grade FROM Grading WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+        print(tuples)
 
-        crs.execute("SELECT id, createDate, grade FROM grading WHERE id={} ORDER BY id".format(grading_id))
-        tupsrc = crs.fetchall()
-
-        for (id, createDate, grade) in tupsrc:
+        for (id, grade) in tuples:
             grading = Grading()
             grading.set_id(id)
-            grading.set_createDate(createDate)
             grading.set_grade(grade)
-            res.append(grading)
+            result = grading
 
         self._connection.commit()
-        crs.close()
-
-        return res
+        cursor.close()
+        return result
