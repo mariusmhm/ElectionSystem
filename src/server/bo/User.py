@@ -50,8 +50,8 @@ class User(NamedBusinessObject):
         user = User()
         user.set_id(dicti["id"])
         user.set_name(dicti["name"])
-        user.set_date(["creation_date"])
-        user.set_firstname(["firstname"])
+        user.set_date(dicti["creation_date"])
+        user.set_firstname(dicti["firstname"])
         user.set_mail(dicti["mail"])
         user.set_role(dicti["role"])
         return user

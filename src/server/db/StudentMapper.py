@@ -42,7 +42,7 @@ class StudentMapper(Mapper):
 
     def find_by_id(self, id):
         
-        res = []
+        res = None
         crs = self._connection.cursor()
 
         crs.execute("SELECT * FROM Student WHERE id={}".format(id))
@@ -58,7 +58,7 @@ class StudentMapper(Mapper):
             student.set_role(role)
             student.set_matrikel_nr(matrikel_nr)
             student.set_study(study)
-            res.append(student)
+            res = student
 
         self._connection.commit()
         crs.close()
@@ -211,7 +211,7 @@ class StudentMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        crs.execute("DELETE FROM Student WHERE id={}".format(student))
+        crs.execute("DELETE FROM Student WHERE id={}".format(student.get_id()))
 
         self._connection.commit()
         crs.close()

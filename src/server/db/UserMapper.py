@@ -43,7 +43,7 @@ class UserMapper(Mapper):
         """Read out all users.
         :return A collection of user objects that all users represent."""
 
-        res = []
+        res = None
         crs = self._connection.cursor()
 
         crs.execute("SELECT * FROM User WHERE id={}".format(id))
@@ -57,7 +57,7 @@ class UserMapper(Mapper):
             user.set_firstname(user_firstname)
             user.set_mail(mail)
             user.set_role(role)
-            res.append(user)
+            res = user
 
         self._connection.commit()
         crs.close()
@@ -184,7 +184,7 @@ class UserMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        crs.execute("DELETE FROM User WHERE id={}".format(user))
+        crs.execute("DELETE FROM User WHERE id={}".format(user.get_id()))
 
         self._connection.commit()
         crs.close()

@@ -90,11 +90,10 @@ class StudentOperations(Resource):
         else:
             return '', 500
 
-    # doesnt work right now, parameter isnt an object it is a list 
     def delete(self, id):
         adm = StudentUserAdministration()
         single_student = adm.get_student_by_id(id)
-        adm.delete_student(single_student[0])
+        adm.delete_student(single_student)
         return '', 200
 
 
@@ -157,7 +156,7 @@ class UserListOperations(Resource):
     def post(self):
         adm = StudentUserAdministration()
         prpl = User.to_dict(api.payload)
-        # user_firstname wird nicht übergeben?!
+        
         if prpl is not None:
             u = adm.create_user(prpl.get_name(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
 
@@ -187,6 +186,12 @@ class UserOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+    def delete(self, id):
+        adm = StudentUserAdministration()
+        single_user = adm.get_user_by_id(id)
+        adm.delete_user(single_user)
+        return '', 200
 
 
 @electionSystem.route('/user/<string:name>')
