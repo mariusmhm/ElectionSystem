@@ -30,19 +30,17 @@ nbo = api.model('NamedBusinessObject', {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
-student = api.inherit('Student', bo, nbo, {
-    'student_firstname': fields.String(attribute='_student_firstname', description="Students First Name"),
-    'mail': fields.String(attribute='_mail', description='Students Mail'),
-    'role': fields.String(attribute='_role', description='Student can only be a student'),
+user = api.inherit('User', bo, nbo, {
+    'firstname': fields.String(attribute='_firstname', description='Users First Name'),
+    'mail': fields.String(attribute='_mail', description='Users Mail'),
+    'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
+})
+
+student = api.inherit('Student', bo, nbo, user, {
     'matrikel_nr': fields.Integer(attribute='_matrikel_nr', description='Students Matrikel Number'),
     'study': fields.String(attribute='_study', description='Students Study')
 })
 
-user = api.inherit('User', bo, nbo, {
-    'user_firstname': fields.String(attribute='_user_firstname', description='Users First Name'),
-    'mail': fields.String(attribute='_mail', description='Users Mail'),
-    'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
-})
 
 
 # --- STUDENT SPECIFIC OPERATIONS ---
