@@ -156,7 +156,7 @@ class UserMapper(Mapper):
             else:
                 user.set_id(1)
 
-        cmd = "INSERT INTO User (id, name, creation_date, user_firstname, mail, role) VALUES (%s, %s, %s, %s, %s, %s)"
+        cmd = "INSERT INTO User (id, name, creation_date, firstname, mail, role) VALUES (%s, %s, %s, %s, %s, %s)"
         data = (user.get_id(), user.get_name(), user.get_date(), user.get_firstname(), user.get_mail(), user.get_role())
         crs.execute(cmd, data)
 
@@ -170,7 +170,7 @@ class UserMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "SET (name=%s, creation_date=%s, user_firstname=%s, mail=%s, role=%s) WHERE id=%s"
+        cmd = "SET (name=%s, creation_date=%s, firstname=%s, mail=%s, role=%s) WHERE id=%s"
         data = (user.get_name(), user.get_date(), user.get_firstname(), user.get_mail(), user.get_role(), user.get_id())
         crs.execute("UPDATE User ", cmd, data)
 

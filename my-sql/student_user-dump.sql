@@ -3,7 +3,7 @@ CREATE TABLE Student(
     `id` INT(11) NOT NULL DEFAULT 0,
     `name` VARCHAR(128) NOT NULL DEFAULT '',
     `creation_date` DATE,
-    `student_firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
     `mail` VARCHAR(128) NOT NULL DEFAULT '',
     `role` VARCHAR(128) NOT NULL DEFAULT '',
     `matrikel_nr`INT(11) NOT NULL DEFAULT 0,
@@ -17,7 +17,7 @@ CREATE TABLE User(
     `id` INT(11) NOT NULL DEFAULT 0,
     `name` VARCHAR(128) NOT NULL DEFAULT '',
     `creation_date` DATE,
-    `user_firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
     `mail` VARCHAR(128) NOT NULL DEFAULT '',
     `role` VARCHAR(128) NOT NULL DEFAULT '',
 

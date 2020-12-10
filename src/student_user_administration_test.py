@@ -53,10 +53,10 @@ class StudentUserAdministration (object):
             return mapper.delete(student)
 
 
-    def create_student(self, name, student_firstname, mail, role, matrikel_nr, study):
+    def create_student(self, name, firstname, mail, role, matrikel_nr, study):
         student = Student()
         student.set_name(name)
-        student.set_firstname(student_firstname)
+        student.set_firstname(firstname)
         student.set_mail(mail)
         student.set_role(role)
         student.set_matrikel_nr(matrikel_nr)
@@ -105,10 +105,10 @@ class StudentUserAdministration (object):
             return mapper.delete(user)
 
 
-    def create_user(self, name, user_firstname, mail, role):
+    def create_user(self, name, firstname, mail, role):
         user = User()
         user.set_name(name)
-        user.set_firstname(user_firstname)
+        user.set_firstname(firstname)
         user.set_mail(mail)
         user.set_role(role)
         user.set_id(1)
