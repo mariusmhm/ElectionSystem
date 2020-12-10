@@ -2,54 +2,51 @@
 from server.bo.BusinessObject import BusinessObject
 
 
+
 class Projecttype(BusinessObject):
 
     """Realization of an examplary Projecttype.
     """
 
     def __init__(self):
-        self.__ects = 0
-        self.__sws = 0
+        super().__init__()
+        self._ects = 0
+        self._sws = 0
 
     def get_ects(self):
-        """Read out of the ECTs."""
-        return self.__ects
+        """Reads out of the ECTs."""
+        return self._ects
 
     def set_ects(self,ects):
-        """Set the ECTs."""
-        self.__ects = ects
+        """Sets the ECTs."""
+        self._ects = ects
 
     def get_sws(self):
-        """Read out of the SWS."""
-        return self.__sws
+        """Reads out of the SWS."""
+        return self._sws
 
     def set_sws(self, sws):
-        """Set the SWS."""
-        self.__sws = sws
+        """Sets the SWS."""
+        self._sws = sws
 
 
     def __str__(self):
-
-        """Creats a simple textually Representation of a Projecttype() instanc.
-
-        The Attributes are ECTs and SWS."""
-
-        return "Projecttype: {}, {}, {}, {}, {}, ".format(self.get_id(), self.get_creation_date, self.get_ects(), self.get_sws())
-
-    """ self.get_name()"""
+        """Creats a simple textually Representation of a Projecttype() instanc. The Attributes are ECTs and SWS."""
+        return "Projecttype: {}, {}, {}, {}, ".format(self.get_id(), self.get_creation_date(), self._ects, self._sws)
 
     @staticmethod
-    def to_dict(dicti=dict()):
+    def to_dict(dicti=None):
 
-        """"Convert a Python dict() in a Projecttype()."""
+        """Transform a Python dict() into a Projecttype()."""
+        if dicti is None:
+            dicti = dict()
         projecttype = Projecttype()
-        projecttype.set_ects(dicti["ETCS"])
-        projecttype.set_id(dicti["Projecttype_ID"])
-        projecttype.set_name(dicti["Projecttype_Name"])
-        projecttype.set_creation_date(dicti["Creation_Date"])
-        projecttype.set_sws(dicti["SWS"])
+        projecttype.set_id(dicti["id"])
+        projecttype.set_creation_date(dicti["creation_date"])
+        projecttype.set_sws(dicti["sws"])
+        projecttype.set_ects(dicti["ects"])
         return projecttype
 
 
-"""projecttype.set_name(dicti["Projecttype_Name"])"""
+
 

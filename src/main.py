@@ -15,7 +15,6 @@ from ProjecttypeAdministration import ProjecttypeAdministration
 #from SecurityDecorater import secured
 
 #Instanzieren von Flask
-from src.SecurityDecorater import secured
 
 app = Flask(__name__)
 
@@ -55,20 +54,19 @@ bo = api.model('BusinessObject', {
 })"""
 
 projecttype= api.inherit('Projecttype', bo,{
-    'etcs': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
+    'ects': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
 
-"""----------------------------Projecttype---------------------------"""
-
+"""----------------------------Projecttype specific operations---------------------------"""
 
 @electionSystem.route('/projecttype')
 @electionSystem.response(500, 'when server has problems')
-class ProjectTypeListOperations(Resource):
+class ProjecttypeOperations(Resource):
     @electionSystem.marshal_list_with(projecttype)
     def get(self):
-        """Readout of all Projecttype-Objects.
+        """Readout of all Projecttype-Objects that exist in database.
         If there are no Projecttype-Objects, you will get an empty sequenz."""
         adm = ProjecttypeAdministration()
         projecttype = adm.get_all_projecttypes()
@@ -84,16 +82,16 @@ class ProjectTypeListOperations(Resource):
         it is up to the ElectionSystemAdministration (business logic) to create a correct ID
         to assign. *The corrected object is finally returned.
         """
-        adm = ProjecttypeAdministration()
+
+        adm =ProjecttypeAdministration()
         prpl = projecttype.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_projecttype(prpl.get_name(), prpl.get_ects(), prpl.get_sws(), prpl.get_id(), prpl.get_creation_date())
+            s = adm.create_projecttype( prpl.get_ects(), prpl.get_sws(), prpl.get_id(), prpl.get_creation_date())
 
             return s, 200
         else:
             return '', 500
-
 
 @electionSystem.route('/projecttype/<int:id>')
 @electionSystem.response(500, 'when server has problems')
@@ -122,37 +120,44 @@ class ProjecttypeOperations(Resource):
             return '', 500
 
 
-
-
-@electionSystem.route('/projecttype/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID des Account-Objekts')
-class ProjectTypeOperations(Resource):
+@electionSystem.route('/student/<int:id>')
+@electionSystem.response(500, 'when server has problems')
+class ProjecttypeOperations(Resource):
     @electionSystem.marshal_with(projecttype)
-    @secured
     def get(self, id):
-        """Reads out a specific projecttype-Object.
-        The specific projecttype object will be genarated through th attribute ```id``` in the URI.
-        """
         adm = ProjecttypeAdministration()
-        pt = adm.get_projecttype_by_id(id)
-        return pt
+        single_projecttype = adm.get_projecttype_by_id(id)
+        return single_projecttype
+
+    @electionSystem.marshal_with(projecttype)
+    @electionSystem.expect(projecttype, validate=True)
+    def put(self, id):
+        """Creats a new Projecttype-Object."""
+        adm = ProjecttypeAdministration()
+        p = projecttype.to_dict(api.payload)
+
+        if p is not None:
+            p.set_id(id)
+            adm.update_projecttype(p)
+            return '', 200
+        else:
+            return '', 500
 
     def delete(self, id):
-        """Delete a  specific Projecttype-Object.
-        The realization of deletion of a projecttyppe object will be don by ```id``` in the URI.
-        """
+        """Delets a single and specific Projecttype-Objects by Id. """
         adm = ProjecttypeAdministration()
         single_projecttype = adm.get_projecttype_by_id(id)
         adm.delete_projecttype(single_projecttype[0])
         return '', 200
 
+
     if __name__ == '__main__':
         app.run(debug=True)
 
-"""@electionSystem.route('/projecttype/<string:name>')
-@electionSystem.response(500, 'when server has problems')
-class ProjecttypeOperations(Resource):
+
+    """@electionSystem.route('/projecttype/<string:name>')
+    @electionSystem.response(500, 'when server has problems')
+    class ProjecttypeOperations(Resource):
     @electionSystem.marshal_with(projecttype)
     def get(self, name):
        #Reads out a specific projecttype-Object by the name. The specific projecttype object will be genarated through th attribute ```name``` in the URI.
