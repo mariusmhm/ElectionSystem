@@ -45,19 +45,17 @@ class SemesterMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT id, creation_date, winter_semester, " \
-                  "grading_end_date, submit_projects_end_date FROM Semester WHERE id={}".format(id)
-        cursor.execute(command)
+        cursor.execute("SELECT * FROM Semester WHERE id={}".format(id))
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, winter_semester, grading_end_date, submit_projects_end_date) = tuples[0]
+            (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date) = tuples[0]
             semester = Semester()
             semester.set_id(id)
             semester.set_creation_date(creation_date)
             semester.set_wintersemester(winter_semester)
-            semester.set_grading_end_date(grading_end_date)
             semester.set_submit_projects_end_date(submit_projects_end_date)
+            semester.set_grading_end_date(grading_end_date)
             result = semester
 
         except IndexError:
@@ -78,7 +76,7 @@ class SemesterMapper(Mapper):
                 : return the object that has already been transferred, but with a possibly corrected ID.
                 """
         cursor = self._connection.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM Semester")
+        cursor.execute("SELECT MAX(id) AS maxid FROM Semester ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
@@ -92,8 +90,7 @@ class SemesterMapper(Mapper):
                 assume that the table is empty and that we can start with ID 1. """
                 semester.set_id(1)
 
-            command = "INSERT INTO Semester (id, creation_date, winter_semester, submit_projects_end_date, " \
-                      "grading_end_date VALUES (%s,%s,%s,%s,%s)"
+            command = "INSERT INTO Semester (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date) VALUES (%s,%s,%s,%s,%s)"
             data = (semester.get_id(), semester.get_creation_date(), semester.get_wintersemester(),
                     semester.get_submit_projects_end_date(),
                     semester.get_grading_end_date())
@@ -108,18 +105,16 @@ class SemesterMapper(Mapper):
         """Repeated writing of an object to the database.
         : param semester the object that is to be written to the DB"""
         cursor = self._connection.cursor()
-
-        command = "UPDATE Semester " + "SET winter_semester=%s, creation_date=%s, " \
-                                       "submit_projects_end_date=%s, grading_end_date=%s  WHERE id=%s"
-        data = (semester.get_wintersemester(),
-                semester.get_id(),
-                semester.get_creation_date(),
-                semester.get_submit_projects_end_date(),
-                semester.get_grading_end_date())
-        cursor.execute(command, data)
+        cmd = "SET (winter_semester=%s, creation_date=%s, submit_projects_end_date=%s, grading_end_date=%s) WHERE id=%s"
+        data = (semester.get_wintersemester(), semester.get_creation_date(), semester.get_submit_projects_end_date(),
+                semester.get_grading_end_date(),
+                semester.get_id())
+        cursor.execute("UPDATE Semester ", cmd, data)
 
         self._connection.commit()
         cursor.close()
+
+        return semester
 
     def delete(self, semester):
         """Deleting the data of a semester object from the database.

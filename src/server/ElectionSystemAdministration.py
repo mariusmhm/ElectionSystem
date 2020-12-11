@@ -10,11 +10,11 @@ class ElectionSystemAdministration(object):
     def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date):
         """Create a ne Semester:"""
         semester = Semester()
-        semester.set_id(1)
         semester.set_wintersemester(winter_semester)
         semester.set_grading_end_date(grading_end_date)
         semester.set_submit_projects_end_date(submit_projects_end_date)
         semester.set_creation_date(1)
+        semester.set_id(1)
 
         with SemesterMapper() as mapper:
             return mapper.insert(semester)

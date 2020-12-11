@@ -1,12 +1,12 @@
-from server.bo.NamedBusinessObject import NamedBusinessObject
+from server.bo.BusinessObject import BusinessObject
 from datetime import date
 
 
-class Semester(NamedBusinessObject):
+class Semester(BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._winter_semester = ""
+        self._winter_semester = True
         self._submit_projects_end_date = date
         self._grading_end_date = date
 
@@ -39,14 +39,13 @@ class Semester(NamedBusinessObject):
         """Creats a simple textually Representation of a Semester() instanz.
         The Attributes are wintersemester, submit_project_end_date and grading_end_date."""
 
-        return "Semester: {},{}, {}, {}, {}, ".format(self.get_id(), self._winter_semester,
-                                                      self._submit_projects_end_date,
-                                                      self._grading_end_date,
-                                                      self.get_creation_date())
+        return "Semester: {}, {}, {}, {}, {}, ".format(self.get_id(), self._winter_semester,
+                                                       self._submit_projects_end_date,
+                                                       self._grading_end_date,
+                                                       self.get_creation_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
-
         """Convert a Python dict() in a Semester()."""
         semester = Semester()
         semester.set_id(dicti["id"])

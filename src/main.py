@@ -48,19 +48,10 @@ bo = api.model('BusinessObject', {
     'creation_date': fields.Date(attribute='_creation_date', description='Erstellungszeitpunkt des Business Objekts')
 })
 
-"""NamedBusinessObject leitet von Business Object ab"""
-nbo = api.model('NamedBusinessObject',bo, {
-    'name': fields.String(attribute='_name', description='Der Name eines NamedBusiness Object'),
-})
 
-"""NamedBusinessObject setzt weiter Strukturen auf, wie User, Student, Grading, Module,
-Participation, Project, Projecttype und Semester."""
-
-
-semester= api.inherit('Semester', nbo, {
-    'winter_semester':fields.String(attribute='_winter_semester', description='Winter Semester is true or false'),
+semester= api.inherit('Semester', bo, {
+    'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
-    'semester_id':fields.Integer(attribute='_id', description='ID of a Semester'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
 })
 
@@ -133,18 +124,17 @@ class SemesterOperations(Resource):
         Customer-Objekts.
         """
         adm = ElectionSystemAdministration()
-        pt = Semester.to_dict(api.payload)
+        s = Semester.to_dict(api.payload)
 
-        if pt is not None:
+        if s is not None:
             """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
             Siehe Hinweise oben.
             """
-            pt.set_id(id)
-            adm.save_semester(pt)
+            s.set_id(id)
+            adm.save_semester(s)
             return '', 200
         else:
             return '', 500
-
 
 
 if __name__ == '__main__':
