@@ -5,10 +5,10 @@ class NamedBusinessObject(BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self.__name = ""
+        self._name = ""
 
     def set_name(self, name):
-        self.__name = name
+        self._name = name
 
     def get_name(self):
-        return self.__name
+        return self._name

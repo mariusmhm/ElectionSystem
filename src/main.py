@@ -4,73 +4,61 @@ from flask import Flask
 from flask_restx import Api, Resource, fields
 # Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
 from flask_cors import CORS
-#SecurityDecorater
+# Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt
+from SecurityDecorater import secured
 
-
-#Hier wird auf die Applikationslogik inkl. Business-Ojekt Klassen zugegriffen
+# Hier wird auf die Applikationslogik inkl. Business-Ojekt Klassen zugegriffen
 from ProjecttypeAdministration import ProjecttypeAdministration
+from server.bo.Projecttype import Projecttype
 
-
-#Der Decorator übernimmt die Authentifikation
-#from SecurityDecorater import secured
-
-#Instanzieren von Flask
+# Instanzieren von Flask
 
 app = Flask(__name__)
 
-
-
 CORS(app, resources=r'/electionsystem/*')
-
-
 
 """Hier wird eine API angelegt, 
 auf deren Basis Clients und Server Daten austauschen. Grundlage hierfür ist das Package flask-restx."""
 
 api = Api(app, version='1.0', title='Electionsystem API',
-          description='Ein Wahlsystem für Studenten')
-
-
+          description='A System for Students to elect Projects')
 
 """Namespaces erlauben uns die Strukturierung von APIs. In diesem Fall fasst dieser Namespace alle
 ElectionSystem-relevanten Operationen unter dem Präfix /bank zusammen."""
 electionSystem = api.namespace('electionsystem', description='Funktionen des Electionsystems')
 
-
-"""Nachfolgend werden analog zu unseren BusinessObject-Klassen und NamedBusinessObject-Klassen
- die transferierbare Strukturen angelegt:
-
-BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Teilnahme und Bewertung aufsetzen.
- ab und """
+"""In the following, analogous to our BusinessObject classes and NamedBusinessObject classes
+ the transferable structures are created:
+BusinessObject serves as the base class on which the further structures Participation and Valuation are based.
+ from and """
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
+    'id': fields.Integer(attribute='_id', description='the unique Identifier of a Business Object'),
     'creation_date': fields.Date(attribute='_creation_date', description='Erstellungszeitpunkt des Business Objekts')
 })
 
-"""NamedBusinessObject leitet von Business Object ab"""
-"""nbo = api.model('NamedBusinessObject',bo, {
-    'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
-})"""
+nbo = api.model('NamedBusinessObject', {
+    'name': fields.String(attribute='_name', description='name of a named business object')
+})
 
-projecttype= api.inherit('Projecttype', bo,{
-    'ects': fields.Integer(attribute='_etcs', description='Anzahl der ETCS für ein Projettyp'),
+projecttype = api.inherit('Projecttype', bo, nbo, {
+    'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
 
-"""----------------------------Projecttype specific operations---------------------------"""
+# ----------------------------Projecttype specific operations---------------------------
 
 @electionSystem.route('/projecttype')
-@electionSystem.response(500, 'when server has problems')
-class ProjecttypeOperations(Resource):
+@electionSystem.response(500, 'when the server has an error')
+class ProjecttypeListOperations(Resource):
     @electionSystem.marshal_list_with(projecttype)
     def get(self):
         """Readout of all Projecttype-Objects that exist in database.
         If there are no Projecttype-Objects, you will get an empty sequenz."""
         adm = ProjecttypeAdministration()
-        projecttype = adm.get_all_projecttypes()
-        return projecttype
+        all_pt = adm.get_all_projecttypes()
+        return all_pt
 
     @electionSystem.marshal_with(projecttype, code=200)
     @electionSystem.expect(projecttype)
@@ -82,59 +70,51 @@ class ProjecttypeOperations(Resource):
         it is up to the ElectionSystemAdministration (business logic) to create a correct ID
         to assign. *The corrected object is finally returned.
         """
-
-        adm =ProjecttypeAdministration()
-        prpl = projecttype.to_dict(api.payload)
+        adm = ProjecttypeAdministration()
+        prpl = Projecttype.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_projecttype( prpl.get_ects(), prpl.get_sws(), prpl.get_id(), prpl.get_creation_date())
+            p = adm.create_projecttype(prpl.get_name(), prpl.get_ect(), prpl.get_sws())
 
-            return s, 200
+            return p, 200
         else:
             return '', 500
 
+
 @electionSystem.route('/projecttype/<int:id>')
-@electionSystem.response(500, 'when server has problems')
+@electionSystem.response(500, 'when the server has problems')
 class ProjecttypeOperations(Resource):
     @electionSystem.marshal_with(projecttype)
     def get(self, id):
-
         """Reads out the a specific Projecttype-Object by id.
         The realization of reading out the object is by ```id``` in dem URI.
         """
         adm = ProjecttypeAdministration()
-        single_projecttype = adm.get_projecttype_by_id(id)
-        return single_projecttype
+        single_pt = adm.get_projecttype_by_id(id)
+        return single_pt
+
+    def delete(self,id):
+        """Delete a specific customer object.
+
+        The object to be deleted is determined by the ``id`` in the URI.
+        """
+        adm = ProjecttypeAdministration()
+        single_pt = adm.get_projecttype_by_id(id)
+        adm.delete_projecttype(single_pt)
+        return '', 200
 
     @electionSystem.marshal_with(projecttype)
     @electionSystem.expect(projecttype, validate=True)
     def put(self, id):
+        """Update a specific Projecttype object.
+
+        **CAUTION:** Relevant id is the id provided by URI and thus used as method parameter.
+        method parameter. This parameter overrides the id attribute of the Projecttype object passed in the request payload.
+        Projecttype object.
+        """
+
         adm = ProjecttypeAdministration()
-        s = projecttype.to_dict(api.payload)
-
-        if s is not None:
-            s.set_id(id)
-            adm.update_projecttype(s)
-            return '', 200
-        else:
-            return '', 500
-
-
-@electionSystem.route('/student/<int:id>')
-@electionSystem.response(500, 'when server has problems')
-class ProjecttypeOperations(Resource):
-    @electionSystem.marshal_with(projecttype)
-    def get(self, id):
-        adm = ProjecttypeAdministration()
-        single_projecttype = adm.get_projecttype_by_id(id)
-        return single_projecttype
-
-    @electionSystem.marshal_with(projecttype)
-    @electionSystem.expect(projecttype, validate=True)
-    def put(self, id):
-        """Creats a new Projecttype-Object."""
-        adm = ProjecttypeAdministration()
-        p = projecttype.to_dict(api.payload)
+        p = Projecttype.to_dict(api.payload)
 
         if p is not None:
             p.set_id(id)
@@ -143,26 +123,14 @@ class ProjecttypeOperations(Resource):
         else:
             return '', 500
 
-    def delete(self, id):
-        """Delets a single and specific Projecttype-Objects by Id. """
+@electionSystem.route('/projecttype/<string:name>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjecttypeNameOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, name):
         adm = ProjecttypeAdministration()
-        single_projecttype = adm.get_projecttype_by_id(id)
-        adm.delete_projecttype(single_projecttype[0])
-        return '', 200
-
+        all_pt = adm.get_projecttype_by_name(name)
+        return all_pt
 
     if __name__ == '__main__':
         app.run(debug=True)
-
-
-    """@electionSystem.route('/projecttype/<string:name>')
-    @electionSystem.response(500, 'when server has problems')
-    class ProjecttypeOperations(Resource):
-    @electionSystem.marshal_with(projecttype)
-    def get(self, name):
-       #Reads out a specific projecttype-Object by the name. The specific projecttype object will be genarated through th attribute ```name``` in the URI.
-        
-        adm = ProjecttypeAdministration()
-        projecttype = adm.get_projecttype_by_name(name)
-        return projecttype"""
-

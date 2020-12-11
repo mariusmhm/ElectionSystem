@@ -16,5 +16,6 @@ class BusinessObject(ABC):
     def get_creation_date(self):
         return self._creation_date
 
-    def set_creation_date(self, date):
-        self._creation_date = date
+    def set_creation_date(self, creation_date):
+        creation_date = date.today()
+        self._creation_date = creation_date

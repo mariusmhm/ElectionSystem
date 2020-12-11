@@ -1,14 +1,14 @@
 CREATE DATABASE IF NOT EXISTS web357_db35;
 USE web357_db35;
-DROP TABLE IF EXISTS Projecttype;
 
 DROP TABLE IF EXISTS Projecttype;
-CREATE TABLE Projecttype (
-  `id` int(11) NOT NULL DEFAULT '0',
-  ``creation_date` DATE
-  `sws` int(11) NOT NULL DEFAULT 0,
-  `ects` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
+CREATE TABLE Projecttype(
+    `id` INT(11) NOT NULL DEFAULT 0,
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    `creation_date` DATE,
+    `ect` INT(11) NOT NULL DEFAULT 0,
+    `sws` INT(11) NOT NULL DEFAULT 0,
+    PRIMARY KEY(`id`)
 );
 
 
