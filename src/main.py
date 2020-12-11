@@ -35,7 +35,8 @@ BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Teilnahme 
  ab und """
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object')
+    'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
+    'creation_date': fields.Date(attribute='_creation_date', description='Creation date of business object')
 })
 
 """NamedBusinessObject leitet von Business Object ab"""
@@ -44,7 +45,7 @@ nbo = api.model('NamedBusinessObject',bo, {
 })
 
 grading= api.inherit('Grading', bo, {
-    'grade': fields.Integer (attribute='_grade', descritpion='Grade for evaluation'),
+    'grade': fields.Float (attribute='_grade', descritpion='Grade for evaluation'),
 })
 
 participation= api.inherit('Participation', bo, {
@@ -77,11 +78,24 @@ class ParticipationsListOperations(Resource):
 @electionSystem.route('/participation/<int:id>')
 @electionSystem.response(500, 'server error')
 class ParticipationsListOperations(Resource):
-    @electionSystem.marshal_list_with(participation)
+    @electionSystem.marshal_with(participation)
     def get(self, id):
         adm = ElectionSystemAdministration()
         pp = adm.get_by_participation_id(id)
         return pp
+    
+    @electionSystem.marshal_with(participation)
+    @electionSystem.expect(participation, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        pp = Participation.from_dict(api.payload)
+
+        if pp is not None:
+            pp.set_id(id)
+            adm.save_participation(pp)
+            return '', 200
+        else: 
+            return '', 500
 
 @electionSystem.route('/participation-by-project/<int:project_id>')
 @electionSystem.response(500, 'server error')
@@ -112,14 +126,47 @@ class GradingListOperations(Resource):
         grades = adm.get_all_grades()
         return grades
 
+    @electionSystem.marshal_with(grading, code=200)
+    @electionSystem.expect(grading)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = Grading.from_dict(api.payload)
+
+        if proposal is not None:
+            p = adm.create_grading(proposal.get_grade())
+            return p, 200
+        else:
+            #server error
+            return '', 500
+
 @electionSystem.route('/grading/<int:id>')
 @electionSystem.response(500, 'server error')
 class GradingListOperations(Resource):
     @electionSystem.marshal_list_with(grading)
     def get(self, id):
         adm = ElectionSystemAdministration()
-        gg = adm.get_by_grading_id(id)
-        return gg
+        g = adm.get_by_grading_id(id)
+        return g
+
+    @electionSystem.marshal_with(grading)
+    @electionSystem.expect(grading, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        g = Grading.from_dict(api.payload)
+
+        if g is not None:
+            g.set_id(id)
+            adm.save_grading(g)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        g = adm.get_by_grading_id(id)
+        adm.delete_grading(g)
+        return '', 200
 
 if __name__ == '__main__':
     app.run(debug=True)

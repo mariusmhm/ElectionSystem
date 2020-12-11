@@ -4,7 +4,7 @@ from server.bo import BusinessObject as bo
 class Grading(bo.BusinessObject):
     def __init__(self):
         super().__init__()
-        self._grade = None
+        self._grade = 0.0
 
     def get_grade(self):
         """Reads out the grading"""
@@ -16,7 +16,7 @@ class Grading(bo.BusinessObject):
 
 
     @staticmethod
-    def to_dict(dicti=dict()):
+    def from_dict(dicti=dict()):
 
         """"Convert  a Python dict() in a Grading()."""
         grading = Grading()

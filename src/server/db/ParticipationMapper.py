@@ -11,13 +11,14 @@ class ParticipationMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "SELECT id, priority, grading_id, student_id, project_id FROM Participation WHERE id={}".format(id)
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, priority, grading_id, student_id, project_id) in tuples:
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
+            participation.set_creation_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -33,14 +34,15 @@ class ParticipationMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT id, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={}".format(project_id)
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={}".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
         print(tuples)
 
-        for (id, priority, grading_id, student_id, project_id) in tuples:
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
+            participation.set_creation_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -56,13 +58,14 @@ class ParticipationMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT id, priority, grading_id, student_id, project_id FROM Participation WHERE student_id={}".format(student_id)
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE student_id={}".format(student_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, priority, grading_id, student_id, project_id) in tuples:
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
+            participation.set_creation_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -81,15 +84,29 @@ class ParticipationMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            participation.set_id(maxid[0]+1)
-
-        command = "INSERT INTO Participation (id, priority, grading_id, student_id, project_id) VALUES (%s,%s,%s,%s,%s)"
-        data = (participation.get_id(), participation.get_priority(), participation.get_grading_id(), participation.get_student_id(), participation.get_project_id())
+            if maxid[0] is not None:
+                participation.set_id(maxid[0] + 1)
+            else:
+                participation.set_id(1)
+            
+        command = "INSERT INTO Participation (id, creation_date, priority, grading_id, student_id, project_id) VALUES (%s,%s,%s,NULL,%s,%s)"
+        data = (participation.get_id(), participation.get_creation_date(), participation.get_priority(), participation.get_student_id(), participation.get_project_id())
         cursor.execute(command, data)
-
         self._connection.commit()
         cursor.close()
 
         return participation
+
+    def update(self, participation):
+
+        cursor = self._connection.cursor()
+
+
+        command = "UPDATE Participation " + "SET priority=%s, grading_id=%s WHERE id=%s"
+        data = (participation.get_priority(), participation.get_grading_id(), participation.get_id())
+        cursor.execute(command, data)
+
+        self._connection.commit()
+        cursor.close()
 
     
