@@ -79,7 +79,7 @@ class StudentOperations(Resource):
         return single_student
 
     # irrelevant for user and student as a prototype?
-    """ @electionSystem.marshal_with(student)
+    @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
     def put(self, id):
         adm = StudentUserAdministration()
@@ -90,7 +90,7 @@ class StudentOperations(Resource):
             adm.update_student(s)
             return '', 200
         else:
-            return '', 500 """
+            return '', 500
 
     def delete(self, id):
         adm = StudentUserAdministration()
@@ -177,7 +177,7 @@ class UserOperations(Resource):
         return single_user
 
     # irrelevant for user and student as a prototype?
-    """ @electionSystem.marshal_with(user)
+    @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
     def put(self, id):
         adm = StudentUserAdministration()
@@ -188,7 +188,7 @@ class UserOperations(Resource):
             adm.update_user(u)
             return '', 200
         else:
-            return '', 500 """
+            return '', 500
 
     def delete(self, id):
         adm = StudentUserAdministration()

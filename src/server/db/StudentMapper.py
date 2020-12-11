@@ -203,9 +203,9 @@ class StudentMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "SET (name=%s, creation_date=%s, google_user_id=%s, student_firstname=%s, mail=%s, matrikel_nr=%s, role=%s, study=%s) WHERE id=%s"
+        cmd = "UPDATE Student " + "SET name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, matrikel_nr=%s, role=%s, study=%s WHERE id=%s"
         data = (student.get_name(), student.get_date(), student.get_google_user_id(), student.get_firstname(), student.get_mail(), student.get_matrikel_nr(), student.get_role(), student.get_study(), student.get_id())
-        crs.execute("UPDATE Student ", cmd, data)
+        crs.execute(cmd, data)
 
         self._connection.commit()
         crs.close()

@@ -175,9 +175,9 @@ class UserMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "SET (name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, role=%s) WHERE id=%s"
+        cmd = "UPDATE User " + "SET name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, role=%s WHERE id=%s"
         data = (user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role(), user.get_id())
-        crs.execute("UPDATE User ", cmd, data)
+        crs.execute(cmd, data)
 
         self._connection.commit()
         crs.close()
