@@ -46,6 +46,9 @@ constructor(props){
     ]
     }
 }
+
+
+
   render() {
         const {classes}= this.props;
         return (
@@ -69,8 +72,7 @@ constructor(props){
                                             <TableCell> {row.project_name}</TableCell>
                                             <TableCell> {row.project_type}</TableCell>
                                             <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button color="secondary" variant="outlined" color="primary"> Approve</Button> </TableCell>
-                                            <TableCell> <Button variant="outlined" color="primary"> Decline</Button> </TableCell>
+                                            <TableCell> <Button color="gray" variant="outlined"> Bewerten</Button> </TableCell>
                                         </TableRow>
 
                                     ))}
