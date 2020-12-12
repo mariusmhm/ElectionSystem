@@ -6,8 +6,9 @@ import HeaderAdmin from '../../HeaderAdmin';
 import ArchiveProject from './ArchiveProject';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-
-
+import ApprovedProjects from './ApprovedProjects';
+import KeyCompetence from './KeyCompetence';
+import RejectedProjects from './RejectedProjects';
 
 
 class HomeAfterBegin extends Component {

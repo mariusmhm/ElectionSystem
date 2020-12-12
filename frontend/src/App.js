@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjekteGenehmigen from './components/layout/pages/ProjectGenehmigen/ProjekteGenehmigen';
+import HomeAfterBegin from './components/layout/pages/AfterSemesterBegin/HomeAfterBegin';
 
 class App extends Component {
 
@@ -10,7 +10,7 @@ class App extends Component {
         return (
 
             <div>
-                <ProjekteGenehmigen />
+                <HomeAfterBegin />
 		    </div>
 		);
 	}
