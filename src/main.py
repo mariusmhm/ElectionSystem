@@ -8,6 +8,7 @@ from flask_cors import CORS
 from server.ElectionSystemAdministration import ElectionSystemAdministration
 from server.bo.Student import Student
 from server.bo.User import User
+from server.bo.Semester import Semester
 
 app = Flask(__name__)
 
