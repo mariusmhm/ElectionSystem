@@ -237,6 +237,7 @@ class UserRoleOperations(Resource):
 
 """---Semester specific functions---"""
 
+
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'If there is a server-side error.')
 class SemesterListOperations(Resource):
@@ -251,8 +252,8 @@ class SemesterListOperations(Resource):
     @electionSystem.expect(semester)  # We expect a semester object from the client side.
     def post(self):
         """Create a new customer object."""
-        It is up to the election administration (business logic) to have a correct ID
-        to forgive. The corrected object will eventually be returned. """
+        """It is up to the election administration (business logic) to have a correct ID
+            to forgive. The corrected object will eventually be returned. """
         adm = ElectionSystemAdministration()
 
         proposal = Semester.to_dict(api.payload)
@@ -289,6 +290,7 @@ class SemesterOperations(Resource):
         return '', 200
 
     @electionSystem.marshal_with(semester)
+    @electionSystem.expect(semester, validate=True)
     def put(self, id):
         """Update of a specific semester object"""
         adm = ElectionSystemAdministration()
