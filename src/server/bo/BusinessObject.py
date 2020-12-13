@@ -4,18 +4,18 @@ from datetime import date
 class BusinessObject(ABC):
 
     def __init__(self):
-        self.__id = 0
-        self.__creation_date = date
+        self._id = 0
+        self._creation_date = date
 
     def get_id(self):
-        return self.__id
+        return self._id
 
     def set_id(self, val):
-        self.__id = val
-        
-    def set_creation_date(self, date):
-        self.__creation_date = date
-    
-    def get_creation_date(self):
-        return self.__creation_date
-    
+        self._id = val
+
+    def get_date(self):
+        return self._creation_date
+
+    def set_date(self, creation_date):
+        creation_date = date.today()
+        self._creation_date = creation_date
