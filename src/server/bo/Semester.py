@@ -43,7 +43,7 @@ class Semester(BusinessObject):
         return "Semester: {}, {}, {}, {}, {}, ".format(self.get_id(), self._winter_semester,
                                                        self._submit_projects_end_date,
                                                        self._grading_end_date,
-                                                       self.get_creation_date())
+                                                       self.get_date())
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -53,5 +53,5 @@ class Semester(BusinessObject):
         semester.set_wintersemester(dicti["winter_semester"])
         semester.set_submit_projects_end_date(dicti["submit_projects_end_date"])
         semester.set_grading_end_date(dicti["grading_end_date"])
-        semester.set_creation_date(dicti["creation_date"])
+        semester.set_date(dicti["creation_date"])
         return semester
