@@ -123,15 +123,15 @@ class ElectionSystemAdministration (object):
         
         
         #---SEMESTER SPECIFIC OPERATIONS-----
-        
-        
-        def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date):
+          
+          
+    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date):
         """Create a new semester:"""
         semester = Semester()
         semester.set_wintersemester(winter_semester)
         semester.set_grading_end_date(grading_end_date)
         semester.set_submit_projects_end_date(submit_projects_end_date)
-        semester.set_creation_date(1)
+        semester.set_date(1)
         semester.set_id(1)
 
         with SemesterMapper() as mapper:
