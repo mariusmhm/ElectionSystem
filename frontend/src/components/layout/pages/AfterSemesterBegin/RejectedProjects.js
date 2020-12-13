@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +10,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 /**
  * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
@@ -52,7 +54,7 @@ constructor(props){
             <div>
                 <Container maxWidth="sm">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary">NEUE PROJEKTE</Typography>
+                    <Typography variant='h4' color="secondary">Rejected Projects</Typography>
                      <Grid item>
                         <TableContainer>
                             <Table>
@@ -69,8 +71,7 @@ constructor(props){
                                             <TableCell> {row.project_name}</TableCell>
                                             <TableCell> {row.project_type}</TableCell>
                                             <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button color="secondary" variant="outlined" color="primary"> Approve</Button> </TableCell>
-                                            <TableCell> <Button variant="outlined" color="primary"> Decline</Button> </TableCell>
+                                            <TableCell><IconButton aria-label="delete"><DeleteIcon /> </IconButton></TableCell>
                                         </TableRow>
 
                                     ))}

@@ -10,7 +10,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
+//import Participator from '../../../Buttons/Participator';
+//import PropTypes from 'prop-types';
+//import DeleteIcon from '@material-ui/icons/Delete';
+//import Icon from '@material-ui/core/Icon';
+//import IconButton from '@material-ui/core/IconButton';
 
 /**
  * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
@@ -46,21 +50,26 @@ constructor(props){
     ]
     }
 }
+
+
   render() {
         const {classes}= this.props;
         return (
             <div>
                 <Container maxWidth="sm">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary">NEUE PROJEKTE</Typography>
-                     <Grid item>
+                    <br/>
+                    <Typography variant='h6' color="gray">Key Competence</Typography>
+                    <br/>
+                    <Grid item>
                         <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Projekt</TableCell>
-                                        <TableCell>Projektart</TableCell>
+                                        <TableCell>Project</TableCell>
+                                        <TableCell>Projectart</TableCell>
                                         <TableCell>Professor</TableCell>
+                                        <TableCell>Participator</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -69,10 +78,8 @@ constructor(props){
                                             <TableCell> {row.project_name}</TableCell>
                                             <TableCell> {row.project_type}</TableCell>
                                             <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button color="secondary" variant="outlined" color="primary"> Approve</Button> </TableCell>
-                                            <TableCell> <Button variant="outlined" color="primary"> Decline</Button> </TableCell>
+                                            <TableCell> <Button variant="outlined">Participator</Button></TableCell>
                                         </TableRow>
-
                                     ))}
                                </TableBody>
                             </Table>
