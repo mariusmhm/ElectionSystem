@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import HomeAfterBegin from './components/layout/pages/AfterSemesterBegin/HomeAfterBegin';
+import AdminProjectinfo from './components/layout/pages/AfterSemesterBegin/AdminProjectinfo';
 
 class App extends Component {
 
 
   render() {
-
-
         return (
-
             <div>
-                <HomeAfterBegin />
+                <AdminProjectinfo/>
 		    </div>
 		);
 	}
