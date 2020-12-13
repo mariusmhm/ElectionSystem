@@ -1,976 +1,233 @@
-# Unser Service basiert auf Flask
+# service is based on flask
 from flask import Flask
-# Auf Flask aufbauend nutzen wir RestX
+# using flask restX
 from flask_restx import Api, Resource, fields
-# Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
+# cors as a flask expendency
 from flask_cors import CORS
 
-
-"""The application logic including the business object classes is accessed here"""
-from server.ElectionSystemAdministration import ElectionSystemAdministration
-from server.bo.Grading import Grading
-from server.bo.Module import Module
-from server.bo.Participation import Participation
-from server.bo.Project import Project
-from server.bo.Projecttype import Projecttype
-from server.bo.Semester import Semester
+from student_user_administration_test import StudentUserAdministration
 from server.bo.Student import Student
 from server.bo.User import User
 
-#Der Decorator übernimmt die Authentifikation
-from SecurityDecorater import secured
-
-#Instanzieren von Flask
 app = Flask(__name__)
-
 
 
 CORS(app, resources=r'/electionsystem/*')
 
-
-
-"""Hier wird eine API angelegt, 
-auf deren Basis Clients und Server Daten austauschen. Grundlage hierfür ist das Package flask-restx."""
+#creating an api for clients and server data
 
 api = Api(app, version='1.0', title='Electionsystem API',
-          description='Ein Wahlsystem für Studenten')
+            description='A System for Students to elect Projects')
 
-
-
-"""Namespaces erlauben uns die Strukturierung von APIs. In diesem Fall fasst dieser Namespace alle
-ElectionSystem-relevanten Operationen unter dem Präfix /bank zusammen."""
-electionSystem = api.namespace('electionsystem', description='Funktionen des Electionsystems')
-
-
-"""Nachfolgend werden analog zu unseren BusinessObject-Klassen und NamedBusinessObject-Klassen
- die transferierbare Strukturen angelegt:
-
-BusinessObject dient als Basisklasse, auf der die weiteren Strukturen Teilnahme und Bewertung aufsetzen.
- ab und """
+electionSystem = api.namespace('electionsystem', description="electionsystems functions")
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='_id', description='Der Unique Identifier eines Business Object'),
-    'creation_date': fields.Date(attribute='_creation_date', description='Erstellungszeitpunkt des Business Objekts')
+    'id': fields.Integer(attribute='_id', description='id of a business object'),
+    'creation_date': fields.Date(attribute='_creation_date', description='creation date of a business object')
 })
 
-"""NamedBusinessObject leitet von Business Object ab"""
-nbo = api.model('NamedBusinessObject',bo, {
-    'name': fields.Integer(attribute='_name', description='Der Name eines NamedBusiness Object'),
+nbo = api.model('NamedBusinessObject', bo, {
+    'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
-"""NamedBusinessObject is
- the super class of user, student, module, project, project type and semester."""
 user = api.inherit('User', nbo, {
-    'name': fields.String(attribute='_name', description='Name eines Benutzers'),
-    'email': fields.String(attribute='_email', description='E-Mail-Adresse eines User'),
-    'role': fields.String(attribute='_role', description='Role eines User'),
-    'google_user_id': fields.String(attribute='_google_user_id', description='Google id eines Users')
+    'google_user_id': fields.String(attribute='_google_user_id', description='Users Google id from firebase'),
+    'firstname': fields.String(attribute='_firstname', description='Users First Name'),
+    'mail': fields.String(attribute='_mail', description='Users Mail'),
+    'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
 })
 
-student = api.inherit('Student', nbo, {
-    'first_name': fields.String(attribute='_first_name', description='First name of student'),
-    'last_name': fields.String(attribute='last_name', description='Last nameof student'),
-    'matrikel_nr': fields.Integer(attribute='_matrikel_nr', description='Matriculation number of a student'),
-    'student_study': fields.String(attribute='_student_study', description='Student field of student'),
-    'email':fields.String(attribute='_email', description='E-Mail of a Student'),
-})
-
-
-module=api.inherit('Module',nbo, {
-    'edvNR': fields.Integer(attribute='_edvNR', description='EDV Nummer eines Moduls')
-})
-
-project = api.inherit('Project', nbo, {
-    'num_spots': fields.Integer(attribute='_num_spots', description='Anzahl an freien Plätzen eines Projekts'),
-    'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
-    'weekly': fields.Boolean(attribute='_weekly', description='Wöchentliche Vorlesung eines Projekts'),
-    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='Anzahl der Blocktage in der Vorlesungszeit'),
-    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='Anzahl der Blocktage vor Beginn der Vorlesungszeit'),
-    'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='Anzahl der Blocktage in der Prüfungsphase'),
-    'special_room': fields.Boolean(attribute='_special_room', description='Besonderer Raum notwendig für das Projekt'),
-    'grade_average': fields.Float(attribute='_grade_average', description='Notendurchschnitt eines Projekts'),
-    'room_desired': fields.String(attribute='_room_desired', description='Raumwünsche für ein Projekt'),
-
-})
-
-
-projecttype= api.inherit('Projecttype', nbo,{
-    'etcs': fields.Integer(attribute='_etcs', description='ects of a projecttype'),
-    'sws': fields.Integer(attribute='_sws', description=' SWS of a projecttype')
-})
-
-"""Participation and Grading are BusinessObjects"""
-
-participation=api.inherit('Participation',bo,{
-    'priority': fields.Integer(attribute='_priority', description='priority of a project')
-})
-
-grading= api.inherit('Grading',bo,{
-    'grading': fields.Float(attribute='_grading', descritpion='Note eines Studenten'),
-
+student = api.inherit('Student', user, {
+    'matrikel_nr': fields.Integer(attribute='_matrikel_nr', description='Students Matrikel Number'),
+    'study': fields.String(attribute='_study', description='Students Study')
 })
 
 
 
-
-
-
-"""-------------------------Student--------------------"""
-
+# --- STUDENT SPECIFIC OPERATIONS ---
 
 @electionSystem.route('/student')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.response(500, 'when server has problems')
 class StudentListOperations(Resource):
     @electionSystem.marshal_list_with(student)
-    @secured
     def get(self):
-        """Auslesen aller Studente-Objekte.
-        Sollten keine Studenten-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ElectionSystemAdministration()
-        customers = adm.get_all_students()
-        return customers
+        adm = StudentUserAdministration()
+        students = adm.get_all_students()
+        return students
 
     @electionSystem.marshal_with(student, code=200)
-    @electionSystem.expect(student)  # We expect a Student-Object from the Client Site
-    @secured
+    @electionSystem.expect(student)
     def post(self):
-        """Anlegen eines neuen Student-Objekts.
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
+        adm = StudentUserAdministration()
+        prpl = Student.to_dict(api.payload)
 
-        proposal = student.to_dict(api.payload)
+        if prpl is not None:
+            s = adm.create_student(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
 
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Student-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_student(proposal.get_first_name(), proposal.get_last_name())
-            return c, 200
+            return s, 200
         else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
 
 @electionSystem.route('/student/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID von Student')
+@electionSystem.response(500, 'when server has problems')
 class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
-    @secured
     def get(self, id):
-        """Auslesen eines bestimmten Student-Objekts.
+        adm = StudentUserAdministration()
+        single_student = adm.get_student_by_id(id)
+        return single_student
 
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        student = adm.get_student_by_id(id)
-        return student
-
+    # irrelevant for user and student as a prototype?
     @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
-    @secured
     def put(self, id):
-        """Update eines bestimmten Student-Objekts.
-
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Student-Objekts.
-        """
-        adm = ElectionSystemAdministration()
+        adm = StudentUserAdministration()
         s = Student.to_dict(api.payload)
 
         if s is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Student-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
             s.set_id(id)
-            adm.save_student(s)
+            adm.update_student(s)
             return '', 200
         else:
             return '', 500
 
-"""muss noch in ElectionSystemAPI eingefügt werden"""
-@electionSystem.route('/student-by-name/<string:lastname>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('lastname', 'Der Nachname des Studenten')
-class StudentsByLastnameOperations(Resource):
-    @electionSystem.marshal_with(student)
-    @secured
-    def get(self, lastname):
-        """ Auslesen von Student-Objekten, die durch den Nachnamen bestimmt werden.
+    def delete(self, id):
+        adm = StudentUserAdministration()
+        single_student = adm.get_student_by_id(id)
+        adm.delete_student(single_student)
+        return '', 200
 
-        Die auszulesenden Objekte werden durch ```lastname``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        student = adm.get_student_by_name(lastname)
-        return student
 
-"""muss noch in ElectionSystemAPI eingefügt werden"""
-@electionSystem.route('/student-by-matrikel_nr/<int:matrikel_nr>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('matrikel_nr', 'Der Nachname des Studenten')
-class StudentByMatrikelNrOperations(Resource):
+@electionSystem.route('/student/<string:name>')
+@electionSystem.response(500, 'when server has problems')
+class StudentsNameOperations(Resource):
     @electionSystem.marshal_with(student)
-    @secured
+    def get(self, name):
+        adm = StudentUserAdministration()
+        students = adm.get_student_by_name(name)
+        return students
+
+
+# returns an empty list WHY??
+@electionSystem.route('/student-by-mail/<string:mail>')
+@electionSystem.response(500, 'when server has problems')
+class StudentMailOperations(Resource):
+    @electionSystem.marshal_with(student)
+    def get(self, mail):
+        adm = StudentUserAdministration()
+        students = adm.get_student_by_mail(mail)
+        return students
+
+
+# returns an empty list WHY??
+@electionSystem.route('/student-by-nr/<int:matrikel_nr>')
+@electionSystem.response(500, 'when server has problems')
+class StudentMatrikelNrOperations(Resource):
+    @electionSystem.marshal_with(student)
     def get(self, matrikel_nr):
-        """ Auslesen von Customer-Objekten, die durch den Matrikelnr bestimmt werden.
+        adm = StudentUserAdministration()
+        students = adm.get_student_by_matrikel_nr(matrikel_nr)
+        return students
 
-         Die auszulesenden Objekte werden durch ```Matrikelnr``` in dem URI bestimmt.
-         """
-        adm = ElectionSystemAdministration()
-        student = adm.get_find_by_matrikel_nr(matrikel_nr)
-        return student
 
-"""muss noch in ElectionSystemAPI eingefügt werden"""
-@electionSystem.route('/student-by-email/<string:email>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('email', 'Der Nachname des Studenten')
-class StudentByEmailOperations(Resource):
+# returns an empty list WHY??
+@electionSystem.route('/student-by-study/<string:study>')
+@electionSystem.response(500, 'when server has problems')
+class StudentsStudyOperations(Resource):
     @electionSystem.marshal_with(student)
-    @secured
-    def get(self, email):
-        """ Auslesen von Customer-Objekten, die durch die Email bestimmt werden.
+    def get(self, study):
+        adm = StudentUserAdministration()
+        students = adm.get_student_by_study(study)
+        return students
+        
 
-        Die auszulesenden Objekte werden durch ```Email``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        student = adm.get_student_by_email(email)
-        return student
-
-
-"""------------------User----------------------"""
-
+# --- USER SPECIFIC OPERATIONS ---
 
 @electionSystem.route('/user')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.response(500, 'when server has problems')
 class UserListOperations(Resource):
     @electionSystem.marshal_list_with(user)
-    @secured
     def get(self):
-        """Auslesen aller User-(Dozent)-Objekte.
-
-        Sollten keine Customer-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ElectionSystemAdministration()
-        user = adm.get_all_users()
-        return user
+        adm = StudentUserAdministration()
+        users = adm.get_all_users()
+        return users
 
     @electionSystem.marshal_with(user, code=200)
-    @electionSystem.expect(user)  # Wir erwarten ein Customer-Objekt von Client-Seite.
-    @secured
+    @electionSystem.expect(user)
     def post(self):
-        """Anlegen eines neuen User-Objekts.
+        adm = StudentUserAdministration()
+        prpl = User.to_dict(api.payload)
 
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
+        if prpl is not None:
+            u = adm.create_user(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
 
-        proposal = User.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_user(proposal.get_name(user))
-            return c, 200
+            return u, 200
         else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
             return '', 500
 
 
 @electionSystem.route('/user/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID des User-Objekts')
+@electionSystem.response(500, 'when server has problems')
 class UserOperations(Resource):
     @electionSystem.marshal_with(user)
-    @secured
     def get(self, id):
-        """Auslesen eines bestimmten User-Objekts.
+        adm = StudentUserAdministration()
+        single_user = adm.get_user_by_id(id)
+        return single_user
 
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        user = adm.get_user_by_id(id)
-        return user
-
-    @secured
-    def delete(self, id):
-        """Löschen eines bestimmten User-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        cust = adm.get_user_by_id(id)
-        adm.delete_user(cust)
-        return '', 200
-
-    @electionSystem.marshal_with()
+    # irrelevant for user and student as a prototype?
+    @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
-    @secured
     def put(self, id):
-        """Update eines bestimmten User-Objekts.
-
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
-        """
-        adm = ElectionSystemAdministration()
-        u = user.to_dict(api.payload)
+        adm = StudentUserAdministration()
+        u = User.to_dict(api.payload)
 
         if u is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) User-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
             u.set_id(id)
-            adm.save_user(u)
+            adm.update_user(u)
             return '', 200
         else:
             return '', 500
 
-"""noch in ElectionSystemAPI einfügen """
-@electionSystem.route('/user-by-name/<string:lastname>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('lastname', 'Der Nachname eines User')
-class UserByNameOperation(Resource):
-    @electionSystem.marshal_with(user)
-    @secured
-    def get(self, lastname):
-        """ Auslesen von User-Objekten, die durch den Nachnamen bestimmt werden.
+    def delete(self, id):
+        adm = StudentUserAdministration()
+        single_user = adm.get_user_by_id(id)
+        adm.delete_user(single_user)
+        return '', 200
 
-        Die auszulesenden Objekte werden durch ```lastname``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        user = adm.get_user_by_name(lastname)
+
+@electionSystem.route('/user/<string:name>')
+@electionSystem.response(500, 'when server has problems')
+class UserNameOperations(Resource):
+    @electionSystem.marshal_with(user)
+    def get(self, name):
+        adm = StudentUserAdministration()
+        users = adm.get_user_by_name(name)
+        return users
+
+
+# returns an empty list WHY??
+@electionSystem.route('/user-by-mail/<string:mail>')
+@electionSystem.response(500, 'when server has problems')
+class UserMailOperations(Resource):
+    @electionSystem.marshal_with(user)
+    def get(self, mail):
+        adm = StudentUserAdministration()
+        user = adm.get_user_by_mail(mail)
         return user
 
-"""--------------Project----------------------"""
 
-@electionSystem.route('/project')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_list_with(project)
-    @secured
-    def get(self):
-        """Auslesen aller Project-Objekte.
-
-        Sollten keine Project-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ElectionSystemAdministration()
-        project = adm.get_all_projects()
-        return project
-
-    @electionSystem.marshal_with(project, code=200)
-    @electionSystem.expect(project)  # Wir erwarten ein Customer-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Project-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = project.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_project(proposal.get_name(project))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-
-@electionSystem.route('/project/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID des Account-Objekts')
-class ProjectOperations(Resource):
-    @electionSystem.marshal_with(project)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Project-Objekts.
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        acc = adm.get_project_by_id(id)
-        return acc
-
-    @secured
-    def delete(self, id):
-        """Löschen eines bestimmten Project-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        project = adm.get_project_by_id(id)
-        adm.delete_project(project)
-        return '', 200
-
-    @electionSystem.marshal_with(project)
-    @secured
-    def put(self, id):
-        """Update eines bestimmten Project-Objekts.
-
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Project-Objekts.
-        """
-        adm = ElectionSystemAdministration()
-        p = Project.to_dict(api.payload)
-
-        if p is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Project-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            p.set_id(id)
-            adm.save_project(p)
-            return '', 200
-        else:
-            return '', 500
-
-
-"""----------------------------Projecttype---------------------------"""
-
-
-@electionSystem.route('/projecttypes')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectTypeListOperations(Resource):
-    @electionSystem.marshal_list_with(projecttype)
-    @secured
-    def get(self):
-        """Auslesen aller Projecttypes-Objekte.
-
-        Sollten keine Projecttype-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ElectionSystemAdministration()
-        projecttypes = adm.get_all_projecttypes()
-        return projecttypes
-
-@electionSystem.route('/projecttype')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class ProjectTypeListOperation(Resource):
-    @electionSystem.marshal_with(projecttype, code=200)
-    @electionSystem.expect(projecttype)  # Wir erwarten ein Customer-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Project-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = projecttype.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_projecttype(proposal.get_name(projecttype))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-
-@electionSystem.route('/projecttype/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID des Account-Objekts')
-class ProjectTypeOperations(Resource):
-    @electionSystem.marshal_with(projecttype)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Projecttype-Objekts.
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        pt = adm.get_projecttype_by_id(id)
-        return pt
-
-    @secured
-    def delete(self, id):
-        """Löschen eines bestimmten Project-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        projecttype = adm.get_projecttype_by_id(id)
-        adm.delete_projecttype(projecttype)
-        return '', 200
-
-    @electionSystem.marshal_with(projecttype)
-    @secured
-    def put(self, id):
-        """Update eines bestimmten Project-Objekts.
-
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
-        """
-        adm = ElectionSystemAdministration()
-        pt = Projecttype.to_dict(api.payload)
-
-        if pt is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            pt.set_id(id)
-            adm.save_projecttype(pt)
-            return '', 200
-        else:
-            return '', 500
-
-
-"""-----------------Semester--------------------"""
-
-
-@electionSystem.route('/semester')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class SemesterListOperations(Resource):
-    @electionSystem.marshal_list_with(semester)
-    @secured
-    def get(self):
-        """Auslesen aller Semester-Objekte.
-
-        Sollten keine Semester-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-        adm = ElectionSystemAdministration()
-        semester = adm.get_all_semester()
-        return semester
-
-    @electionSystem.marshal_with(semester, code=200)
-    @electionSystem.expect(semester)  # Wir erwarten ein Customer-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Semester-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = semester.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich Vor- und Nachnamen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_semester(proposal.get_name(semester))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-
-
-@electionSystem.route('/semester/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('id', 'Die ID des Semester-Objekts')
-class SemesterOperations(Resource):
-    @electionSystem.marshal_with(semester)
-    @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Semester-Objekts.
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        pt = adm.get_semester_by_id(id)
-        return pt
-
-    @secured
-    def delete(self, id):
-        """Löschen eines bestimmten Semester-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        semester = adm.get_semester_by_id(id)
-        adm.delete_semester(semester)
-        return '', 200
-
-    @electionSystem.marshal_with(semester)
-    @secured
-    def put(self, id):
-        """Update eines bestimmten semester-Objekts.
-
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
-        """
-        adm = ElectionSystemAdministration()
-        pt = Semester.to_dict(api.payload)
-
-        if pt is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
-            pt.set_id(id)
-            adm.save_semester(pt)
-            return '', 200
-        else:
-            return '', 500
-
-
-
-"""---------------Module-----------------------"""
-@electionSystem.route('/modules')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ModuleListOperations(Resource):
-    @electionSystem.marshal_list_with(module)
-    def get(self):
-        """Auslesen aller Modul-Objekte.
-
-        Sollten keine Modul-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-
-        adm=ElectionSystemAdministration()
-        modules=adm.get_all_modules()
-        return modules
-
-    @electionSystem.marshal_with(module, code=200)
-    @electionSystem.expect(module)  # Wir erwarten ein Module-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Module-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = module.to_dict(api.payload)
-
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich den Namen des Proposals für die Erzeugung
-            eines Customer-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_module(proposal.get_name(module))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-    @electionSystem.route('/module/<int:id>')
-    @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @electionSystem.param('id', 'Die ID des Module-Objekts')
-    class ModuleOperations(Resource):
-        @electionSystem.marshal_with(module)
-        @secured
-        def get(self, id):
-            """Auslesen eines bestimmten Modul-Objekts.
-            Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ElectionSystemAdministration()
-            pt = adm.get_module_by_id(id)
-            return pt
-
-        @secured
-        def delete(self, id):
-            """Löschen eines bestimmten Module-Objekts.
-            Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-
-            adm = ElectionSystemAdministration()
-            module = adm.get_module_by_id(id)
-            adm.delete_module(module)
-            return '', 200
-
-        @electionSystem.marshal_with(module)
-        @secured
-        def put(self, id):
-            """Update eines bestimmten Module-Objekts.
-
-            **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-            verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-            Module-Objekts.
-            """
-            adm = ElectionSystemAdministration()
-            pt = Module.to_dict(api.payload)
-
-            if pt is not None:
-                """Hierdurch wird die id des zu überschreibenden (vgl. Update) Module-Objekts gesetzt.
-                Siehe Hinweise oben.
-                """
-                pt.set_id(id)
-                adm.save_module(pt)
-                return '', 200
-            else:
-                return '', 500
-
-
-    """noch in ElectionSystemAPI einfügen """
-    @electionSystem.route('/module-by-name/<string:name>')
-    @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @electionSystem.param('name', 'Die name des Module-Objekts')
-    class ModuleByNameOperations(Resource):
-        @electionSystem.marshal_with(module)
-        @secured
-        def get(self, name):
-            """Auslesen eines bestimmten Module-Objekts.
-            Das auszulesende Objekt wird durch die ```name``` in dem URI bestimmt.
-            """
-            adm = ElectionSystemAdministration()
-            pt = adm.get_module_by_name(name)
-            return pt
-
-    """noch in ElectionSystemAPI einfügen """
-    @electionSystem.route('/module-by-edv_number/<int:edv_number>')
-    @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @electionSystem.param('name', 'Die Edv_Number des Module-Objekts')
-    class ModuleByEdvNumberOperations(Resource):
-        @electionSystem.marshal_with(module)
-        @secured
-        def get(self, edv_number):
-            """Auslesen eines bestimmten Module-Objekts.
-            Das auszulesende Objekt wird durch die ```edv_number``` in dem URI bestimmt.
-            """
-            adm = ElectionSystemAdministration()
-            pt = adm.get_module_by_edv_number(edv_number)
-            return pt
-
-
-"""---------------Participation-----------------------"""
-
-@electionSystem.route('/participation')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ParticipationListOperations(Resource):
-    @electionSystem.marshal_list_with(participation)
-    def get(self):
-        """Auslesen aller Participation-Objekte.
-
-        Sollten keine Participation-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-
-        adm=ElectionSystemAdministration()
-        participation=adm.get_all_participations()
-        return participation
-
-    @electionSystem.marshal_with(participation, code=200)
-    @electionSystem.expect(participation)  # Wir erwarten ein Participation-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Participation-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = participation.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich den Namen des Proposals für die Erzeugung
-            eines Participation-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_participation(proposal.get_name(participation))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-    @electionSystem.route('/participation/<int:id>')
-    @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @electionSystem.param('id', 'Die ID des Participation-Objekts')
-    class ParticipationOperations(Resource):
-        @electionSystem.marshal_with(participation)
-        @secured
-        def get(self, id):
-            """Auslesen eines bestimmten Participation-Objekts.
-            Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ElectionSystemAdministration()
-            pt = adm.get_participation_by_id(id)
-            return pt
-
-        @secured
-        def delete(self, id):
-            """Löschen eines bestimmten Participation-Objekts.
-            Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-
-            adm = ElectionSystemAdministration()
-            participation = adm.get_participation_by_id(id)
-            adm.delete_participation(participation)
-            return '', 200
-
-        @electionSystem.marshal_with(participation)
-        @secured
-        def put(self, id):
-            """Update eines bestimmten Participation-Objekts.
-
-            **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-            verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-            Participation-Objekts.
-            """
-            adm = ElectionSystemAdministration()
-            pt = Participation.to_dict(api.payload)
-
-            if pt is not None:
-                """Hierdurch wird die id des zu überschreibenden (vgl. Update) Participation-Objekts gesetzt.
-                Siehe Hinweise oben.
-                """
-                pt.set_id(id)
-                adm.save_participation(pt)
-                return '', 200
-            else:
-                return '', 500
-
-
-"""--------------Grading----------------------"""
-@electionSystem.route('/grading')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class GradingListOperations(Resource):
-    @electionSystem.marshal_list_with(grading)
-    def get(self):
-        """Auslesen aller Grading-Objekte.
-
-        Sollten keine Grading-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
-
-        adm=ElectionSystemAdministration()
-        grading=adm.get_all_gradings()
-        return grading
-
-    @electionSystem.marshal_with(grading, code=200)
-    @electionSystem.expect(grading)  # Wir erwarten ein Participation-Objekt von Client-Seite.
-    @secured
-    def post(self):
-        """Anlegen eines neuen Grading-Objekts.
-
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
-        adm = ElectionSystemAdministration()
-
-        proposal = grading.to_dict(api.payload)
-
-        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
-        if proposal is not None:
-            """ Wir verwenden lediglich den Namen des Proposals für die Erzeugung
-            eines Grading-Objekts. Das serverseitig erzeugte Objekt ist das maßgebliche und 
-            wird auch dem Client zurückgegeben. 
-            """
-            c = adm.create_grading(proposal.get_name(grading))
-            return c, 200
-        else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
-            return '', 500
-
-    @electionSystem.route('/grading/<int:id>')
-    @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-    @electionSystem.param('id', 'Die ID des Grading-Objekts')
-    class GradingOperations(Resource):
-        @electionSystem.marshal_with(grading)
-        @secured
-        def get(self, id):
-            """Auslesen eines bestimmten grading-Objekts.
-            Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-            adm = ElectionSystemAdministration()
-            pt = adm.get_grading_by_id(id)
-            return pt
-
-        @secured
-        def delete(self, id):
-            """Löschen eines bestimmten Grading-Objekts.
-            Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-            """
-
-            adm = ElectionSystemAdministration()
-            grading = adm.get_grading_by_id(id)
-            adm.delete_grading(grading)
-            return '', 200
-
-        @electionSystem.marshal_with(grading)
-        @secured
-        def put(self, id):
-            """Update eines bestimmten Grading-Objekts.
-
-            **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-            verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-            Participation-Objekts.
-            """
-            adm = ElectionSystemAdministration()
-            pt = Grading.to_dict(api.payload)
-
-            if pt is not None:
-                """Hierdurch wird die id des zu überschreibenden (vgl. Update) Grading-Objekts gesetzt.
-                Siehe Hinweise oben.
-                """
-                pt.set_id(id)
-                adm.save_grading(pt)
-                return '', 200
-            else:
-                return '', 500
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# returns an empty list WHY??
+@electionSystem.route('/user-by-role/<string:role>')
+@electionSystem.response(500, 'when server has problems')
+class UserRoleOperations(Resource):
+    @electionSystem.marshal_with(user)
+    def get(self, role):
+        adm = StudentUserAdministration()
+        users = adm.get_user_by_role(role)
+        return users
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
