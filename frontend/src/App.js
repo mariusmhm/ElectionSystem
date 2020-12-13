@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ProjekteGenehmigen from './components/layout/pages/ProjectGenehmigen/ProjekteGenehmigen';
+/**import ProjekteGenehmigen from './components/layout/pages/ProjectGenehmigen/ProjekteGenehmigen';**/
+import Teilnehmerliste from './components/layout/pages/ProjectGenehmigen/Teilnehmerliste'
 
 class App extends Component {
 
@@ -10,7 +11,7 @@ class App extends Component {
         return (
 
             <div>
-                <ProjekteGenehmigen />
+                <Teilnehmerliste />
 		    </div>
 		);
 	}
