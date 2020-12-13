@@ -32,6 +32,17 @@ CREATE TABLE Projects (
   PRIMARY KEY (`id`)
 );
 
+
+DROP TABLE IF EXISTS `Semester`;
+CREATE TABLE `Semester` (
+	`id` int(11) NOT NULL DEFAULT '0',
+	`creation_date` DATE,
+	`winter_semester` tinyint NOT NULL DEFAULT '0',
+	`submit_projects_end_date` DATE,
+	`grading_end_date` DATE,
+    PRIMARY KEY(`id`)
+);
+
 INSERT INTO students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
 
 INSERT INTO projects VALUES (1, 'Project 1', "That's Description Number 1");
