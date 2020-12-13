@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import {Typography, Container} from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import HeaderAdmin from '../../HeaderAdmin';
-import ArchiveProject from './ArchiveProject';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import ApprovedProjects from './ApprovedProjects';
-import KeyCompetence from './KeyCompetence';
-import RejectedProjects from './RejectedProjects';
+//import KeyCompetence from './KeyCompetence';
+//import RejectedProjects from './RejectedProjects';
+//import ArchivedProjects from './ArchivedProjects';
 
 
 class HomeAfterBegin extends Component {
 
 
-evaluateNewProjektButton = (event) => {
+//evaluateNewProjektButton = (event) => {
 //soon
-}
+//}
 
   render() {
 
@@ -30,19 +29,11 @@ evaluateNewProjektButton = (event) => {
                   <Container maxWidth="sm">
                       <ApprovedProjects/ >
                       <Divider/>
-                      <br/>
-                      <br/>
-                      <KeyCompetence/ >
-                      <Divider/>
-                      <div>
-                      <RejectedProjects/>
-                      </div>
-                      <div>
-                      <ArchivedProjects/>
-                      </div>
 				  </Container>
 		    </div>
 		);
 	}
 }
 export default HomeAfterBegin;
+
+
