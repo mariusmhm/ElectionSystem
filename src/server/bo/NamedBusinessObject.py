@@ -3,6 +3,7 @@ from server.bo.BusinessObject import BusinessObject
 
 class NamedBusinessObject(BusinessObject):
 
+    # realization of a named business object
     def __init__(self):
         super().__init__()
         self._name = ""
