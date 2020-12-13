@@ -234,28 +234,24 @@ class UserRoleOperations(Resource):
         return users
 
 
-"""Semester specific functions"""
+"""---Semester specific functions---"""
+
 @electionSystem.route('/semester')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.response(500, 'If there is a server-side error.')
 class SemesterListOperations(Resource):
     @electionSystem.marshal_list_with(semester)
     def get(self):
-        """Auslesen aller Customer-Objekte.
-        Sollten keine Customer-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        """Reading out all semester objects. If no semester objects are available, an empty sequence is returned."""
         adm = ElectionSystemAdministration()
         semester = adm.get_all_semester()
         return semester
 
     @electionSystem.marshal_with(semester, code=200)
-    @electionSystem.expect(semester)  # Wir erwarten ein Customer-Objekt von Client-Seite.
+    @electionSystem.expect(semester)  # We expect a semester object from the client side.
     def post(self):
-        """Anlegen eines neuen Customer-Objekts.
-        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
-        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
-        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
-        liegt es an der BankAdministration (Businesslogik), eine korrekte ID
-        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
-        """
+        """Create a new customer object."""
+        It is up to the election administration (business logic) to have a correct ID
+        to forgive. The corrected object will eventually be returned. """
         adm = ElectionSystemAdministration()
 
         proposal = Semester.to_dict(api.payload)
@@ -267,7 +263,7 @@ class SemesterListOperations(Resource):
             return s, 200
 
         else:
-            # Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.
+            """If something goes wrong we dont return anything and throw a server error."""
             return '', 500
 
 
@@ -277,17 +273,15 @@ class SemesterListOperations(Resource):
 class SemesterOperations(Resource):
     @electionSystem.marshal_with(semester)
     def get(self, id):
-        """Auslesen eines bestimmten Semester-Objekts.
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
+        """Reading out a specific semester object.
+        The object to be read is determined by the `` id '' in the URI."""
         adm = ElectionSystemAdministration()
         pt = adm.get_semester_by_id(id)
         return pt
 
     def delete(self, id):
-        """Löschen eines bestimmten Semester-Objekts.
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
+        """Deleting a specific semester object.
+        The object to be deleted is determined by the `` id '' in the URI."""
         adm = ElectionSystemAdministration()
         semester = adm.get_semester_by_id(id)
         adm.delete_semester(semester)
@@ -295,18 +289,12 @@ class SemesterOperations(Resource):
 
     @electionSystem.marshal_with(semester)
     def put(self, id):
-        """Update eines bestimmten semester-Objekts.
-        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
-        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
-        Customer-Objekts.
-        """
+        """Update of a specific semester object"""
         adm = ElectionSystemAdministration()
         s = Semester.to_dict(api.payload)
 
         if s is not None:
-            """Hierdurch wird die id des zu überschreibenden (vgl. Update) Account-Objekts gesetzt.
-            Siehe Hinweise oben.
-            """
+            """This sets the id of the account object to be overwritten"""
             s.set_id(id)
             adm.save_semester(s)
             return '', 200
