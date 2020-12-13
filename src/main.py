@@ -5,7 +5,7 @@ from flask_restx import Api, Resource, fields
 # cors as a flask expendency
 from flask_cors import CORS
 
-from student_user_administration_test import StudentUserAdministration
+from server.ElectionSystemAdministration import ElectionSystemAdministration
 from server.bo.Student import Student
 from server.bo.User import User
 
@@ -51,14 +51,14 @@ student = api.inherit('Student', user, {
 class StudentListOperations(Resource):
     @electionSystem.marshal_list_with(student)
     def get(self):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         students = adm.get_all_students()
         return students
 
     @electionSystem.marshal_with(student, code=200)
     @electionSystem.expect(student)
     def post(self):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
@@ -74,7 +74,7 @@ class StudentListOperations(Resource):
 class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         single_student = adm.get_student_by_id(id)
         return single_student
 
@@ -82,7 +82,7 @@ class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
     def put(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         s = Student.to_dict(api.payload)
 
         if s is not None:
@@ -93,7 +93,7 @@ class StudentOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         single_student = adm.get_student_by_id(id)
         adm.delete_student(single_student)
         return '', 200
@@ -104,7 +104,7 @@ class StudentOperations(Resource):
 class StudentsNameOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, name):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         students = adm.get_student_by_name(name)
         return students
 
@@ -115,7 +115,7 @@ class StudentsNameOperations(Resource):
 class StudentMailOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, mail):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         students = adm.get_student_by_mail(mail)
         return students
 
@@ -126,7 +126,7 @@ class StudentMailOperations(Resource):
 class StudentMatrikelNrOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, matrikel_nr):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         students = adm.get_student_by_matrikel_nr(matrikel_nr)
         return students
 
@@ -137,7 +137,7 @@ class StudentMatrikelNrOperations(Resource):
 class StudentsStudyOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, study):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         students = adm.get_student_by_study(study)
         return students
         
@@ -149,14 +149,14 @@ class StudentsStudyOperations(Resource):
 class UserListOperations(Resource):
     @electionSystem.marshal_list_with(user)
     def get(self):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         users = adm.get_all_users()
         return users
 
     @electionSystem.marshal_with(user, code=200)
     @electionSystem.expect(user)
     def post(self):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
@@ -172,7 +172,7 @@ class UserListOperations(Resource):
 class UserOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         single_user = adm.get_user_by_id(id)
         return single_user
 
@@ -180,7 +180,7 @@ class UserOperations(Resource):
     @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
     def put(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         u = User.to_dict(api.payload)
 
         if u is not None:
@@ -191,7 +191,7 @@ class UserOperations(Resource):
             return '', 500
 
     def delete(self, id):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         single_user = adm.get_user_by_id(id)
         adm.delete_user(single_user)
         return '', 200
@@ -202,7 +202,7 @@ class UserOperations(Resource):
 class UserNameOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, name):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         users = adm.get_user_by_name(name)
         return users
 
@@ -213,7 +213,7 @@ class UserNameOperations(Resource):
 class UserMailOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, mail):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         user = adm.get_user_by_mail(mail)
         return user
 
@@ -224,7 +224,7 @@ class UserMailOperations(Resource):
 class UserRoleOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, role):
-        adm = StudentUserAdministration()
+        adm = ElectionSystemAdministration()
         users = adm.get_user_by_role(role)
         return users
 

@@ -5,7 +5,7 @@ from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
 
 
-class StudentUserAdministration (object):
+class ElectionSystemAdministration (object):
 
     def __init__(self):
         pass
