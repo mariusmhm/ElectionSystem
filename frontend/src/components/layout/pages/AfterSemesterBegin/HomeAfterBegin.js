@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ApprovedProjects from './ApprovedProjects';
 import KeyCompetence from './KeyCompetence';
 import RejectedProjects from './RejectedProjects';
-//import ArchivedProjects from './ArchivedProjects';
+import ArchivedProjects from './ArchivedProjects';
 
 
 class HomeAfterBegin extends Component {
@@ -28,11 +28,19 @@ class HomeAfterBegin extends Component {
                  <HeaderAdmin/>
                   <Container maxWidth="sm">
                       <ApprovedProjects/ >
+                      <Divider/>
+                      <br/>
                       <br/>
                       <KeyCompetence/ >
+                      <Divider/>
                       <br/>
                       <RejectedProjects/>
                       <Divider/>
+                      <br/>
+                      <div>
+                      <ArchivedProjects/>
+                      <Divider/>
+                      </div>
 				  </Container>
 		    </div>
 		);

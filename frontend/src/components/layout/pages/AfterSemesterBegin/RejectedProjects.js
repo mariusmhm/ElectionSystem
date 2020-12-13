@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-//import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -63,6 +63,7 @@ constructor(props){
                                         <TableCell>Projekt</TableCell>
                                         <TableCell>Projektart</TableCell>
                                         <TableCell>Professor</TableCell>
+                                        <TableCell> <Button  variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete All</Button> </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

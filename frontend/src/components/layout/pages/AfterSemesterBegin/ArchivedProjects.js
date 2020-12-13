@@ -63,7 +63,7 @@ constructor(props){
 
                 <CssBaseline />
 
-                <Typography color="secondary" variant='h4'>ARCHIVED PROJECT</Typography>
+                <Typography color="secondary" variant='h4'>Archived Projects</Typography>
                 <Grid container direction="row" justify="space-around" alignItems="center">
                     <br/>
                     <TableContainer>
