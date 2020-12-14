@@ -11,6 +11,7 @@ from server.bo.User import User
 from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
+from server.bo.Projecttype import Projecttype
 
 app = Flask(__name__)
 
@@ -60,6 +61,11 @@ participation= api.inherit('Participation', bo, {
     'grading_id': fields.Integer(attribute='_grading_id', description='Grading id'),
     'student_id': fields.Integer(attribute='_student_id', description='Student id'),
     'project_id': fields.Integer(attribute='_project_id', description='Project id')
+})
+
+projecttype = api.inherit('Projecttype', bo, nbo, {
+    'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
+    'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
 
@@ -444,6 +450,88 @@ class GradingListOperations(Resource):
         g = adm.get_by_grading_id(id)
         adm.delete_grading(g)
         return '', 200
+# ----------------------------Projecttype specific operations---------------------------
+
+@electionSystem.route('/projecttype')
+@electionSystem.response(500, 'when the server has an error')
+class ProjecttypeListOperations(Resource):
+    @electionSystem.marshal_list_with(projecttype)
+    def get(self):
+        """Readout of all Projecttype-Objects that exist in database.
+        If there are no Projecttype-Objects, you will get an empty sequenz."""
+        adm = ProjecttypeAdministration()
+        all_pt = adm.get_all_projecttypes()
+        return all_pt
+
+    @electionSystem.marshal_with(projecttype, code=200)
+    @electionSystem.expect(projecttype)
+    def post(self):
+        """Sets a new Projecttype-Object.
+        **ATTENTION:** We take the data sent by the client as a suggestion.
+        For example, the assignment of the ID is not the task of the client.
+        Even if the client should assign an ID in the proposal, it is
+        it is up to the ElectionSystemAdministration (business logic) to create a correct ID
+        to assign. *The corrected object is finally returned.
+        """
+        adm = ProjecttypeAdministration()
+        prpl = Projecttype.to_dict(api.payload)
+
+        if prpl is not None:
+            p = adm.create_projecttype(prpl.get_name(), prpl.get_ect(), prpl.get_sws())
+
+            return p, 200
+        else:
+            return '', 500
+
+
+@electionSystem.route('/projecttype/<int:id>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjecttypeOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, id):
+        """Reads out the a specific Projecttype-Object by id.
+        The realization of reading out the object is by ```id``` in dem URI.
+        """
+        adm = ProjecttypeAdministration()
+        single_pt = adm.get_projecttype_by_id(id)
+        return single_pt
+
+    def delete(self,id):
+        """Delete a specific customer object.
+        The object to be deleted is determined by the ``id`` in the URI.
+        """
+        adm = ProjecttypeAdministration()
+        single_pt = adm.get_projecttype_by_id(id)
+        adm.delete_projecttype(single_pt)
+        return '', 200
+
+    @electionSystem.marshal_with(projecttype)
+    @electionSystem.expect(projecttype, validate=True)
+    def put(self, id):
+        """Update a specific Projecttype object.
+        **CAUTION:** Relevant id is the id provided by URI and thus used as method parameter.
+        method parameter. This parameter overrides the id attribute of the Projecttype object passed in the request payload.
+        Projecttype object.
+        """
+
+        adm = ProjecttypeAdministration()
+        p = Projecttype.to_dict(api.payload)
+
+        if p is not None:
+            p.set_id(id)
+            adm.update_projecttype(p)
+            return '', 200
+        else:
+            return '', 500
+
+@electionSystem.route('/projecttype/<string:name>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjecttypeNameOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, name):
+        adm = ProjecttypeAdministration()
+        all_pt = adm.get_projecttype_by_name(name)
+        return all_pt
 
 
 if __name__ == '__main__':
