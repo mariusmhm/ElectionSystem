@@ -77,6 +77,29 @@ class ParticipationMapper(Mapper):
 
         return result
 
+    def find_all_by_grading_id(self, grading_id):
+
+        result = []
+        cursor = self._connection.cursor()
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE grading_id={}".format(grading_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
+            participation = Participation()
+            participation.set_id(id)
+            participation.set_creation_date(creation_date)
+            participation.set_priority(priority)
+            participation.set_grading_id(grading_id)
+            participation.set_student_id(student_id)
+            participation.set_project_id(project_id)
+            result.append(participation)
+
+        self._connection.commit()
+        cursor.close()
+
+        return result
+
     def insert(self, participation):
 
         cursor = self._connection.cursor()
@@ -109,4 +132,21 @@ class ParticipationMapper(Mapper):
         self._connection.commit()
         cursor.close()
 
+    def delete(self, participation):
+
+        cursor = self._connection.cursor()
+        command = "DELETE FROM Participation WHERE id={}".format(participation.get_id())
+        cursor.execute(command)
+
+        self._connection.commit()
+        cursor.close()
+
+    def delete_grading_id(self, participation):
+
+        cursor = self._connection.cursor()
+        command = "UPDATE Participation SET grading_id= NULL"
+        cursor.execute(command)
+
+        self._connection.commit()
+        cursor.close()
     

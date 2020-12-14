@@ -28,6 +28,10 @@ class ElectionSystemAdministration(object):
         with ParticipationMapper() as mapper:
             mapper.update(participation)
 
+    def delete_participation(self, participation):
+        with ParticipationMapper() as mapper:
+            mapper.delete(participation)
+
     def get_by_participation_id(self, id):
         with ParticipationMapper() as mapper:
             return mapper.find_by_participation_id(id)
@@ -40,11 +44,33 @@ class ElectionSystemAdministration(object):
         with ParticipationMapper() as mapper:
             return mapper.find_all_by_student_id(student_id)
 
+    def get_all_by_grading_id(self, grading_id):
+        with ParticipationMapper() as mapper:
+            return mapper.find_all_by_grading_id(grading_id)
 
+    def delete_grading_id(self, participation):
+        with ParticipationMapper() as mapper:
+            mapper.delete_grading_id(participation)
 
     #-----Grading-------
 
     def create_grading(self, grade):
+
+        allgrades = self.get_all_grades()
+
+        glist=[]
+
+        for g in allgrades:
+            glist.append(g.get_grade())
+            
+        if grade in glist:
+            print('grade exists') 
+            return None 
+        else: 
+            self.new_grading(grade)
+        
+
+    def new_grading(self, grade):
         #create grading
         g = Grading()
         g.set_grade(grade)
@@ -60,8 +86,15 @@ class ElectionSystemAdministration(object):
 
     def delete_grading(self, grading):
         with GradingMapper() as mapper:
+
+            participations = self.get_all_by_grading_id(grading.get_id())
+
+            if not(participations is None):
+                for p in participations:
+                    self.delete_grading_id(p)
+                          
             mapper.delete(grading)
-            
+       
     
     def get_all_grades(self):
         with GradingMapper() as mapper:
