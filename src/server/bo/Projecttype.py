@@ -1,50 +1,42 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Projecttype(NamedBusinessObject):
-
-    """Realization of an examplary Projecttype.
+    """Realization of an examplary Projecttype Class.
     """
 
     def __init__(self):
-        self.__etcs = 0
-        self.__sws = 0
-        
-    def get_etcs(self):
-        """Read out of the ECTs."""
-        return self.__etcs
+        super().__init__()
+        self._ect = 0
+        self._sws = 0
 
-    def set_etcs(self,etcs):
-        """Set the ECTs."""
-        self.__etcs = etcs
+    def get_ect(self):
+        """Reads out of the ECTs."""
+        return self._ect
+
+    def set_ect(self, ect):
+        """Sets the ECTs."""
+        self._ect = ect
 
     def get_sws(self):
-        """Read out of the SWS."""
-        return self.__sws
+        """Reads out of the SWS."""
+        return self._sws
 
     def set_sws(self, sws):
-        """Set the SWS."""
-        self.__sws = sws
-
+        """Sets the SWS."""
+        self._sws = sws
 
     def __str__(self):
-
-        """Creats a simple textually Representation of a Projecttype() instanz.
-
-        The Attributes are ECTs and SWS."""
-
-        return "Project:  {}, {}, ".format(self.get_ects(),self.get_sws(),self.get_id(),self.get_name(),
-                                           self.get_cretion_date())
+        """Creats a simple textually Representation of a Projecttype() instanc. The Attributes are ECTs and SWS."""
+        return "Projecttype: {}, {}, {}, {}, {} ".format(self.get_id(), self.get_name(),self.get_creation_date(), self._ect, self._sws)
 
     @staticmethod
     def to_dict(dicti=dict()):
-
-        """"Convert a Python dict() in a Projecttype()."""
+        """Transforms a Python dict() into a Projecttype()."""
         projecttype = Projecttype()
-        projecttype.set_etcs(dicti["ects"])
-        projecttype.set_sws(dicti["sws"])
-        projecttype.set_id(dicti["projecttype_id"])
-        projecttype.set_id(dicti["projecttype_name"])
+        projecttype.set_id(dicti["id"])
+        projecttype.set_name(dicti["name"])
         projecttype.set_creation_date(dicti["creation_date"])
+        projecttype.set_sws(dicti["sws"])
+        projecttype.set_ect(dicti["ect"])
         return projecttype
