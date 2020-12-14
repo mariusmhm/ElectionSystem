@@ -411,8 +411,8 @@ class GradingListOperations(Resource):
         proposal = Grading.from_dict(api.payload)
 
         if proposal is not None:
-            p = adm.create_grading(proposal.get_grade())
-            return p, 200
+            g = adm.create_grading(proposal.get_grade())
+            return g, 200
         else:
             #server error
             return '', 500

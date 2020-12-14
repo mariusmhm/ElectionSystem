@@ -171,7 +171,7 @@ class ElectionSystemAdministration (object):
         pp.set_student_id(student_id)
         pp.set_project_id(project_id)
         pp.set_id(1)
-        pp.set_creation_date(1)
+        pp.set_date(1)
 
         with ParticipationMapper() as mapper:
             return mapper.insert(pp)
@@ -186,7 +186,7 @@ class ElectionSystemAdministration (object):
 
     def get_by_participation_id(self, id):
         with ParticipationMapper() as mapper:
-            return mapper.find_by_participation_id(id)
+            return mapper.find_by_id(id)
 
     def get_all_by_project_id(self, project_id):
         with ParticipationMapper() as mapper:
@@ -223,18 +223,15 @@ class ElectionSystemAdministration (object):
             print('grade exists') 
             return None 
         else: 
-            self.new_grading(grade)
+            g = Grading()
+            g.set_grade(grade)
+            g.set_id(1)
+            g.set_date(1)
+
+            with GradingMapper() as mapper:
+                return mapper.insert(g)     
+
         
-
-    def new_grading(self, grade):
-        #create grading
-        g = Grading()
-        g.set_grade(grade)
-        g.set_id(1)
-        g.set_creation_date(1)
-
-        with GradingMapper() as mapper:
-            return mapper.insert(g)
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:
@@ -258,4 +255,4 @@ class ElectionSystemAdministration (object):
 
     def get_by_grading_id(self, id):
         with GradingMapper() as mapper:
-            return mapper.find_by_grading_id(id)
+            return mapper.find_by_id(id)

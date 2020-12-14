@@ -18,7 +18,7 @@ class GradingMapper (Mapper):
 
         for (id, creation_date, grade) in tuples:
             grading = Grading()
-            grading.set_creation_date(creation_date)
+            grading.set_date(creation_date)
             grading.set_id(id)
             grading.set_grade(grade)
             result.append(grading)
@@ -27,7 +27,7 @@ class GradingMapper (Mapper):
         cursor.close()
         return result
 
-    def find_by_grading_id(self, id):
+    def find_by_id(self, id):
 
         result = None
         cursor = self._connection.cursor()
@@ -39,7 +39,7 @@ class GradingMapper (Mapper):
         for (id, creation_date, grade) in tuples:
             grading = Grading()
             grading.set_id(id)
-            grading.set_creation_date(creation_date)
+            grading.set_date(creation_date)
             grading.set_grade(grade)
             result = grading
 
@@ -61,10 +61,11 @@ class GradingMapper (Mapper):
                 grading.set_id(1)
             
         command = "INSERT INTO Grading (id, creation_date, grade) VALUES (%s,%s,%s)"
-        data = (grading.get_id(), grading.get_creation_date(), grading.get_grade())
+        data = (grading.get_id(), grading.get_date(), grading.get_grade())
         cursor.execute(command, data)
         self._connection.commit()
         cursor.close()
+        
 
         return grading
 

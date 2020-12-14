@@ -7,7 +7,10 @@ class ParticipationMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_by_participation_id(self, id):
+    def find_all():
+        return None
+
+    def find_by_id(self, id):
 
         result = None
         cursor = self._connection.cursor()
@@ -18,7 +21,7 @@ class ParticipationMapper(Mapper):
         for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
-            participation.set_creation_date(creation_date)
+            participation.set_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -37,12 +40,11 @@ class ParticipationMapper(Mapper):
         command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={}".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
-        print(tuples)
 
         for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
-            participation.set_creation_date(creation_date)
+            participation.set_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -65,7 +67,7 @@ class ParticipationMapper(Mapper):
         for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
-            participation.set_creation_date(creation_date)
+            participation.set_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -88,7 +90,7 @@ class ParticipationMapper(Mapper):
         for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
-            participation.set_creation_date(creation_date)
+            participation.set_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -111,7 +113,7 @@ class ParticipationMapper(Mapper):
         for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
             participation = Participation()
             participation.set_id(id)
-            participation.set_creation_date(creation_date)
+            participation.set_date(creation_date)
             participation.set_priority(priority)
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
@@ -136,15 +138,15 @@ class ParticipationMapper(Mapper):
                 participation.set_id(1)
             
         command = "INSERT INTO Participation (id, creation_date, priority, grading_id, student_id, project_id) VALUES (%s,%s,%s,NULL,%s,%s)"
-        data = (participation.get_id(), participation.get_creation_date(), participation.get_priority(), participation.get_student_id(), participation.get_project_id())
+        data = (participation.get_id(), participation.get_date(), participation.get_priority(), participation.get_student_id(), participation.get_project_id())
         cursor.execute(command, data)
         self._connection.commit()
         cursor.close()
 
         return participation
 
-    def update(self, participation):
-
+    def update(self, participation): 
+        
         cursor = self._connection.cursor()
 
 
@@ -154,6 +156,7 @@ class ParticipationMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
+ 
 
     def delete(self, participation):
 
