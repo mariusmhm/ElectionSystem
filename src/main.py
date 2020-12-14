@@ -106,7 +106,7 @@ class ParticipationsListOperations(Resource):
 @electionSystem.route('/participation-by-project/<int:project_id>')
 @electionSystem.response(500, 'server error')
 class ParticipationsListOperations(Resource):
-    @electionSystem.marshal_with(participation)
+    @electionSystem.marshal_list_with(participation)
     def get(self, project_id):
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_project_id(project_id)
@@ -115,7 +115,7 @@ class ParticipationsListOperations(Resource):
 @electionSystem.route('/participation-by-student/<int:student_id>')
 @electionSystem.response(500, 'server error')
 class ParticipationsListOperations(Resource):
-    @electionSystem.marshal_with(participation)
+    @electionSystem.marshal_list_with(participation)
     def get(self, student_id):
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_student_id(student_id)
@@ -124,7 +124,7 @@ class ParticipationsListOperations(Resource):
 @electionSystem.route('/participation-by-grading/<int:grading_id>')
 @electionSystem.response(500, 'server error')
 class ParticipationsListOperations(Resource):
-    @electionSystem.marshal_with(participation)
+    @electionSystem.marshal_list_with(participation)
     def get(self, grading_id):
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_grading_id(grading_id)

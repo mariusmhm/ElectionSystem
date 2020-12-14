@@ -100,6 +100,29 @@ class ParticipationMapper(Mapper):
 
         return result
 
+    def find_all_by_priority(self, priority):
+
+        result = []
+        cursor = self._connection.cursor()
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE priority={}".format(priority)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
+            participation = Participation()
+            participation.set_id(id)
+            participation.set_creation_date(creation_date)
+            participation.set_priority(priority)
+            participation.set_grading_id(grading_id)
+            participation.set_student_id(student_id)
+            participation.set_project_id(project_id)
+            result.append(participation)
+
+        self._connection.commit()
+        cursor.close()
+
+        return result
+
     def insert(self, participation):
 
         cursor = self._connection.cursor()

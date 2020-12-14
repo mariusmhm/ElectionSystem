@@ -47,6 +47,10 @@ class ElectionSystemAdministration(object):
     def get_all_by_grading_id(self, grading_id):
         with ParticipationMapper() as mapper:
             return mapper.find_all_by_grading_id(grading_id)
+        
+    def get_all_by_priority(self, priority):
+        with ParticipationMapper() as mapper:
+            return mapper.find_all_by_priority(priority)
 
     def delete_grading_id(self, participation):
         with ParticipationMapper() as mapper:
