@@ -28,7 +28,7 @@ class Projecttype(NamedBusinessObject):
 
     def __str__(self):
         """Creats a simple textually Representation of a Projecttype() instanc. The Attributes are ECTs and SWS."""
-        return "Projecttype: {}, {}, {}, {}, {} ".format(self.get_id(), self.get_name(),self.get_creation_date(), self._ect, self._sws)
+        return "Projecttype: {}, {}, {}, {}, {} ".format(self.get_id(), self.get_name(),self.get_date(), self._ect, self._sws)
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -36,7 +36,7 @@ class Projecttype(NamedBusinessObject):
         projecttype = Projecttype()
         projecttype.set_id(dicti["id"])
         projecttype.set_name(dicti["name"])
-        projecttype.set_creation_date(dicti["creation_date"])
+        projecttype.set_date(dicti["creation_date"])
         projecttype.set_sws(dicti["sws"])
         projecttype.set_ect(dicti["ect"])
         return projecttype
