@@ -1,122 +1,128 @@
 from server.bo.Projecttype import Projecttype
 from server.db.Mapper import Mapper
 
+
 class ProjecttypeMapper(Mapper):
+    """Mapper class that maps projecttype objects to a relational database.
+    database. For this a set of methods is made available, with
+    methods, which can be used to search for, create, modify and delete objects.
+    can be deleted. The mapping is bidirectional. I.e., objects can be
+    be converted into DB structures and DB structures into objects.
+    """
 
     def __init__(self):
         super().__init__()
 
     def find_all(self):
-       """Reads out all project types.
-              :return A collection of module objects that represent all project types."""
-       res = []
-       crs = self._connection.cursor()
+        """Read out all projecttype.
+        :return A collection of projecttypes objects that all projecttype represent."""
 
-       crs.execute("SELECT * FROM Module")
-       tupsrc = crs.fetchall()
-
-       for (projecttype_id, creation_date, projecttype_name, sws, ects) in tupsrc:
-            projecttype = Projecttype()
-            projecttype.set_id(projecttype_id)
-            projecttype.set_creation_date(creation_date)
-            projecttype.set_name(projecttype_name)
-            projecttype.set_sws(sws)
-            projecttype.set_etcs(ects)
-            res.append(projecttype)
-
-            self._connection.commit()
-            crs.close()
-
-            return res
-
-
-    def find_by_id(self, projecttype_id):
-        """Read out the project type based on their id.
-        : param projecttype_id of the associated projecttype.
-        : return a projecttype object with the id number."""
-
-        res = None
-        cursor = self._connection.cursor()
-        command = "SELECT projecttype_id, creation_date, projecttype_name, sws, ects={}".format(projecttype_id)
-
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        try:
-            (projecttype_id, creation_date, projecttype_name, sws, ects)= tuples[0]
-            projecttype = Projecttype()
-            projecttype.set_id(projecttype_id)
-            projecttype.set_creation_date(creation_date)
-            projecttype.set_name(projecttype_name)
-            projecttype.set_sws(sws)
-            projecttype.set_etcs(ects)
-            res = projecttype
-
-        except IndexError:
-            """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
-            does not return tuples, but tuples = cursor.fetchall () returns an empty sequence."""
-            res = None
-
-        self._connection.commit()
-        cursor.close()
-        return res
-
-    def find_by_name(self, projecttype_name):
-        """Read out all projecttype based on their name.
-        : param projecttype_name of the associated projecttype.
-        : return A collection of projecttypes objects
-        with the desired name."""
-
-        result = []
+        res = []
         crs = self._connection.cursor()
-        crs.execute("SELECT projecttype_id, creation_date, projecttype_name, ses, ects"/
-                    " FROM Projecttype WHERE projecttype_name LIKE '{}'"\
-                    " ORDER BY projecttype_name"
-                    .format(projecttype_name))
 
-        tuples = crs.fetchall()
+        crs.execute("SELECT * FROM Projecttype")
+        tupsrc = crs.fetchall()
 
-        try:
-            (projecttype_id, creation_date, projecttype_name, sws, ects) =tuples[0]
+        for (p_id, creation_date, name, ect, sws) in tupsrc:
             projecttype = Projecttype()
-            projecttype.set_id(projecttype_id)
-            projecttype.set_creation_date(creation_date)
-            projecttype.set_name(projecttype_name)
+            projecttype.set_id(p_id)
+            projecttype.set_date(creation_date)
+            projecttype.set_name(name)
+            projecttype.set_ect(ect)
             projecttype.set_sws(sws)
-            projecttype.set_etcs(ects)
-            result = projecttype
-
-        except IndexError:
-            """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
-            does not return tuples, but tuples = cursor.fetchall () returns an empty sequence."""
-            result = None
+            res.append(projecttype)
 
         self._connection.commit()
         crs.close()
 
-        return result
+        return res
+
+    def find_by_id(self, id):
+        """Read out the projecttype type based on their id.
+        : param projecttype_id of the associated projecttype.
+        : return a projecttype object with the id number."""
+
+        res = None
+        crs = self._connection.cursor()
+
+        crs.execute("SELECT * FROM Projecttype WHERE id={}".format(id))
+        tupsrc = crs.fetchall()
+
+        for (p_id, creation_date, name, sws, ect) in tupsrc:
+            projecttype = Projecttype()
+            projecttype.set_id(p_id)
+            projecttype.set_date(creation_date)
+            projecttype.set_name(name)
+            projecttype.set_sws(sws)
+            projecttype.set_ect(ect)
+            res = projecttype
+
+        self._connection.commit()
+        crs.close()
+
+        return res
+
+    def find_by_name(self, name):
+        """Read out all projecttypes based on their name.
+        :return A collection of projecttypes objects that all projecttypes represent."""
+
+        res = []
+        crs = self._connection.cursor()
+
+        crs.execute("SELECT * FROM Projecttype WHERE name LIKE '{}' ORDER BY name".format(name))
+        tupsrc = crs.fetchall()
+
+        for (p_id, name, creation_date, ect, sws) in tupsrc:
+            projecttype = Projecttype()
+            projecttype.set_id(p_id)
+            projecttype.set_name(name)
+            projecttype.set_date(creation_date)
+            projecttype.set_ect(ect)
+            projecttype.set_sws(sws)
+            res.append(projecttype)
+
+        self._connection.commit()
+        crs.close()
+
+        return res
 
     def insert(self, projecttype):
-        """Insertion of a p object into the database.
-
+        """Insertion of a projecttype object into the database.
         The primary key of the transferred object is also checked and if necessary
         corrected.
-
         : param projecttype the object to be saved
         : return the object that has already been transferred, but with a possibly corrected ID.
         """
+
         crs = self._connection.cursor()
-        crs.execute("SELECT MAX(id) AS maxid FROM Projecttype")
-        tuples = crs.fetchall()
 
-        for (maxid) in tuples:
-            projecttype.set_id(maxid[0]+1)
+        crs.execute("SELECT MAX(id) AS maxid FROM Projecttype ")
+        tupsrc = crs.fetchall()
 
-            crs.execute("INSERT INTO Projecttype(projecttype_id, creation_date,projecttype_name,"
-                        "sws,ects)"
-                        "VALUES ('{}', '{}','{}', '{}', '{}')"
-                        .format(projecttype.get_id(), projecttype.get_creation_date(), projecttype.get_name(),
-                                projecttype.get_sws(), projecttype.get_ects()))
+        for (maxid) in tupsrc:
+            if maxid[0] is not None:
+                projecttype.set_id(maxid[0] + 1)
+            else:
+                projecttype.set_id(1)
+
+        cmd = "INSERT INTO Projecttype (id, name, creation_date, ect, sws) VALUES (%s, %s, %s, %s, %s)"
+        data = (projecttype.get_id(), projecttype.get_name(), projecttype.get_date(), projecttype.get_ect(), projecttype.get_sws())
+        crs.execute(cmd, data)
+
+        self._connection.commit()
+        crs.close()
+
+        return projecttype
+
+    def update(self, projecttype):
+        """Repeated writing of an projecttype object to the database.
+            : param projecttype the object to be written into the DB"""
+
+        crs = self._connection.cursor()
+
+        cmd = "UPDATE Projecttype + SET name=%s, creation_date=%s, ect=%s, sws=%s WHERE id=%s"
+        data = (projecttype.get_name(), projecttype.get_date(), projecttype.get_ect(), projecttype.get_sws())
+        crs.execute(cmd, data)
 
         self._connection.commit()
         crs.close()
@@ -125,36 +131,12 @@ class ProjecttypeMapper(Mapper):
 
     def delete(self, projecttype):
 
-        """Deleting the data of a projecttype object from the database.
-        : param projecttype the "object" to be deleted from the DB"""
-
         crs = self._connection.cursor()
-        crs.execute("DELETE FROM Projecttype WHERE projecttype_id={}".format(projecttype.get_id()))
+
+        crs.execute("DELETE FROM Projecttype WHERE id={}".format(projecttype.get_id()))
 
         self._connection.commit()
         crs.close()
-
-    def update(self, projecttype):
-
-        """Repeated writing of an project type object to the database.
-            : param projectt ype the object to be written into the DB"""
-        cursor = self._connection.cursor()
-
-        command = "UPDATE Projecttype " + "SET creation_date=%s, projecttype_id=%s, " \
-                                       "projecttype_name=%s," \
-                                       "sws=%s, ects=%s WHERE Projecttype_id=%s"
-        data = (projecttype.get_creation_date(), projecttype.get_id(),projecttype.get_name(), projecttype.get_sws(),
-                projecttype.get_ects())
-        cursor.execute(command, data)
-
-        self._connection.commit()
-        cursor.close()
-
-
-
-
-
-
 
 
 
