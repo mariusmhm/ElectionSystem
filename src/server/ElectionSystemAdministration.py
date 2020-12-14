@@ -258,10 +258,10 @@ class ElectionSystemAdministration (object):
     def get_by_grading_id(self, id):
         with GradingMapper() as mapper:
             return mapper.find_by_id(id)
-      
-    #------------Projecttype-----------
+
+#------------Projecttype-----------
     
-   def get_all_projecttypes (self):
+    def get_all_projecttypes (self):
         with ProjecttypeMapper() as mapper:
             return mapper.find_all()
 

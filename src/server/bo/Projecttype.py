@@ -1,6 +1,7 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
+
 class Projecttype(NamedBusinessObject):
     """Realization of an examplary Projecttype Class.
     """

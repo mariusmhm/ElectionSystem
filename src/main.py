@@ -13,6 +13,7 @@ from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Projecttype import Projecttype
 
+
 app = Flask(__name__)
 
 
@@ -63,7 +64,7 @@ participation= api.inherit('Participation', bo, {
     'project_id': fields.Integer(attribute='_project_id', description='Project id')
 })
 
-projecttype = api.inherit('Projecttype', bo, nbo, {
+projecttype = api.inherit('Projecttype',nbo, {
     'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
@@ -459,7 +460,7 @@ class ProjecttypeListOperations(Resource):
     def get(self):
         """Readout of all Projecttype-Objects that exist in database.
         If there are no Projecttype-Objects, you will get an empty sequenz."""
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         all_pt = adm.get_all_projecttypes()
         return all_pt
 
@@ -473,7 +474,7 @@ class ProjecttypeListOperations(Resource):
         it is up to the ElectionSystemAdministration (business logic) to create a correct ID
         to assign. *The corrected object is finally returned.
         """
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         prpl = Projecttype.to_dict(api.payload)
 
         if prpl is not None:
@@ -492,7 +493,7 @@ class ProjecttypeOperations(Resource):
         """Reads out the a specific Projecttype-Object by id.
         The realization of reading out the object is by ```id``` in dem URI.
         """
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         single_pt = adm.get_projecttype_by_id(id)
         return single_pt
 
@@ -500,7 +501,7 @@ class ProjecttypeOperations(Resource):
         """Delete a specific customer object.
         The object to be deleted is determined by the ``id`` in the URI.
         """
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         single_pt = adm.get_projecttype_by_id(id)
         adm.delete_projecttype(single_pt)
         return '', 200
@@ -514,7 +515,7 @@ class ProjecttypeOperations(Resource):
         Projecttype object.
         """
 
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         p = Projecttype.to_dict(api.payload)
 
         if p is not None:
@@ -529,7 +530,7 @@ class ProjecttypeOperations(Resource):
 class ProjecttypeNameOperations(Resource):
     @electionSystem.marshal_with(projecttype)
     def get(self, name):
-        adm = ProjecttypeAdministration()
+        adm = ElectionSystemAdministration()
         all_pt = adm.get_projecttype_by_name(name)
         return all_pt
 
