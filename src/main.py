@@ -31,7 +31,7 @@ bo = api.model('BusinessObject', {
     'creation_date': fields.Date(attribute='_creation_date', description='creation date of a business object')
 })
 
-nbo = api.model('NamedBusinessObject', bo, {
+nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
