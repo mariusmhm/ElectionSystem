@@ -287,7 +287,7 @@ class ElectionSystemAdministration (object):
         projecttype.set_ect(ect)
         projecttype.set_sws(sws)
         projecttype.set_id(1)
-        projecttype.set_creation_date(1)
+        projecttype.set_date(1)
 
         with ProjecttypeMapper() as mapper:
             return mapper.insert(projecttype)
