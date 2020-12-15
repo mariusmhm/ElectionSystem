@@ -11,7 +11,7 @@ export default class ElectionSystemAPI {
 
     static #api = null;
 
-    #electionSystemServerBaseURL ='/electionsystem'
+    #electionSystemServerBaseURL ='http://localhost:5000/electionsystem'
 
     //Project
     #getAllProjectsURL = () => `${this.#electionSystemServerBaseURL}/projects`;
@@ -36,9 +36,11 @@ export default class ElectionSystemAPI {
     
     //Grading
     #getGradeForParticipationURL = (id)=> `${this.#electionSystemServerBaseURL}/participation/${id}/grade`;
-    #addGradeURL = () => `${this.#electionSystemServerBaseURL}/grade`;
+    #getAllGradesURL = () => `${this.#electionSystemServerBaseURL}/grading`
+    #getGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`
+    #addGradeURL = () => `${this.#electionSystemServerBaseURL}/grading`;
     #updateGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grade/${id}`;
-    #deleteGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grade/${id}`;
+    #deleteGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`;
     
     //Participation
     #getAllParticipationsForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}/participations`;
@@ -77,6 +79,8 @@ export default class ElectionSystemAPI {
       return res.json();
     }
     )
+
+    //----------Projects-------------------------
 
     /** 
     *@public
@@ -148,13 +152,14 @@ export default class ElectionSystemAPI {
           })
     }
 
+    //----------Projecttype-------------------------
+
      /** 
     *@public
     */
    getAllProjecttypes(){
         return this.#fetchAdvanced(this.#getAllProjecttypesURL()).then((responseJSON)=> {
             let projecttypeBOs =ProjecttypeBO.fromJSON(responseJSON);
-            console.info(projecttypeBOs);
             return new Promise(function(resolve){
                 resolve(projecttypeBOs);
             })
@@ -162,11 +167,10 @@ export default class ElectionSystemAPI {
     }
 
     getProjecttypeForProject(projectID){
-        return this.#fetchAdvanced(this.#getProjecttypeForProjectURL(projectID))
-        .then((responseJSON) => {
-        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
-        return new Promise(function (resolve) {
-          resolve(projecttypeBOs);
+        return this.#fetchAdvanced(this.#getProjecttypeForProjectURL(projectID)).then((responseJSON) => {
+          let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+          return new Promise(function (resolve) {
+            resolve(projecttypeBOs);
         })
       })
     }
@@ -187,9 +191,9 @@ export default class ElectionSystemAPI {
         return this.#fetchAdvanced(this.#updateProjecttypeURL(projecttypeBO.getID()), {
             method: 'PUT'
             }).then((responseJSON) => {
-            let responseProjecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
-            return new Promise(function (resolve) {
-              resolve(responseProjecttypeBO);
+              let responseProjecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
+              return new Promise(function (resolve) {
+                resolve(responseProjecttypeBO);
             })
           })
     }
@@ -204,6 +208,8 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
+    //----------Module-------------------------
 
     /** 
     *@public
@@ -261,21 +267,42 @@ export default class ElectionSystemAPI {
           })
     }
 
+    //----------Grading-------------------------
+
     getGradeForParticipation(participationID){
         return this.#fetchAdvanced(this.#getGradeForParticipationURL(participationID))
-        .then((responseJSON) => {
-        let responseGradeBOs = GradingBO.fromJSON(responseJSON);
-        return new Promise(function (resolve) {
-          resolve(responseGradeBOs);
+          .then((responseJSON) => {
+            let responseGradeBOs = GradingBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+              resolve(responseGradeBOs);
         })
       })
     }
+
+     /** 
+    *@public
+    */
+    getAllGrades(){
+      console.log('API aufgerufen')
+      return this.#fetchAdvanced(this.#getAllGradesURL()).then((responseJSON)=> {
+        let responseGradingBOs = GradingBO.fromJSON(responseJSON);
+        console.info('response' + responseGradingBOs);
+        return new Promise(function(resolve){
+            resolve(responseGradingBOs);
+        })
+    })
     
-    addGrade(){
+  }
+    
+    addGrade(grading){
         return this.#fetchAdvanced(this.#addGradeURL(), {
-            method: 'POST'
-          })
-            .then((responseJSON) => {
+            method: 'POST',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(grading)
+          }).then((responseJSON) => {
               let responseGradeBO = GradingBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(responseGradeBO);
@@ -304,6 +331,8 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
+    //----------Participation-------------------------
 
     getAllParticipationsForProject(projectID){
         return this.#fetchAdvanced(this.#getAllParticipationsForProjectURL(projectID))
@@ -349,6 +378,8 @@ export default class ElectionSystemAPI {
           })
     }
 
+    //----------Semester-------------------------
+
     addSemester(){
         return this.#fetchAdvanced(this.#addSemesterURL(), {
             method: 'POST'
@@ -372,6 +403,8 @@ export default class ElectionSystemAPI {
           })
     }
 
+    //----------Student-------------------------
+
     getStudent(studentID){
         return this.#fetchAdvanced(this.#getStudentURL(studentID))
         .then((responseJSON) => {
@@ -393,6 +426,8 @@ export default class ElectionSystemAPI {
               })
             })
     }
+
+    //----------User-------------------------
 
     addUser(userBO){
       return this.#fetchAdvanced(this.#addUserURL(), {
