@@ -34,7 +34,7 @@ export default class ModuleBO extends NamedBusinessObject {
         }
         // it's a single object and not an array
         else {
-            let s = users;
+            let s = modules;
             Object.setPrototypeOf(s, ModuleBO.prototype);
             res.push(s);
         }

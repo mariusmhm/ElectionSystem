@@ -60,7 +60,7 @@ export default class SemesterBO extends NamedBusinessObject {
         }
         // it's a single object and not an array
         else {
-            let s = users;
+            let s = semesters;
             Object.setPrototypeOf(s, SemesterBO.prototype);
             res.push(s);
         }

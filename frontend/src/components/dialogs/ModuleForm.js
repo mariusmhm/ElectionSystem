@@ -91,7 +91,7 @@ class ModuleForm extends Component {
                 </Grid>
             </Grid>
             <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid} >
-                <Grid items>
+                <Grid item>
                     <Typography className={classes.redHeader}>Add Module</Typography>
                 </Grid>
                 <Grid item>
