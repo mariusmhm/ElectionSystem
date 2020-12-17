@@ -1,93 +1,179 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-//import Participator from '../../../Buttons/Participator';
-//import PropTypes from 'prop-types';
-//import DeleteIcon from '@material-ui/icons/Delete';
-//import Icon from '@material-ui/core/Icon';
-//import IconButton from '@material-ui/core/IconButton';
+import React, {Component} from 'react';
+import {Dialog,
+    DialogTitle,
+    MenuItem,
+    Select,
+    InputLabel,
+    TextField,
+    RadioGroup,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    Button,
+    Grid,
+    Typography} from'@material-ui/core';
+import {withStyles} from '@material-ui/core';
 
-/**
- * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
- * to a list of projects. This is done by routing the link to /ProjekteGenehmigen and passing the ProjectBO and
- *  as props to the ProjekteGenehmigen component.
- *
- */
+let open = true;
 
 class KeyCompetence extends Component {
-constructor(props){
-    super(props)
 
-    this.state= {
-    rows:[
-    {
-    id:1,
-    project_name:"User Experience",
-    project_type:"inter",
-    professor:"Kunz"},
 
-     {
-    id:2,
-    project_name:"Programmieren",
-    project_type:"xyz",
-    professor:"Thies"},
-
-     {
-    id:3,
-    project_name:"ADS",
-    project_type:"mno",
-    professor:"Thies"},
-
-    ]
+    constructor(props) {
+      super(props);
+/*
+      let fn = '';
+    if (props.customer) {
+      fn = props.customer.getProjectName();
     }
-}
+    // Init the State
+    this.state = {
+      projectName: fn,
+      };
+    // Add a new KeyCompetence ???
+     addProject = () => {
+    let newProject = new ProjectBO(this.state.projectName);
+    BankAPI.getAPI().addProject(newProject).then(project => {
+      // Backend call sucessfull
+      // reinit the dialogs state for a new empty customer
+      this.setState(this.baseState);
+      this.props.onClose(customer); // call the parent with the customer object from backend
+    }).catch(e =>
+      this.setState({
+        updatingInProgress: false,    // disable loading indicator
+        updatingError: e              // show error message
+      })
+    );*/
+        /* this.state = {
+            module: module,
+            edvNumber: edvn,
+            projecttype: type,
+            numSpots: nSpots,
+            additionalProfessor: addProfessor,
+            shortDescription: sd,
+            language: language
+          } */
+      }
 
+      /* handleClose = () => {
+        this.setState({
+          open: false
+        });
+      } */
 
-  render() {
-        const {classes}= this.props;
-        return (
-            <div>
-                <Container maxWidth="sm">
-                    <CssBaseline />
-                    <br/>
-                    <Typography variant='h6' color="gray">Key Competence</Typography>
-                    <br/>
+      /**Handles value changes of the select input fields */
+      /* selectFieldHandleChange=(event)=>{
+          const value = event.target.value;
+          this.setState({
+            module:
+          });
+      } */
+
+ render(){
+    const { classes } = this.props;
+    /* const { module, edvNumber, projecttype, numSpots, additionalProfessor, shortDescription, language} = this.state; */
+
+    return(
+
+        <Dialog open={open} fullWidth maxWidth='md'>
+            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >KEY COMPETENCE</DialogTitle>
+            <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
+
+                <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Project</TableCell>
-                                        <TableCell>Projectart</TableCell>
-                                        <TableCell>Professor</TableCell>
-                                        <TableCell>Participator</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.state.rows.map(row=> (
-                                        <TableRow key={row.id}>
-                                            <TableCell> {row.project_name}</TableCell>
-                                            <TableCell> {row.project_type}</TableCell>
-                                            <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button variant="outlined">Participator</Button></TableCell>
-                                        </TableRow>
-                                    ))}
-                               </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
-				</Container>
-		    </div>
-		);
-	}
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Module</InputLabel>
+                            <Select label="Module" /* value={module} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>Technology</MenuItem>
+                                <MenuItem>Media/Cultur</MenuItem>
+                                <MenuItem>Management</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" label="EDV-number:" /* value={edvNumber} *//>
+                    </Grid>
+                    <Grid item>
+                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                                <InputLabel>Project type</InputLabel>
+                                <Select label="Projecttype" /* value={projecttype} */>
+                                    <MenuItem>Subject-specific Project </MenuItem>
+                                    <MenuItem>Transdisciplinary Project</MenuItem>
+                                </Select>
+                            </FormControl>
+                    </Grid>
+                    <Grid item container justify="space-between">
+                        <Grid item>
+                            <Typography>ETCS:</Typography>
+                        </Grid>
+                        <Grid item>
+                        <Typography>SWS:</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Number of spots</InputLabel>
+                            <Select label="Particpiant" /* value={numbSpots} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>1</MenuItem>
+                                <MenuItem>2</MenuItem>
+                                <MenuItem>3</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Additional professors</InputLabel>
+                            <Select label="Professoren" /* value={additionalProfessor} */>
+                                <MenuItem>Susanne Stingel</MenuItem>
+                                <MenuItem>Mike Friedrichsen</MenuItem>
+                                <MenuItem>Martin Engstler</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Language</InputLabel>
+                            <Select label="Sprache" /* value={language} */>
+                                <MenuItem>none</MenuItem>
+                                <MenuItem>german</MenuItem>
+                                <MenuItem>english</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" multiline rows={10} label="Short description:" /* value={shortDescription} *//>
+                    </Grid>
+                <Grid item>
+                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
+                </Grid>
+                <Grid item>
+                    <Button variant="contained" color="primary">Submit</Button>
+                </Grid>
+                </Grid>
+
+
+
+            </Grid>
+
+        </Dialog>
+    );
+ }
+
+
 }
-export default KeyCompetence;
+
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: '20px'
+    },
+    dialogHeader:{
+        textAlign: "center"
+    }
+});
+
+
+export default withStyles(styles)(KeyCompetence);
