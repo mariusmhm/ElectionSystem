@@ -8,7 +8,7 @@ class ParticipationMapper(Mapper):
         super().__init__()
 
     def find_all():
-        return None
+        pass
 
     def find_by_id(self, id):
 

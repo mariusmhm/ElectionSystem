@@ -35,7 +35,6 @@ export default class ElectionSystemAPI {
     #deleteModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
     
     //Grading
-    #getGradeForParticipationURL = (id)=> `${this.#electionSystemServerBaseURL}/participation/${id}/grade`;
     #getAllGradesURL = () => `${this.#electionSystemServerBaseURL}/grading`
     #getGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`
     #addGradeURL = () => `${this.#electionSystemServerBaseURL}/grading`;
@@ -43,7 +42,9 @@ export default class ElectionSystemAPI {
     #deleteGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`;
     
     //Participation
-    #getAllParticipationsForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}/participations`;
+    #getAllParticipationsForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/participation-by-project/${id}`;
+    #getParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
+    #getParticipationsForStudentURL =(id) => `${this.#electionSystemServerBaseURL}/participation-by-student/${id}`;
     #addParticipationURL = () => `${this.#electionSystemServerBaseURL}/participation`;
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
@@ -100,7 +101,12 @@ export default class ElectionSystemAPI {
     */
     addProject(projectBO){
         return this.#fetchAdvanced(this.#addProjectURL(), {
-            method: 'POST'
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(projectBO)
             }).then((responseJSON) => {
             let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
@@ -175,9 +181,14 @@ export default class ElectionSystemAPI {
       })
     }
 
-    addProjecttypeURL(){
+    addProjecttypeURL(projecttype){
         return this.#fetchAdvanced(this.#addProjecttypeURL(), {
-            method: 'POST'
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(projecttype)
           })
             .then((responseJSON) => {
               let projecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
@@ -233,11 +244,15 @@ export default class ElectionSystemAPI {
       })
     }
 
-    addModule(){
+    addModule(module){
         return this.#fetchAdvanced(this.#addModuleURL(), {
-            method: 'POST'
-          })
-            .then((responseJSON) => {
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(module)
+          }).then((responseJSON) => {
               let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(responseModuleBO);
@@ -269,16 +284,6 @@ export default class ElectionSystemAPI {
 
     //----------Grading-------------------------
 
-    getGradeForParticipation(participationID){
-        return this.#fetchAdvanced(this.#getGradeForParticipationURL(participationID))
-          .then((responseJSON) => {
-            let responseGradeBOs = GradingBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-              resolve(responseGradeBOs);
-        })
-      })
-    }
-
      /** 
     *@public
     */
@@ -290,9 +295,23 @@ export default class ElectionSystemAPI {
         return new Promise(function(resolve){
             resolve(responseGradingBOs);
         })
-    })
+      })
     
-  }
+    }
+
+    /** 
+    *@public
+    */
+    getGrade(gradeID){
+      return this.#fetchAdvanced(this.#getGradeURL(gradeID)).then((responseJSON)=> {
+        let responseGradingBOs = GradingBO.fromJSON(responseJSON);
+        return new Promise(function(resolve){
+          resolve(responseGradingBOs);
+        })
+      })
+  
+    }
+  
     
     addGrade(grading){
         return this.#fetchAdvanced(this.#addGradeURL(), {
@@ -344,11 +363,35 @@ export default class ElectionSystemAPI {
       })
     }
 
-    addParticipation(){
+    getParticipation(participationID){
+      return this.#fetchAdvanced(this.#getParticipationURL(participationID))
+      .then((responseJSON) => {
+        let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseParticipationBOs);
+        })
+      })
+    }
+
+    getParticipationsForStudent(studentID){
+      return this.#fetchAdvanced(this.#getParticipationsForStudentURL(studentID))
+      .then((responseJSON) => {
+        let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseParticipationBOs);
+        })
+      })
+    }
+
+    addParticipation(participation){
         return this.#fetchAdvanced(this.#addParticipationURL(), {
-            method: 'POST'
-          })
-            .then((responseJSON) => {
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(participation)
+          }).then((responseJSON) => {
               let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(responseParticipationBO);
@@ -380,11 +423,15 @@ export default class ElectionSystemAPI {
 
     //----------Semester-------------------------
 
-    addSemester(){
+    addSemester(semester){
         return this.#fetchAdvanced(this.#addSemesterURL(), {
-            method: 'POST'
-          })
-            .then((responseJSON) => {
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(semester)
+          }).then((responseJSON) => {
               let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(responseSemesterBO);

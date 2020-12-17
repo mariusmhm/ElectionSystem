@@ -10,17 +10,17 @@ export default class GradingBO extends BusinessObject {
         this.grade=aGrade;
     }
 
-    //Sets the grading
+    //Sets the grade
     setGrade(aGrade){
       this.grade = aGrade;
     }
 
-    //Reads out the Grading
+    //Reads out the grade
     getGrade(){
         return this.grade;
     }
 
-    //Returns an Array of CustomerBOs from a given JSON structure.
+    //Returns an Array of GradingBOs from a given JSON structure.
 
     static fromJSON(gradings) {
         let result = [];
