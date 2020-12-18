@@ -34,6 +34,7 @@ evaluateNewProjektButton = (event) => {
                       <Divider/>
                       <div>
                       <ArchiveProject/>
+                      <Divider/>
                       </div>
 				  </Container>
 		    </div>

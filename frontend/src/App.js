@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 /**import ProjekteGenehmigen from './components/layout/pages/ProjectGenehmigen/ProjekteGenehmigen';**/
-import ModulBearbeitung from './components/dialogs/ModulBearbeitung'
-import NotenschlüsselBearbeitung from './components/dialogs/NotenschlüsselBearbeitung'
-import HomeScreenAdminBeginn from './components/layout/pages/ProjectGenehmigen/HomeScreenAdminBeginn';
-import SemeserPeriodDialog from'./components/dialogs/SemeserPeriodDialog';
-import Teilnehmerliste from './components/layout/pages/Teilnehmerliste';
-
+import Teilnehmerliste from './components/layout/pages/ProjectGenehmigen/Teilnehmerliste'
 
 class App extends Component {
 
@@ -16,7 +11,7 @@ class App extends Component {
         return (
 
             <div>
-                <SemeserPeriodDialog />
+                <Teilnehmerliste />
 		    </div>
 		);
 	}
