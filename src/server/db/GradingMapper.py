@@ -13,7 +13,7 @@ class GradingMapper (Mapper):
         result = []
         cursor = self._connection.cursor()
 
-        cursor.execute("SELECT id, creation_date, grade FROM Grading")
+        cursor.execute("SELECT id, creation_date, grade FROM Grading ORDER BY grade")
         tuples = cursor.fetchall()
 
         for (id, creation_date, grade) in tuples:

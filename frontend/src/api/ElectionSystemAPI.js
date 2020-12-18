@@ -21,7 +21,7 @@ export default class ElectionSystemAPI {
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     
     //Project type
-    #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttypes`;
+    #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #getProjecttypeForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}/projecttype`;
     #addProjecttypeURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #updateProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
