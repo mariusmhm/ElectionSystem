@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import {withStyles} from '@material-ui/core';
 
 
 
@@ -52,13 +53,13 @@ constructor(props){
         const {classes}= this.props;
         return (
             <div>
-                <Container maxWidth="sm">
+                <Container maxWidth="md">
                     <CssBaseline />
                     <Typography variant='h4' color="secondary">DIESES SEMESTER</Typography>
                     <br/>
                     <Typography variant='h6' color="gray">Genähmigte Projekte</Typography>
                     <br/>
-                    <Grid item>
+                    <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -84,7 +85,7 @@ constructor(props){
                      </Grid>
                     <Typography variant='h6' color="gray">Abgelehnte Projekte</Typography>
                     <br/>
-                    <Grid item>
+                    <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -116,4 +117,24 @@ constructor(props){
 		);
 	}
 }
-export default ListEntryDiesesSemester;
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: theme.spacing(3)
+    },
+    dialogHeader:{
+        textAlign: "center"
+
+    },
+    button:{
+        marginTop: theme.spacing(3)
+    },
+    redHeader:{
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 15
+    }
+});
+export default withStyles(styles) (ListEntryDiesesSemester);
