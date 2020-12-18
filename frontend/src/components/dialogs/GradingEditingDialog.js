@@ -94,7 +94,24 @@ class GradingEditingDialog extends Component {
     return(
         <Dialog open={open} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
-            <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid}>
+            <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
+                <Grid item xs={12}>
+                    <Typography align="center" color="secondary">Add Grade</Typography>
+                </Grid>
+                <Grid item xs={3} align="center">
+                    <TextField fullWidth 
+                        variant="outlined"
+                        id="grade" 
+                        label="Grade"
+                        size="small"
+                        onChange={this.handleTextFieldChange}
+                        value={this.state.grade} />
+                </Grid>
+                <Grid item>
+                    <Button variant="contained" color="primary"  onClick={this.addGrade}>Add</Button>
+                </Grid>
+            </Grid>
+            <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
                 <Grid item>
                     <Typography color="secondary">Grades</Typography>
                 </Grid>
@@ -106,31 +123,15 @@ class GradingEditingDialog extends Component {
                                 <TableRow key={grading.getID()} grading={grading}>
                                    <TableCell> {grading.getGrade()}</TableCell>
                                    <TableCell>
-                                        <IconButton aria-label="delete" onClick={() => this.deleteGradeHandler(grading)}>
-                                            <DeleteIcon/>   
-                                        </IconButton>
+                                        <Button aria-label="delete"  variant="outlined" onClick={() => this.deleteGradeHandler(grading)}>
+                                            <DeleteIcon fontSize="small"/>   
+                                        </Button>
                                    </TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
-            </Grid>
-            <Grid container spacing={2} justify="center" align="center" className={classes.grid}>
-                <Grid item xs={12}>
-                    <Typography align="center" color="secondary">Add Grade</Typography>
-                </Grid>
-                <Grid item xs={3} align="center">
-                    <TextField fullWidth 
-                        variant="outlined"
-                        id="grade" 
-                        label="Grade"
-                        onChange={this.handleTextFieldChange}
-                        value={this.state.grade} />
-                </Grid>
-                <Grid item>
-                    <Button variant="contained" color="primary">Add</Button>
                 </Grid>
                 <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
