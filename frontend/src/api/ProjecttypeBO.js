@@ -5,32 +5,32 @@ export default class ProjecttypeBO extends NamedBusinessObject {
 
   constructor(aEcts, aSws){
   super();
-  this.Sws = aSws;
-  this.Ects = aEcts;
+  this.sws = aSws;
+  this.ect = aEcts;
   }
   
   //Sets the SWS for the projecttype.
   
   setSws(aSws){
-    this.Sws = aSws;
+    this.sws = aSws;
   }
   
   //Reads out the Sws from a projecttype.
   
   getSws(){
-    return this.Sws;
+    return this.sws;
   }
   
   //Sets the ECTs for a projecttype. 
   
   setEcts(aEcts){
-    this.Ects= aEcts;
+    this.ect= aEcts;
   }
   
   //Reads out the ECTs from a projecttype.
   
   getEcts(){
-    return this.Ects;
+    return this.ect;
   }
   
   // Returns an Array of Students from a given JSON
