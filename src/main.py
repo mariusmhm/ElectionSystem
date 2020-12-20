@@ -51,6 +51,8 @@ semester= api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
+    'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
+    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading')
 })
 
 grading= api.inherit('Grading', bo, {
@@ -255,7 +257,7 @@ class UserRoleOperations(Resource):
         return users
 
 
-"""---Semester specific functions---"""
+#---Semester specific functions---
 
 
 @electionSystem.route('/semester')
@@ -279,9 +281,7 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_wintersemester(),
-                                    proposal.get_submit_projects_end_date(),
-                                    proposal.get_grading_end_date())
+            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date())
             return s, 200
 
         else:

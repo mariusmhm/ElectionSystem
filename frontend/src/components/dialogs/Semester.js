@@ -42,7 +42,7 @@ class Semester extends Component {
     /** Updates the customer */
     updateSemester = () => {
         // clone the original cutomer, in case the backend call fails
-        let updatedSemester = Object.assign(new SemesterBO(), this.props.semester);
+        let updatedSemester = Object.assign(new SemesterBO(), this.props.semester); //eventuell raus nehehmen
         // set the new attributes from our dialog
         updatedSemester.setWintersemester(this.state.wintersemester);
         updatedSemester.setGradingEndDate(this.state.gradingEndDate);
@@ -63,7 +63,6 @@ class Semester extends Component {
         updatingError: e                        // show error message
       })
     );
-
     // set loading to true
     this.setState({
       updatingInProgress: true,                 // show loading indicator
@@ -78,6 +77,12 @@ class Semester extends Component {
     this.props.onClose(null);
   }
 
+    const handleRadioChange = (event) => {
+    this.setState({
+    wintersemester: event.target.value
+    })
+  };
+
 
 
  render(){
@@ -91,14 +96,14 @@ class Semester extends Component {
         </DialogTitle>
             <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
                 <FormControl align="center">
-                    <RadioGroup row={true}>
+                    <RadioGroup row={true} onChange={this.handleRadioChange} value={value}>
                          <FormControlLabel
-                            value="winter semester"
+                            value="true"
                             control={<Radio />}
                             label="winter semester"
                             align="left"/>
                          <FormControlLabel
-                            value="summer semester"
+                            value="false"
                             control={<Radio />}
                             label="summer semester"
                             align="right" />
@@ -175,7 +180,8 @@ class Semester extends Component {
                         type="submit"
                         variant="outlined"
                         align="center"
-                        className={classes.button}>
+                        className={classes.button}
+                        onClick={updatedSemester}>
                             DONE
                         </Button>
                     </Grid>
