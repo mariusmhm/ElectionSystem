@@ -14,6 +14,7 @@ import theme from './theme';
 import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
 import { ThemeProvider } from '@material-ui/core/styles';
+import Semester from './components/dialogs/Semester'
 
 
 class App extends Component {
@@ -35,7 +36,7 @@ this.props.onSignIn();
         return (
             <ThemeProvider theme={theme}>
                 <div>
-                    <Header /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
+                    <Semester /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
                 </div>
             </ThemeProvider>
         )

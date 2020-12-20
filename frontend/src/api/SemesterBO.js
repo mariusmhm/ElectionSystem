@@ -1,50 +1,50 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import BusinessObject from './BusinessObject';
 
 
-export default class SemesterBO extends NamedBusinessObject {
+export default class SemesterBO extends BusinessObject {
 //Represents a semester BO. 
   
   constructor(aWintersemester, aSubmitProjectEndDate, aGradingEndDate){
   super();
-  this.Wintersemester = aWintersemester;
-  this.SubmitProjectEndDate = aSubmitProjectEndDate;
-  this.GradingEndDate = aGradingEndDate;
+  this.wintersemester = aWintersemester;
+  this.submitProjectEndDate = aSubmitProjectEndDate;
+  this.gradingEndDate = aGradingEndDate;
  }
  
  //Set if the semster is a wintersemester
  
  setWintersemester(aWintersemester){
-    this.Wintersemester = aWintersemester; 
+    this.wintersemester = aWintersemester;
  }
  
  //Reads out if the semester is a wintersemester.
  
  getWintersemester(){
-    return this.Wintersemester;
+    return this.wintersemesterintersemester;
  }
  
  //Sets the SubmitProjectEndDate.
  
  setSubmitProjectEndDate(aSubmitProjectEndDate){
-    this.SubmitProjectEndDate = aSubmitProjectEndDate;
+    this.submitProjectEndDate = aSubmitProjectEndDate;
  }
  
  //Readout the SubmitProjectEndDate.
  
  getSubmitProjectEndDate(){
-    return this.SubmitProjectEndDate;
+    return this.submitProjectEndDate;
  }
   
  //Sets the end date when the project must become a grading.
 
  setGradingEndDate(aGradingEndDate){
-    this.GradingEndDate = aGradingEndDate;
+    this.gradingEndDate = aGradingEndDate;
  }
 
  //Reads out the enddate of Grading of a project.
 
  getGradingEndDate(){
-    return this.EndDateGrading;
+    return this.gradingEndDate;
  }
 
 //Returns an Array of SemesterBO from a given JSON structure.
