@@ -5,6 +5,8 @@ import ArchiveProject from './ArchiveProject';
 import Divider from '@material-ui/core/Divider';
 import ListEntryNeueProjekte from './ListEntryNeueProjekte'
 import ListEntryDiesesSemester from './ListEntryDiesesSemester'
+import {withStyles} from '@material-ui/core';
+import Header from'./components/layout/pages/Header'
 
 
 
@@ -25,7 +27,7 @@ evaluateNewProjektButton = (event) => {
 
                  <CssBaseline />
 
-                  <Container maxWidth="sm">
+                  <Container maxWidth="MD">
                       <ListEntryNeueProjekte/ >
                       <Divider/>
                       <br/>

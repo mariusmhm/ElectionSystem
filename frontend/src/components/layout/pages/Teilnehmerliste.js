@@ -55,8 +55,8 @@ constructor(props){
                         direction="column"
                         justify="space-around"
                         className={classes.grid}>
-                            <Typography variant="h4" > Projekt </Typography>
-                            <Typography variant="h6" color="secondary" className={classes.redHeader}> Teilnehmerliste </Typography>
+                            <Typography variant="h4" > Project </Typography>
+                            <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
                     </Grid>
                     <Grid container
                         direction="row"
@@ -68,11 +68,11 @@ constructor(props){
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Name</TableCell>
-                                            <TableCell>Martrikelnummer</TableCell>
-                                            <TableCell>Studiengang</TableCell>
-                                            <TableCell>Semester</TableCell>
-                                            <TableCell>Projekt</TableCell>
-                                            <TableCell>Note</TableCell>
+                                            <TableCell>matriculation number</TableCell>
+                                            <TableCell>course of study</TableCell>
+                                            <TableCell>semester</TableCell>
+                                            <TableCell>project</TableCell>
+                                            <TableCell>grade</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -84,8 +84,8 @@ constructor(props){
                                                 <TableCell> {row.semester}</TableCell>
                                                 <TableCell> {row.projectName}</TableCell>
                                                 <TableCell> {row.note}</TableCell>
-                                                <TextField fullWidth variant="outlined" label="Note:"/>
-                                                <TableCell> <Button  variant="contained" color="secondary" >speichern</Button> </TableCell>
+                                                <TextField fullWidth variant="outlined" label="grade:"/>
+                                                <TableCell> <Button  variant="contained" color="secondary" >save</Button> </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -102,7 +102,7 @@ constructor(props){
                                     variant="contained"
                                     color="secondary"
                                     className={classes.button}>
-                                        Teilnehmer hinzufügen
+                                        ADD STUDENT
                                 </Button>
                         </Grid>
                     </Grid>

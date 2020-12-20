@@ -11,7 +11,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core';
 
@@ -59,15 +58,19 @@ constructor(props){
                     <br/>
                     <Typography variant='h6' color="gray">Genähmigte Projekte</Typography>
                     <br/>
-                    <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
+                    <Grid item container
+                            direction="column"
+                            xs={12}
+                            md={12}
+                            spacing={2}
+                            align="center"
+                            className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Projekt</TableCell>
-                                        <TableCell>Projektart</TableCell>
-                                        <TableCell>Professor</TableCell>
-                                        <TableCell>Professor</TableCell>
+                                        <TableCell>PROJECT</TableCell>
+                                        <TableCell>PROJECT TYPE</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -85,15 +88,21 @@ constructor(props){
                      </Grid>
                     <Typography variant='h6' color="gray">Abgelehnte Projekte</Typography>
                     <br/>
-                    <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
+                    <Grid item container
+                            direction="column"
+                            xs={12}
+                            md={12}
+                            spacing={2}
+                            align="center"
+                            className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Projekt</TableCell>
-                                        <TableCell>Projektart</TableCell>
-                                        <TableCell>Professor</TableCell>
-                                        <TableCell> <Button  variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete All</Button> </TableCell>
+                                        <TableCell>PROJECT</TableCell>
+                                        <TableCell>PROJECT TYPE</TableCell>
+                                        <TableCell>PROFESSPR</TableCell>
+                                        <TableCell> <Button  variant="contained" color="secondary" startIcon={<DeleteIcon />} className={classes.button}>Delete All</Button> </TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -122,10 +131,6 @@ const styles = theme => ({
         width: '100%',
         margin: '0px',
         padding: theme.spacing(3)
-    },
-    dialogHeader:{
-        textAlign: "center"
-
     },
     button:{
         marginTop: theme.spacing(3)

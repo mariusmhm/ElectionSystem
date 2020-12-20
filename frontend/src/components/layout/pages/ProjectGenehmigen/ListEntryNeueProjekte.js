@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core';
 
 /**
  * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
@@ -53,17 +54,23 @@ constructor(props){
         const {classes}= this.props;
         return (
             <div>
-                <Container maxWidth="sm">
+                <Container maxWidth="md">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary">NEUE PROJEKTE</Typography>
-                     <Grid item>
+                    <Typography variant='h4' color="secondary" className={classes.redHeader}>NEUE PROJEKTE</Typography>
+                     <Grid item container
+                            direction="column"
+                            xs={12}
+                            md={12}
+                            spacing={2}
+                            align="center"
+                            className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Projekt</TableCell>
-                                        <TableCell>Projektart</TableCell>
-                                        <TableCell>Professor</TableCell>
+                                        <TableCell>PROJECT</TableCell>
+                                        <TableCell>PROJECT TYPE</TableCell>
+                                        <TableCell>PROFESSOR</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -72,7 +79,7 @@ constructor(props){
                                             <TableCell> {row.project_name}</TableCell>
                                             <TableCell> {row.project_type}</TableCell>
                                             <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button color="gray" variant="outlined"> Bewerten</Button> </TableCell>
+                                            <TableCell> <Button color="gray" variant="outlined" className={classes.button}> Bewerten</Button> </TableCell>
                                         </TableRow>
 
                                     ))}
@@ -97,4 +104,22 @@ ListEntryNeueProjekte.propTypes = {
    */
 
 }
-export default ListEntryNeueProjekte;
+
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: theme.spacing(3)
+    },
+    button:{
+        marginTop: theme.spacing(3)
+    },
+    redHeader:{
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 30
+    }
+});
+
+export default withStyles(styles) (ListEntryNeueProjekte);
