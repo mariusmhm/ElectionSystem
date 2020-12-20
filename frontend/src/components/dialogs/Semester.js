@@ -26,7 +26,9 @@ class Semester extends Component {
             error: null,
             wintersemester: '',
             gradingEndDate:'',
-            submitEndProjectDate:'',
+            submitEndProjectsDate:'',
+            submitProjectsBeginnDate:"",
+            gradingBeginnDate:'',
             updatingError: null,
             deletingError: null,
 
@@ -36,17 +38,35 @@ class Semester extends Component {
     }
 
     componentDidMount(){
-        this.updatedSemester();
+        this.getAllSemester();
+    }
+
+
+    /** Gives back the semester */
+    getAllSemester = () => {
+        ElectionSystemAPI.getAPI().getAllSemester()
+        .then(SemesterBO =>
+            this.setState({
+                semester: SemesterBO,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    semester:[],
+                    error: e
+                }))
+        console.log('ausgeführt');
     }
 
     /** Updates the customer */
     updateSemester = () => {
         // clone the original cutomer, in case the backend call fails
-        let updatedSemester = Object.assign(new SemesterBO(), this.props.semester); //eventuell raus nehehmen
+        let updatedSemester = Object.assign(new SemesterBO()); //eventuell raus nehehmen
         // set the new attributes from our dialog
         updatedSemester.setWintersemester(this.state.wintersemester);
         updatedSemester.setGradingEndDate(this.state.gradingEndDate);
-        updatedSemester.setSubmitProjectEndDate(this.state.submitProjectEndDate);
+        updatedSemester.submitProjectsEndDate(this.state.submitProjectsEndDate);
+        updatedSemester.submitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
+        updatedSemester.submitGradingBeginnDate(this.state.gradongBeginnDate);
         ElectionSystemAPI.getAPI().updateSemester(updatedSemester).then(semester => {
         this.setState({
             updatingInProgress: false,              // disable loading indicator
@@ -55,7 +75,9 @@ class Semester extends Component {
       // keep the new state as base state
       this.baseState.wintersemester = this.state.wintersemester;
       this.baseState.gradingEndDate = this.state.gradingEndDate;
-      this.baseState.submitProjectEndDate = this.state.submitProjectEndDate;
+      this.baseState.submitProjectsEndDate = this.state.submitProjectsEndDate;
+      this.baseState.submitProjectsBeginnDate = this.state.submitProjectsBeginnDate;
+      this.baseState.gradingBeginnDate = this.state.gradingBeginnDate;
       this.props.onClose(updatedSemester);      // call the parent with the new customer
     }).catch(e =>
       this.setState({
@@ -77,16 +99,16 @@ class Semester extends Component {
     this.props.onClose(null);
   }
 
-    const handleRadioChange = (event) => {
+  handleRadioChange = (event) => {
     this.setState({
     wintersemester: event.target.value
     })
   };
 
-
-
  render(){
  const { classes } = this.props;
+
+ const { semester, error } = this.state;
     return(
         <Dialog open={open} fullWidth maxWidth='xs'>
         <DialogTitle
@@ -122,16 +144,15 @@ class Semester extends Component {
                     <TextField required
                         id="filled-required"
                         label="from:"
-                        defaultValue="XX/XX/XXXX"
+                        defaultValue={semester.getAllSemester(state.submitProjectsBeginnDate)}
                         variant="outlined"
-
                     />
                 </Grid>
                 <Grid item >
                     <TextField required
                         id="filled-required"
                         label="to:"
-                        defaultValue="XX/XX/XXXX"
+                        defaultValue={semester.getAllSemester(state.submitProjectsEndDate)}
                         variant="outlined" />
                 </Grid>
             </Grid>
@@ -147,7 +168,7 @@ class Semester extends Component {
                     <TextField required
                         id="filled-required"
                         label="from:"
-                        defaultValue="XX/XX/XXXX"
+                        defaultValue={semester.getAllSemester(gradingBeginnDate)}
                         variant="outlined"
                     />
                 </Grid>
@@ -155,7 +176,7 @@ class Semester extends Component {
                     <TextField required
                         id="filled-required"
                         label="to:"
-                        defaultValue="XX/XX/XXXX"
+                        defaultValue={semester.getAllSemester(gradingEndDate)}
                         variant="outlined"
                     />
                 </Grid>
@@ -193,7 +214,6 @@ class Semester extends Component {
         </Dialog>
     );
  }
-
 }
 const styles = theme => ({
     grid:{
