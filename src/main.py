@@ -112,6 +112,7 @@ class StudentOperations(Resource):
     def put(self, id):
         adm = ElectionSystemAdministration()
         s = Student.to_dict(api.payload)
+        print('main aufruf')
 
         if s is not None:
             s.set_id(id)
@@ -263,7 +264,7 @@ class UserRoleOperations(Resource):
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'If there is a server-side error.')
 class SemesterListOperations(Resource):
-    @electionSystem.marshal_list_with(semester)
+    @electionSystem.marshal_with(semester)
     def get(self):
         """Reading out all semester objects. If no semester objects are available, an empty sequence is returned."""
         adm = ElectionSystemAdministration()

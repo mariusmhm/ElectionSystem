@@ -16,7 +16,7 @@ class SemesterMapper(Mapper):
         """Read out all semesters.
         :return A collection of semester objects that all semester represent."""
 
-        res = []
+        res = None
         crs = self._connection.cursor()
 
         crs.execute("SELECT * FROM Semester")
@@ -31,7 +31,7 @@ class SemesterMapper(Mapper):
             semester.set_grading_end_date(grading_end_date)
             semester.set_submit_projects_beginn_date(submit_projects_beginn_date)
             semester.set_grading_beginn_date(grading_beginn_date)
-            res.append(semester)
+            res = semester
 
         self._connection.commit()
         crs.close()

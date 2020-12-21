@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Dialog,
-    TextField,
     FormControl,
     Button,
     Grid,
@@ -10,6 +9,11 @@ import {Dialog,
     Radio,
     DialogTitle
     } from'@material-ui/core';
+import DateFnsUtils from "@date-io/date-fns";
+import {
+        MuiPickersUtilsProvider,
+        KeyboardDatePicker,
+      } from '@material-ui/pickers';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, SemesterBO} from '../../api';
 
@@ -22,15 +26,17 @@ class Semester extends Component {
     constructor(props){
         super(props)
         this.state= {
-            semester: [],
+            semester: {},
+            sLoaded: false,
             error: null,
             wintersemester: '',
-            gradingEndDate:'',
-            submitEndProjectsDate:'',
-            submitProjectsBeginnDate:"",
-            gradingBeginnDate:'',
+            gradingEndDate: '',
+            submitProjectsEndDate: '',
+            submitProjectsBeginnDate: '',
+            gradingBeginnDate: '',
             updatingError: null,
             deletingError: null,
+
 
 
         };
@@ -45,52 +51,50 @@ class Semester extends Component {
     /** Gives back the semester */
     getAllSemester = () => {
         ElectionSystemAPI.getAPI().getAllSemester()
-        .then(SemesterBO =>
+        .then(semesterBO =>
             this.setState({
-                semester: SemesterBO,
+                semester: semesterBO,
+                wintersemester: semesterBO.getWintersemester(),
+                gradingEndDate: semesterBO.getGradingEndDate(),
+                submitProjectsEndDate: semesterBO.getSubmitProjectsEndDate(),
+                submitProjectsBeginnDate: semesterBO.getSubmitProjectsBeginnDate(),
+                gradingBeginnDate: semesterBO.getGradingBeginnDate(),
+                sLoaded: true,
                 error: null
             })).catch(e =>
                 this.setState({
-                    semester:[],
+                    semester:{},
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
-    /** Updates the customer */
+    //Updates the semester
     updateSemester = () => {
         // clone the original cutomer, in case the backend call fails
         let updatedSemester = Object.assign(new SemesterBO()); //eventuell raus nehehmen
         // set the new attributes from our dialog
+        console.log(this.state.wintersemester);
+        console.log(this.state.gradingBeginnDate);
+        console.log(this.state.gradingEndDate);
+        console.log(this.state.submitProjectsBeginnDate);
+        console.log(this.state.submitProjectsEndDate);
+        updatedSemester.setID(this.state.semester.getID())
         updatedSemester.setWintersemester(this.state.wintersemester);
         updatedSemester.setGradingEndDate(this.state.gradingEndDate);
-        updatedSemester.submitProjectsEndDate(this.state.submitProjectsEndDate);
-        updatedSemester.submitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
-        updatedSemester.submitGradingBeginnDate(this.state.gradongBeginnDate);
-        ElectionSystemAPI.getAPI().updateSemester(updatedSemester).then(semester => {
-        this.setState({
-            updatingInProgress: false,              // disable loading indicator
+        updatedSemester.setSubmitProjectsEndDate(this.state.submitProjectsEndDate);
+        updatedSemester.setSubmitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
+        updatedSemester.setGradingBeginnDate(this.state.gradingBeginnDate);
+        ElectionSystemAPI.getAPI().updateSemester(updatedSemester)
+        .then(semester => 
+        this.setState({            
             updatingError: null                     // no error message
-        });
-      // keep the new state as base state
-      this.baseState.wintersemester = this.state.wintersemester;
-      this.baseState.gradingEndDate = this.state.gradingEndDate;
-      this.baseState.submitProjectsEndDate = this.state.submitProjectsEndDate;
-      this.baseState.submitProjectsBeginnDate = this.state.submitProjectsBeginnDate;
-      this.baseState.gradingBeginnDate = this.state.gradingBeginnDate;
-      this.props.onClose(updatedSemester);      // call the parent with the new customer
-    }).catch(e =>
-      this.setState({
-        updatingInProgress: false,              // disable loading indicator
-        updatingError: e                        // show error message
-      })
-    );
-    // set loading to true
-    this.setState({
-      updatingInProgress: true,                 // show loading indicator
-      updatingError: null                       // disable error message
-    });
-  }
+        })).catch(e =>
+         this.setState({
+            updatingError: e                        // show error message
+        })
+        );
+
+    } 
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
@@ -102,6 +106,38 @@ class Semester extends Component {
   handleRadioChange = (event) => {
     this.setState({
     wintersemester: event.target.value
+    })
+  };
+
+  handleSubmitProjectsBeginnDateChange = (date) => {
+    const nDate = new Date(date);
+    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+    this.setState({
+        submitProjectsBeginnDate: nD
+    })
+  };
+
+  handleSubmitProjectsEndDateChange = (date) => {
+    const nDate = new Date(date);
+    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+    this.setState({
+        submitProjectsEndDate: nD
+    })
+  };
+
+  handleGradingBeginnDateChange = (date) => {
+    const nDate = new Date(date);
+    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+    this.setState({
+        gradingBeginnDate: nD
+    })
+  };
+
+  handleGradingEndDateChange = (date) => {
+    const nDate = new Date(date);
+    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+    this.setState({
+        gradingEndDate: nD
     })
   };
 
@@ -118,14 +154,14 @@ class Semester extends Component {
         </DialogTitle>
             <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
                 <FormControl align="center">
-                    <RadioGroup row={true} onChange={this.handleRadioChange} value={value}>
+                    <RadioGroup row={true} defaultValue={this.state.wintersemester ? "false" : "true"} onChange={this.handleRadioChange} >
                          <FormControlLabel
-                            value="true"
+                            value= "true"
                             control={<Radio />}
                             label="winter semester"
                             align="left"/>
                          <FormControlLabel
-                            value="false"
+                            value= "false"
                             control={<Radio />}
                             label="summer semester"
                             align="right" />
@@ -138,22 +174,39 @@ class Semester extends Component {
                     color="secondary"
                     align="center"
                     className={classes.redHeader}>
-                        DUE DATE FOR NEW PROJCTS
+                        DUE DATE FOR NEW PROJECTS
             </Typography>
                 <Grid item align="center">
-                    <TextField required
-                        id="filled-required"
-                        label="from:"
-                        defaultValue={semester.getAllSemester(state.submitProjectsBeginnDate)}
-                        variant="outlined"
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker-projects-beginn"
+                            value={this.state.submitProjectsBeginnDate}
+                            onChange={this.handleSubmitProjectsBeginnDateChange}
+                            KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Grid>
                 <Grid item >
-                    <TextField required
-                        id="filled-required"
-                        label="to:"
-                        defaultValue={semester.getAllSemester(state.submitProjectsEndDate)}
-                        variant="outlined" />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker-projects-end"
+                            value={this.state.submitProjectsEndDate}
+                            onChange={this.handleSubmitProjectsEndDateChange}
+                            KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Grid>
             </Grid>
              <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
@@ -165,32 +218,47 @@ class Semester extends Component {
                     DUE DATE FOR GIVING GRADES
             </Typography>
                 <Grid item xs={12} md={12}>
-                    <TextField required
-                        id="filled-required"
-                        label="from:"
-                        defaultValue={semester.getAllSemester(gradingBeginnDate)}
-                        variant="outlined"
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker-grading-beginn"
+                            value={this.state.gradingBeginnDate}
+                            onChange={this.handleGradingBeginnDateChange}
+                            KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <TextField required
-                        id="filled-required"
-                        label="to:"
-                        defaultValue={semester.getAllSemester(gradingEndDate)}
-                        variant="outlined"
-                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="date-picker-grading-end"
+                            value={this.state.gradingEndDate}
+                            onChange={this.handleGradingEndDateChange}
+                            KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                 </Grid>
             </Grid>
             </Grid>
             <Grid item container direction="row" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-            <FormControl onSubmit={this.handleSubmit}>
                     <Grid item xs={6}>
                         <Button
                         variant="outlined"
                         color="secondary"
                         align="center"
                         className={classes.button}>
-                            CANCLE
+                            CANCEL
                         </Button>
                     </Grid>
                     <Grid>
@@ -202,12 +270,12 @@ class Semester extends Component {
                         variant="outlined"
                         align="center"
                         className={classes.button}
-                        onClick={updatedSemester}>
+                        onClick={this.updateSemester}>
                             DONE
                         </Button>
                     </Grid>
 
-            </FormControl>
+            
             </Grid>
             </Grid>
 

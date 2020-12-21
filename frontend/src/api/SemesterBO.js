@@ -4,93 +4,85 @@ import BusinessObject from './BusinessObject';
 export default class SemesterBO extends BusinessObject {
 //Represents a semester BO. 
   
-  constructor(aWintersemester, aSubmitProjectsEndDate, aGradingEndDate, aGradingBeginnData, aSubmitProjectsBeginnDate){
-  super();
-  this.wintersemester = aWintersemester;
-  this.submitProjectsEndDate = aSubmitProjectsEndDate;
-  this.gradingEndDate = aGradingEndDate;
-  this.submitProjectsBeginnDate = aSubmitProjectsBeginnDate;
-  this.gradingBeginnDate = aGradingBeginnData;
- }
+   constructor(aWintersemester, aSubmitProjectsEndDate, aGradingEndDate, aGradingBeginnData, aSubmitProjectsBeginnDate){
+      super();
+      this.winter_semester = aWintersemester;
+      this.submit_projects_end_date = aSubmitProjectsEndDate;
+      this.grading_end_date = aGradingEndDate;
+      this.submit_projects_beginn_date = aSubmitProjectsBeginnDate;
+      this.grading_beginn_date = aGradingBeginnData;
+   }
  
- //Set if the semster is a wintersemester
+   //Set if the semster is a wintersemester
  
- setWintersemester(aWintersemester){
-    this.wintersemester = aWintersemester;
- }
+   setWintersemester(aWintersemester){
+      this.winter_semester = aWintersemester;
+   }
  
- //Reads out if the semester is a wintersemester.
+   //Reads out if the semester is a wintersemester.
  
- getWintersemester(){
-    return this.wintersemesterintersemester;
- }
+   getWintersemester(){
+      return this.winter_semester;
+   }
  
- //Sets the SubmitProjectEndDate.
+   //Sets the SubmitProjectEndDate.
  
- setSubmitProjectsEndDate(aSubmitProjectsEndDate){
-    this.submitProjectsEndDate = aSubmitProjectsEndDate;
- }
+   setSubmitProjectsEndDate(aSubmitProjectsEndDate){
+      this.submit_projects_end_date = aSubmitProjectsEndDate;
+   }
  
- //Readout the SubmitProjectEndDate.
+   //Readout the SubmitProjectEndDate.
  
- getSubmitProjectsEndDate(){
-    return this.submitProjectsEndDate;
- }
+   getSubmitProjectsEndDate(){
+      return this.submit_projects_end_date;
+   }
   
- //Sets the end date when the project must become a grading.
+   //Sets the end date when the project must become a grading.
 
- setGradingEndDate(aGradingEndDate){
-    this.gradingEndDate = aGradingEndDate;
- }
+   setGradingEndDate(aGradingEndDate){
+      this.grading_end_date = aGradingEndDate;
+   }
 
- //Reads out the enddate of Grading of a project.
+   //Reads out the enddate of Grading of a project.
 
- getGradingEndDate(){
-    return this.gradingEndDate;
- }
+   getGradingEndDate(){
+      return this.grading_end_date;
+   }
 
- //Reads out the beginn date of Grading of a project.
+   //Reads out the beginn date of Grading of a project.
 
- getGradingBeginnDate(){
-    return this.gradingBeginnDate;
- }
+   getGradingBeginnDate(){
+      return this.grading_beginn_date;
+   }
 
- //Sets the beginn date when the project must become a grading.
+   //Sets the beginn date when the project must become a grading.
 
- setGradingBeginnDate(aGradingBeginnData){
-    this.gradingBeginnDate = aGradingBeginnData;
- }
+   setGradingBeginnDate(aGradingBeginnData){
+      this.grading_beginn_date = aGradingBeginnData;
+   }
 
- //Reads out the beginn date of submit of a project.
+   //Reads out the beginn date of submit of a project.
 
- getSubmitProjectsBeginnDate(){
-    return this.submitProjectsBeginnDate;
- }
+   getSubmitProjectsBeginnDate(){
+      return this.submit_projects_beginn_date;
+   }
 
- //Sets the end date when the project must become be submited.
+   //Sets the end date when the project must become be submited.
 
- setSubmitProjectsBeginnDate(aSubmitProjectsBeginnDate){
-    this.submitProjectsBeginnDate = aSubmitProjectsBeginnDate;
- }
+   setSubmitProjectsBeginnDate(aSubmitProjectsBeginnDate){
+      this.submit_projects_beginn_date = aSubmitProjectsBeginnDate;
+   }
 
 
-//Returns an Array of SemesterBO from a given JSON structure.
+   //Returns an Array of SemesterBO from a given JSON structure.
 
-    static fromJSON(semesters) {
-        let res = [];
+    static fromJSON(semester) {
+        let res = null;
 
-        if (Array.isArray(semesters)) {
-            semesters.forEach((s) => {
-                Object.setPrototypeOf(s, SemesterBO.prototype);
-                res.push(s);
-            })
-        }
-        // it's a single object and not an array
-        else {
-            let s = semesters;
-            Object.setPrototypeOf(s, SemesterBO.prototype);
-            res.push(s);
-        }
+         let s = semester;
+         Object.setPrototypeOf(s, SemesterBO.prototype);
+         res = s;
+        
 
         return res;
         

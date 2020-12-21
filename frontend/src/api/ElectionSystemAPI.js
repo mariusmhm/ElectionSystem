@@ -50,6 +50,7 @@ export default class ElectionSystemAPI {
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
 
     //Semester
+    #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
     #addSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`;
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
@@ -423,6 +424,16 @@ export default class ElectionSystemAPI {
 
     //----------Semester-------------------------
 
+    getAllSemester(){
+      return this.#fetchAdvanced(this.#getAllSemesterURL()).then((responseJSON) => {
+          let responseSemesterBOs = SemesterBO.fromJSON(responseJSON);
+          return new Promise(function (resolve){
+              resolve(responseSemesterBOs)
+          })
+      }) 
+    }
+    
+    
     addSemester(semester){
         return this.#fetchAdvanced(this.#addSemesterURL(), {
           method: 'POST',
@@ -440,8 +451,13 @@ export default class ElectionSystemAPI {
     }
 
     updateSemester(semesterBO){
-        return this.#fetchAdvanced(this.#updateSemesterURL(semesterBO.getID()), {
-            method: 'PUT'
+        return this.#fetchAdvanced(this.#updateSemesterURL(semesterBO.getID()) , {
+            method: 'PUT',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(semesterBO)
             }).then((responseJSON) => {
             let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
