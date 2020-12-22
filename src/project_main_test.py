@@ -74,6 +74,15 @@ class ProjectListOperations(Resource):
         acc = adm.find_project_by_id(id)
         return acc
 
+@electionSystem.route('/projects/<string:name>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
+class ProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(project)
+    def get(self, name):
+        adm= ProjectAdministration()
+        projects= adm.find_project_by_name(name)
+        return projects
+
 
 if __name__ == '__main__':
     app.run(debug=True)
