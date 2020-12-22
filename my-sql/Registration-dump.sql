@@ -40,6 +40,8 @@ CREATE TABLE `Semester` (
 	`winter_semester` tinyint NOT NULL DEFAULT '0',
 	`submit_projects_end_date` DATE,
 	`grading_end_date` DATE,
+  `submit_projects_beginn_date` DATE,
+  `grading_beginn_date` DATE,
     PRIMARY KEY(`id`)
 );
 
