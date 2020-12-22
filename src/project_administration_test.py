@@ -12,3 +12,7 @@ class ProjectAdministration (object):
     def find_project_by_id(self, number):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_id(number)
+
+    def find_project_by_name(self, name):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_name(name)
