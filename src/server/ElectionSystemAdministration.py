@@ -294,3 +294,24 @@ class ElectionSystemAdministration (object):
 
         with ProjecttypeMapper() as mapper:
             return mapper.insert(projecttype)
+
+
+
+    # --- Election Priority Logic ---
+
+    def finish_election(self, project_id):
+        _all_participations = ElectionSystemAdministration().get_all_by_project_id(project_id)
+        _max_participations = 1
+        _prio_one = []
+
+        for participation in _all_participations:
+            if participation.get_priority == 4 and _prio_one[_max_participations-1] is None:
+                _prio_one.append(participation)
+            else:
+                pass
+
+        
+        print(_prio_one)  
+
+
+ElectionSystemAdministration.finish_election(1, 1)
