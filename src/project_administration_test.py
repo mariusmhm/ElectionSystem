@@ -16,3 +16,29 @@ class ProjectAdministration (object):
     def find_project_by_name(self, name):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_name(name)
+
+
+    # --- Project SPECIFIC OPERATIONS ---
+
+    def create_project(self, project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots):
+        #create participation
+        project = Project()
+        project.set_project_id(project_id)
+        project.set_project_name(project_name)
+        project.set_short_description(short_description)
+        project.set_link(link)
+        project.set_room_desired(room_desired)
+        project.set_grade_average(grade_average)
+        project.set_num_blockdays_in_exam(num_blockdays_in_exam)
+        project.set_blockdays_in_exam(blockdays_in_exam)
+        project.set_special_room(special_room)
+        project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+        project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+        project.set_blockdays_prior_lecture(blockdays_prior_lecture)
+        project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
+        project.set_blockdays_during_lecture(blockdays_during_lecture)
+        project.set_weekly(weekly)
+        project.set_num_spots(num_spots)
+
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)

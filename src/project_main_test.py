@@ -6,6 +6,7 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 from project_administration_test import ProjectAdministration
+from server.bo.Project import Project
 
 app = Flask(__name__)
 
@@ -60,6 +61,20 @@ class ProjectListOperations(Resource):
         adm=ProjectAdministration()
         projects=adm.get_all_projects()
         return projects
+    
+    @electionSystem.marshal_with(project, code=200)
+    @electionSystem.expect(project)
+    def post(self):
+        adm = ProjectAdministration()
+        proposal = Project.to_dict(api.payload)
+
+        if proposal is not None:
+            p = adm.create_project(proposal.get_project_id(), proposal.get_project_name(), proposal.get_short_description(), proposal.get_link(), proposal.get_room_desired(), proposal.get_grade_average(), proposal.get_num_blockdays_in_exam(), proposal.get_blockdays_in_exam(), proposal.get_special_room(), proposal.get_date_blockdays_during_lecture(), proposal.get_num_blockdays_prior_lecture(), proposal.get_blockdays_prior_lecture(), proposal.get_num_blockdays_during_lecture(), proposal.get_blockdays_during_lecture(), proposal.get_weekly(), proposal.get_num_spots())
+            return p, 200
+        else:
+            #server error
+            return '', 500
+
 
 @electionSystem.route('/projects/<int:id>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
@@ -82,6 +97,7 @@ class ProjectListOperations(Resource):
         adm= ProjectAdministration()
         projects= adm.find_project_by_name(name)
         return projects
+
 
 
 if __name__ == '__main__':

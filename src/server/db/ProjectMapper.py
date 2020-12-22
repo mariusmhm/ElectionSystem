@@ -118,53 +118,48 @@ class ProjectMapper(Mapper):
         cursor.close()
         return result
 
-"""    def insert(self, participation):
+    
+
+    def insert(self, project):
 
         cursor = self._connection.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM Participation")
+        cursor.execute("SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots  FROM projects")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
             if maxid[0] is not None:
-                participation.set_id(maxid[0] + 1)
+                project.set_project_id(maxid[0] + 1)
             else:
-                participation.set_id(1)
+                project.set_project_id(1)
             
-        command = "INSERT INTO Participation (id, creation_date, priority, grading_id, student_id, project_id) VALUES (%s,%s,%s,NULL,%s,%s)"
-        data = (participation.get_id(), participation.get_creation_date(), participation.get_priority(), participation.get_student_id(), participation.get_project_id())
+        command = "INSERT INTO projects (project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        data = (project.get_project_id(), project.get_project_name(), project.get_short_description(), project.get_link(), project.get_room_desired(), project.get_grade_average(), project.get_num_blockdays_in_exam(), project.get_blockdays_in_exam(), project.get_special_room(), project.get_date_blockdays_during_lecture(), project.get_num_blockdays_prior_lecture(), project.get_blockdays_prior_lecture(), project.get_num_blockdays_during_lecture(), project.get_blockdays_during_lecture(), project.get_weekly(), project.get_num_spots())
         cursor.execute(command, data)
         self._connection.commit()
         cursor.close()
+        
 
-        return participation
+        return project
 
-    def update(self, participation):
+"""
+    def update(self, grading):
 
         cursor = self._connection.cursor()
 
-
-        command = "UPDATE Participation " + "SET priority=%s, grading_id=%s WHERE id=%s"
-        data = (participation.get_priority(), participation.get_grading_id(), participation.get_id())
+        command = "UPDATE Grading " + "SET grade=%s WHERE id=%s"
+        data = (grading.get_grade(), grading.get_id())
         cursor.execute(command, data)
 
         self._connection.commit()
         cursor.close()
 
-    def delete(self, participation):
+    def delete(self, grading):
 
         cursor = self._connection.cursor()
-        command = "DELETE FROM Participation WHERE id={}".format(participation.get_id())
+        command = "DELETE FROM Grading WHERE id={}".format(grading.get_id())
         cursor.execute(command)
 
         self._connection.commit()
         cursor.close()
 
-    def delete_grading_id(self, participation):
-
-        cursor = self._connection.cursor()
-        command = "UPDATE Participation SET grading_id= NULL"
-        cursor.execute(command)
-
-        self._connection.commit()
-        cursor.close()"""
-
+"""
