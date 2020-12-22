@@ -27,15 +27,15 @@ class Semester extends Component {
         super(props)
         this.state= {
             semester: {},
-            sLoaded: false,
             error: null,
-            wintersemester: '',
+            wintersemester: null,
             gradingEndDate: '',
             submitProjectsEndDate: '',
             submitProjectsBeginnDate: '',
             gradingBeginnDate: '',
             updatingError: null,
             deletingError: null,
+            loaded: null,
 
 
 
@@ -46,7 +46,8 @@ class Semester extends Component {
     componentDidMount(){
         this.getAllSemester();
     }
-
+    
+    
 
     /** Gives back the semester */
     getAllSemester = () => {
@@ -59,40 +60,28 @@ class Semester extends Component {
                 submitProjectsEndDate: semesterBO.getSubmitProjectsEndDate(),
                 submitProjectsBeginnDate: semesterBO.getSubmitProjectsBeginnDate(),
                 gradingBeginnDate: semesterBO.getGradingBeginnDate(),
-                sLoaded: true,
+                loaded: true,
                 error: null
             })).catch(e =>
                 this.setState({
-                    semester:{},
+                    semester: {},
                     error: e
                 }))
     }
 
     //Updates the semester
     updateSemester = () => {
-        // clone the original cutomer, in case the backend call fails
-        let updatedSemester = Object.assign(new SemesterBO()); //eventuell raus nehehmen
+        let originSemester = this.state.semester;
+        // clone original semester, in case the backend call fails
+        let updatedSemester = Object.assign(new SemesterBO(), originSemester); //eventuell raus nehehmen
         // set the new attributes from our dialog
-        console.log(this.state.wintersemester);
-        console.log(this.state.gradingBeginnDate);
-        console.log(this.state.gradingEndDate);
-        console.log(this.state.submitProjectsBeginnDate);
-        console.log(this.state.submitProjectsEndDate);
-        updatedSemester.setID(this.state.semester.getID())
         updatedSemester.setWintersemester(this.state.wintersemester);
         updatedSemester.setGradingEndDate(this.state.gradingEndDate);
         updatedSemester.setSubmitProjectsEndDate(this.state.submitProjectsEndDate);
         updatedSemester.setSubmitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
         updatedSemester.setGradingBeginnDate(this.state.gradingBeginnDate);
-        ElectionSystemAPI.getAPI().updateSemester(updatedSemester)
-        .then(semester => 
-        this.setState({            
-            updatingError: null                     // no error message
-        })).catch(e =>
-         this.setState({
-            updatingError: e                        // show error message
-        })
-        );
+        console.log(JSON.stringify(updatedSemester));
+        ElectionSystemAPI.getAPI().updateSemester(updatedSemester).catch(e => console.log(e));
 
     } 
 
@@ -104,9 +93,17 @@ class Semester extends Component {
   }
 
   handleRadioChange = (event) => {
-    this.setState({
-    wintersemester: event.target.value
-    })
+    if(event.target.value === "true"){
+        this.setState({
+            wintersemester: true
+        })
+    }else{
+        this.setState({
+            wintersemester: false
+        })
+    }
+    
+    
   };
 
   handleSubmitProjectsBeginnDateChange = (date) => {
@@ -153,8 +150,8 @@ class Semester extends Component {
                 EDIT THE SEMESTER PERIOD
         </DialogTitle>
             <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-                <FormControl align="center">
-                    <RadioGroup row={true} defaultValue={this.state.wintersemester ? "false" : "true"} onChange={this.handleRadioChange} >
+                <FormControl>
+                    <RadioGroup row={true} value={String(this.state.wintersemester)} onChange={this.handleRadioChange} >
                          <FormControlLabel
                             value= "true"
                             control={<Radio />}

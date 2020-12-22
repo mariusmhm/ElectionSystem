@@ -6,7 +6,7 @@ export default class BusinessObject {
     // default null constructor
     constructor() {
         this.id = 0;
-        this.creationDate = '';
+        this.creation_date = '';
     }
 
     // setting the BOs ID
@@ -20,11 +20,11 @@ export default class BusinessObject {
     }
 
     getDate(){
-        return this.creationDate;
+        return this.creation_date;
     }
 
     setDate(aCreationDate){
-        this.creationDate = aCreationDate;
+        this.creation_date = aCreationDate;
     }
 
 }

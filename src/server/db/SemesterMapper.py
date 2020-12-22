@@ -22,7 +22,7 @@ class SemesterMapper(Mapper):
         crs.execute("SELECT * FROM Semester")
         tupsrc = crs.fetchall()
 
-        for (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date, grading_beginn_date, submit_projects_beginn_date) in tupsrc:
+        for (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date, submit_projects_beginn_date, grading_beginn_date) in tupsrc:
             semester = Semester()
             semester.set_id(id)
             semester.set_date(creation_date)
@@ -105,14 +105,12 @@ class SemesterMapper(Mapper):
         """Repeated writing of an object to the database.
         : param semester the object that is to be written to the DB"""
         cursor = self._connection.cursor()
-        cmd = "SET (winter_semester=%s, creation_date=%s, submit_projects_end_date=%s, grading_end_date=%s, submit_projects_beginn_date=%s, grading_beginn_date=%s) WHERE id=%s"
-        data = (semester.get_wintersemester(), semester.get_date(), semester.get_submit_projects_end_date(), semester.get_grading_end_date(), semester.get_id(), semester.get_submit_projects_beginn_date(), semester.get_grading_beginn_date())
-        cursor.execute("UPDATE Semester ", cmd, data)
+        cmd = "UPDATE Semester" + " SET winter_semester=%s, submit_projects_end_date=%s, grading_end_date=%s, submit_projects_beginn_date=%s, grading_beginn_date=%s WHERE id=%s"
+        data = (semester.get_wintersemester(), semester.get_submit_projects_end_date(), semester.get_grading_end_date(), semester.get_submit_projects_beginn_date(), semester.get_grading_beginn_date(), semester.get_id())
+        cursor.execute(cmd, data)
 
         self._connection.commit()
         cursor.close()
-
-        return semester
 
     def delete(self, semester):
         """Deleting the data of a semester object from the database.

@@ -5,6 +5,7 @@ class BusinessObject(ABC):
 
     def __init__(self):
         self._id = 0
+        creation_date = date.today()
         self._creation_date = date
 
     def get_id(self):
@@ -17,5 +18,4 @@ class BusinessObject(ABC):
         return self._creation_date
 
     def set_date(self, creation_date):
-        creation_date = date.today()
         self._creation_date = creation_date

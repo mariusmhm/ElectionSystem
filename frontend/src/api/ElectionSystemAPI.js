@@ -450,16 +450,17 @@ export default class ElectionSystemAPI {
             })
     }
 
-    updateSemester(semesterBO){
-        return this.#fetchAdvanced(this.#updateSemesterURL(semesterBO.getID()) , {
+    updateSemester(semester){
+        console.log("api aufruf")
+        return this.#fetchAdvanced(this.#updateSemesterURL(semester.getID()), {
             method: 'PUT',
             headers:{
               'Accept': 'application/json, text/plain',
               'Content-type': 'application/json',
             },
-            body: JSON.stringify(semesterBO)
+            body: JSON.stringify(semester)
             }).then((responseJSON) => {
-            let responseSemesterBO = SemesterBO.fromJSON(responseJSON)[0];
+            let responseSemesterBO = SemesterBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
               resolve(responseSemesterBO);
             })
