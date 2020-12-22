@@ -21,6 +21,11 @@ CREATE TABLE projects (
   `num_spots`  int(11) NOT NULL DEFAULT '0',
 
   PRIMARY KEY (`project_id`)
+
+  FOREIGN KEY (`participation_id`) REFERENCES `Participation`(`id`),
+  FOREIGN KEY (`module_id`) REFERENCES `Module`(`id`),
+  FOREIGN KEY (`projecttype_id`) REFERENCES `Projecttype`(`id`)
+  FOREIGN KEY (`professor_id`) REFERENCES `User`(`id`)
 );
 
 INSERT INTO projects VALUES (1, "Project 1", "That's Description Number 1", "Link 1","Room 1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1");

@@ -79,4 +79,61 @@ class ProjectMapper(Mapper):
         cursor.close()
         return result
 
+        #---project specific---
+
+    #def find_by_status(self, status):
+    #def find_by_professorID(self, professorID):
+    #def find_by_projecttypeID(self, projecttypeID):
+    #def find_by_project_name(self, name):
+    #def find_by_moduleID(self, moduleID):
+
+"""    def insert(self, participation):
+
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM Participation")
+        tuples = cursor.fetchall()
+
+        for (maxid) in tuples:
+            if maxid[0] is not None:
+                participation.set_id(maxid[0] + 1)
+            else:
+                participation.set_id(1)
+            
+        command = "INSERT INTO Participation (id, creation_date, priority, grading_id, student_id, project_id) VALUES (%s,%s,%s,NULL,%s,%s)"
+        data = (participation.get_id(), participation.get_creation_date(), participation.get_priority(), participation.get_student_id(), participation.get_project_id())
+        cursor.execute(command, data)
+        self._connection.commit()
+        cursor.close()
+
+        return participation
+
+    def update(self, participation):
+
+        cursor = self._connection.cursor()
+
+
+        command = "UPDATE Participation " + "SET priority=%s, grading_id=%s WHERE id=%s"
+        data = (participation.get_priority(), participation.get_grading_id(), participation.get_id())
+        cursor.execute(command, data)
+
+        self._connection.commit()
+        cursor.close()
+
+    def delete(self, participation):
+
+        cursor = self._connection.cursor()
+        command = "DELETE FROM Participation WHERE id={}".format(participation.get_id())
+        cursor.execute(command)
+
+        self._connection.commit()
+        cursor.close()
+
+    def delete_grading_id(self, participation):
+
+        cursor = self._connection.cursor()
+        command = "UPDATE Participation SET grading_id= NULL"
+        cursor.execute(command)
+
+        self._connection.commit()
+        cursor.close()"""
 

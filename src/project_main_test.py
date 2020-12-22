@@ -5,7 +5,7 @@ from flask_restx import Api, Resource, fields
 # Wir benutzen noch eine Flask-Erweiterung für Cross-Origin Resource Sharing
 from flask_cors import CORS
 
-from ProjectAdministration import ProjectAdministration
+from project_administration_test import ProjectAdministration
 
 app = Flask(__name__)
 
