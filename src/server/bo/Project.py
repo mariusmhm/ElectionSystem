@@ -5,11 +5,19 @@ from server.bo import BusinessObject as bo
 
 class Project(bo.BusinessObject):
 
-    """Realization of an examplary Project.
+    """Realization of an examplary Project. Test
     """
 
     def __init__(self):
         super().__init__()
+
+        self.participation_id = None
+        self.module_id = None
+        self.projecttype_id = None
+        self.professor_id = None
+
+
+
         self._project_id = None
         self._project_name = None
         self._short_description = None
@@ -26,6 +34,8 @@ class Project(bo.BusinessObject):
         self._blockdays_during_lecture = True
         self._weekly = True
         self._num_spots = 0
+
+    
 
     def set_project_id(self, id):
         self._project_id = id
