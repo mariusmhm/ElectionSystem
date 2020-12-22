@@ -294,3 +294,7 @@ class ElectionSystemAdministration (object):
 
         with ProjecttypeMapper() as mapper:
             return mapper.insert(projecttype)
+
+
+
+    # --- Election Priority Logic ---

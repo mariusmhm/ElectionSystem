@@ -7,8 +7,31 @@ class ParticipationMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def find_all():
-        pass
+
+    def find_all(self):
+        """Read out all participations.
+        :return A collection of participation objects that all participations represent."""
+
+        result = []
+        cursor = self._connection.cursor()
+
+        cursor.execute("SELECT * FROM Participation")
+        tuples = cursor.fetchall()
+        
+        for (id, creation_date, priority, grading_id, student_id, project_id) in tuples:
+            participation = Participation()
+            participation.set_id(id)
+            participation.set_date(creation_date)
+            participation.set_priority(priority)
+            participation.set_grading_id(grading_id)
+            participation.set_student_id(student_id)
+            participation.set_project_id(project_id)
+            result = participation
+
+        self._connection.commit()
+        cursor.close()
+
+        return result
 
     def find_by_id(self, id):
 
