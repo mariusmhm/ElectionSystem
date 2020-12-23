@@ -479,11 +479,15 @@ export default class ElectionSystemAPI {
       })
     }
 
-    addStudent(){
+    addStudent(student){
         return this.#fetchAdvanced(this.#addStudentURL(), {
-            method: 'POST'
-          })
-            .then((responseJSON) => {
+            method: 'POST',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(student)
+          }).then((responseJSON) => {
               let responseStudentBO = StudentBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(responseStudentBO);
@@ -493,11 +497,15 @@ export default class ElectionSystemAPI {
 
     //----------User-------------------------
 
-    addUser(userBO){
+    addUser(user){
       return this.#fetchAdvanced(this.#addUserURL(), {
           method: 'POST',
-          })
-          .then((responseJSON) => {
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(user)
+          }).then((responseJSON) => {
             let responseUserBO = UserBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
               resolve(responseUserBO);
