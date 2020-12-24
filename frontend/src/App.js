@@ -5,6 +5,7 @@ import ArchiveProject from'./components/layout/pages/ProjectGenehmigen/ArchivePr
 import ListEntryDiesesSemester from'./components/layout/pages/ProjectGenehmigen/ListEntryDiesesSemester'
 import HomeScreenAdminBeginn from'./components/layout/pages/ProjectGenehmigen/HomeScreenAdminBeginn'
 
+
 class App extends Component {
 
 
@@ -14,7 +15,7 @@ class App extends Component {
         return (
 
             <div>
-                <HomeScreenAdminBeginn />
+                <Teilnehmerliste />
 		    </div>
 		);
 	}

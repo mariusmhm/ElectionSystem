@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import { TextField, Button, Grid, Typography, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Container} from'@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {withStyles} from '@material-ui/core';
-import Header from'./Header';
-
-
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 class Teilnehmerliste extends Component {
@@ -43,12 +44,12 @@ constructor(props){
     }
 }
 
+
  render(){
      const { classes } = this.props;
 
     return(
         <div>
-              <Header />
             <Container maxWidth="md">
                 <CssBaseline />
                     <Grid container
@@ -67,12 +68,12 @@ constructor(props){
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>matriculation number</TableCell>
-                                            <TableCell>course of study</TableCell>
-                                            <TableCell>semester</TableCell>
-                                            <TableCell>project</TableCell>
-                                            <TableCell>grade</TableCell>
+                                            <TableCell>NAME</TableCell>
+                                            <TableCell>MARTRICULATION NUMBER</TableCell>
+                                            <TableCell>COURSE OF STUDY</TableCell>
+                                            <TableCell>SEMESTER</TableCell>
+                                            <TableCell>PROJECT</TableCell>
+                                            <TableCell>GRADE</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -83,8 +84,27 @@ constructor(props){
                                                 <TableCell> {row.studiengang}</TableCell>
                                                 <TableCell> {row.semester}</TableCell>
                                                 <TableCell> {row.projectName}</TableCell>
-                                                <TableCell> {row.note}</TableCell>
-                                                <TextField fullWidth variant="outlined" label="grade:"/>
+                                                <TableCell>
+                                                    <FormControl>
+                                                        <InputLabel >GRADE</InputLabel>
+                                                            <Select
+                                                                labelId="demo-simple-select-label"
+                                                                id="demo-simple-select"
+                                                                value={row.grade}
+                                                                >
+                                                                    <MenuItem value={1,0}>1,0</MenuItem>
+                                                                    <MenuItem value={1,3}>1,3</MenuItem>
+                                                                    <MenuItem value={1,7}>1,7</MenuItem>
+                                                                    <MenuItem value={2,0}>2,0</MenuItem>
+                                                                    <MenuItem value={2,3}>2,3</MenuItem>
+                                                                    <MenuItem value={2,7}>2,7</MenuItem>
+                                                                    <MenuItem value={3,0}>3,0</MenuItem>
+                                                                    <MenuItem value={3,3}>3,3</MenuItem>
+                                                                    <MenuItem value={3,7}>3,7</MenuItem>
+                                                                    <MenuItem value={4,0}>4,0</MenuItem>
+                                                            </Select>
+                                                    </FormControl>
+                                                </TableCell>
                                                 <TableCell> <Button  variant="contained" color="secondary" >save</Button> </TableCell>
                                             </TableRow>
                                         ))}
@@ -132,6 +152,5 @@ const styles = theme => ({
         fontSize: 15
     }
 });
-
 
 export default withStyles(styles) (Teilnehmerliste) ;
