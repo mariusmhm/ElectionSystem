@@ -8,8 +8,8 @@ export default class UserBO extends NamedBusinessObject {
 
     constructor(aGoogleID, aFirstname, aEmail, aRole){
         super();
-        this.google_user_id=aGoogleUserId;
-        this.firstname;
+        this.google_user_id=aGoogleID;
+        this.firstname=aFirstname;
         this.mail=aEmail;
         this.role=aRole;
     }
