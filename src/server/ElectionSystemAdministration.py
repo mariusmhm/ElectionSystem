@@ -76,6 +76,18 @@ class ElectionSystemAdministration (object):
         with StudentMapper() as mapper:
             return mapper.insert(student)
 
+    def get_all_students_of_participation(self,project_id):
+        print('methoden Aufruf')
+        participations=self.get_all_by_project_id(project_id)
+        students = []
+        print(participations)
+
+        for element in participations:
+            student_i= element.get_student_id()
+            students.append(self.get_student_by_id(student_i))
+
+        print(students)
+        return students
 
     # --- USER SPECIFIC OPERATIONS ---
 
