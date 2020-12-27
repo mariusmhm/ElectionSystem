@@ -52,22 +52,18 @@ getAllGrades = () => {
 
 getStudentByParticipations = () => {
         ElectionSystemAPI.getAPI().getStudentByParticipations(2)
-        .then(StudentBO =>
+        .then(studentBOs =>
             this.setState({
-                students: StudentBO,
-                name:StudentBO.getName(),
-                martrikelNummer: StudentBO.getMartrikelNr(),
-                study: StudentBO.getStudy(),
+                students: studentBOs,
                 loaded: true,
                 error: null
-            },function(){
-            console.log(this.state.students)
             })).catch(e =>
                 this.setState({
                     students:[],
                     error: e
                 }))
         console.log('ausgeführt');
+
     }
 
     componentDidMount(){
@@ -83,7 +79,7 @@ updateGrade= () => {
 
  render(){
      const { classes } = this.props;
-     const { gradings, error, grading, students, student} = this.state;
+     const { gradings, error, students} = this.state;
 
     return(
             <Container maxWidth="md">
@@ -114,7 +110,7 @@ updateGrade= () => {
                                         {this.state.students.map(student => (
                                             <TableRow key={student.getID()} student={student}>
                                                 <TableCell > {student.getName()} </TableCell>
-                                                <TableCell >{student.getMartrikelNr()} </TableCell>
+                                                <TableCell >{student.getMatrikelNr()} </TableCell>
                                                 <TableCell > {student.getStudy()}</TableCell>
                                                 <TableCell>
                                                     <FormControl>

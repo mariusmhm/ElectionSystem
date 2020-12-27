@@ -502,6 +502,7 @@ export default class ElectionSystemAPI {
         let responseStudentBOs = StudentBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(responseStudentBOs);
+          console.log(responseStudentBOs);
         })
       })
     }
