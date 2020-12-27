@@ -133,7 +133,7 @@ class GradingEditingDialog extends Component {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
+                <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
                         <Button variant="outlined" color="secondary">Cancel</Button>
                     </Grid>

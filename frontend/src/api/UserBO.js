@@ -6,31 +6,41 @@ export default class UserBO extends NamedBusinessObject {
 /// Represents a user of the electionsystem. It is either a sutdent or a professor.
 
 
-    constructor(aUserId, aEmail, aRole){
+    constructor(aGoogleID, aFirstname, aEmail, aRole){
         super();
-        this.userId=aUserId;
-        this.email=aEmail;
+        this.google_user_id=aGoogleID;
+        this.firstname=aFirstname;
+        this.mail=aEmail;
         this.role=aRole;
     }
 
-   //Sets the UserId
-    setUserId(aUserId){
-        this.userId = aUserId;
+   //Sets the Google Id
+    setGoogleID(aGoogleID){
+        this.google_user_id = aGoogleID;
     }
-    //Reads out the UserId
-    getUserId(){
-        return this.userId;
+    //Reads out the Google Id
+    getGooleID(){
+        return this.google_user_id;
     }
 
-    //Sets the Users Email
-    setUserMail(aEmail){
-        this.email = aEmail;
+    //Sets the Firstname
+    setFirstname(aFirstname){
+        this.firstname = aFirstname;
+    }
+    //Reads out Firstname
+    getFirstname(){
+        return this.firstname;
+    }
+
+    //Sets the Email
+    setMail(aEmail){
+        this.mail = aEmail;
 
     }
 
     //Reads out Users Email
-    getUserMail(){
-        return this.email
+    getMail(){
+        return this.mail
 
     }
 
@@ -39,7 +49,7 @@ export default class UserBO extends NamedBusinessObject {
         this.role = aRole
     }
 
-    //Returns an Array of CustomerBOs from a given JSON structure.
+    //Returns an Array of UserBOs from a given JSON structure.
 
     static fromJSON(users) {
         let res = [];
