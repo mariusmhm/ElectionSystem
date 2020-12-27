@@ -169,7 +169,15 @@ class StudentsStudyOperations(Resource):
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_study(study)
         return students
-        
+
+@electionSystem.route('/students-by-participations/<int:project_id>')
+@electionSystem.response(500,'when the server has problems')
+class StudentParticipationOperations(Resource):
+    @electionSystem.marshal_with(student)
+    def get(self, project_id):
+        adm = ElectionSystemAdministration()
+        students = adm.get_all_students_of_participation(project_id)
+        return students
 
 # --- USER SPECIFIC OPERATIONS ---
 
@@ -399,6 +407,8 @@ class ParticipationsGradingListOperations(Resource):
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_grading_id(grading_id)
         return pp
+
+
 
 #------Grading---------
 
