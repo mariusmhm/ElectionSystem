@@ -1,6 +1,9 @@
 from server.bo.Project import Project
 from server.db.ProjectMapper import ProjectMapper
 
+from server.bo.Module import Module
+from server.db.ModuleMapper import ModuleMapper
+
 class ProjectAdministration (object):
     def __init__(self):
         pass
@@ -42,3 +45,12 @@ class ProjectAdministration (object):
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
+
+
+    # --- Module general Operations ---
+
+    def get_all_modules(self, ):
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+

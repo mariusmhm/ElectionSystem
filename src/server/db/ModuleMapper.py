@@ -1,8 +1,7 @@
 from server.bo.Module import Module
 from server.db.Mapper import Mapper
 
-
-class ModuleMapper (Mapper):
+class ModuleMapper(Mapper):
 
     def __init__(self):
         super().__init__()
@@ -11,7 +10,7 @@ class ModuleMapper (Mapper):
        #find_all method finds every entry of class 'module'
        result=[]
        cursor = self._connection.cursor()
-       cursor.execute("edv_number, name FROM Module")
+       cursor.execute("SELECT edv_number, name FROM Module")
        tuples = cursor.fetchall()
 
        for (edv_number, name) in tuples:
