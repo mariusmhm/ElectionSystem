@@ -101,7 +101,7 @@ class ProjectListOperations(Resource):
 @electionSystem.route('/projects/<int:id>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
 class ProjectListOperations(Resource):
-    @electionSystem.marshal_list_with(project)
+    @electionSystem.marshal_with(project)
     def get(self, id):
         """Auslesen eines bestimmten Projekts.
 
@@ -121,6 +121,8 @@ class ProjectListOperations(Resource):
         adm.delete_project(pro)
         return '', 200
     
+    @electionSystem.marshal_with(project)
+    @electionSystem.expect(project, validate=True)
     def put(self, id):
         """Update eines bestimmten Projekts.
 
@@ -129,11 +131,11 @@ class ProjectListOperations(Resource):
         Customer-Objekts.
         """
         adm = ProjectAdministration()
-        proposal = Project.to_dict(api.payload)
+        p = Project.to_dict(api.payload)
 
-        if proposal is not None:
-            proposal.set_project_id(id)
-            adm.save_project(proposal)
+        if p is not None:
+            p.set_project_id(id)
+            adm.update_project(p)
             return '', 200
         else:
             return '', 500
