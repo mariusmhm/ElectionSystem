@@ -400,6 +400,16 @@ class ParticipationsGradingListOperations(Resource):
         pp = adm.get_all_by_grading_id(grading_id)
         return pp
 
+
+@electionSystem.route('/participation-by-priority-project/<int:project_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsPriorityProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, project_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_by_project(project_id)
+        return pp
+
 #------Grading---------
 
 @electionSystem.route('/grading')
