@@ -7,6 +7,7 @@ from flask_cors import CORS
 
 from project_administration_test import ProjectAdministration
 from server.bo.Project import Project
+#from server.bo.Module import Module
 
 app = Flask(__name__)
 
@@ -50,6 +51,27 @@ project = api.inherit('Project', bo, {
     'weekly': fields.Boolean(attribute='_weekly', description='Weekly'),
     'num_spots': fields.Integer(attribute='_num_spots', description='Number of Spots'),
 })
+"""
+module = api.inherit ('Module', bo, {
+    'edv_number': fields.Integer(attribute='_edv_number', description='Module number'),
+    'name': fields.String(attribute='_name', description='Name of Module'),
+})
+"""
+
+
+#--- Module |START| ---
+"""
+@electionSystem.route('/module')
+@electionSystem.response(500, 'if server has a problem')
+class ModuleListOperations(Resource):
+    @electionSystem.marshal_list_with(module)
+    def get(self):
+        adm=ProjectAdministration()
+        module=adm.get_all_modules()
+        return module
+"""
+
+#--- Module |END| ---
 
 
 
