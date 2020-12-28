@@ -1,8 +1,8 @@
 from server.bo.Project import Project
 from server.db.ProjectMapper import ProjectMapper
 
-from server.bo.Module import Module
-from server.db.ModuleMapper import ModuleMapper
+#from server.bo.Module import Module
+#from server.db.ModuleMapper import ModuleMapper
 
 class ProjectAdministration (object):
     def __init__(self):
@@ -45,7 +45,6 @@ class ProjectAdministration (object):
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
-<<<<<<< HEAD
     
     def delete_project(self, project):
         
@@ -57,14 +56,7 @@ class ProjectAdministration (object):
         """Das Projekt speichern."""
         with ProjectMapper() as mapper:
             mapper.update(project)
-=======
 
 
-    # --- Module general Operations ---
-
-    def get_all_modules(self, ):
-        with ModuleMapper() as mapper:
-            return mapper.find_all()
 
 
->>>>>>> 99cbdba7280c71649328ad1933e5bd1df208e6a7
