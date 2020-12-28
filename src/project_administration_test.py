@@ -42,3 +42,14 @@ class ProjectAdministration (object):
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
+    
+    def delete_project(self, project):
+        
+        with ProjectMapper() as mapper:
+           return mapper.delete(project)
+
+
+    def save_project(self, project):
+        """Das Projekt speichern."""
+        with ProjectMapper() as mapper:
+            mapper.update(project)

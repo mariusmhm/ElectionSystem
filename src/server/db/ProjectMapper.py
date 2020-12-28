@@ -141,25 +141,41 @@ class ProjectMapper(Mapper):
 
         return project
 
-"""
-    def update(self, grading):
+
+    def delete(self, project):
 
         cursor = self._connection.cursor()
-
-        command = "UPDATE Grading " + "SET grade=%s WHERE id=%s"
-        data = (grading.get_grade(), grading.get_id())
-        cursor.execute(command, data)
-
-        self._connection.commit()
-        cursor.close()
-
-    def delete(self, grading):
-
-        cursor = self._connection.cursor()
-        command = "DELETE FROM Grading WHERE id={}".format(grading.get_id())
+        command = "DELETE FROM projects WHERE project_id={}".format(project.get_project_id())
         cursor.execute(command)
 
         self._connection.commit()
         cursor.close()
 
-"""
+    def update(self, project):
+        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+
+        :param transaction das Objekt, das in die DB geschrieben werden soll
+        """
+        cursor = self._connection.cursor()
+
+        command = "UPDATE projects " + "SET project_name=%s, short_description=%s, link=%s, room_desired=%s, grade_average=%s, num_blockdays_in_exam=%s, blockdays_in_exam=%s, special_room=%s, date_blockdays_during_lecture=%s, num_blockdays_prior_lecture=%s, blockdays_prior_lecture=%s, num_blockdays_during_lecture=%s, blockdays_during_lecture=%s, weekly=%s, num_spots=%s WHERE project_id=%s"
+        data = (project.get_project_name(),
+            project.get_short_description(),
+            project.get_link(),
+            project.get_room_desired(),
+            project.get_grade_average(),
+            project.get_num_blockdays_in_exam(),
+            project.get_blockdays_in_exam(),
+            project.get_special_room(),
+            project.get_date_blockdays_during_lecture(),
+            project.get_num_blockdays_prior_lecture(),
+            project.get_blockdays_prior_lecture(),
+            project.get_num_blockdays_during_lecture(),
+            project.get_blockdays_during_lecture(),
+            project.get_weekly(),
+            project.get_num_spots(),
+            project.get_project_id())
+        cursor.execute(command, data)
+
+        self._connection.commit()
+        cursor.close()

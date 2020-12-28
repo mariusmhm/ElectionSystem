@@ -81,13 +81,40 @@ class ProjectListOperations(Resource):
 class ProjectListOperations(Resource):
     @electionSystem.marshal_list_with(project)
     def get(self, id):
-        """Auslesen eines bestimmten Account-Objekts.
+        """Auslesen eines bestimmten Projekts.
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        acc = adm.find_project_by_id(id)
-        return acc
+        pro = adm.find_project_by_id(id)
+        return pro
+
+    def delete(self, id):
+        """Löschen eines bestimmten Projekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.find_project_by_id(id)
+        adm.delete_project(pro)
+        return '', 200
+    
+    def put(self, id):
+        """Update eines bestimmten Projekts.
+
+        **ACHTUNG:** Relevante id ist die id, die mittels URI bereitgestellt und somit als Methodenparameter
+        verwendet wird. Dieser Parameter überschreibt das ID-Attribut des im Payload der Anfrage übermittelten
+        Customer-Objekts.
+        """
+        adm = ProjectAdministration()
+        proposal = Project.to_dict(api.payload)
+
+        if proposal is not None:
+            proposal.set_project_id(id)
+            adm.save_project(proposal)
+            return '', 200
+        else:
+            return '', 500
 
 @electionSystem.route('/projects/<string:name>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
