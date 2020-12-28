@@ -50,6 +50,9 @@ project = api.inherit('Project', bo, {
     'blockdays_during_lecture': fields.Boolean(attribute='_blockdays_during_lecture', description='Blockdays during Lecture'),
     'weekly': fields.Boolean(attribute='_weekly', description='Weekly'),
     'num_spots': fields.Integer(attribute='_num_spots', description='Number of Spots'),
+    'professor_id': fields.Integer(attribute='_professor_id', description='ID of professor'),
+    'participation_id': fields.Integer(attribute='_participation_id', description='ID of participation'),
+    'projecttype_id': fields.Integer(attribute='_projecttype_id', description='ID of projecttype'),
 })
 """
 module = api.inherit ('Module', bo, {
@@ -151,18 +154,53 @@ class ProjectListOperations(Resource):
 
 # --- project specific operations ----
 
+# --- FIND PROJECT BY PROFESSOR ID
+
 @electionSystem.route('/projects-by-professor/<int:professor_id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
+@electionSystem.response(500, 'server error')
 class ProjectListOperations(Resource):
-    @electionSystem.marshal_list_with(project)
-    def get(self, id):
-        """Auslesen eines bestimmten Projekts.
+    @electionSystem.marshal_with(project)
+    def get(self, professor_id):
+        """Auslesen eines bestimmten Projekts anhand der Professor ID
 
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ProjectAdministration()
-        pro = adm.find_project_by_professorID(id)
+        pro = adm.get_project_by_professorID(professor_id)
         return pro
+
+# --- FIND PROJECT BY PARTICIPATION ID
+
+@electionSystem.route('/projects-by-participation/<int:participation_id>')
+@electionSystem.response(500, 'server error')
+class ProjectListOperations(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, participation_id):
+        """Auslesen eines bestimmten Projekts anhand der participation ID
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.get_project_by_participationID(participation_id)
+        return pro
+
+# --- FIND PROJECT BY PROJECTTYPE ID
+
+@electionSystem.route('/projects-by-projecttype/<int:projecttype_id>')
+@electionSystem.response(500, 'server error')
+class ProjectListOperations(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, projecttype_id):
+        """Auslesen eines bestimmten Projekts anhand der projecttype ID
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.get_project_by_projecttypeID(projecttype_id)
+        return pro
+
+
+
 
 
 

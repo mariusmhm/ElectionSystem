@@ -35,6 +35,7 @@ class Project(bo.BusinessObject):
         self._weekly = True
         self._num_spots = 0
 
+
     
 
     def set_project_id(self, id):
@@ -160,6 +161,38 @@ class Project(bo.BusinessObject):
         return self._num_spots
     
 
+    #--- foreign keys ----
+
+    def set_participation_id(self, id):
+        
+        self._participation_id = id
+
+
+    def get_participation_id(self):
+        
+        return self._participation_id
+
+
+    def set_projecttype_id(self, id):
+        
+        self._projecttype_id = id
+
+
+    def get_projecttype_id(self):
+        
+        return self._projecttype_id
+
+
+    def set_professor_id(self, id):
+        
+        self._professor_id = id
+
+
+    def get_professor_id(self):
+        
+        return self._professor_id
+
+
 
     @staticmethod
     def to_dict(dicti=dict()):
@@ -182,5 +215,10 @@ class Project(bo.BusinessObject):
         project.set_blockdays_during_lecture(dicti["blockdays_during_lecture"])
         project.set_weekly(dicti["weekly"])
         project.set_num_spots(dicti["num_spots"])
+        project.set_participation_id(dicti["id"])
+        project.set_projecttype_id(dicti["id"])
+        project.set_professor_id(dicti["id"])
+
+
 
         return project
