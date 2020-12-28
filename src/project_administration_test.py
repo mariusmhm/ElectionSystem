@@ -20,6 +20,9 @@ class ProjectAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_name(name)
 
+    def find_project_by_professorID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_professorID(number)
 
     # --- Project SPECIFIC OPERATIONS ---
 

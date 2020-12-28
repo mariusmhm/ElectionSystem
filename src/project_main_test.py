@@ -149,6 +149,22 @@ class ProjectListOperations(Resource):
         projects= adm.find_project_by_name(name)
         return projects
 
+# --- project specific operations ----
+
+@electionSystem.route('/projects-by-professor/<int:professor_id>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
+class ProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(project)
+    def get(self, id):
+        """Auslesen eines bestimmten Projekts.
+
+        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ProjectAdministration()
+        pro = adm.find_project_by_professorID(id)
+        return pro
+
+
 
 
 if __name__ == '__main__':
