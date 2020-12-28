@@ -138,7 +138,6 @@ class StudentsNameOperations(Resource):
         return students
 
 
-# returns an empty list WHY??
 @electionSystem.route('/student-by-mail/<string:mail>')
 @electionSystem.response(500, 'when server has problems')
 class StudentMailOperations(Resource):
@@ -149,7 +148,6 @@ class StudentMailOperations(Resource):
         return students
 
 
-# returns an empty list WHY??
 @electionSystem.route('/student-by-nr/<int:matrikel_nr>')
 @electionSystem.response(500, 'when server has problems')
 class StudentMatrikelNrOperations(Resource):
@@ -160,7 +158,6 @@ class StudentMatrikelNrOperations(Resource):
         return students
 
 
-# returns an empty list WHY??
 @electionSystem.route('/student-by-study/<string:study>')
 @electionSystem.response(500, 'when server has problems')
 class StudentsStudyOperations(Resource):
@@ -244,7 +241,6 @@ class UserNameOperations(Resource):
         return users
 
 
-# returns an empty list WHY??
 @electionSystem.route('/user-by-mail/<string:mail>')
 @electionSystem.response(500, 'when server has problems')
 class UserMailOperations(Resource):
@@ -255,7 +251,6 @@ class UserMailOperations(Resource):
         return user
 
 
-# returns an empty list WHY??
 @electionSystem.route('/user-by-role/<string:role>')
 @electionSystem.response(500, 'when server has problems')
 class UserRoleOperations(Resource):
@@ -408,7 +403,14 @@ class ParticipationsGradingListOperations(Resource):
         pp = adm.get_all_by_grading_id(grading_id)
         return pp
 
-
+@electionSystem.route('/participation-by-priority-project/<int:project_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsPriorityProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, project_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_by_project(project_id)
+        return pp
 
 #------Grading---------
 
