@@ -59,10 +59,10 @@ export default class ElectionSystemAPI {
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
 
     //User
-    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/users`;
-    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
-    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
-    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/user`;
+    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
+    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
+    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
 
 
     static getAPI() {

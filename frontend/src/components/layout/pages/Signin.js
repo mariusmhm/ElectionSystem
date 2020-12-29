@@ -20,21 +20,21 @@ class Signin extends Component {
         return (
 		<Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
 			<Grid item>
-                    		<Typography textColor='primary_red' variant='h4'> Hochschule der Medien</Typography>
+                <Typography textColor='primary_red' variant='h4'> Hochschule der Medien</Typography>
 			</Grid>
 			<Grid item>
-                    		<Typography variant='h4'>Welcome to the ElectionSystem for HdM Projects.</Typography>
+                <Typography variant='h4'>Welcome to the ElectionSystem for HdM Projects.</Typography>
 			</Grid>
 			<Grid item>
-	                	<Typography variant='h6'>This page appeares, if you are not signed in.</Typography>
+	            <Typography variant='h6'>This page appeares, if you are not signed in.</Typography>
 			</Grid>
 			<Grid item>
-	                	<Typography variant='h6'>To use the services of the HdM ElectionSystem please</Typography>
+	            <Typography variant='h6'>To use the services of the HdM ElectionSystem please</Typography>
 			</Grid>
-	                <Grid item>
+	        <Grid item>
 				<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
 					Sign in with Google
-      			        </Button>
+      			</Button>
 			</Grid>
 		</Grid>
 		);
