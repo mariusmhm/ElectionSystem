@@ -1,51 +1,57 @@
 import React, { Component } from 'react';
-import Header from './components/layout/Header';
 import Grid from '@material-ui/core/Grid';
-import Registration from './components/Registration';
+import {withStyles} from '@material-ui/core';
 import { Button, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-//This is for testing approaches
+/**import {ThemeProvider} from '@material-ui/core/styles';**/
+//This will be the signin page. The user will thus be able to sign in to the ElectionSystem.
+//Users are professors, admins and students.
 
-class App extends Component {
+class Signin extends Component {
 
-handleSignInButtonClicked = () => {
-this.props.onSignIn();
-}
-constructor (props){
-    super(props);
-    this.state={
-    group:"Gruppe 5"
-
+    handleSignInButtonClicked = () => {
+        this.props.handleSignIn();
     }
-}
-  render() {
-    return (
-    //This is for testing, do not delete:
+    /** Renders the sign in page, if user objext is null */
 
-      <div>
-      <h1 style= {{color:"red", textAlign:"center"}}> Hochschule der Medien</h1>
-      <h2 style={{color:"red", textAlign:"center"}} > ElectionSystem</h2>
-        <Typography  align='center' variant='h6'>Welcome to the HdM ElectionSystem</Typography>
-	    <Typography  align='center'>It appears, that you are not signed in.</Typography>
-	    <Typography  align='center'>To use the services of the HdM Election System please</Typography>
-	    <Grid container justify='center'>
-					<Grid item>
-						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-							Sign in with Google
-      			</Button>
-					</Grid>
-				</Grid>
-			</div>
+    render() {
+	const { classes} = this.props; 
+        return (
+		<Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
+			<Grid item>
+                    		<Typography textColor='primary_red' variant='h4'> Hochschule der Medien</Typography>
+			</Grid>
+			<Grid item>
+                    		<Typography variant='h4'>Welcome to the ElectionSystem for HdM Projects.</Typography>
+			</Grid>
+			<Grid item>
+	                	<Typography variant='h6'>This page appeares, if you are not signed in.</Typography>
+			</Grid>
+			<Grid item>
+	                	<Typography variant='h6'>To use the services of the HdM ElectionSystem please</Typography>
+			</Grid>
+	                <Grid item>
+				<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
+					Sign in with Google
+      			        </Button>
+			</Grid>
+		</Grid>
 		);
 	}
 }
 
 
+const styles = theme => ({
+	grid: {
+		marginTop: theme.spacing(6)
+	}
+});
 
-PropTypes
-SignIn.propTypes = {
+
+Signin.propTypes = {
 	classes: PropTypes.object.isRequired,
-	onSignIn: PropTypes.func.isRequired,}
+	handleSignIn: PropTypes.func.isRequired}
 
-export default App;
+
+export default  withStyles(styles)(Signin);
