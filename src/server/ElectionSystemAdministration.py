@@ -3,6 +3,7 @@ from server.bo.User import User
 from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
+from server.bo.Project import Project
 
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
@@ -11,6 +12,7 @@ from server.db.ParticipationMapper import ParticipationMapper
 from server.db.GradingMapper import GradingMapper
 from server.bo.Projecttype import Projecttype
 from server.db.ProjecttypeMapper import ProjecttypeMapper
+from server.db.ProjectMapper import ProjectMapper
 
 
 class ElectionSystemAdministration (object):
@@ -345,6 +347,73 @@ class ElectionSystemAdministration (object):
             adm.save_participation(new)
 
         return new_pp
+    
+    #---project related----
+    
+    def __init__(self):
+        pass
+
+    def get_all_projects(self, ):
+        with ProjectMapper() as mapper:
+            return mapper.find_all()
+
+    def find_project_by_id(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_id(number)
+
+    def find_project_by_name(self, name):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_name(name)
+
+    def get_project_by_professorID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_professor_id(number)
+
+    def get_project_by_participationID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_participation_id(number)
+
+    def get_project_by_projecttypeID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_projecttype_id(number)
+
+    # --- Project SPECIFIC OPERATIONS ---
+
+    def create_project(self, project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots):
+        #create participation
+        project = Project()
+        project.set_project_id(project_id)
+        project.set_project_name(project_name)
+        project.set_short_description(short_description)
+        project.set_link(link)
+        project.set_room_desired(room_desired)
+        project.set_grade_average(grade_average)
+        project.set_num_blockdays_in_exam(num_blockdays_in_exam)
+        project.set_blockdays_in_exam(blockdays_in_exam)
+        project.set_special_room(special_room)
+        project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+        project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+        project.set_blockdays_prior_lecture(blockdays_prior_lecture)
+        project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
+        project.set_blockdays_during_lecture(blockdays_during_lecture)
+        project.set_weekly(weekly)
+        project.set_num_spots(num_spots)
+
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)
+    
+    def delete_project(self, project):
+        
+        with ProjectMapper() as mapper:
+           return mapper.delete(project)
+
+
+    def update_project(self, project):
+        """Das Projekt speichern."""
+        with ProjectMapper() as mapper:
+            mapper.update(project)
+    
+   
 
 lilalu = ElectionSystemAdministration.finish_election(1, 5)
 print(lilalu)
