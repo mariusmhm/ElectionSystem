@@ -2,6 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '@material-ui/core';
 
 //official HDM domain colors:
+const white = '#ffffff';
 const primary_white = '#e0ddde';
 const primary_gray = '#3c4a46';
 const primary_red = '#e21938';
@@ -12,6 +13,7 @@ const theme = createMuiTheme({
   palette:{
     primary_gray,
     primary_red,
+    white,
     primary: {
         contrastText: primary_white,
         main: primary_gray,
@@ -39,7 +41,7 @@ const theme = createMuiTheme({
         light:'#81c784'
     },
     background: {
-        default: primary_white
+        default: white
     },
     text:{
         primary: primary_gray ,

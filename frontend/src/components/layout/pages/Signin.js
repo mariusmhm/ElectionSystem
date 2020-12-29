@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
+import {withStyles} from '@material-ui/core';
 import { Button, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -15,37 +16,37 @@ class Signin extends Component {
     /** Renders the sign in page, if user objext is null */
 
     render() {
+		const { classes} = this.props; 
         return (
-            <div>
-                    <Typography variant='h1' align='center'textColor='primary_red'> Hochschule der Medien</Typography>
-                    <Typography  align='center' variant='h3'>Welcome to the ElectionSystem for HdM Projects.</Typography>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-	                <Typography  align='center' variant='h6'>This page appeares, if you are not signed in.</Typography>
-	                <Typography  align='center' variant='h6'>To use the services of the HdM ElectionSystem please</Typography>
-	                <br/>
-	                <Grid container justify='center'>
-					    <Grid item>
-						    <Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
-							    Sign in with Google
-      			            </Button>
-					    </Grid>
-				    </Grid>
-
-			    </div>
+				<Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
+					<Grid item>
+                    <Typography textColor='primary_red' variant='h4'> Hochschule der Medien</Typography>
+					</Grid>
+					<Grid item>
+                    <Typography variant='h4'>Welcome to the ElectionSystem for HdM Projects.</Typography>
+					</Grid>
+					<Grid item>
+	                <Typography variant='h6'>This page appeares, if you are not signed in.</Typography>
+					</Grid>
+					<Grid item>
+	                <Typography variant='h6'>To use the services of the HdM ElectionSystem please</Typography>
+					</Grid>
+	                <Grid item>
+						<Button variant='contained' color='primary' onClick={this.handleSignInButtonClicked}>
+							Sign in with Google
+      			        </Button>
+					</Grid>
+				</Grid>
 		);
 	}
 }
 
 
-/**const styles = theme => ({
-	root: {
-		margin: theme.spacing(2)
+const styles = theme => ({
+	grid: {
+		marginTop: theme.spacing(6)
 	}
-});**/
+});
 
 
 Signin.propTypes = {
@@ -53,7 +54,7 @@ Signin.propTypes = {
 	handleSignIn: PropTypes.func.isRequired}
 
 
-export default Signin;
+export default  withStyles(styles)(Signin);
 
 
 

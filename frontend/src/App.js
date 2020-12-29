@@ -13,6 +13,7 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container} from '@material-ui/core';
 import Test from './Test';
+import Registration from './components/layout/pages/Registration'
 
 
 /**App.js: The main bank administration app. It uses Googles firebase to log into the bank end. For routing the
@@ -117,9 +118,9 @@ class App extends Component {
 					            // Is a user signed in?
 							        currentUser ?
 								        <>
-								        <Redirect to='/Test'/>
-								        <Route path='/Test'>
-								            <Test />
+								        <Redirect to='/Registration'/>
+								        <Route path='/Registration'>
+								            <Registration />
 								        </Route>
 
                                         </>
