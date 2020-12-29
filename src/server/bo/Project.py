@@ -1,204 +1,198 @@
 from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
-from server.Role import Role
-from server.bo.Participation import Participation
-from server.bo.User import User
-from server.bo.Module import Module
-from server.bo.Projecttype import Projecttype
-from server.Automat import Automat
 
 
 
 
-class Project(NamedBusinessObject, Automat):
 
-    """Realization of an examplary Project.
+class Project(NamedBusinessObject):
+
+    """Realization of an examplary Project. Test
     """
 
     def __init__(self):
         super().__init__()
-        self.__project_id = 0
-        self.__project_name = ""
-        self.__link = ""
-        self.__room_desired = ""
-        self.__grade_average = 0
-        self.__num_blockdays_in_Exam = 0
-        self.__blockdays_in_exam = True
-        self.__special_room = True
-        self.__date_blockdays_during_lecture = 0
-        self.__num_blockdays_prior_lecture = 0
-        self.__blockdays_prior_lecturetrue = True
-        self.__num_blockdays_during_lecutre = 0
-        self.__blockdays_during_lecture = True
-        self.__weekly = True
-        self.__short_description = ""
-        self.__num_spots = 0
-        self.__project_type = Projecttype()
-        self.__module = Module()
-        self.__project_professor = User()
-        self.__participation = Participation()
+        self.participation_id = None
+        self.module_id = None
+        self.projecttype_id = None
+        self.professor_id = None
 
+
+
+        self._project_id = None
+        self._project_name = None
+        self._short_description = None
+        self._link = ""
+        self._room_desired = ""
+        self._grade_average = 0
+        self._num_blockdays_in_exam = 0
+        self._blockdays_in_exam = True
+        self._special_room = True
+        self._date_blockdays_during_lecture = 0
+        self._num_blockdays_prior_lecture = 0
+        self._blockdays_prior_lecture = True
+        self._num_blockdays_during_lecture = 0
+        self._blockdays_during_lecture = True
+        self._weekly = True
+        self._num_spots = 0
+
+
+    
+
+    def set_project_id(self, id):
+        self._project_id = id
+    
     def get_project_id(self):
-        """Read out of the projectID."""
-        return self.__project_id
+        return self._project_id
 
-    def set_project_id(self, pid):
-        """Set the projectID."""
-        self.__project_id = pid
-
-    def set_project_name(self, projectName):
-        """Set the projectname."""
-        self.__project_name = projectName
-
+    def set_project_name(self, name):
+        self._project_name = name 
+    
     def get_project_name(self):
-        """Read out if the projectname."""
-        return self.__project_name
+        return self._project_name
+
+    def set_short_description(self, description):
+        self._short_description = description 
+    
+    def get_short_description(self):
+        return self._short_description
 
     def set_link(self, link):
         """Set the link."""
-        self.__link = link
+        self._link = link
 
     def get_link(self):
         """Read out of the links."""
-        return self.__link
+        return self._link
 
     def set_room_desired(self, room):
         """Set the room desired."""
-        self.__room_desired = room
+        self._room_desired = room
 
     def get_room_desired(self):
         """Read out the room desired."""
-        return self.__room_desired
+        return self._room_desired
 
     def set_grade_average(self, grade):
         """Set the average grade ."""
-        self.__grade_average = grade
+        self._grade_average = grade
 
     def get_grade_average(self):
         """Read out the average grade."""
-        return self.__grade_average
+        return self._grade_average
 
-    def set_num_of_spots(self, numSpots):
-        """Set the amount of spots."""
-        self.__num_spots = numSpots
+    def set_num_blockdays_in_exam(self, num):
+        """Set the average grade ."""
+        self._num_blockdays_in_exam = num
 
-    def get_nom_of_spots(self):
-        """Read out the amount of spots."""
-        return self.__num_spots
-
-    def set_short_description(self, description):
-        """Set the short description."""
-        self.__short_decription = description
-
-    def get_short_description(self):
-        """Read out the short description."""
-        return self.__short_decription
-
-    def set_weekly(self, weeklyLecture):
-        """Set if there will be a weekly lecture."""
-        self.__weekly = weeklyLecture
-
-    def get_weekly(self):
-        """Read out if there will be a weekly lecture."""
-        return self.__weekly
-
-    def set_blockdays_during_lecture(self, bdDuringLecture):
-        """Set if there will be blickdays during lecture."""
-        self.__blockdays_during_lecture = bdDuringLecture
-
-    def get_blockdays_during_lecture(self):
-        """Read out if there will be blockdays during lecture."""
-        return self.__blockdays_during_lecture
-
-    def set_num_blockdays_during_lecture(self, numBdDuringLecture):
-        """Set how much blockdays there will be during lecture."""
-        self.__num_blockdays_during_lecutre = numBdDuringLecture
-
-    def get_num_blockdays_during_lecture(self):
-        """Read out how much blockdays there will during lecture."""
-        return self.__num_blockdays_during_lecutre
-
-    def set_blockdays_prior_lecture(self, bdPriorLecture):
-        """Set if there will be blockdays pre lecture."""
-        self.__blockdays_prior_lecturetrue = bdPriorLecture
-
-    def get_blockdays_prior_lecture(self):
-        """Read out if there will be blockdays pre lecture."""
-        return self.__blockdays_prior_lecturetrue
-
-    def set_num_blockdays_prior_lecture(self, numBdPriorLecture):
-        """Set the number of blockdays pre lecture."""
-        self.__num_blockdays_prior_lecture = numBdPriorLecture
-
-    def get_num_blockdays_prior_lecture(self):
-        """Read out the number of blickdays pre lecture."""
-        return self.__num_blockdays_prior_lecture
-
-    """get/set order change"""
-
-    def get_date_blockdays_during_lecture(self):
-        """Read out if there will be blockdays during lecture ."""
-        return self.__date_blockdays_during_lecture
-
-    def set_date_blockdays_during_lecture(self, dateBdDuringLecture):
-        """Set if there will be blockdays during lecture ."""
-        self.__date_blockdays_during_lecture = dateBdDuringLecture
-
-    def get_special_room(self):
-        """Read out the special room."""
-        return self.__special_room
-
-    def set_special_room(self, specialRoom):
-        """Set if special room."""
-        self.__special_room = specialRoom
+    def get_num_blockdays_in_exam(self):
+        """Read out the average grade."""
+        return self._num_blockdays_in_exam
 
     def get_blockdays_in_exam(self):
         """Read out if there will be blockdays during exams ."""
-        return self.__blockdays_in_exam
+        return self._blockdays_in_exam
 
-    def set_blockdays_in_exam(self, bdInExam):
+    def set_blockdays_in_exam(self, bdInexam):
         """Set if there will be blockdays during exams."""
-        self.__blockdays_in_exam = bdInExam
+        self._blockdays_in_exam = bdInexam
 
-    def get_num_blockdays_in_exam(self):
-        """Read out the number of blockdays during exam ."""
-        return self.__num_blockdays_in_Exam
+    def get_special_room(self):
+        """Read out the special room."""
+        return self._special_room
 
-    def set_num_blockdays_in_exam(self, numBdInExam):
-        """Set the number of blockdays during exams."""
-        self.__num_blockdays_in_Exam = numBdInExam
+    def set_special_room(self, specialRoom):
+        """Set if special room."""
+        self._special_room = specialRoom
 
-    def get_participation(self):
-        """Read out the participation  ."""
-        return self.__participation
+    def get_date_blockdays_during_lecture(self):
+        """Read out if there will be blockdays during lecture ."""
+        return self._date_blockdays_during_lecture
 
-    def set_participation(self, participation):
-        """Set the participation ."""
-        self.__participation = participation
+    def set_date_blockdays_during_lecture(self, dateBdDuringLecture):
+        """Set if there will be blockdays during lecture ."""
+        self._date_blockdays_during_lecture = dateBdDuringLecture
 
-    def get_project_professor(self):
-        """ Read out the professor of project."""
-        return self.__project_professor
+    def set_blockdays_prior_lecture(self, bdPriorLecture):
+        """Set if there will be blockdays pre lecture."""
+        self._blockdays_prior_lecture = bdPriorLecture
 
-    def set_project_professor(self, professor):
-        """Set the professor of project."""
-        self.__project_professor = professor
+    def get_blockdays_prior_lecture(self):
+        """Read out if there will be blockdays pre lecture."""
+        return self._blockdays_prior_lecture
 
-    def get_module(self):
-        """Read out the module of project ."""
-        return self.__module
+    def set_num_blockdays_prior_lecture(self, numBdPriorLecture):
+        """Set the number of blockdays pre lecture."""
+        self._num_blockdays_prior_lecture = numBdPriorLecture
 
-    def set_module(self, module):
-        """Set the module of project."""
-        self.__module = module
+    def get_num_blockdays_prior_lecture(self):
+        """Read out the number of blickdays pre lecture."""
+        return self._num_blockdays_prior_lecture
 
-    def get_project_type(self):
-        """Read out the projecttype."""
-        return self.__project_type
+    def set_blockdays_during_lecture(self, bdDuringLecture):
+        """Set if there will be blickdays during lecture."""
+        self._blockdays_during_lecture = bdDuringLecture
 
-    def set_project_type(self, projectType):
-        """Set the projecttype ."""
-        self.__project_type = projectType
+    def get_blockdays_during_lecture(self):
+        """Read out if there will be blockdays during lecture."""
+        return self._blockdays_during_lecture
+
+    def set_num_blockdays_during_lecture(self, numBdDuringLecture):
+        """Set how much blockdays there will be during lecture."""
+        self._num_blockdays_during_lecture = numBdDuringLecture
+
+    def get_num_blockdays_during_lecture(self):
+        """Read out how much blockdays there will during lecture."""
+        return self._num_blockdays_during_lecture
+
+    def set_weekly(self, weeklyLecture):
+        """Set if there will be a weekly lecture."""
+        self._weekly = weeklyLecture
+
+    def get_weekly(self):
+        """Read out if there will be a weekly lecture."""
+        return self._weekly
+
+    def set_num_spots(self, numSpots):
+        """Set the amount of spots."""
+        self._num_spots = numSpots
+
+    def get_num_spots(self):
+        """Read out the amount of spots."""
+        return self._num_spots
+    
+
+    #--- foreign keys ----
+
+    def set_participation_id(self, id):
+        
+        self._participation_id = id
+
+
+    def get_participation_id(self):
+        
+        return self._participation_id
+
+
+    def set_projecttype_id(self, id):
+        
+        self._projecttype_id = id
+
+
+    def get_projecttype_id(self):
+        
+        return self._projecttype_id
+
+
+    def set_professor_id(self, id):
+        
+        self._professor_id = id
+
+
+    def get_professor_id(self):
+        
+        return self._professor_id
+
 
 
     def __str__(self):
@@ -208,21 +202,35 @@ class Project(NamedBusinessObject, Automat):
 
         return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_of_spots())
 
+
     @staticmethod
     def to_dict(dicti=dict()):
 
-        """"Convert  a Python dict() in a Project()."""
+        #Convert  a Python dict() in a Project().
         project = Project()
-        project.set_id(dicti["ProjectID"])
-        project.set_name(dicti["ProjectName"])
-        project.set_link(dicti["ProjectLink"])
-        project.set_room_desired(dicti["ProjectRoomDesired"])
+        project.set_project_id(dicti["project_id"])
+        project.set_project_name(dicti["project_name"])
+        project.set_short_description(dicti["short_description"])
+        project.set_link(dicti["link"])
+        project.set_room_desired(dicti["room_desired"])
+        project.set_grade_average(dicti["grade_average"])
+        project.set_num_blockdays_in_exam(dicti["num_blockdays_in_exam"])
+        project.set_blockdays_in_exam(dicti["blockdays_in_exam"])
+        project.set_special_room(dicti["special_room"])
+        project.set_date_blockdays_during_lecture(dicti["date_blockdays_during_lecture"])
+        project.set_num_blockdays_prior_lecture(dicti["num_blockdays_prior_lecture"])
+        project.set_blockdays_prior_lecture(dicti["blockdays_prior_lecture"])
+        project.set_num_blockdays_during_lecture(dicti["num_blockdays_during_lecture"])
+        project.set_blockdays_during_lecture(dicti["blockdays_during_lecture"])
+        project.set_weekly(dicti["weekly"])
+        project.set_num_spots(dicti["num_spots"])
+        project.set_participation_id(dicti["id"])
+        project.set_projecttype_id(dicti["id"])
+        project.set_professor_id(dicti["id"])
+
+
+
         return project
-
-        """ to be continued """
-
-
-
 
 
 

@@ -1,49 +1,11 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import UserBO from './UserBO';
 
-export default class StudentBO extends NamedBusinessObject {
+export default class StudentBO extends UserBO {
 
-    constructor(aStudentMail, aRole, aMatrikelNr, aStudy) {
+    constructor(aMatrikelNr, aStudy) {
         super();
-        this.studentMail = aStudentMail;
-        this.role = aRole;
-        this.matrikelNr = aMatrikelNr;
+        this.matrikel_nr = aMatrikelNr;
         this.study = aStudy;
-    }
-
-/*     setStudentId(aStudentId) {
-        this.aStudentId = aStudentId;
-    }
-
-    getStudentId() {
-        return this.aStudentId;
-    }
-
-    setStudentName(aStudentName) {
-        this.aStudentName = aStudentName;
-    }
-
-    getStudentName() {
-        return this.aStudentName;
-    } */
-
-    // setting a new Mail-Adress for Student
-    setStudentMail(aStudentMail) {
-        this.studentMail = aStudentMail;
-    }
-
-    // getting the Students Mail-Adress
-    getStudentMail() {
-        return this.studentMail;
-    }
-
-    // idk if we need this 
-    setRole(aRole) {
-        this.role = aRole;
-    }
-
-    // same like setRole
-    getRole() {
-        return this.role;
     }
 
     // setting a new Matrikel Number for Student

@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
+import firebase from 'firebase/app';
 import { Button, 
         Grid, 
         TextField, 
         Typography, 
         FormControl,
         FormControlLabel,
-        FormLabel,
         RadioGroup,
         Radio } from '@material-ui/core';
+import {ElectionSystemAPI, StudentBO, UserBO} from '../../api';
 
 
     
@@ -21,10 +22,22 @@ class Registration extends Component {
             show:false,
             role:'',
             firstname:'',
-            lastname:'',
-            matrikelnumber:'',
+            name:'',
+            mail:'',
+            googleID: null,
+            matrikelnumber: null,
             study:''
         };
+        
+        if (firebase.auth().currentUser != null) {
+            this.state.name = firebase.auth().currentUser.displayName;
+            this.state.mail = firebase.auth().currentUser.email;
+            this.state.googleID = firebase.auth().currentUser.uid;
+            console.log(this.state.mail);
+            console.log(this.state.googleID);
+            console.log(this.state.name);
+              
+        }
 
     }
 
@@ -47,28 +60,57 @@ class Registration extends Component {
         }
     };
 
-    addUser = e => {
+    addUser = () => {
         if(this.state.role==='student'){
             console.log('addStudent');
+            let newStudent = new StudentBO(
+                this.state.firstname, 
+                this.state.name, 
+                this.state.role, 
+                this.state.mail,
+                this.state.googleID,
+                this.state.matrikelnumber,
+                this.state.study
+            );
+            ElectionSystemAPI.getAPI().addStudent(newStudent).catch(e => console.log(e));
         }else{
-            console.log('addProforAdministration');
+            console.log('addaddUser');
+            let newUser = new UserBO(
+                this.state.firstname, 
+                this.state.name, 
+                this.state.role, 
+                this.state.mail,
+                this.state.googleID,
+            );
+            ElectionSystemAPI.getAPI().addUser(newUser).catch(e => console.log(e));
         }
     };
+
+    handleTextFieldChange = e =>{
+        const value = e.target.value;
+        console.log(value);
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
         
 
     render(){
         const { classes } = this.props; 
         return (
-            <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
+            <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid} >
             
                 <Grid item>
                     <Typography className={classes.headline}>REGISTRATION</Typography> 
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth variant="outlined" label="Firstname"/>
+                    <TextField fullWidth variant="outlined" id="firstname" label="Firstname" onChange={this.handleTextFieldChange} value={this.state.firstname}/>
                 </Grid>
                 <Grid item>
-                    <TextField fullWidth variant="outlined" label="Lastname"/>
+                    <TextField fullWidth variant="outlined" id="lastname" label="Lastname" onChange={this.handleTextFieldChange} value={this.state.lastname}/>
+                </Grid>
+                 <Grid item>
+                    <TextField fullWidth variant="outlined" id="mail" label="E-Mail" disabled onChange={this.handleTextFieldChange} value={this.state.mail}/>
                 </Grid>
                 <Grid item>
                     <FormControl>
@@ -84,22 +126,22 @@ class Registration extends Component {
                     this.state.show?
                     <Grid container spacing={2} direction="column" justify="center" alignItems="center">
                     <Grid item >
-                        <TextField fullWidth variant="outlined" label="Matrikelnumber"/>
+                        <TextField fullWidth variant="outlined" id="matrikelnumber" label="Matrikelnumber" onChange={this.handleTextFieldChange} value={this.state.matrikelnumber}/>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="Course of studies"/>
+                        <TextField fullWidth variant="outlined" id="study" label="Course of studies" onChange={this.handleTextFieldChange} value={this.state.study}/>
                     </Grid>
                     </Grid>
                     :null
 
                 }
                 
-                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
+                <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
                         <Button variant="outlined" color="primary" >Cancel</Button>
                     </Grid>
                     <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.addUser}>Register</Button>
+                    <Button variant="contained" color="primary">Register</Button>
                     </Grid>
                 </Grid>
 
