@@ -9,6 +9,10 @@ from server.ElectionSystemAdministration import ElectionSystemAdministration
 from server.bo.Student import Student
 from server.bo.User import User
 from server.bo.Semester import Semester
+from server.bo.Participation import Participation
+from server.bo.Grading import Grading
+from server.bo.Projecttype import Projecttype
+
 
 app = Flask(__name__)
 
@@ -23,11 +27,11 @@ api = Api(app, version='1.0', title='Electionsystem API',
 electionSystem = api.namespace('electionsystem', description="electionsystems functions")
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute='_id', description='id of a business object'),
+    'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
     'creation_date': fields.Date(attribute='_creation_date', description='creation date of a business object')
 })
 
-nbo = api.model('NamedBusinessObject', bo, {
+nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
@@ -47,6 +51,24 @@ semester= api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
+    'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
+    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading')
+})
+
+grading= api.inherit('Grading', bo, {
+    'grade': fields.Float (attribute='_grade', descritpion='Grade for evaluation'),
+})
+
+participation= api.inherit('Participation', bo, {
+    'priority': fields.Integer(attribute='_priority', description='Priority for the project election'),
+    'grading_id': fields.Integer(attribute='_grading_id', description='Grading id'),
+    'student_id': fields.Integer(attribute='_student_id', description='Student id'),
+    'project_id': fields.Integer(attribute='_project_id', description='Project id')
+})
+
+projecttype = api.inherit('Projecttype',nbo, {
+    'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
+    'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
 
@@ -90,6 +112,7 @@ class StudentOperations(Resource):
     def put(self, id):
         adm = ElectionSystemAdministration()
         s = Student.to_dict(api.payload)
+        print('main aufruf')
 
         if s is not None:
             s.set_id(id)
@@ -235,12 +258,13 @@ class UserRoleOperations(Resource):
         return users
 
 
-"""---Semester specific functions---"""
+#---Semester specific functions---
+
 
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'If there is a server-side error.')
 class SemesterListOperations(Resource):
-    @electionSystem.marshal_list_with(semester)
+    @electionSystem.marshal_with(semester)
     def get(self):
         """Reading out all semester objects. If no semester objects are available, an empty sequence is returned."""
         adm = ElectionSystemAdministration()
@@ -258,9 +282,7 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_wintersemester(),
-                                    proposal.get_submit_projects_end_date(),
-                                    proposal.get_grading_end_date())
+            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date())
             return s, 200
 
         else:
@@ -302,6 +324,216 @@ class SemesterOperations(Resource):
             return '', 200
         else:
             return '', 500
+
+#------Participation---------
+
+@electionSystem.route('/participation')
+@electionSystem.response(500, 'server error')
+class ParticipationsListOperations(Resource):
+    @electionSystem.marshal_with(participation, code=200)
+    @electionSystem.expect(participation)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = Participation.from_dict(api.payload)
+
+        if proposal is not None:
+            p = adm.create_participation(proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
+            return p, 200
+        else:
+            #server error
+            return '', 500
+
+
+@electionSystem.route('/participation/<int:id>')
+@electionSystem.response(500, 'server error')
+class ParticipationOperations(Resource):
+    @electionSystem.marshal_with(participation)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_by_participation_id(id)
+        return pp
+    
+    @electionSystem.marshal_with(participation)
+    @electionSystem.expect(participation, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        pp = Participation.from_dict(api.payload)
+
+        if pp is not None:
+            pp.set_id(id)
+            adm.save_participation(pp)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_by_participation_id(id)
+        adm.delete_participation(pp)
+        return '', 200
+
+@electionSystem.route('/participation-by-project/<int:project_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsProjectListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, project_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_all_by_project_id(project_id)
+        return pp
+
+@electionSystem.route('/participation-by-student/<int:student_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsStudentListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, student_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_all_by_student_id(student_id)
+        return pp
+
+@electionSystem.route('/participation-by-grading/<int:grading_id>')
+@electionSystem.response(500, 'server error')
+class ParticipationsGradingListOperations(Resource):
+    @electionSystem.marshal_list_with(participation)
+    def get(self, grading_id):
+        adm = ElectionSystemAdministration()
+        pp = adm.get_all_by_grading_id(grading_id)
+        return pp
+
+#------Grading---------
+
+@electionSystem.route('/grading')
+@electionSystem.response(500, 'server error')
+class GradingListOperations(Resource):
+    @electionSystem.marshal_list_with(grading)
+    def get(self):
+        adm = ElectionSystemAdministration()
+        grades = adm.get_all_grades()
+        return grades
+
+    @electionSystem.marshal_with(grading, code=200)
+    @electionSystem.expect(grading)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = Grading.from_dict(api.payload)
+
+        if proposal is not None:
+            g = adm.create_grading(proposal.get_grade())
+            return g, 200
+        else:
+            #server error
+            return '', 500
+
+@electionSystem.route('/grading/<int:id>')
+@electionSystem.response(500, 'server error')
+class GradingOperations(Resource):
+    @electionSystem.marshal_with(grading)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        g = adm.get_by_grading_id(id)
+        return g
+
+    @electionSystem.marshal_with(grading)
+    @electionSystem.expect(grading, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        g = Grading.from_dict(api.payload)
+
+        if g is not None:
+            g.set_id(id)
+            adm.save_grading(g)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        g = adm.get_by_grading_id(id)
+        adm.delete_grading(g)
+        return '', 200
+# ----------------------------Projecttype specific operations---------------------------
+
+@electionSystem.route('/projecttype')
+@electionSystem.response(500, 'when the server has an error')
+class ProjecttypeListOperations(Resource):
+    @electionSystem.marshal_list_with(projecttype)
+    def get(self):
+        """Readout of all Projecttype-Objects that exist in database.
+        If there are no Projecttype-Objects, you will get an empty sequenz."""
+        adm = ElectionSystemAdministration()
+        all_pt = adm.get_all_projecttypes()
+        return all_pt
+
+    @electionSystem.marshal_with(projecttype, code=200)
+    @electionSystem.expect(projecttype)
+    def post(self):
+        """Sets a new Projecttype-Object.
+        **ATTENTION:** We take the data sent by the client as a suggestion.
+        For example, the assignment of the ID is not the task of the client.
+        Even if the client should assign an ID in the proposal, it is
+        it is up to the ElectionSystemAdministration (business logic) to create a correct ID
+        to assign. *The corrected object is finally returned.
+        """
+        adm = ElectionSystemAdministration()
+        prpl = Projecttype.to_dict(api.payload)
+
+        if prpl is not None:
+            p = adm.create_projecttype(prpl.get_name(), prpl.get_ect(), prpl.get_sws())
+
+            return p, 200
+        else:
+            return '', 500
+
+
+@electionSystem.route('/projecttype/<int:id>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjecttypeOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, id):
+        """Reads out the a specific Projecttype-Object by id.
+        The realization of reading out the object is by ```id``` in dem URI.
+        """
+        adm = ElectionSystemAdministration()
+        single_pt = adm.get_projecttype_by_id(id)
+        return single_pt
+
+    def delete(self,id):
+        """Delete a specific customer object.
+        The object to be deleted is determined by the ``id`` in the URI.
+        """
+        adm = ElectionSystemAdministration()
+        single_pt = adm.get_projecttype_by_id(id)
+        adm.delete_projecttype(single_pt)
+        return '', 200
+
+    @electionSystem.marshal_with(projecttype)
+    @electionSystem.expect(projecttype, validate=True)
+    def put(self, id):
+        """Update a specific Projecttype object.
+        **CAUTION:** Relevant id is the id provided by URI and thus used as method parameter.
+        method parameter. This parameter overrides the id attribute of the Projecttype object passed in the request payload.
+        Projecttype object.
+        """
+
+        adm = ElectionSystemAdministration()
+        p = Projecttype.to_dict(api.payload)
+
+        if p is not None:
+            p.set_id(id)
+            adm.update_projecttype(p)
+            return '', 200
+        else:
+            return '', 500
+
+@electionSystem.route('/projecttype/<string:name>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjecttypeNameOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, name):
+        adm = ElectionSystemAdministration()
+        all_pt = adm.get_projecttype_by_name(name)
+        return all_pt
 
 
 if __name__ == '__main__':

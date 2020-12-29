@@ -1,43 +1,44 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import BusinessObject from './BusinessObject';
 
 
-export default class GradingBO extends NamedBusinessObject {
+export default class GradingBO extends BusinessObject {
 
 /// Represents a grade which can be given a student.
 
-    constructor(aGrading){
+    constructor(aGrade){
         super();
-        this.grading=aGrading;
+        this.grade=aGrade;
     }
 
-    //Sets the grading
-    setGrading(aGrading){
-      this.grading = aGrading;
+    //Sets the grade
+    setGrade(aGrade){
+      this.grade = aGrade;
     }
 
-    //Reads out the Grading
-    getGrading(){
-        return this.grading;
+    //Reads out the grade
+    getGrade(){
+        return this.grade;
     }
 
-    //Returns an Array of CustomerBOs from a given JSON structure.
+    //Returns an Array of GradingBOs from a given JSON structure.
 
     static fromJSON(gradings) {
-        let res = [];
+        let result = [];
+        console.log('from json aufgerufen');
 
         if (Array.isArray(gradings)) {
-            gradings.forEach((s) => {
-                Object.setPrototypeOf(s, GradingBO.prototype);
-                res.push(s);
+            gradings.forEach((g) => {
+                Object.setPrototypeOf(g, GradingBO.prototype);
+                result.push(g);
             })
         }
         // it's a single object and not an array
         else {
-            let s = users;
-            Object.setPrototypeOf(s, GradingBO.prototype);
-            res.push(s);
+            let g = gradings;
+            Object.setPrototypeOf(g, GradingBO.prototype);
+            result.push(g);
         }
 
-        return res;
+        return result;
     }
 }

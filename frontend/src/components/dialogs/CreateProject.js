@@ -13,6 +13,7 @@ import {Dialog,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
+import {ElectionSystemAPI, ProjecttypeBO} from '../../api';
 
 let open = true;
 
@@ -21,72 +22,87 @@ class CreateProject extends Component {
 
     constructor(props) {
       super(props);
-/* Test Marie
-      let fn = '';
-    if (props.customer) {
-      fn = props.customer.getProjectName();
+
+      const pt='';
+      const showETCS = false;
+
+      this.state = {
+        projectname:'',
+        modules: [],
+        edvNumber: '',
+        projecttypes: [],
+        ptSelected: {},
+        numSpots: '',
+        additionalProfessor: [],
+        weekly: false,
+        specialRoom: '',
+        shortDescription: '',
+        language: '',
+        externalPartner: '',
+        numBlockdaysPriorLecture: '',
+        numNlockdaysDuringlecture: '',
+        blockdaysInExam: '',
+        error: null
+      }
+      this.baseState = this.state;
+    } 
+
+    
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+        .then(projecttypesBOs =>
+            this.setState({
+                projecttypes: projecttypesBOs,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    projecttypes:[],
+                    error: e
+                }))
+    }
+    
+    
+    componentDidMount(){
+        this.getAllProjecttypes();
     }
 
-    // Init the State
-    this.state = {
-      projectName: fn,
-      };
-
-    // Add a new Project ???
+    // Add a new Project 
      addProject = () => {
-    let newProject = new ProjectBO(this.state.projectNameame);
-    BankAPI.getAPI().addProject(newProject).then(project => {
-      // Backend call sucessfull
-      // reinit the dialogs state for a new empty customer
-      this.setState(this.baseState);
-      this.props.onClose(customer); // call the parent with the customer object from backend
-    }).catch(e =>
-      this.setState({
-        updatingInProgress: false,    // disable loading indicator
-        updatingError: e              // show error message
-      })
-    );*/
-        /* this.state = {
-            module: module,
-            edvNumber: edvn,
-            projecttype: type,
-            numSpots: nSpots,
-            additionalProfessor: addProfessor,
-            weekly: false,
-            specialRoom: room,
-            shortDescription: sd,
-            language: language,
-            externalPartner: externalP,
-            numBlockdaysPriorLecture: numBdPL,
-            numNlockdaysDuringlecture: nmBdDL,
-            blockdaysInExam: bdExam,
-          } */
-      }
+    
+         
+    }
 
-      /* handleClose = () => {
+    selectHandleChangeProjecttype = (e) =>{
+       
+        this.pt = this.state.projecttypes[e.target.value].getEcts();
+        this.setState({
+            ptSelected: this.state.projecttypes[e.target.value]
+        },
+        function(){
+            console.log(this.pt);
+            console.log(this.state.ptSelected);
+
+        });
+        this.showETCS = true;
+    }
+
+    handleClose = () => {
         this.setState({
           open: false
         });
-      } */
+    } 
 
-      /**Handles value changes of the select input fields */
-      /* selectFieldHandleChange=(event)=>{
-          const value = event.target.value;
-
-          this.setState({
-            module: 
-          });
-      } */
+    
     
  render(){
     const { classes } = this.props; 
-    /* const { module, edvNumber, projecttype, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
-         numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam } = this.state; */
+    const { modules, edvNumber, projecttypes, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
+         numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam, ptSelected } = this.state;
 
     return(
       
         <Dialog open={open} fullWidth maxWidth='md'>
-            <DialogTitle fontcolor='primary'className={classes.dialogHeader} >SUBMIT PROJECT</DialogTitle>
+            <DialogTitle fontcolor='primary' className={classes.dialogHeader}>SUBMIT PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
                 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
@@ -96,11 +112,8 @@ class CreateProject extends Component {
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" /* value={module} */>
+                            <Select label="Module">
                                 <MenuItem>none</MenuItem>
-                                <MenuItem>Technology</MenuItem>
-                                <MenuItem>Media/Cultur</MenuItem>
-                                <MenuItem>Management</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -110,18 +123,19 @@ class CreateProject extends Component {
                     <Grid item>
                             <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
-                                <Select label="Projecttype" /* value={projecttype} */>
-                                    <MenuItem>Subject-specific Project </MenuItem>
-                                    <MenuItem>Transdisciplinary Project</MenuItem>
+                                <Select label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
+                                    {this.state.projecttypes.map((ptype, index) => (
+                                        <MenuItem key={index} value={index}>{ptype.getName()}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                     </Grid>
                     <Grid item container justify="space-between">
                         <Grid item>
-                            <Typography>ETCS:</Typography>
+                            <Typography>ETCS: {this.showETCS ? this.state.ptSelected.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
-                        <Typography>SWS:</Typography>
+                            <Typography>SWS: {this.showETCS ? this.state.ptSelected.getSws() : null}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item>

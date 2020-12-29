@@ -17,21 +17,22 @@ class SemesterMapper(Mapper):
         """Read out all semesters.
         :return A collection of semester objects that all semester represent."""
 
-        res = []
+        res = None
         crs = self._connection.cursor()
 
         crs.execute("SELECT * FROM Semester")
         tupsrc = crs.fetchall()
 
-        for (id, creation_date, winter_semester, submit_projects_end_date,
-             grading_end_date) in tupsrc:
+        for (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date, submit_projects_beginn_date, grading_beginn_date) in tupsrc:
             semester = Semester()
             semester.set_id(id)
             semester.set_date(creation_date)
             semester.set_wintersemester(winter_semester)
             semester.set_submit_projects_end_date(submit_projects_end_date)
             semester.set_grading_end_date(grading_end_date)
-            res.append(semester)
+            semester.set_submit_projects_beginn_date(submit_projects_beginn_date)
+            semester.set_grading_beginn_date(grading_beginn_date)
+            res = semester
 
         self._connection.commit()
         crs.close()
@@ -49,7 +50,7 @@ class SemesterMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date) = tuples[0]
+            (id, creation_date, winter_semester, submit_projects_end_date, grading_end_date, submit_projects_beginn_date, grading_beginn_date) = tuples[0]
             semester = Semester()
             semester.set_id(id)
             semester.set_date(creation_date)
@@ -113,8 +114,6 @@ class SemesterMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
-
-        return semester
 
     def delete(self, semester):
         """Deleting the data of a semester object from the database.

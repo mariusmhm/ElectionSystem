@@ -1,7 +1,6 @@
 from server.bo.Student import Student
 from server.bo.User import User
 from server.bo.Semester import Semester
-
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
 from server.db.SemesterMapper import SemesterMapper
@@ -123,16 +122,19 @@ class ElectionSystemAdministration (object):
         
         
         #---SEMESTER SPECIFIC OPERATIONS-----
+
         
-        
-    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date):
+
+    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date, grading_beginn_date):
         """Create a new semester:"""
         semester = Semester()
         semester.set_wintersemester(winter_semester)
-        semester.set_grading_end_date(grading_end_date)
-        semester.set_submit_projects_end_date(submit_projects_end_date)
+        semester.set_submit_projects_beginn_date(submit_projects_beginn_date)
+        semester.set_grading_beginn_date(grading_beginn_date)
+
         semester.set_date(1)
         semester.set_id(1)
+
 
         with SemesterMapper() as mapper:
             return mapper.insert(semester)

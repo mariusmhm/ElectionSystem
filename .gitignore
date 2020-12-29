@@ -8,8 +8,8 @@ venv/
 .src/server/__pycache__/
 .src/server/bo/__pycache__/
 .src/server/db/__pycache__/
+node_modules
 
-=======
 frontend/debug.log
 
 
@@ -153,4 +153,3 @@ yarn-debug.log*
 yarn-error.log*
 frontend/package-lock.json
 .vscode/settings.json
->>>>>>> 309ecef2a0b31c8f96ccbd26e7d36d36b329ada2

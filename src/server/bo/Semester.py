@@ -40,7 +40,7 @@ class Semester(BusinessObject):
         """Creats a simple textually Representation of a Semester() instanz.
         The Attributes are id, wintersemester, submit_project_end_date and grading_end_date."""
 
-        return "Semester: {}, {}, {}, {}, {}, ".format(self.get_id(), self._winter_semester,
+        return "Semester: {}, {}, {}, {}, {}, {}, {} ".format(self.get_id(), self._winter_semester,
                                                        self._submit_projects_end_date,
                                                        self._grading_end_date,
                                                        self.get_date())
