@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
+import firebase from 'firebase/app';
 import { Button, 
         Grid, 
         TextField, 
@@ -27,6 +28,16 @@ class Registration extends Component {
             matrikelnumber: null,
             study:''
         };
+        
+        if (firebase.auth().currentUser != null) {
+            this.state.name = firebase.auth().currentUser.displayName;
+            this.state.mail = firebase.auth().currentUser.email;
+            this.state.googleID = firebase.auth().currentUser.uid;
+            console.log(this.state.mail);
+            console.log(this.state.googleID);
+            console.log(this.state.name);
+              
+        }
 
     }
 
@@ -97,6 +108,9 @@ class Registration extends Component {
                 </Grid>
                 <Grid item>
                     <TextField fullWidth variant="outlined" id="lastname" label="Lastname" onChange={this.handleTextFieldChange} value={this.state.lastname}/>
+                </Grid>
+                 <Grid item>
+                    <TextField fullWidth variant="outlined" id="mail" label="E-Mail" disabled onChange={this.handleTextFieldChange} value={this.state.mail}/>
                 </Grid>
                 <Grid item>
                     <FormControl>
