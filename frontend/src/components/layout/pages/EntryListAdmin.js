@@ -8,8 +8,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
 
-
-
+/**
+ * Shows a list of Students of a Project.
+ *
+ Depending on the Project-State you are aible to change the grade of a student.
+ *
+ It allows to add new Project participants
+ *
+ * @see See [EntryListAdmin](#EntryListAdmin)
+ *
+ * @author [Gruppe 8)
+ */
 
 
 class EntryListAdmin extends Component {
@@ -19,14 +28,17 @@ class EntryListAdmin extends Component {
 constructor(props){
     super(props)
 
+/**Init an empty state*/
     this.state= {
     students:[],
     participations:[],
     gradings: [],
     error: null,
     grade: '',
+    grading_ids:'',
     name: '',
     study:'',
+    priority:'',
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
@@ -34,30 +46,59 @@ constructor(props){
     this.baseState = this.state;
 
 }
-
+/** Fetches all  GradingBOs*/
 getAllGrades = () => {
         ElectionSystemAPI.getAPI().getAllGrades()
         .then(gradingBOs =>
+        //The state gradings, error, loaded will be set here
             this.setState({
                 gradings: gradingBOs,
+                grading_ids:GradingBO.getID,
                 loaded: true,
                 error: null
             })).catch(e =>
+            //if there is an error,the state of gradings will be an empty list
                 this.setState({
                     gradings:[],
+                    grading_ids:[],
                     error: e
                 }))
         console.log('ausgeführt');
     }
 
+//Updates the Participation
+    updateParticipation = () => {
+        let originParticipation = this.state.participation;
+        /** clone original participation, in case the backend call fails*/
+        let updatedParticipation = Object.assign(new ParticipationBO(), originParticipation); //eventuell raus nehehmen
+        /** set the new attributes from our dialog*/
+        updatedParticipation.setGradingID(this.state.grading_id);
+        updatedParticipation.setPriority(this.state.priority);
+        console.log(JSON.stringify(updatedParticipation));
+        ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
+
+    }
+
+    handleSelectChange(event) {
+    /**Handles the change of the dropdown menue*/
+        this.setState({
+        /**Is a new Item selected, the item will be set as the new state*/
+            grading_id: event.target.value
+        });
+  }
+
+
+/** Gives a list of students by project of ParticipationBO*/
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(5)
         .then(studentBOs =>
+        /**The state students, error, loaded will be set here*/
             this.setState({
                 students: studentBOs,
                 loaded: true,
                 error: null
             })).catch(e =>
+            /**if there is an error,the state of gradings will be an empty list*/
                 this.setState({
                     students:[],
                     error: e
@@ -65,16 +106,11 @@ getStudentByParticipations = () => {
         console.log('ausgeführt');
 
     }
-
+    /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
     componentDidMount(){
         this.getAllGrades();
         this.getStudentByParticipations();
     }
-
-updateGrade= () => {
-//soon
-
-}
 
 
  render(){
@@ -88,7 +124,12 @@ updateGrade= () => {
                         justify="space-around"
                         className={classes.grid}>
                             <Typography variant="h4" > Project </Typography>
-                            <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
+                            <Typography
+                                variant="h6"
+                                color="secondary"
+                                className={classes.redHeader}>
+                                    entry list
+                            </Typography>
                     </Grid>
                     <Grid container
                         direction="row"
@@ -115,17 +156,26 @@ updateGrade= () => {
                                                 <TableCell>
                                                     <FormControl>
                                                         <InputLabel >GRADE </InputLabel>
-                                                            <Select labelId="grading">
-                                                                {this.state.gradings.map((grading, index) => (
-                                                                    <MenuItem key={index} value={index}>
-                                                                        {grading.getGrade()}
-                                                                    </MenuItem>
-                                                                ))}
+                                                            <Select
+                                                                labelId="grading"
+                                                                    value={this.state.grading_id}
+                                                                    onChange={this.handleSelectChang}>
+                                                                        {this.state.gradings.map((grading, index) => (
+                                                                            <MenuItem key={index} value={index}>
+                                                                                {grading.getGrade()}
+                                                                            </MenuItem>
+                                                                        ))}
                                                             </Select>
                                                     </FormControl>
                                                 </TableCell>
                                                 <TableCell>
-                                                <Button  variant="contained" color="secondary" >save</Button> </TableCell>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        onClick={this.updateParticipation} >
+                                                            SAVE
+                                                    </Button>
+                                                </TableCell>
                                             </TableRow>
                                                  ))}
                                     </TableBody>
@@ -143,7 +193,7 @@ updateGrade= () => {
                                     variant="contained"
                                     color="secondary"
                                     className={classes.button}
-                                    onClick={this.updateGrade}>
+                                    onClick={this.updateParticipation}>
                                         ADD STUDENT
                                 </Button>
                         </Grid>
@@ -154,6 +204,7 @@ updateGrade= () => {
  }
 }
 
+/** Component specific styles */
 const styles = theme => ({
     grid:{
         width: '100%',
