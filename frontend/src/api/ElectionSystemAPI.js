@@ -57,7 +57,6 @@ export default class ElectionSystemAPI {
     //Student 
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
-    #getStudentsByParticipationsURL =(id)=>`${this.#electionSystemServerBaseURL}/students-by-participations/${id}`;
 
     //User
     #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/users`;
@@ -496,16 +495,6 @@ export default class ElectionSystemAPI {
             })
     }
 
-    getStudentByParticipations(projectID){
-        return this.#fetchAdvanced(this.#getStudentsByParticipationsURL(projectID))
-        .then((responseJSON) => {
-        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
-        return new Promise(function (resolve) {
-          resolve(responseStudentBOs);
-          console.log(responseStudentBOs);
-        })
-      })
-    }
     //----------User-------------------------
 
     addUser(user){

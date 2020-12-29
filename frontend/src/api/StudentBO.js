@@ -10,12 +10,12 @@ export default class StudentBO extends UserBO {
 
     // setting a new Matrikel Number for Student
     setMatrikelNr(aMatrikelNr) {
-        this.matrikel_nr = aMatrikelNr;
+        this.matrikelNr = aMatrikelNr;
     }
 
     // getting the Students Matrikel Number
     getMatrikelNr() {
-        return this.matrikel_nr;
+        return this.matrikelNr;
     }
 
     // setting a new Study for Student

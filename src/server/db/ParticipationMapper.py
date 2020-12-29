@@ -125,11 +125,12 @@ class ParticipationMapper(Mapper):
 
         return result
 
-    def find_all_by_priority(self, priority):
+    def find_by_project(self, project_id):
+        #give you the patricipations from a project and ordered by priority for the election logic
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE priority={}".format(priority)
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={} ORDER BY priority DESC".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

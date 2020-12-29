@@ -217,9 +217,10 @@ class ElectionSystemAdministration (object):
         with ParticipationMapper() as mapper:
             return mapper.find_all_by_grading_id(grading_id)
         
-    def get_all_by_priority(self, priority):
+    def get_by_project(self, project_id):
         with ParticipationMapper() as mapper:
-            return mapper.find_all_by_priority(priority)
+            return mapper.find_by_project(project_id)
+
 
     def delete_grading_id(self, participation):
         with ParticipationMapper() as mapper:
@@ -310,3 +311,40 @@ class ElectionSystemAdministration (object):
 
 
     # --- Election Priority Logic ---
+
+    def finish_election(self, project_id):
+        adm = ElectionSystemAdministration()
+        old_pp = adm.get_by_project(project_id)
+        new_pp = []
+        highest_prio = 4
+        min_pp = 1
+        participation_num = 3
+        
+        if len(old_pp) > participation_num:
+            for pp in old_pp:
+                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
+                elif 0 < highest_prio:
+                    highest_prio = highest_prio - 1
+                else:
+                    break
+            return new_pp
+        else:
+            if len(old_pp) >= min_pp:
+                new_pp = old_pp
+            else:
+                print("There are not enough Participations for this Project")
+            return new_pp
+                
+        """ for old in old_pp:
+            adm.delete_participation(old) """
+
+        for new in new_pp:
+
+            print(new.get_id())
+            adm.save_participation(new)
+
+        return new_pp
+
+lilalu = ElectionSystemAdministration.finish_election(1, 5)
+print(lilalu)

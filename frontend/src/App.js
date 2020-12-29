@@ -12,10 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
 import theme from './theme';
 import CreateProject from './components/dialogs/CreateProject'
-//import ProjectContent from './components/layout/pages/ProjectContent'
+import ProjectContent from './components/layout/pages/ProjectContent'
 import { ThemeProvider } from '@material-ui/core/styles';
 import Semester from './components/dialogs/Semester'
-import EntryListAdmin from'./components/layout/pages/EntryListAdmin';
 
 
 class App extends Component {
@@ -37,7 +36,7 @@ this.props.onSignIn();
         return (
             <ThemeProvider theme={theme}>
                 <div>
-                    <EntryListAdmin /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
+                    <Semester /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
                 </div>
             </ThemeProvider>
         )
