@@ -455,7 +455,7 @@ class ElectionSystemAdministration (object):
 
     def delete_module(self, module):
         """delete a module"""
-        with SemesterMapper() as mapper:
+        with ModuleMapper() as mapper:
             mapper.delete(module)
 
     
