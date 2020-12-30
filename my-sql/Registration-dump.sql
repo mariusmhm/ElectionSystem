@@ -1,38 +1,6 @@
 CREATE DATABASE IF NOT EXISTS electionsystem;
 USE electionsystem;
 
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `google_user_id` varchar(128) NOT NULL DEFAULT '',
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `email` varchar(256) NOT NULL DEFAULT '',
-  `role` varchar(128) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-);
-	
-DROP TABLE IF EXISTS students;
-CREATE TABLE students (
-	`student_id` int(11) NOT NULL DEFAULT '0',
-	`creation_date` DATE,
-    `student_lastname` VARCHAR (80),
-    `student_firstname` VARCHAR (80),
-    `student_mail` VARCHAR (50),
-    `student_role` VARCHAR (20),
-    `matrikel_nr` INTEGER,
-    `student_study` VARCHAR (50),
-    PRIMARY KEY(student_id)
-);
-
-DROP TABLE IF EXISTS projects;
-CREATE TABLE Projects (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `shortdescription` varchar(256) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-);
-
-
 DROP TABLE IF EXISTS `Semester`;
 CREATE TABLE `Semester` (
 	`id` int(11) NOT NULL DEFAULT '0',
@@ -45,7 +13,6 @@ CREATE TABLE `Semester` (
     PRIMARY KEY(`id`)
 );
 
-
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
 	`id` int(11) NOT NULL DEFAULT '0',
@@ -55,8 +22,26 @@ CREATE TABLE `Module` (
     PRIMARY KEY(`id`)
 );
 
-INSERT INTO Module VALUES (1, '1863-05-23',  "Schlüsselkompetenz", "1234");
+DROP TABLE IF EXISTS Grading;
+CREATE TABLE Grading(
+    `id` int(11) NOT NULL DEFAULT 0,
+    `creation_date` DATE,
+    `grade` float NOT NULL DEFAULT 0,
 
-INSERT INTO students VALUES (1, '1863-05-23',  'Mustermann', 'Marius', 'mm1@hdm-stuttgart.de', 'Student', 111111, 'Wirtschaftsinformatik');
+    PRIMARY KEY (`id`)
+);
 
-INSERT INTO projects VALUES (1, 'Project 1', "That's Description Number 1");
+DROP TABLE IF EXISTS Participation;
+CREATE TABLE Participation(
+    `id` int(11) NOT NULL DEFAULT 0,
+    `creation_date` DATE,
+    `priority` int(11) DEFAULT 0,
+    `grading_id` INT NULL,
+    `student_id` int(11) DEFAULT 0,
+    `project_id` int(11) DEFAULT 0,
+
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`grading_id`) REFERENCES `Grading`(`id`),
+    FOREIGN KEY (`student_id`) REFERENCES `Student`(`id`),
+    FOREIGN KEY (`project_id`) REFERENCES `Project`(`id`)
+);
