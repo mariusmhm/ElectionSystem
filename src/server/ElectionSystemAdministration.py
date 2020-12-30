@@ -3,8 +3,6 @@ from server.bo.User import User
 from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
-from server.bo.Project import Project
-from server.bo.Module import Module
 
 
 from server.db.StudentMapper import StudentMapper
@@ -14,14 +12,14 @@ from server.db.ParticipationMapper import ParticipationMapper
 from server.db.GradingMapper import GradingMapper
 from server.bo.Projecttype import Projecttype
 from server.db.ProjecttypeMapper import ProjecttypeMapper
+from server.bo.Project import Project
 from server.db.ProjectMapper import ProjectMapper
-from server.db.ModuleMapper import ModuleMapper
+
 
 class ElectionSystemAdministration (object):
 
     def __init__(self):
         pass
-
 
     # --- STUDENT SPECIFIC OPERATIONS ---
 
@@ -142,11 +140,11 @@ class ElectionSystemAdministration (object):
 
         with UserMapper() as mapper:
             return mapper.insert(user)
-        
-        
+
+
         #---SEMESTER SPECIFIC OPERATIONS-----
-          
-          
+
+
     def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date, grading_beginn_date):
         """Create a new semester:"""
         semester = Semester()
@@ -181,7 +179,7 @@ class ElectionSystemAdministration (object):
         """delete a semester"""
         with SemesterMapper() as mapper:
             mapper.delete(semester)
-            
+
     #-----Participation--------
 
     def create_participation(self, priority, grading_id, student_id, project_id):
@@ -220,7 +218,7 @@ class ElectionSystemAdministration (object):
     def get_all_by_grading_id(self, grading_id):
         with ParticipationMapper() as mapper:
             return mapper.find_all_by_grading_id(grading_id)
-        
+
     def get_by_project(self, project_id):
         with ParticipationMapper() as mapper:
             return mapper.find_by_project(project_id)
@@ -240,20 +238,20 @@ class ElectionSystemAdministration (object):
 
         for g in allgrades:
             glist.append(g.get_grade())
-            
+
         if grade in glist:
-            print('grade exists') 
-            return None 
-        else: 
+            print('grade exists')
+            return None
+        else:
             g = Grading()
             g.set_grade(grade)
             g.set_id(1)
             g.set_date(1)
 
             with GradingMapper() as mapper:
-                return mapper.insert(g)     
+                return mapper.insert(g)
 
-        
+
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:
@@ -267,10 +265,10 @@ class ElectionSystemAdministration (object):
             if not(participations is None):
                 for p in participations:
                     self.delete_grading_id(p)
-                          
+
             mapper.delete(grading)
-       
-    
+
+
     def get_all_grades(self):
         with GradingMapper() as mapper:
             return mapper.find_all()
@@ -280,7 +278,7 @@ class ElectionSystemAdministration (object):
             return mapper.find_by_id(id)
 
 #------------Projecttype-----------
-    
+
     def get_all_projecttypes (self):
         with ProjecttypeMapper() as mapper:
             return mapper.find_all()
@@ -312,57 +310,17 @@ class ElectionSystemAdministration (object):
         with ProjecttypeMapper() as mapper:
             return mapper.insert(projecttype)
 
-
-
-    # --- Election Priority Logic ---
-
-    def finish_election(self, project_id):
-        adm = ElectionSystemAdministration()
-        old_pp = adm.get_by_project(project_id)
-        new_pp = []
-        highest_prio = 4
-        min_pp = 1
-        participation_num = 3
-        
-        if len(old_pp) > participation_num:
-            for pp in old_pp:
-                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
-                    new_pp.append(pp)
-                elif 0 < highest_prio:
-                    highest_prio = highest_prio - 1
-                else:
-                    break
-            return new_pp
-        else:
-            if len(old_pp) >= min_pp:
-                new_pp = old_pp
-            else:
-                print("There are not enough Participations for this Project")
-            return new_pp
-                
-        """ for old in old_pp:
-            adm.delete_participation(old) """
-
-        for new in new_pp:
-
-            print(new.get_id())
-            adm.save_participation(new)
-
-        return new_pp
-    
-    #---project related----
-    
-    #---project related----
+     #---project related----
 
     def get_all_projects(self):
         with ProjectMapper() as mapper:
             return mapper.find_all()
 
-    def find_project_by_id(self, number):
+    def get_project_by_id(self, number):
         with ProjectMapper() as mapper:
             return mapper.find_by_id(number)
 
-    def find_project_by_name(self, name):
+    def get_project_by_name(self, name):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_name(name)
 
@@ -422,52 +380,39 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             mapper.update(project)
 
+    # --- Election Priority Logic ---
 
-#------Module specific operations----
+    def finish_election(self, project_id):
+        adm = ElectionSystemAdministration()
+        old_pp = adm.get_by_project(project_id)
+        new_pp = []
+        highest_prio = 4
+        min_pp = 1
+        participation_num = 3
 
-    def create_module(self, edv_number, name):
-        """Create a new Module:"""
-        module = Module()
-        module.set_edv_number(edv_number)
-        module.set_name(name)
-        module.set_date(1)
-        module.set_id(1)
+        if len(old_pp) > participation_num:
+            for pp in old_pp:
+                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
+                elif 0 < highest_prio:
+                    highest_prio = highest_prio - 1
+                else:
+                    break
+            return new_pp
+        else:
+            if len(old_pp) >= min_pp:
+                new_pp = old_pp
+            else:
+                print("There are not enough Participations for this Project")
+            return new_pp
 
-        with ModuleMapper() as mapper:
-            return mapper.insert(module)
+        """ for old in old_pp:
+            adm.delete_participation(old) """
 
-    def get_module_by_id(self, id):
-        """Read out the module by ID."""
-        with ModuleMapper() as mapper:
-            return mapper.find_by_id(id)
+        for new in new_pp:
 
-    def get_module_by_edv(self,edv_number):
-        """Read out the module by edv."""
-        with ModuleMapper() as mapper:
-            return mapper.find_by_edv_number(edv_number)
+            print(new.get_id())
+            adm.save_participation(new)
 
-    def get_module_by_name(self,name):
-        """Read out the module by name."""
-        with ModuleMapper() as mapper:
-            return mapper.find_by_name(name)
+        return new_pp
 
-    def get_all_modules(self):
-        """Read out all module"""
-        with ModuleMapper() as mapper:
-            return mapper.find_all()
-
-    def save_module(self, module):
-        """update a module."""
-        with ModuleMapper() as mapper:
-            mapper.update(module)
-
-    def delete_module(self, module):
-        """delete a module"""
-        with ModuleMapper() as mapper:
-            mapper.delete(module)
-
-    
-   
-
-lilalu = ElectionSystemAdministration.finish_election(1, 5)
-print(lilalu)
