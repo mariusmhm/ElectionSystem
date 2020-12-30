@@ -4,8 +4,8 @@ import Header from './components/layout/Header';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Signin from './components/layout/pages/Signin';
-//import LoadingProgress from './components/dialogs/LoadingProgress';
-import firebaseConfig from './firebaseconfig';
+import LoadingProgress from './components/dialogs/LoadingProgress';
+import firebaseConfig from './firebaseConfig';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -106,12 +106,12 @@ class App extends Component {
 
             <div>
                 <ThemeProvider theme={theme}>
-			<CssBaseline />
+			    <CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
-                        	<Container maxWidth='md'>
-                                	<Header user={currentUser} />
-                               		{
-					        // Is a user signed in?
+                    <Container maxWidth='md'>
+                        <Header user={currentUser} />
+                        {
+                        // Is a user signed in?
 						currentUser ?
 							<>
 							<Redirect to='/Registration'/>
@@ -128,8 +128,8 @@ class App extends Component {
 					<ContextErrorMessage error={authError} contextErrorMsg={'Etwas ist schief gelaufen während dem Prozess'} onReload={this.handleSignIn} />
 					<ContextErrorMessage error={appError} contextErrorMsg={'Etwas ist schief geleaufen in der App. Bitte lade die Seite neu.'} />
 
-                        	</Container>
-                        	</Router>
+                    </Container>
+                </Router>
 			</ThemeProvider>
 		    </div>
 		);
