@@ -4,6 +4,8 @@ from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Project import Project
+from server.bo.Module import Module
+
 
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
@@ -13,7 +15,7 @@ from server.db.GradingMapper import GradingMapper
 from server.bo.Projecttype import Projecttype
 from server.db.ProjecttypeMapper import ProjecttypeMapper
 from server.db.ProjectMapper import ProjectMapper
-
+from server.db.ModuleMapper import ModuleMapper
 
 class ElectionSystemAdministration (object):
 
@@ -412,6 +414,50 @@ class ElectionSystemAdministration (object):
         """Das Projekt speichern."""
         with ProjectMapper() as mapper:
             mapper.update(project)
+
+#------Module specific operations----
+
+    def create_module(self, edv_number, name):
+        """Create a new Module:"""
+        module = Module()
+        module.set_edv_number(edv_number)
+        module.set_name(name)
+        module.set_date(1)
+        module.set_id(1)
+
+        with ModuleMapper() as mapper:
+            return mapper.insert(module)
+
+    def get_module_by_id(self, id):
+        """Read out the module by ID."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_module_by_edv(self,edv_number):
+        """Read out the module by edv."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_edv_number(edv_number)
+
+    def get_module_by_name(self,name):
+        """Read out the module by name."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_all_modules(self):
+        """Read out all module"""
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def save_module(self, module):
+        """update a module."""
+        with ModuleMapper() as mapper:
+            mapper.update(module)
+
+    def delete_module(self, module):
+        """delete a module"""
+        with SemesterMapper() as mapper:
+            mapper.delete(module)
+
     
    
 
