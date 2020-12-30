@@ -7,7 +7,7 @@ import Signin from './components/layout/pages/Signin';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import firebaseConfig from './firebaseConfig';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container} from '@material-ui/core';
 import Registration from './components/layout/pages/Registration'
@@ -83,11 +83,7 @@ class App extends Component {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithRedirect(provider);
 	}
-
-   //console.log("Checking if '" + name + "' is stored in database with google id '" + googleId + "'")
-   checkIfUserInDatabase(name, email, googleId) {
-	//soon
-   }
+   
 
    //Lifecycle method, which is called when the component gets inserted into the browsers DOM.
    //Initializes the firebase SDK.
@@ -116,7 +112,7 @@ class App extends Component {
 							<>
 							<Redirect to='/Registration'/>
 							<Route path='/Registration'><Registration /></Route>
-                                       			</>
+                            </>
 							:
 							// else show the sign in page
 							<>
@@ -129,6 +125,10 @@ class App extends Component {
 					<ContextErrorMessage error={appError} contextErrorMsg={'Etwas ist schief geleaufen in der App. Bitte lade die Seite neu.'} />
 
                     </Container>
+
+					<Switch>
+        				<Route exact path="/project-content" component={ProjectContent} />
+    				</Switch>
                 </Router>
 			</ThemeProvider>
 		    </div>

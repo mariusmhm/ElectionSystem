@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
+import { Redirect } from 'react-router'
 import firebase from 'firebase/app';
 import { Button, 
         Grid, 
@@ -26,7 +27,10 @@ class Registration extends Component {
             mail:'',
             googleID: null,
             matrikelnumber: null,
-            study:''
+            study:'',
+            redirect: false,
+            cuser: {},
+            cstudent: {},
         };
         
         if (firebase.auth().currentUser != null) {
@@ -38,6 +42,34 @@ class Registration extends Component {
               
         }
 
+
+    }
+
+    getUserbyMail = () => {
+        ElectionSystemAPI.getAPI().getUserForMail(this.state.mail)
+        .then(user =>
+            this.setState({
+                cuser: user
+            })).catch(e =>
+                this.setState({
+                    cuser:{},
+                }))
+    }
+
+    getStudentbyMail = () => {
+        ElectionSystemAPI.getAPI().getStudentForMail(this.state.mail)
+        .then(student =>
+            this.setState({
+                cstudent:student
+            })).catch(e =>
+                this.setState({
+                    cstudent:{},
+                }))
+    }
+
+    componentDidMount(){
+        this.getStudentbyMail();
+        this.getUserbyMail()
     }
 
     handleRadioChange = e => {
@@ -71,8 +103,10 @@ class Registration extends Component {
             newStudent.study = this.state.study;
             
             ElectionSystemAPI.getAPI().addStudent(newStudent).catch(student => {
-                this.setState(this.baseState);
-                
+                //this.setState(this.baseState);
+                this.setState({
+                    redirect: true
+                })
             }).catch(e => 
                 this.setState({
                     updatingError: e
@@ -86,8 +120,10 @@ class Registration extends Component {
             newUser.mail = this.state.mail;
             newUser.google_user_id = this.state.googleID;
             ElectionSystemAPI.getAPI().addUser(newUser).catch(user => {
-                this.setState(this.baseState);
-                
+               //this.setState(this.baseState);
+                this.setState({
+                    redirect: true
+                })
             }).catch(e => 
                 this.setState({
                     updatingError: e
@@ -104,6 +140,19 @@ class Registration extends Component {
 
     render(){
         const { classes } = this.props; 
+        if(this.state.cuser != null){
+            this.setState({
+                redirect: true
+            })
+        }else if(this.state.cstudent != null){
+            this.setState({
+                redirect: true
+            })
+        }
+        
+        if (this.state.redirect){
+            return <Redirect to='/project-content'/>;
+        }
         return (
             <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid} >
             
