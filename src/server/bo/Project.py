@@ -1,4 +1,3 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
@@ -17,14 +16,13 @@ class Project(NamedBusinessObject):
         self.module_id = None
         self.projecttype_id = None
         self.professor_id = None
+        self._additional_professor = None
 
 
-
-        self._project_id = None
-        self._project_name = None
-        self._short_description = None
+        self._short_description = ""
         self._link = ""
         self._room_desired = ""
+        self._room_necessary = True
         self._grade_average = 0
         self._num_blockdays_in_exam = 0
         self._blockdays_in_exam = True
@@ -36,30 +34,37 @@ class Project(NamedBusinessObject):
         self._blockdays_during_lecture = True
         self._weekly = True
         self._num_spots = 0
+        self._language = ""
 
 
-    
 
-    def set_project_id(self, id):
-        self._project_id = id
-    
-    def get_project_id(self):
-        return self._project_id
 
-    def set_project_name(self, name):
-        self._project_name = name 
-    
-    def get_project_name(self):
-        return self._project_name
+    def set_room_necessary(self, room):
+        """Sets if a room is necessary for the project."""
+        self._room_necessary = room
+
+    def get_room_necessary(self):
+        """Reads out if room is necessary."""
+        return self._room_necessary
+
+    def set_language(self, language):
+        """Sets  the language of the project."""
+        self._language = language
+
+    def get_language(self):
+        """Read out out the language of the project."""
+        return self._language
 
     def set_short_description(self, description):
+        """Sets  the short description of the project."""
         self._short_description = description 
     
     def get_short_description(self):
+        """Read out the short description of the project."""
         return self._short_description
 
     def set_link(self, link):
-        """Set the link."""
+        """Sets  the link of the project."""
         self._link = link
 
     def get_link(self):
@@ -166,51 +171,71 @@ class Project(NamedBusinessObject):
     #--- foreign keys ----
 
     def set_participation_id(self, id):
-        
+        """Sets  the participation of the project."""
         self._participation_id = id
 
 
     def get_participation_id(self):
-        
+        """Reads out  the participation of the project."""
         return self._participation_id
 
 
     def set_projecttype_id(self, id):
-        
+        """Sets  the project tyoe of the project."""
         self._projecttype_id = id
 
 
     def get_projecttype_id(self):
-        
+        """Reads out the project type of the project."""
         return self._projecttype_id
 
 
     def set_professor_id(self, id):
-        
+        """Sets  the professor  of the project."""
         self._professor_id = id
 
 
     def get_professor_id(self):
-        
+        """Returns  the professor of the project."""
         return self._professor_id
+
+    def set_module_id(self, module):
+        """Sets the modoule of the project"""
+        self.module_id = module
+
+    def get_module_id(self):
+        return self.module_id
+
+    def set_additional_prof(self, prof):
+        """Set the additional professor of the project"""
+        self._additional_professor = prof
+
+    def get_additional_prof(self):
+        """Readsout the additional professor"""
+        return self._additional_professor
+
 
 
 
     def __str__(self):
 
-        """Creats a simple textually Representation of a Project() instanz.
+        """Creats a simple textually Representation of a Project() instanc.
         """
 
-        return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_of_spots())
+        return "Project:  {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ".\
+            format(self.get_id(),self.get_name(), self.get_date() ,self.get_link(),self.get_short_description(),
+                   self.get_room_necessary(), self.get_professor_id(),self.get_module_id(),self.get_projecttype_id(),
+                   self.get_num_spots())
 
 
     @staticmethod
     def to_dict(dicti=dict()):
 
-        #Convert  a Python dict() in a Project().
+        """"Convert  a Python dict() in a Participation()."""
         project = Project()
-        project.set_project_id(dicti["project_id"])
-        project.set_project_name(dicti["project_name"])
+        project.set_id(dicti["id"])
+        project.set_name(dicti["name"])
+        project.set_date(dicti["creation_date"])
         project.set_short_description(dicti["short_description"])
         project.set_link(dicti["link"])
         project.set_room_desired(dicti["room_desired"])
@@ -228,9 +253,9 @@ class Project(NamedBusinessObject):
         project.set_participation_id(dicti["id"])
         project.set_projecttype_id(dicti["id"])
         project.set_professor_id(dicti["id"])
-
-
-
+        project.set_room_necessary(dicti["room_necessary"])
+        project.set_additional_prof(dicti["additional_professor"])
+        project.set_module_id(dicti["module_id"])
         return project
 
 
