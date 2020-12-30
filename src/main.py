@@ -13,6 +13,7 @@ from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Projecttype import Projecttype
 from server.bo.Project import Project
+from server.bo.Module import Module
 
 app = Flask(__name__)
 
