@@ -13,6 +13,7 @@ from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Projecttype import Projecttype
 from server.bo.Project import Project
+from server.bo.Module import Module
 
 app = Flask(__name__)
 
@@ -69,6 +70,31 @@ participation= api.inherit('Participation', bo, {
 projecttype = api.inherit('Projecttype',nbo, {
     'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
+})
+
+project = api.inherit('Project', bo, {
+    'project_id': fields.Integer(attribute='_project_id', description='Project ID'),
+    'short_description': fields.String(attribute='_short_description', description='Kurzbeschreibung eines Projekts'),
+    'project_name': fields.String(attribute='_project_name', description='Project Name'),
+    'link': fields.String(attribute='_link', description='Project Link'),
+    'room_desired': fields.String(attribute='_room_desired', description='Project with desired room'),
+    'grade_average': fields.Integer(attribute='_grade_average', description='grade Average'),
+    'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='Number of Blockdays in Exam'),
+    'blockdays_in_exam': fields.Boolean(attribute='_blockdays_in_exam', description='Blockdays in Exam'),
+    'special_room': fields.Boolean(attribute='_special_room', description='Special Room'),
+    'date_blockdays_during_lecture': fields.Integer(attribute='_date_blockdays_during_lecture', description='Date of Blockdays during Lecture'),
+    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='Number of Blockdays prior Lecture'),
+    'blockdays_prior_lecture': fields.Boolean(attribute='_blockdays_prior_lecture', description='Blockdays prior Lecture'),
+    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='Number of Blockdays during Lecture'),
+    'blockdays_during_lecture': fields.Boolean(attribute='_blockdays_during_lecture', description='Blockdays during Lecture'),
+    'weekly': fields.Boolean(attribute='_weekly', description='Weekly'),
+    'num_spots': fields.Integer(attribute='_num_spots', description='Number of Spots'),
+    'professor_id': fields.Integer(attribute='_professor_id', description='ID of professor'),
+    'projecttype_id': fields.Integer(attribute='_projecttype_id', description='ID of projecttype'),
+})
+
+module = api.inherit('Module',nbo, {
+    'edv_number': fields.String(attribute='_edv_number', description='Anzahl der ECTS für ein Modul'),
 })
 
 
@@ -548,19 +574,7 @@ class ProjecttypeNameOperations(Resource):
         return all_pt
 
 
-#--- Module |START| ---
-"""
-@electionSystem.route('/module')
-@electionSystem.response(500, 'if server has a problem')
-class ModuleListOperations(Resource):
-    @electionSystem.marshal_list_with(module)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        module=adm.get_all_modules()
-        return module
-"""
 
-#--- Module |END| ---
 
 #--- project |START| ---
 
@@ -580,7 +594,7 @@ class ProjectListOperations(Resource):
         proposal = Project.to_dict(api.payload)
 
         if proposal is not None:
-            p = adm.create_project(proposal.get_project_id(), proposal.get_project_name(), proposal.get_short_description(), proposal.get_link(), proposal.get_room_desired(), proposal.get_grade_average(), proposal.get_num_blockdays_in_exam(), proposal.get_blockdays_in_exam(), proposal.get_special_room(), proposal.get_date_blockdays_during_lecture(), proposal.get_num_blockdays_prior_lecture(), proposal.get_blockdays_prior_lecture(), proposal.get_num_blockdays_during_lecture(), proposal.get_blockdays_during_lecture(), proposal.get_weekly(), proposal.get_num_spots())
+            p = adm.create_project(proposal.get_project_id(), proposal.get_project_name(),proposal.get_date(), proposal.get_short_description(), proposal.get_link(), proposal.get_room_desired(), proposal.get_grade_average(), proposal.get_num_blockdays_in_exam(), proposal.get_blockdays_in_exam(), proposal.get_special_room(), proposal.get_date_blockdays_during_lecture(), proposal.get_num_blockdays_prior_lecture(), proposal.get_blockdays_prior_lecture(), proposal.get_num_blockdays_during_lecture(), proposal.get_blockdays_during_lecture(), proposal.get_weekly(), proposal.get_num_spots(), proposal.get_projecttype_id(), proposal.get_professor_id())
             return p, 200
         else:
             #server error
@@ -597,7 +611,7 @@ class ProjectListOperations(Resource):
         Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ElectionSystemAdministration()
-        pro = adm.find_project_by_id(id)
+        pro = adm.get_project_by_id(id)
         return pro
 
     def delete(self, id):
@@ -606,7 +620,7 @@ class ProjectListOperations(Resource):
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = ElectionSystemAdministration()
-        pro = adm.find_project_by_id(id)
+        pro = adm.get_project_by_id(id)
         adm.delete_project(pro)
         return '', 200
     
@@ -655,20 +669,8 @@ class ProjectListOperations(Resource):
         pro = adm.get_project_by_professorID(professor_id)
         return pro
 
-# --- FIND PROJECT BY PARTICIPATION ID
 
-@electionSystem.route('/projects-by-participation/<int:participation_id>')
-@electionSystem.response(500, 'server error')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_with(project)
-    def get(self, participation_id):
-        """Auslesen eines bestimmten Projekts anhand der participation ID
 
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = ElectionSystemAdministration()
-        pro = adm.get_project_by_participationID(participation_id)
-        return pro
 
 # --- FIND PROJECT BY PROJECTTYPE ID
 
@@ -685,8 +687,103 @@ class ProjectListOperations(Resource):
         pro = adm.get_project_by_projecttypeID(projecttype_id)
         return pro
 
-#--- Project |END| ---
-#---------------------
+#--- Project---
+
+
+
+#---Module specific operations---
+
+
+@electionSystem.route('/module')
+@electionSystem.response(500, 'If there is a server-side error.')
+class ModuleListOperations(Resource):
+    @electionSystem.marshal_with(module)
+    def get(self):
+        """Reading out all module objects. If no module objects are available, an empty sequence is returned."""
+        adm = ElectionSystemAdministration()
+        module = adm.get_all_modules()
+        return module
+
+    @electionSystem.marshal_with(module, code=200)
+    @electionSystem.expect(module)  # We expect a module object from the client side.
+    def post(self):
+        """Create a new module object."""
+        """It is up to the election administration (business logic) to have a correct ID
+            to forgive. The corrected object will eventually be returned. """
+        adm = ElectionSystemAdministration()
+
+        proposal = Module.to_dict(api.payload)
+        if proposal is not None:
+            m = adm.create_module(proposal.get_edv_number(), proposal.get_name())
+            return m, 200
+
+        else:
+            """If something goes wrong we dont return anything and throw a server error."""
+            return '', 500
+
+
+@electionSystem.route('/module/<int:id>')
+@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@electionSystem.param('module_id', 'Die ID des Module-Objekts')
+class ModuleOperations(Resource):
+    @electionSystem.marshal_with(module)
+    def get(self, id):
+        """Reading out a specific module object.
+        The object to be read is determined by the `` id '' in the URI."""
+        adm = ElectionSystemAdministration()
+        m = adm.get_module_by_id(id)
+        return m
+
+    def delete(self, id):
+        """Deleting a specific module object.
+        The object to be deleted is determined by the `` id '' in the URI."""
+        adm = ElectionSystemAdministration()
+        module = adm.get_module_by_id(id)
+        adm.delete_module(module)
+        return '', 200
+
+    @electionSystem.marshal_with(module)
+    @electionSystem.expect(module, validate=True)
+    def put(self, id):
+        """Update of a specific module object"""
+        adm = ElectionSystemAdministration()
+        m = Module.to_dict(api.payload)
+
+        if m is not None:
+            """This sets the id of the module object to be overwritten"""
+            m.set_id(id)
+            adm.save_module(m)
+            return '', 200
+        else:
+            return '', 500
+
+@electionSystem.route('/module/<string:name>')
+@electionSystem.response(500, 'when the server has problems')
+class ModuleNameOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, name):
+        """Reads out the a specific Module-Object by name
+                The realization of reading out the object is by ```name`` in the URI.
+                """
+        adm = ElectionSystemAdministration()
+        module = adm.get_module_by_name(name)
+        return module
+
+@electionSystem.route('/module/<string:edv_number>')
+@electionSystem.response(500, 'when the server has problems')
+class ModuleEdvOperations(Resource):
+    @electionSystem.marshal_with(projecttype)
+    def get(self, edv_number):
+        """Reads out the a specific Module-Object by edv number
+        The realization of reading out the object is by ```edv``` in the URI.
+        """
+        adm = ElectionSystemAdministration()
+        edv_module = adm.get_projecttype_by_id(edv_number)
+        return edv_module
+
+#----Module end---
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

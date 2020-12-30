@@ -4,6 +4,8 @@ from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Project import Project
+from server.bo.Module import Module
+
 
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
@@ -13,7 +15,7 @@ from server.db.GradingMapper import GradingMapper
 from server.bo.Projecttype import Projecttype
 from server.db.ProjecttypeMapper import ProjecttypeMapper
 from server.db.ProjectMapper import ProjectMapper
-
+from server.db.ModuleMapper import ModuleMapper
 
 class ElectionSystemAdministration (object):
 
@@ -357,11 +359,11 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_all()
 
-    def find_project_by_id(self, number):
+    def get_project_by_id(self, number):
         with ProjectMapper() as mapper:
-            return mapper.find_project_by_id(number)
+            return mapper.find_by_id(number)
 
-    def find_project_by_name(self, name):
+    def get_project_by_name(self, name):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_name(name)
 
@@ -369,9 +371,6 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_professor_id(number)
 
-    def get_project_by_participationID(self, number):
-        with ProjectMapper() as mapper:
-            return mapper.find_project_by_participation_id(number)
 
     def get_project_by_projecttypeID(self, number):
         with ProjectMapper() as mapper:
@@ -379,11 +378,12 @@ class ElectionSystemAdministration (object):
 
     # --- Project SPECIFIC OPERATIONS ---
 
-    def create_project(self, project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots):
+    def create_project(self, project_id, project_name, creation_date, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id):
         #create participation
         project = Project()
         project.set_project_id(project_id)
         project.set_project_name(project_name)
+        project.set_date(creation_date)
         project.set_short_description(short_description)
         project.set_link(link)
         project.set_room_desired(room_desired)
@@ -398,6 +398,8 @@ class ElectionSystemAdministration (object):
         project.set_blockdays_during_lecture(blockdays_during_lecture)
         project.set_weekly(weekly)
         project.set_num_spots(num_spots)
+        project.set_projecttype_id(projecttype_id)
+        project.set_professor_id(professor_id)
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
@@ -412,6 +414,50 @@ class ElectionSystemAdministration (object):
         """Das Projekt speichern."""
         with ProjectMapper() as mapper:
             mapper.update(project)
+
+#------Module specific operations----
+
+    def create_module(self, edv_number, name):
+        """Create a new Module:"""
+        module = Module()
+        module.set_edv_number(edv_number)
+        module.set_name(name)
+        module.set_date(1)
+        module.set_id(1)
+
+        with ModuleMapper() as mapper:
+            return mapper.insert(module)
+
+    def get_module_by_id(self, id):
+        """Read out the module by ID."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_module_by_edv(self,edv_number):
+        """Read out the module by edv."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_edv_number(edv_number)
+
+    def get_module_by_name(self,name):
+        """Read out the module by name."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_all_modules(self):
+        """Read out all module"""
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def save_module(self, module):
+        """update a module."""
+        with ModuleMapper() as mapper:
+            mapper.update(module)
+
+    def delete_module(self, module):
+        """delete a module"""
+        with ModuleMapper() as mapper:
+            mapper.delete(module)
+
     
    
 

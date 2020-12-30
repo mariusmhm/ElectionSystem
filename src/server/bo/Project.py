@@ -1,11 +1,7 @@
 from server.bo.BusinessObject import BusinessObject
-from server.bo.NamedBusinessObject import NamedBusinessObject
+#from server.bo.NamedBusinessObject import NamedBusinessObject
 
-
-
-
-
-class Project(NamedBusinessObject):
+class Project(BusinessObject):
 
     """Realization of an examplary Project. Test
     """
@@ -13,7 +9,6 @@ class Project(NamedBusinessObject):
     def __init__(self):
         super().__init__()
 
-        self.participation_id = None
         self.module_id = None
         self.projecttype_id = None
         self.professor_id = None
@@ -165,14 +160,6 @@ class Project(NamedBusinessObject):
 
     #--- foreign keys ----
 
-    def set_participation_id(self, id):
-        
-        self._participation_id = id
-
-
-    def get_participation_id(self):
-        
-        return self._participation_id
 
 
     def set_projecttype_id(self, id):
@@ -196,12 +183,12 @@ class Project(NamedBusinessObject):
 
 
 
-    def __str__(self):
+    """def __str__(self):
 
-        """Creats a simple textually Representation of a Project() instanz.
-        """
+        #Creats a simple textually Representation of a Project() instanz.
+        
 
-        return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_of_spots())
+        return "Project:  {}, {}, {}, {}, {}, {}, {}, {} ".format(self.get_project_id(),self.get_project_name(),self.get_link(),self.get_short_description(),self.get_project_professor(),self.get_module(),self.get_project_type(),self.get_nom_of_spots())"""
 
 
     @staticmethod
@@ -211,6 +198,7 @@ class Project(NamedBusinessObject):
         project = Project()
         project.set_project_id(dicti["project_id"])
         project.set_project_name(dicti["project_name"])
+        project.set_date(dicti["creation_date"])
         project.set_short_description(dicti["short_description"])
         project.set_link(dicti["link"])
         project.set_room_desired(dicti["room_desired"])
@@ -225,7 +213,6 @@ class Project(NamedBusinessObject):
         project.set_blockdays_during_lecture(dicti["blockdays_during_lecture"])
         project.set_weekly(dicti["weekly"])
         project.set_num_spots(dicti["num_spots"])
-        project.set_participation_id(dicti["id"])
         project.set_projecttype_id(dicti["id"])
         project.set_professor_id(dicti["id"])
 

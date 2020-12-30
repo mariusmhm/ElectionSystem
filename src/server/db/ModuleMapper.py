@@ -22,11 +22,11 @@ class ModuleMapper (Mapper):
          crs.execute("SELECT * FROM Module")
          tupsrc = crs.fetchall()
 
-         for (module_id, module_creation_date, module_name, edv_number) in tupsrc:
+         for (id, creation_date, name, edv_number) in tupsrc:
             module = Module()
-            module.set_id(module_id)
-            module.set_creation_date(module_creation_date)
-            module.set_name(module_name)
+            module.set_id(id)
+            module.set_date(creation_date)
+            module.set_name(name)
             module.set_edv_number(edv_number)
             res.append(module)
 
@@ -35,24 +35,24 @@ class ModuleMapper (Mapper):
 
          return res
 
-    def find_by_id(self, module_id):
+    def find_by_id(self, id):
         """Read out the module based on their id.
         : param module_id of the associated module.
         : return a module object with the id number."""
 
         res = None
         cursor = self._connection.cursor()
-        command = "SELECT module_id, creation_date, module_name edv_number FROM Module WHERE module_id={}".format(module_id)
+        command = "SELECT * FROM Module WHERE id={}".format(id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (module_id, module_creation_date, module_name, edv_number)= tuples[0]
+            (id, creation_date, name, edv_number) = tuples[0]
             module = Module()
-            module.set_id(module_id)
-            module.set_creation_date(module_creation_date)
-            module.set_name(module_name)
+            module.set_id(id)
+            module.set_date(creation_date)
+            module.set_name(name)
             module.set_edv_number(edv_number)
             res = module
 
@@ -65,37 +65,30 @@ class ModuleMapper (Mapper):
         cursor.close()
         return res
 
-    def find_by_name(self, module_name):
+
+    def find_by_name(self, name):
         """Read out all modules based on their name.
         : param module_name of the associated module.
         : return A collection of modules objects
             with the desired name."""
         result = []
         crs = self._connection.cursor()
-        crs.execute("SELECT module_id, creation_date, module_name, edv_number"/
-                    " FROM Module WHERE module_name LIKE '{}'"\
-                    " ORDER BY module_name"
-                    .format(module_name))
 
+        crs.execute("SELECT * FROM Module WHERE name LIKE '{}' ORDER BY name".format(name))
         tuples = crs.fetchall()
 
-        try:
-            (module_id, creation_date, module_name, edv_number) = tuples[0]
+        for(id, creation_date, name, edv_number) in tuples:
             module = Module()
-            module.set_id(module_id)
-            module.set_creation_date(creation_date)
-            module.set_module_name(module_name)
+            module.set_id(id)
+            module.set_date(creation_date)
+            module.set_name(name)
             module.set_edv_number(edv_number)
-            result = module
-
-        except IndexError:
-            """The IndexError will occur above when accessing tuples [0] when the previous SELECT call
-            does not return tuples, but tuples = cursor.fetchall () returns an empty sequence."""
-            res = None
+            result.append(module)
 
         self._connection.commit()
         crs.close()
-        return res
+
+        return result
 
     def find_by_edv_number(self,edv_number):
         """Read out all modules based on the assigned edv numbers.
@@ -105,16 +98,16 @@ class ModuleMapper (Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = "module_id, creation_date, module_name, edv_number FROM Module WHERE mail={}".format(edv_number)
+        command = "SELECT * FROM Module WHERE edv_number={}".format(edv_number)
         cursor.execute(command)
         tuples = cursor.fetchall()
         
         try:
-            (module_id, module_creation_date, module_name, edv_number)= tuples[0]
+            (id, creation_date, name, edv_number)= tuples[0]
             module = Module()
-            module.set_id(module_id)
-            module.set_creation_date(module_creation_date)
-            module.set_name(module_name)
+            module.set_id(id)
+            module.set_date(creation_date)
+            module.set_name(name)
             module.set_edv_number(edv_number)
             res = module
             
@@ -137,19 +130,27 @@ class ModuleMapper (Mapper):
         : param module, the object to be saved
         : return the object that has already been transferred, but with a possibly corrected ID.
         """
-        
-        crs = self._connection.cursor()
-        crs.execute("SELECT MAX(id) AS maxid FROM Module")
-        tuples = crs.fetchall()
+
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM Module ")
+        tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            module.set_id(maxid[0]+1)
-            
-            crs.execute("INSERT INTO Module(module_id, creation_date,module_name, edv_number) VALUES ('{}', '{}','{}','{}')"
-                        .format(module.get_id(), module.get_creation_date(), module.get_name(), module.get_edv_number()))
-            
+            if maxid[0] is not None:
+                """
+                If we determine a central ID we use this
+                by 1 and assign this value as the ID to the semester object. """
+                module.set_id(maxid[0] + 1)
+            else:
+                """If we CAN'T find a maximum ID, let's
+                assume that the table is empty and that we can start with ID 1. """
+                module.set_id(1)
+
+        command = "INSERT INTO Module (id, creation_date, name, edv_number) VALUES (%s, %s, %s, %s)"
+        data = (module.get_id(), module.get_date(), module.get_name(), module.get_edv_number())
+        cursor.execute(command,data)
         self._connection.commit()
-        crs.close()
+        cursor.close()
 
         return module
     
@@ -158,22 +159,22 @@ class ModuleMapper (Mapper):
         : param module the "object" to be deleted from the DB"""
         
         crs = self._connection.cursor()
-        crs.execute("DELETE FROM Module WHERE module_id={}".format(module.get_id()))
+        crs.execute("DELETE FROM Module WHERE id={}".format(module.get_id()))
 
         self._connection.commit()
         crs.close()
-        
-    def update(self, module):
-         """Repeated writing of an module object to the database.
-            : param module the object to be written into the DB"""
-         
-         cursor = self._connection.cursor()
 
-         command = "UPDATE module " + "SET creation_date=%s, module_id=%s, " \
-                                       "module_name, edv_number" \
-                                       "WHERE module_id=%s"
-         data = (module.get_creation_date(), module.get_module_name(),module.get_id(), module.get_edv_number())
-         cursor.execute(command, data)
+
+    def update(self, module):
+        """Repeated writing of an object to the database.
+        : param semester the object that is to be written to the DB"""
+        cursor = self._connection.cursor()
+        cmd = "SET (id=%s, creation_date=%s, name=%, edv_number=%s) WHERE id=%s"
+        data = (module.get_id(), module.get_date(), module.get_name(), module.get_edv_number())
+        cursor.execute("UPDATE Module ", cmd, data)
+
+        self._connection.commit()
+        cursor.close()
          
 
 
