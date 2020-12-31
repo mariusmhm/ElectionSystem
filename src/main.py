@@ -6,14 +6,15 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 
 from server.ElectionSystemAdministration import ElectionSystemAdministration
+
+from server.bo.Grading import Grading
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Projecttype import Projecttype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
-from server.bo.Semester import Semester
-from server.bo.Participation import Participation
-from server.bo.Grading import Grading
-from server.bo.Projecttype import Projecttype
-from server.bo.Project import Project
-from server.bo.Module import Module
 
 app = Flask(__name__)
 

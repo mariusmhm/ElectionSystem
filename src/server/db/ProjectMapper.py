@@ -106,37 +106,31 @@ class ProjectMapper(Mapper):
         cursor.execute("SELECT * FROM Project WHERE name LIKE '{}' ORDER BY name".format(name))
         tuples = cursor.fetchall()
 
-        for (id, name, creation_date, short_description, additional_prof, room_nessecary,
-             language, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam,
-             special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture,
-             num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype,
-             professor, module) in tuples:
+        for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
+             date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
+             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
+             add_professor_id) in tuples:
 
             project = Project()
             project.set_id(id)
-            project.set_name(name)
-            project.set_projecttype_id(projecttype)
             project.set_date(creation_date)
+            project.set_name(name)
             project.set_short_description(short_description)
-            project.set_link(link)
-            project.set_additional_prof(additional_prof)
-            project.set_language(language)
-            project.set_room_desired(room_desired)
-            project.set_grade_average(grade_average)
-            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
-            project.set_blockdays_in_exam(blockdays_in_exam)
             project.set_special_room(special_room)
-            project.set_room_necessary(room_nessecary)
-            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+            project.set_room_desired(room_desired)
             project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
-            project.set_blockdays_prior_lecture(blockdays_prior_lecture)
+            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
             project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
-            project.set_blockdays_during_lecture(blockdays_during_lecture)
+            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
-            project.set_module_id(module)
-            project.set_professor_id(professor)
-            result = project
+            project.set_language(language)
+            project.set_external_partner(external_partner)
+            project.set_projecttype_id(projecttype_id)
+            project.set_module_id(module_id)
+            project.set_professor_id(professor_id)
+            project.set_add_professor_id(add_professor_id)
+            result.append(project)
 
         self._connection.commit()
         cursor.close()
@@ -205,7 +199,7 @@ class ProjectMapper(Mapper):
         """
 
         cursor = self._connection.cursor()
-        command = "DELETE FROM Project WHERE id={}".format(project.get_project_id())
+        command = "DELETE FROM Project WHERE id={}".format(project.get_id())
         cursor.execute(command)
 
         self._connection.commit()
@@ -219,117 +213,110 @@ class ProjectMapper(Mapper):
         """
         cursor = self._connection.cursor()
 
-        command = "UPDATE Project " + "SET name=%s,creation_date=%, projecttype_id=%s, short_description=%s," \
-                                       " link=%s, room_desired=%s, grade_average=%s, num_blockdays_in_exam=%s, " \
-                                       "blockdays_in_exam=%s, special_room=%s, date_blockdays_during_lecture=%s," \
-                                       " num_blockdays_prior_lecture=%s, blockdays_prior_lecture=%s," \
-                                       " num_blockdays_during_lecture=%s, blockdays_during_lecture=%s," \
-                                       " weekly=%s, num_spots=%s, language=%s, necessary_room=%s,  additional_professor=%s, professor=%s," \
-                                       " room_necessary=%s, module_id=%s WHERE id=%s"
+        command = "UPDATE Project " + "SET creation_date=%s, name=%s, short_description=%s, special_room=%s, room_desired=%s, num_blockdays_prior_lecture=%s,  \
+                    date_blockdays_during_lecture=%s, num_blockdays_during_lecture=%s, num_blockdays_in_exam=%s, weekly=%s, num_spots=%s, \
+                    language=%s, external_partner=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s WHERE id=%s"
 
-        data = (project.get_id(),
+        data = (project.get_date(),
                 project.get_name(),
-                project.get_date(),
                 project.get_short_description(),
-                project.get_link(),
-                project.get_room_desired(),
-                project.get_professor_id(),
-                project.get_grade_average(),
-                project.get_num_blockdays_in_exam(),
-                project.get_blockdays_in_exam(),
                 project.get_special_room(),
-                project.get_date_blockdays_during_lecture(),
+                project.get_room_desired(),
                 project.get_num_blockdays_prior_lecture(),
-                project.get_blockdays_prior_lecture(),
+                project.get_date_blockdays_during_lecture(),
                 project.get_num_blockdays_during_lecture(),
-                project.get_blockdays_during_lecture(),
+                project.get_num_blockdays_in_exam(),
                 project.get_weekly(),
                 project.get_num_spots(),
-                project.get_room_necessary(),
-                project.get_additional_prof(),
-                project.get_module_id(),
                 project.get_language(),
-                project.get_professor_id())
+                project.get_external_partner(),
+                project.get_projecttype_id(),
+                project.get_module_id(),
+                project.get_professor_id(),
+                project.get_add_professor_id(),
+                project.get_id())
+                
+                
         cursor.execute(command, data)
 
         self._connection.commit()
         cursor.close()
 
 
-    def find_project_by_professor_id(self,project_id):
+    def find_project_by_professor_id(self, professor_id):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT project_id, project_name, short_description, link, room_desired, grade_average," \
-                  " num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture," \
-                  " num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture," \
-                  " blockdays_during_lecture, weekly, num_spots, language, nessecary_room, additional_professor," \
-                  " projecttype_id, professor_id, module_id" \
-                  "  FROM Project WHERE professor_id={}" \
-                    .format(project_id)
+        command = "SELECT * FROM Project WHERE professor_id={}".format(professor_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (project_id, project_name, date, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id) in tuples:
+        for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
+             date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
+             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
+             add_professor_id) in tuples:
+
             project = Project()
-            project.set_id(project_id)
-            project.set_name(project_name)
-            project.set_date(date)
+            project.set_id(id)
+            project.set_date(creation_date)
+            project.set_name(name)
             project.set_short_description(short_description)
-            project.set_link(link)
-            project.set_room_desired(room_desired)
-            project.set_grade_average(grade_average)
-            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
-            project.set_blockdays_in_exam(blockdays_in_exam)
             project.set_special_room(special_room)
-            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+            project.set_room_desired(room_desired)
             project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
-            project.set_blockdays_prior_lecture(blockdays_prior_lecture)
+            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
             project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
-            project.set_blockdays_during_lecture(blockdays_during_lecture)
+            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
+            project.set_language(language)
+            project.set_external_partner(external_partner)
             project.set_projecttype_id(projecttype_id)
+            project.set_module_id(module_id)
             project.set_professor_id(professor_id)
-            result = project
+            project.set_add_professor_id(add_professor_id)
+            result.append(project)
 
         self._connection.commit()
         cursor.close()
         return result
 
 
-    def find_project_by_projecttype_id(self,project_id):
+    def find_project_by_projecttype_id(self, projecttype_id):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT id, name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id FROM Project WHERE projecttype_id={}" \
-                    .format(project_id)
+        command = "SELECT * FROM Project WHERE projecttype_id={}".format(projecttype_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id) in tuples:
+        for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
+             date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
+             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
+             add_professor_id) in tuples:
+
             project = Project()
-            project.set_id(project_id)
-            project.set_name(project_name)
+            project.set_id(id)
+            project.set_date(creation_date)
+            project.set_name(name)
             project.set_short_description(short_description)
-            project.set_link(link)
-            project.set_room_desired(room_desired)
-            project.set_grade_average(grade_average)
-            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
-            project.set_blockdays_in_exam(blockdays_in_exam)
             project.set_special_room(special_room)
-            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+            project.set_room_desired(room_desired)
             project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
-            project.set_blockdays_prior_lecture(blockdays_prior_lecture)
+            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
             project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
-            project.set_blockdays_during_lecture(blockdays_during_lecture)
+            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
+            project.set_language(language)
+            project.set_external_partner(external_partner)
             project.set_projecttype_id(projecttype_id)
+            project.set_module_id(module_id)
             project.set_professor_id(professor_id)
-            result = project
+            project.set_add_professor_id(add_professor_id)
+            result.append(project)
 
         
 

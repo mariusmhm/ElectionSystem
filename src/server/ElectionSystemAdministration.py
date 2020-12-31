@@ -1,19 +1,20 @@
+from server.bo.Grading import Grading
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Projecttype import Projecttype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
-from server.bo.Semester import Semester
-from server.bo.Participation import Participation
-from server.bo.Grading import Grading
 
-
+from server.db.GradingMapper import GradingMapper
+from server.db.ModuleMapper import ModuleMapper
+from server.db.ParticipationMapper import ParticipationMapper
+from server.db.ProjectMapper import ProjectMapper
+from server.db.ProjecttypeMapper import ProjecttypeMapper
+from server.db.SemesterMapper import SemesterMapper
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
-from server.db.SemesterMapper import SemesterMapper
-from server.db.ParticipationMapper import ParticipationMapper
-from server.db.GradingMapper import GradingMapper
-from server.bo.Projecttype import Projecttype
-from server.db.ProjecttypeMapper import ProjecttypeMapper
-from server.bo.Project import Project
-from server.db.ProjectMapper import ProjectMapper
 
 
 class ElectionSystemAdministration (object):
@@ -337,8 +338,6 @@ class ElectionSystemAdministration (object):
     def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id):
         #create project
         project = Project()
-        project.set_id(1)
-        project.set_date(1)
         project.set_name(name)
         project.set_short_description(short_description)
         project.set_special_room(special_room)
@@ -355,6 +354,8 @@ class ElectionSystemAdministration (object):
         project.set_module_id(module_id)
         project.set_professor_id(professor_id)
         project.set_add_professor_id(add_professor_id)
+        project.set_id(1)
+        project.set_date(1)
         
 
         with ProjectMapper() as mapper:
@@ -370,42 +371,6 @@ class ElectionSystemAdministration (object):
         """Save the project."""
         with ProjectMapper() as mapper:
             mapper.update(project)
-
-    # --- Election Priority Logic ---
-
-    def finish_election(self, project_id):
-        adm = ElectionSystemAdministration()
-        old_pp = adm.get_by_project(project_id)
-        new_pp = []
-        highest_prio = 4
-        min_pp = 1
-        participation_num = 3
-
-        if len(old_pp) > participation_num:
-            for pp in old_pp:
-                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
-                    new_pp.append(pp)
-                elif 0 < highest_prio:
-                    highest_prio = highest_prio - 1
-                else:
-                    break
-            return new_pp
-        else:
-            if len(old_pp) >= min_pp:
-                new_pp = old_pp
-            else:
-                print("There are not enough Participations for this Project")
-            return new_pp
-
-        """ for old in old_pp:
-            adm.delete_participation(old) """
-
-        for new in new_pp:
-
-            print(new.get_id())
-            adm.save_participation(new)
-
-        return new_pp
 
     #------Module specific operations----
 
@@ -450,3 +415,39 @@ class ElectionSystemAdministration (object):
         with ModuleMapper() as mapper:
             mapper.delete(module)
 
+
+    # --- Election Priority Logic ---
+
+    def finish_election(self, project_id):
+        adm = ElectionSystemAdministration()
+        old_pp = adm.get_by_project(project_id)
+        new_pp = []
+        highest_prio = 4
+        min_pp = 1
+        participation_num = 3
+
+        if len(old_pp) > participation_num:
+            for pp in old_pp:
+                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
+                elif 0 < highest_prio:
+                    highest_prio = highest_prio - 1
+                else:
+                    break
+            return new_pp
+        else:
+            if len(old_pp) >= min_pp:
+                new_pp = old_pp
+            else:
+                print("There are not enough Participations for this Project")
+            return new_pp
+
+        """ for old in old_pp:
+            adm.delete_participation(old) """
+
+        for new in new_pp:
+
+            print(new.get_id())
+            adm.save_participation(new)
+
+        return new_pp
