@@ -324,31 +324,26 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_name(name)
 
-    """def get_project_by_professorID(self, number):
+    def get_project_by_professorID(self, number):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_professor_id(number)
 
-    def get_project_by_participationID(self, number):
-        with ProjectMapper() as mapper:
-            return mapper.find_project_by_participation_id(number)
-
     def get_project_by_projecttypeID(self, number):
         with ProjectMapper() as mapper:
-            return mapper.find_project_by_projecttype_id(number)"""
+            return mapper.find_project_by_projecttype_id(number)
 
     # --- Project SPECIFIC OPERATIONS ---
 
-    def create_project(self, language, additionall_prof, name, necessary_room, professor_id, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, participation_id, projecttype_id, module_id):
+    def create_project(self, language, additional_prof, name, necessary_room, module_id, professor_id, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id):
         #create project
         project = Project()
         project.set_name(name)
         project.set_short_description(short_description)
         project.set_link(link)
         project.set_language(language)
-        project.set_additional_prof(additionall_prof)
+        project.set_additional_prof(additional_prof)
         project.set_room_necessary(necessary_room)
         project.set_module_id(module_id)
-        project.set_participation_id(participation_id)
         project.set_professor_id(professor_id)
         project.set_projecttype_id(projecttype_id)
         project.set_room_desired(room_desired)

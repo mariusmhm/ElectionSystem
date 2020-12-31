@@ -12,7 +12,6 @@ class Project(NamedBusinessObject):
     def __init__(self):
         super().__init__()
 
-        self.participation_id = None
         self.module_id = None
         self.projecttype_id = None
         self.professor_id = None
@@ -170,16 +169,6 @@ class Project(NamedBusinessObject):
 
     #--- foreign keys ----
 
-    def set_participation_id(self, id):
-        """Sets  the participation of the project."""
-        self._participation_id = id
-
-
-    def get_participation_id(self):
-        """Reads out  the participation of the project."""
-        return self._participation_id
-
-
     def set_projecttype_id(self, id):
         """Sets  the project tyoe of the project."""
         self._projecttype_id = id
@@ -250,7 +239,6 @@ class Project(NamedBusinessObject):
         project.set_blockdays_during_lecture(dicti["blockdays_during_lecture"])
         project.set_weekly(dicti["weekly"])
         project.set_num_spots(dicti["num_spots"])
-        project.set_participation_id(dicti["id"])
         project.set_projecttype_id(dicti["id"])
         project.set_professor_id(dicti["id"])
         project.set_room_necessary(dicti["room_necessary"])

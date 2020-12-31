@@ -47,7 +47,7 @@ student = api.inherit('Student', user, {
     'study': fields.String(attribute='_study', description='Students Study')
 })
 
-semester= api.inherit('Semester', bo, {
+semester = api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
@@ -55,23 +55,23 @@ semester= api.inherit('Semester', bo, {
     'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading')
 })
 
-grading= api.inherit('Grading', bo, {
+grading = api.inherit('Grading', bo, {
     'grade': fields.Float (attribute='_grade', descritpion='Grade for evaluation'),
 })
 
-participation= api.inherit('Participation', bo, {
+participation = api.inherit('Participation', bo, {
     'priority': fields.Integer(attribute='_priority', description='Priority for the project election'),
     'grading_id': fields.Integer(attribute='_grading_id', description='Grading id'),
     'student_id': fields.Integer(attribute='_student_id', description='Student id'),
     'project_id': fields.Integer(attribute='_project_id', description='Project id')
 })
 
-projecttype = api.inherit('Projecttype',nbo, {
+projecttype = api.inherit('Projecttype', nbo, {
     'ect': fields.Integer(attribute='_ect', description='Anzahl der ECTS für ein Projettyp'),
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
-project = api.inherit('Project',nbo, {
+project = api.inherit('Project', nbo, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
     'link': fields.String(attribute='_link', description='Link of the project for Information'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
@@ -87,13 +87,11 @@ project = api.inherit('Project',nbo, {
     'blockdays_during_lecture': fields.Boolean(attribute='_blockdays_during_lecture ', description='If  blockdays  during lecture are needed'),
     'weekly': fields.Boolean(attribute='_weekly ', description='if weekly lectures are needed'),
     'num_spots': fields.Integer(attribute='_num_spots ', description='If weekly lectures are needed'),
-    'language': fields.Integer(attribute='_language ', description='The language the project will be given'),
+    'language': fields.String(attribute='_language ', description='The language the project will be given'),
     'additional_professor': fields.Integer(attribute='_additional_professor ', description='If there is a additional professor is needed'),
-    'professor_id': fields.Boolean(attribute='_professor_id ', description='The professor giving the project'),
-    'projecttype_id': fields.Boolean(attribute='_projecttype_id ', description='The projecttype of the project'),
-    'module_id': fields.Boolean(attribute='_module_id ', description='The module of the project'),
-    'participation_id': fields.Boolean(attribute='participation_id ', description='The participations of the project'),
-
+    'professor_id': fields.Integer(attribute='_professor_id ', description='The professor giving the project'),
+    'projecttype_id': fields.Integer(attribute='_projecttype_id ', description='The projecttype of the project'),
+    'module_id': fields.Integer(attribute='_module_id ', description='The module of the project')
 })
 
 
@@ -618,7 +616,7 @@ class ProjectListOperations(Resource):
                                    prpl.get_room_desired(), prpl.get_room_necessary(), prpl.get_grade_average(), prpl.get_num_blockdays_in_exam,
                                    prpl.get_blockdays_in_exam(), prpl.get_special_room(), prpl.get_date_blockdays_during_lecture(), prpl.get_num_blockdays_prior_lecture(),
                                    prpl.get_blockdays_prior_lecture(), prpl.get_num_blockdays_during_lecture(), prpl.get_blockdays_during_lecture(), prpl.get_weekly(),
-                                   prpl.get_num_spots(), prpl.get_language(), prpl.get_module_id(), prpl.get_participation_id(), prpl.get_projecttype_id(),
+                                   prpl.get_num_spots(), prpl.get_language(), prpl.get_module_id(), prpl.get_projecttype_id(),
                                    prpl.get_professor_id(), prpl.get_additional_prof())
 
             return p, 200
@@ -626,7 +624,7 @@ class ProjectListOperations(Resource):
             return '', 500
 
 
-@electionSystem.route('/projects/<int:id>')
+@electionSystem.route('/project-by-id/<int:id>')
 @electionSystem.response(500, 'when the server has problems')
 class ProjectsOperations(Resource):
     @electionSystem.marshal_with(project)
@@ -667,18 +665,34 @@ class ProjectsOperations(Resource):
             return '', 500
 
 
-@electionSystem.route('/projects/<string:name>')
+@electionSystem.route('/project-by-name/<string:name>')
 @electionSystem.response(500, 'when the server has problems')
 class ProjectNameOperations(Resource):
     @electionSystem.marshal_with(project)
     def get(self, name):
         adm = ElectionSystemAdministration()
-        all_pj = adm.get_project_by_name(name)
-        return all_pj
+        p = adm.get_project_by_name(name)
+        return p
 
-# --- project specific operations ----
 
-# --- FIND PROJECT BY PROFESSOR ID
+@electionSystem.route('/project-by-prof/<int:id>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjectProfOperation(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        p = adm.get_project_by_professorID(id)
+        return p
+
+
+@electionSystem.route('/project-by-projecttype/<int:id>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjectPtypeOperation(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        p = adm.get_project_by_projecttypeID(id)
+        return p
 
 
 if __name__ == '__main__':

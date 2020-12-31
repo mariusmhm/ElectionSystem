@@ -25,7 +25,7 @@ class ProjectMapper(Mapper):
              language, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam,
              special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture,
              num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype,
-             participation, professor, module) in tuples:
+             professor, module) in tuples:
 
             project = Project()
             project.set_id(project_id)
@@ -50,7 +50,6 @@ class ProjectMapper(Mapper):
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
             project.set_module_id(module)
-            project.set_participation_id(participation)
             project.set_professor_id(professor)
             result.append(project)
 
@@ -76,7 +75,7 @@ class ProjectMapper(Mapper):
              language, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam,
              special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture,
              num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype,
-             professor, participation, module) in tuples:
+             professor, module) in tuples:
 
             project = Project()
             project.set_id(project_id)
@@ -101,7 +100,6 @@ class ProjectMapper(Mapper):
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
             project.set_module_id(module)
-            project.set_participation_id(participation)
             project.set_professor_id(professor)
             result = project
 
@@ -120,17 +118,17 @@ class ProjectMapper(Mapper):
         cursor.execute("SELECT * FROM Project WHERE name LIKE '{}' ORDER BY name".format(name))
         tuples = cursor.fetchall()
 
-        for (project_id, project_name, date, short_description, additional_prof, room_nessecary,
+        for (id, name, creation_date, short_description, additional_prof, room_nessecary,
              language, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam,
              special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture,
              num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype,
-             professor, participation, module) in tuples:
+             professor, module) in tuples:
 
             project = Project()
-            project.set_id(project_id)
-            project.set_name(project_name)
+            project.set_id(id)
+            project.set_name(name)
             project.set_projecttype_id(projecttype)
-            project.set_date(date)
+            project.set_date(creation_date)
             project.set_short_description(short_description)
             project.set_link(link)
             project.set_additional_prof(additional_prof)
@@ -149,7 +147,6 @@ class ProjectMapper(Mapper):
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
             project.set_module_id(module)
-            project.set_participation_id(participation)
             project.set_professor_id(professor)
             result = project
 
@@ -184,14 +181,13 @@ class ProjectMapper(Mapper):
                 assume that the table is empty and that we can start with ID 1. """
                 project.set_id(1)
             
-            command = "INSERT INTO Project (participation_id, module_id, projecttype_id, professor_id, additional_professor, short_description, link, room_desired, " \
-                      "room_necessary, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room," \
+            command = "INSERT INTO Project (module_id, projecttype_id, professor_id, additional_professor, short_description, link, room_desired," \
+                      " room_necessary, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room," \
                       " date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture," \
                       " blockdays_during_lecture, weekly, num_spots, language, id, name, creation_date) " \
-                      "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                      "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
-            data = (project.get_participation_id(),
-                    project.get_module_id(),
+            data = (project.get_module_id(),
                     project.get_projecttype_id(),
                     project.get_professor_id(),
                     project.get_additional_prof(),
@@ -203,7 +199,7 @@ class ProjectMapper(Mapper):
                     project.get_num_blockdays_in_exam(),
                     project.get_blockdays_in_exam(),
                     project.get_special_room(),
-                    project.get_blockdays_during_lecture(),
+                    project.get_date_blockdays_during_lecture(),
                     project.get_num_blockdays_prior_lecture(),
                     project.get_blockdays_prior_lecture(),
                     project.get_num_blockdays_during_lecture(),
@@ -229,7 +225,7 @@ class ProjectMapper(Mapper):
         """
 
         cursor = self._connection.cursor()
-        command = "DELETE FROM Project WHERE project_id={}".format(project.get_project_id())
+        command = "DELETE FROM Project WHERE id={}".format(project.get_project_id())
         cursor.execute(command)
 
         self._connection.commit()
@@ -249,7 +245,7 @@ class ProjectMapper(Mapper):
                                        " num_blockdays_prior_lecture=%s, blockdays_prior_lecture=%s," \
                                        " num_blockdays_during_lecture=%s, blockdays_during_lecture=%s," \
                                        " weekly=%s, num_spots=%s, language=%s, necessary_room=%s,  additional_professor=%s, professor=%s," \
-                                       " participation_id=%s, room_necessary=%s, module_id=%s WHERE id=%s"
+                                       " room_necessary=%s, module_id=%s WHERE id=%s"
 
         data = (project.get_id(),
                 project.get_name(),
@@ -273,17 +269,14 @@ class ProjectMapper(Mapper):
                 project.get_additional_prof(),
                 project.get_module_id(),
                 project.get_language(),
-                project.get_professor_id(),
-                project.get_participation_id())
+                project.get_professor_id())
         cursor.execute(command, data)
 
         self._connection.commit()
         cursor.close()
 
 
-# --- find project by professorID ---
-
-    """def find_project_by_professor_id(self,project_id):
+    def find_project_by_professor_id(self,project_id):
 
         result = []
         cursor = self._connection.cursor()
@@ -291,15 +284,14 @@ class ProjectMapper(Mapper):
                   " num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture," \
                   " num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture," \
                   " blockdays_during_lecture, weekly, num_spots, language, nessecary_room, additional_professor," \
-                  " participation_id, projecttype_id, professor_id, participation_id, module_id" \
-                  "  FROM projects WHERE professor_id={}" \
+                  " projecttype_id, professor_id, module_id" \
+                  "  FROM Project WHERE professor_id={}" \
                     .format(project_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        try:
-            (project_id, project_name, date, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, participation_id, projecttype_id, professor_id ) = tuples[0]
+        for (project_id, project_name, date, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id) in tuples:
             project = Project()
             project.set_id(project_id)
             project.set_name(project_name)
@@ -318,34 +310,29 @@ class ProjectMapper(Mapper):
             project.set_blockdays_during_lecture(blockdays_during_lecture)
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
-            project.set_participation_id(participation_id)
             project.set_projecttype_id(projecttype_id)
             project.set_professor_id(professor_id)
             result = project
-
-        
 
         self._connection.commit()
         cursor.close()
         return result
 
-# --- find project by PARTICIPATION ID ---
 
     def find_project_by_projecttype_id(self,project_id):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, participation_id, projecttype_id, professor_id  FROM projects WHERE projecttype_id={}" \
+        command = "SELECT id, name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id FROM Project WHERE projecttype_id={}" \
                     .format(project_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        try:
-            (project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, participation_id, projecttype_id, professor_id ) = tuples[0]
+        for (project_id, project_name, short_description, link, room_desired, grade_average, num_blockdays_in_exam, blockdays_in_exam, special_room, date_blockdays_during_lecture, num_blockdays_prior_lecture, blockdays_prior_lecture, num_blockdays_during_lecture, blockdays_during_lecture, weekly, num_spots, projecttype_id, professor_id) in tuples:
             project = Project()
-            project.set_project_id(project_id)
-            project.set_project_name(project_name)
+            project.set_id(project_id)
+            project.set_name(project_name)
             project.set_short_description(short_description)
             project.set_link(link)
             project.set_room_desired(room_desired)
@@ -360,7 +347,6 @@ class ProjectMapper(Mapper):
             project.set_blockdays_during_lecture(blockdays_during_lecture)
             project.set_weekly(weekly)
             project.set_num_spots(num_spots)
-            project.set_participation_id(participation_id)
             project.set_projecttype_id(projecttype_id)
             project.set_professor_id(professor_id)
             result = project
@@ -370,4 +356,4 @@ class ProjectMapper(Mapper):
         self._connection.commit()
         cursor.close()
         return result
-"""
+
