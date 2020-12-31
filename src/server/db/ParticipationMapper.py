@@ -26,7 +26,7 @@ class ParticipationMapper(Mapper):
             participation.set_grading_id(grading_id)
             participation.set_student_id(student_id)
             participation.set_project_id(project_id)
-            result = participation
+            result.append(participation)
 
         self._connection.commit()
         cursor.close()
