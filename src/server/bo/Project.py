@@ -1,16 +1,22 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
+from server.Automat import Automat
+from server.State import State
 
 
 
+class Project(Automat, NamedBusinessObject):
+    """Realization of an examplary Project."""
+
+    new_state = State("new")
+    rejected_state = State("rejected")
+    g_process_state = State("grading_process")
+    g_complete_state = State("grading_completed")
+    approved_state = State("approved")
 
 
-class Project(NamedBusinessObject):
-
-    """Realization of an examplary Project. Test
-    """
-
-    def __init__(self):
-        super().__init__()
+    def __init__(self, state="new"):
+        super().__init__(Project.new_state)
+        self._state = state
 
         self._short_description = ""
         self._special_room = True
@@ -166,7 +172,7 @@ class Project(NamedBusinessObject):
     def to_dict(dicti=dict()):
 
         """"Convert  a Python dict() in a Participation()."""
-        project = Project()
+        project = Project("new")
         project.set_id(dicti["id"])
         project.set_date(dicti["creation_date"])
         project.set_name(dicti["name"])
@@ -185,4 +191,5 @@ class Project(NamedBusinessObject):
         project.set_module_id(dicti["module_id"])
         project.set_professor_id(dicti["professor_id"])
         project.set_add_professor_id(dicti["add_professor_id"])
+        project.set_state(dicti["state"])
         return project

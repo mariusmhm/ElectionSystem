@@ -335,7 +335,7 @@ class ElectionSystemAdministration (object):
 
     # --- Project SPECIFIC OPERATIONS ---
 
-    def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id):
+    def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
         #create project
         project = Project()
         project.set_name(name)
@@ -354,6 +354,7 @@ class ElectionSystemAdministration (object):
         project.set_module_id(module_id)
         project.set_professor_id(professor_id)
         project.set_add_professor_id(add_professor_id)
+        project.set_state(state)
         project.set_id(1)
         project.set_date(1)
         
@@ -420,34 +421,37 @@ class ElectionSystemAdministration (object):
 
     def finish_election(self, project_id):
         adm = ElectionSystemAdministration()
+        project_by_id = adm.get_project_by_id(project_id)
         old_pp = adm.get_by_project(project_id)
         new_pp = []
         highest_prio = 4
-        min_pp = 1
-        participation_num = 3
+        min_pp = 5
+        participation_num = project_by_id.get_num_spots()
 
         if len(old_pp) > participation_num:
             for pp in old_pp:
                 if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
                     new_pp.append(pp)
-                elif 0 < highest_prio:
+                    print("first row", pp.get_priority())
+                elif 0 < highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
                     highest_prio = highest_prio - 1
-                else:
-                    break
-            return new_pp
+                    print("sec row", pp.get_priority())
+            
         else:
             if len(old_pp) >= min_pp:
                 new_pp = old_pp
+                print("third row")
             else:
                 print("There are not enough Participations for this Project")
-            return new_pp
-
-        """ for old in old_pp:
-            adm.delete_participation(old) """
 
         for new in new_pp:
-
-            print(new.get_id())
+            old_pp.remove(new)
             adm.save_participation(new)
+            print("add row", new.get_priority())
 
-        return new_pp
+        for old in old_pp:
+            adm.delete_participation(old)
+            print("del row", old.get_priority())
+
+ElectionSystemAdministration.finish_election(1, 1)

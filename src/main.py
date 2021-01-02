@@ -88,9 +88,8 @@ project = api.inherit('Project', nbo, {
     'projecttype_id': fields.Integer(attribute='_projecttype_id ', description='The projecttype of the project'),
     'module_id': fields.Integer(attribute='_module_id ', description='The module of the project'),
     'professor_id': fields.Integer(attribute='_professor_id ', description='The professor giving the project'),
-    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed')
-    
-    
+    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed'),
+    'state': fields.String(attribute='_state', description='the current state of a project')
 })
 
 module = api.inherit('Module',nbo, {
@@ -697,7 +696,7 @@ class ProjectListOperations(Resource):
                                    prpl.get_room_desired(), prpl.get_num_blockdays_prior_lecture(), prpl.get_date_blockdays_during_lecture(), 
                                    prpl.get_num_blockdays_during_lecture(), prpl.get_num_blockdays_in_exam(), prpl.get_weekly(),
                                    prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_projecttype_id(),
-                                   prpl.get_module_id(), prpl.get_professor_id(), prpl.get_add_professor_id())
+                                   prpl.get_module_id(), prpl.get_professor_id(), prpl.get_add_professor_id(), prpl.get_state())
 
             return p, 200
         else:

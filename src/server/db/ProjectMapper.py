@@ -24,7 +24,7 @@ class ProjectMapper(Mapper):
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
              weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id) in tuples:
+             add_professor_id, state) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -45,6 +45,7 @@ class ProjectMapper(Mapper):
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
             result.append(project)
 
         self._connection.commit()
@@ -68,7 +69,7 @@ class ProjectMapper(Mapper):
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
              weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id) in tuples:
+             add_professor_id, state) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -89,6 +90,7 @@ class ProjectMapper(Mapper):
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
             result = project
 
         self._connection.commit()
@@ -109,7 +111,7 @@ class ProjectMapper(Mapper):
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
              weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id) in tuples:
+             add_professor_id, state) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -130,6 +132,7 @@ class ProjectMapper(Mapper):
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
             result.append(project)
 
         self._connection.commit()
@@ -164,8 +167,8 @@ class ProjectMapper(Mapper):
                 project.set_id(1)
             
         command =   "INSERT INTO Project (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,  \
-                    date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id) \
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state) \
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
         data = (project.get_id(),
                 project.get_date(),
@@ -184,7 +187,8 @@ class ProjectMapper(Mapper):
                 project.get_projecttype_id(),
                 project.get_module_id(),
                 project.get_professor_id(),
-                project.get_add_professor_id())
+                project.get_add_professor_id(),
+                project.get_state())
 
         cursor.execute(command, data)
         self._connection.commit()
@@ -215,7 +219,7 @@ class ProjectMapper(Mapper):
 
         command = "UPDATE Project " + "SET creation_date=%s, name=%s, short_description=%s, special_room=%s, room_desired=%s, num_blockdays_prior_lecture=%s,  \
                     date_blockdays_during_lecture=%s, num_blockdays_during_lecture=%s, num_blockdays_in_exam=%s, weekly=%s, num_spots=%s, \
-                    language=%s, external_partner=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s WHERE id=%s"
+                    language=%s, external_partner=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s, state=%s WHERE id=%s"
 
         data = (project.get_date(),
                 project.get_name(),
@@ -234,7 +238,8 @@ class ProjectMapper(Mapper):
                 project.get_module_id(),
                 project.get_professor_id(),
                 project.get_add_professor_id(),
-                project.get_id())
+                project.get_id(),
+                project.get_state())
                 
                 
         cursor.execute(command, data)
@@ -255,7 +260,7 @@ class ProjectMapper(Mapper):
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
              weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id) in tuples:
+             add_professor_id, state) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -276,6 +281,7 @@ class ProjectMapper(Mapper):
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
             result.append(project)
 
         self._connection.commit()
@@ -295,7 +301,7 @@ class ProjectMapper(Mapper):
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
              weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id) in tuples:
+             add_professor_id, state) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -316,6 +322,7 @@ class ProjectMapper(Mapper):
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
             result.append(project)
 
         
