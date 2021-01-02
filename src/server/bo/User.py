@@ -44,8 +44,7 @@ class User(NamedBusinessObject):
 
     def set_role(self, role):
         #Set the role of an User
-        self._role = Role.role[role]
-
+        self._role = role
 
     def get_role(self):
         #Get the role of an User

@@ -1,13 +1,13 @@
 from server.State import State
 
-"""Vorläufiger Test-Automat"""
 
-class Automat (State):
-    def __init__(self):
-        self.__current_state=State()
+class Automat(State):
 
-    def get_current_state(self):
-        return self.__current_state
+    def __init__(self, default_state):
+        self._current_state = default_state
 
-    def set_current_state(self,state):
-        self.__current_state=state
+    def set_state(self, new_state):
+        self._current_state = new_state
+
+    def is_in_state(self, state):
+        return state == self._current_state

@@ -56,13 +56,15 @@ export default class ElectionSystemAPI {
 
     //Student 
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
+    #getStudentForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/student-by-mail/${mail}`;
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
 
     //User
-    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/users`;
-    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
-    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
-    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/users/${id}`;
+    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/user`;
+    #getUserForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/user-by-mail/${mail}`;
+    #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
+    #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
+    #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
 
 
     static getAPI() {
@@ -479,6 +481,16 @@ export default class ElectionSystemAPI {
       })
     }
 
+    getStudentForMail(mail){
+        return this.#fetchAdvanced(this.#getStudentForMailURL(mail))
+        .then((responseJSON) => {
+        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseStudentBOs);
+        })
+      })
+    }
+
     addStudent(student){
         return this.#fetchAdvanced(this.#addStudentURL(), {
             method: 'POST',
@@ -515,6 +527,16 @@ export default class ElectionSystemAPI {
 
     getUser(userID){
         return this.#fetchAdvanced(this.#getUserURL(userID))
+        .then((responseJSON) => {
+        let responseUserBOs = UserBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseUserBOs);
+        })
+      })
+    }
+
+    getUserForMail(mail){
+      return this.#fetchAdvanced(this.#getUserForMailURL(mail))
         .then((responseJSON) => {
         let responseUserBOs = UserBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
