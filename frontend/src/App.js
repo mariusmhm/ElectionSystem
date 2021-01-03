@@ -18,6 +18,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
 import Semester from './components/dialogs/Semester'
+import HomeScreen from './components/layout/HomeScreen'
 
 
 class App extends Component {
@@ -127,7 +128,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={ProjectContent} />
+        				<Route exact path="/project-content" component={HomeScreen} />
     				</Switch>
                 </Router>
 			</ThemeProvider>

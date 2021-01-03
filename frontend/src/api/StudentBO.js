@@ -28,7 +28,7 @@ export default class StudentBO extends UserBO {
         return this.study;
     }
 
-    // Returns an Array of Students from a given JSON
+    // Returns an Array of StudentBO from a given JSON
     static fromJSON(students) {
         let res = [];
 
