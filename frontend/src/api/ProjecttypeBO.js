@@ -33,7 +33,7 @@ export default class ProjecttypeBO extends NamedBusinessObject {
     return this.ect;
   }
   
-  // Returns an Array of Students from a given JSON
+  // Returns an Array of ProjecttypeBO from a given JSON
   
     static fromJSON(projecttypes) {
         let res = [];
