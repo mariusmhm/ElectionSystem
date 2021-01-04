@@ -37,6 +37,10 @@ nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
+aut = api.model('Automat', {
+    'state': fields.String(attribute='_current_state', description='states of the automat')
+})
+
 user = api.inherit('User', nbo, {
     'google_user_id': fields.String(attribute='_google_user_id', description='Users Google id from firebase'),
     'firstname': fields.String(attribute='_firstname', description='Users First Name'),
@@ -73,7 +77,7 @@ projecttype = api.inherit('Projecttype', nbo, {
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
-project = api.inherit('Project', nbo, {
+project = api.inherit('Project', nbo, aut, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
     'special_room': fields.Boolean(attribute='_special_room ', description='If there is a special room needed'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
@@ -88,12 +92,11 @@ project = api.inherit('Project', nbo, {
     'projecttype_id': fields.Integer(attribute='_projecttype_id ', description='The projecttype of the project'),
     'module_id': fields.Integer(attribute='_module_id ', description='The module of the project'),
     'professor_id': fields.Integer(attribute='_professor_id ', description='The professor giving the project'),
-    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed'),
-    'state': fields.String(attribute='_state', description='the current state of a project')
+    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed')
 })
 
-module = api.inherit('Module',nbo, {
-    'edv_number': fields.String(attribute='_edv_number', description='Anzahl der ECTS für ein Modul'),
+module = api.inherit('Module', nbo, {
+    'edv_number': fields.String(attribute='_edv_number', description='Edv number for a module'),
 })
 
 
@@ -606,7 +609,6 @@ class ModuleListOperations(Resource):
 
 @electionSystem.route('/module/<int:id>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@electionSystem.param('module_id', 'Die ID des Module-Objekts')
 class ModuleOperations(Resource):
     @electionSystem.marshal_with(module)
     def get(self, id):
@@ -642,7 +644,7 @@ class ModuleOperations(Resource):
 @electionSystem.route('/module/<string:name>')
 @electionSystem.response(500, 'when the server has problems')
 class ModuleNameOperations(Resource):
-    @electionSystem.marshal_with(projecttype)
+    @electionSystem.marshal_with(module)
     def get(self, name):
         """Reads out the a specific Module-Object by name
                 The realization of reading out the object is by ```name`` in the URI.
@@ -654,7 +656,7 @@ class ModuleNameOperations(Resource):
 @electionSystem.route('/module/<string:edv_number>')
 @electionSystem.response(500, 'when the server has problems')
 class ModuleEdvOperations(Resource):
-    @electionSystem.marshal_with(projecttype)
+    @electionSystem.marshal_with(module)
     def get(self, edv_number):
         """Reads out the a specific Module-Object by edv number
         The realization of reading out the object is by ```edv``` in the URI.
@@ -697,13 +699,12 @@ class ProjectListOperations(Resource):
                                    prpl.get_num_blockdays_during_lecture(), prpl.get_num_blockdays_in_exam(), prpl.get_weekly(),
                                    prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_projecttype_id(),
                                    prpl.get_module_id(), prpl.get_professor_id(), prpl.get_add_professor_id(), prpl.get_state())
-
             return p, 200
         else:
             return '', 500
 
 
-@electionSystem.route('/project-by-id/<int:id>')
+@electionSystem.route('/project/<int:id>')
 @electionSystem.response(500, 'when the server has problems')
 class ProjectsOperations(Resource):
     @electionSystem.marshal_with(project)

@@ -14,11 +14,14 @@ export default class ElectionSystemAPI {
     #electionSystemServerBaseURL ='http://localhost:5000/electionsystem'
 
     //Project
-    #getAllProjectsURL = () => `${this.#electionSystemServerBaseURL}/projects`;
-    #addProjectURL = () => `${this.#electionSystemServerBaseURL}/projects`;
-    #getProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
+    #getAllProjectsURL = () => `${this.#electionSystemServerBaseURL}/project`;
+    #getProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
+    #getProjectForProjectNameURL = (name) => `${this.#electionSystemServerBaseURL}/project-by-name/${name}`;
+    #getProjectForProfessorURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-prof/${id}`;
+    #getProjectForProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-projecttype/${id}`;
+    #addProjectURL = () => `${this.#electionSystemServerBaseURL}/project`;
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
-    #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
+    #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     
     //Project type
     #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
@@ -97,7 +100,35 @@ export default class ElectionSystemAPI {
             })
         })
     }
-    
+
+    getProjectForProjectName(pname){
+      return this.#fetchAdvanced(this.#getProjectForProjectNameURL(pname)).then((responseJSON) => {
+        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(projecttypeBOs);
+      })
+    })
+    }
+
+    getProjectForProfessor(profid){
+      return this.#fetchAdvanced(this.#getProjectForProfessorURL(profid)).then((responseJSON) => {
+        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(projecttypeBOs);
+      })
+    })
+    } 
+
+    getProjectForProjecttype(projecttypeid){
+      return this.#fetchAdvanced(this.#getProjectForProjecttypeURL(projecttypeid)).then((responseJSON) => {
+        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(projecttypeBOs);
+      })
+    })
+    }
+
+
     /** 
     *@param {ProjectBO} projectBO
     *@public

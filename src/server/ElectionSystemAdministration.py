@@ -370,6 +370,7 @@ class ElectionSystemAdministration (object):
 
     def update_project(self, project):
         """Save the project."""
+
         with ProjectMapper() as mapper:
             mapper.update(project)
 

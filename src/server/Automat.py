@@ -1,13 +1,10 @@
-from server.State import State
+class Automat():
 
+    def __init__(self):
+        self._state = ""
 
-class Automat(State):
+    def get_state(self):
+        return self._state
 
-    def __init__(self, default_state):
-        self._current_state = default_state
-
-    def set_state(self, new_state):
-        self._current_state = new_state
-
-    def is_in_state(self, state):
-        return state == self._current_state
+    def set_state(self, txt):
+        self._state = txt

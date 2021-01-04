@@ -60,7 +60,7 @@ class ProjectMapper(Mapper):
 
         result = None
         cursor = self._connection.cursor()
-        command = ("SELECT * FROM Project WHERE id={}".format(id))
+        command = "SELECT * FROM Project WHERE id={}".format(id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -95,7 +95,6 @@ class ProjectMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
-
         return result
 
 
@@ -189,7 +188,7 @@ class ProjectMapper(Mapper):
                 project.get_professor_id(),
                 project.get_add_professor_id(),
                 project.get_state())
-
+        
         cursor.execute(command, data)
         self._connection.commit()
         cursor.close()
@@ -217,12 +216,11 @@ class ProjectMapper(Mapper):
         """
         cursor = self._connection.cursor()
 
-        command = "UPDATE Project " + "SET creation_date=%s, name=%s, short_description=%s, special_room=%s, room_desired=%s, num_blockdays_prior_lecture=%s,  \
+        command = "UPDATE Project " + "SET name=%s, short_description=%s, special_room=%s, room_desired=%s, num_blockdays_prior_lecture=%s,  \
                     date_blockdays_during_lecture=%s, num_blockdays_during_lecture=%s, num_blockdays_in_exam=%s, weekly=%s, num_spots=%s, \
                     language=%s, external_partner=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s, state=%s WHERE id=%s"
 
-        data = (project.get_date(),
-                project.get_name(),
+        data = (project.get_name(),
                 project.get_short_description(),
                 project.get_special_room(),
                 project.get_room_desired(),
@@ -238,8 +236,8 @@ class ProjectMapper(Mapper):
                 project.get_module_id(),
                 project.get_professor_id(),
                 project.get_add_professor_id(),
-                project.get_id(),
-                project.get_state())
+                project.get_state(),
+                project.get_id())
                 
                 
         cursor.execute(command, data)
