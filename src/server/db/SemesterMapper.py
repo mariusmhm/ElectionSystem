@@ -110,7 +110,7 @@ class SemesterMapper(Mapper):
         : param semester the object that is to be written to the DB"""
         cursor = self._connection.cursor()
         cmd = "UPDATE Semester" + " SET winter_semester=%s, submit_projects_end_date=%s, grading_end_date=%s, election_end_date=%s, submit_projects_beginn_date=%s, grading_beginn_date=%s, election_beginn_date=%s WHERE id=%s"
-        data = (semester.get_wintersemester(), semester.get_submit_projects_end_date(), semester.get_grading_end_date(), semester.get_submit_projects_beginn_date(), semester.get_grading_beginn_date(), semester.get_id())
+        data = (semester.get_wintersemester(), semester.get_submit_projects_end_date(), semester.get_grading_end_date(), semester.get_election_end_date(), semester.get_submit_projects_beginn_date(), semester.get_grading_beginn_date(), semester.get_election_beginn_date(), semester.get_id())
         cursor.execute(cmd, data)
 
         self._connection.commit()
