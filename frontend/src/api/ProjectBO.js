@@ -191,15 +191,16 @@ export default class ProjectBO extends NamedBusinessObject {
     static fromJSON(project) {
         let res = [];
 
-        if (Array.isArray(projects)) {
-            projects.forEach((s) => {
+        if (Array.isArray(project)) {
+            project.forEach((s) => {
                 Object.setPrototypeOf(s, ProjectBO.prototype);
                 res.push(s);
             })
         }
         // it's a single object and not an array
         else {
-            let s = projects;
+            let s = project
+            ;
             Object.setPrototypeOf(s, ProjectBO.prototype);
             res.push(s);
         }

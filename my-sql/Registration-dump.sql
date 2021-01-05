@@ -21,6 +21,7 @@ CREATE TABLE `Module` (
 	`edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
     PRIMARY KEY(`id`)
 );
+INSERT INTO `Module` VALUES (2, '2021-08-02', "Schlüsselkompetenz", "1234");
 
 DROP TABLE IF EXISTS Grading;
 CREATE TABLE Grading(
