@@ -1,4 +1,3 @@
-//import { makeStyles} from '@material-ui/core/styles';
 import React, {Component} from 'react';
 import {Dialog,
     TextField,
@@ -16,8 +15,11 @@ import {Dialog,
     InputLabel,
     Select
     } from'@material-ui/core';
+import {withStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ElectionSystemAPI from '../../api/ElectionSystemAPI';
+import ProjecttypeBO from '../../api/ProjecttypeBO';
 
 let open = true;
 
@@ -27,15 +29,36 @@ class EditProjecttype extends Component {
         super(props)
         this.state= {
         projecttypeName:'',
-        module:'',
-        ects:'',
+        modules:[],
+        ect:'',
         sws:'',
+        updatingError: null,
+        deletingError: null,
+        error: null,
 
-        }
+        };
+        this.baseState = this.state;
+    }
+
+    getAllModules = () => {
+        ElectionSystemAPI.getAPI().getAllModules()
+        .then(moduleBOs =>
+            this.setState({
+                modules: moduleBOs,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    modules:[],
+                    error: e
+                }))
+    }
+
+     componentDidMount(){
+        this.getAllModules();
     }
 
 
-    handleSubmit =(event) =>{
+   handleSubmit =(event) =>{
         event.preventDefault()
         alert(` "The Projecttype" ${this.state.projectypeName} "with the module" ${this.state.module} "is added".`)
 
@@ -62,24 +85,77 @@ class EditProjecttype extends Component {
         })
     }
 
-     handleInputModuleChange=(event)=>{
+     /*handleInputModuleChange=(event)=>{
         event.preventDefault()
         this.setState({
             module: event.target.value
         })
+    } weiss nicht ob man das braucht*/
+
+
+    selectHandleChangeModule = (e) =>{
+        this.modules = this.state.modules[e.target.value].getName();
+        this.setState({
+            modules: this.state.modules[e.target.value]
+        },
+        function(){
+            console.log(this.modules);
+            console.log(this.state.moSelected);
+
+        });
+        /*this.showETCS = true;*/
+    }
+
+
+    deleteProjecttypeHandler = (projecttype) => {
+        console.log(projecttype);
+        ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype => {
+          console.log(projecttype);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
+
+        this.setState({
+          projecttype: this.state.proejcttype.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
+        })
+    }
+
+    clearFormButtonClicked = () => {
+    // Reset the Form
+        this.setState({
+          projecttypeName: [...this.state.projecttypeName],
+          projecttypeName: '',
+          ect: [...this.state.ect],
+          ect: '',
+          sws: [...this.state.sws],
+          sws: '',
+          modules: [...this.state.modules],
+          modules: '',
+    });
+  }
+
+   addProjecttype = () =>{
+        let newProjecttype = new ProjecttypeBO(this.state.projecttype);
+        ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttype => {
+            this.setState(this.baseState);
+
+        }).catch(e =>
+            this.setState({
+                updatingError: e
+            }))
     }
 
 
 
-
-
-
-
  render(){
+    const { projecttype, error } = this.state;
+    const { classes } = this.props;
 
   return (
 
-      <Dialog open={open} fullWidth maxWidth='md'>>
+      <Dialog open={open} fullWidth maxWidth='md'>
             <Typography
                 variant="h4"
                 align="center">
@@ -110,7 +186,7 @@ class EditProjecttype extends Component {
                                    <TableCell> {this.state.module}</TableCell>
                                    <TableCell> {this.state.sws}</TableCell>
                                     <TableCell> {this.state.ect}</TableCell>
-                                   <TableCell><IconButton aria-label="delete"><DeleteIcon />
+                                   <TableCell><IconButton aria-label="delete" onClick={() => this.deleteprojecttypeHandler(projecttype)}><DeleteIcon />
                                     </IconButton>
                                    </TableCell>
                            </TableRow>
@@ -139,7 +215,7 @@ class EditProjecttype extends Component {
                         variant ="outlined"
                         label="ECTS"
                         value={this.state.ect}
-                        onChange={this.handleInputECTSChange}/>
+                        onChange={this.handleInputECTSChange} on={this.textFieldValueChange}/>
                     </Grid>
                     <Grid item xs={3}>
                         <TextField fullWidth variant="outlined" label="SWS" value={this.state.sws}
@@ -149,10 +225,10 @@ class EditProjecttype extends Component {
                     <Grid item xs={6} justify='center'>
                         <FormControl fullWidth variant="outlined" onSubmit={this.handleSubmit}>
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" value={this.state.module} onChange={this.handleInputModuleChange}>
-                                <MenuItem value="1">MODULE 1</MenuItem>
-                                <MenuItem value="2">MODULE 2</MenuItem>
-                                <MenuItem value="3">MODULE 3</MenuItem>
+                            <Select label="Module" value={this.state.module} onChange={this.selectHandleChangeModule}>
+                                    {this.state.modules.map((modules, index) => (
+                                        <MenuItem key={index} value={index}>{modules.getName()}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -160,7 +236,7 @@ class EditProjecttype extends Component {
                         <Button
                         variant="outlined"
                         type="submit"
-                        color="secondary">
+                        color="secondary" onClick={this.clearFormButtonClicked}>
                             Add
                         </Button>
                     </Grid>
@@ -177,7 +253,7 @@ class EditProjecttype extends Component {
                     <Grid item>
                         <Button
                         type="submit"
-                        variant="outlined">
+                        variant="outlined" onClick={this.addProjecttype} >
                             Submit
                         </Button>
                     </Grid>
@@ -188,4 +264,14 @@ class EditProjecttype extends Component {
   );
 }
 }
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: '20px'
+    },
+    dialogHeader:{
+        textAlign: "center"
+    }
+});
 export default EditProjecttype;

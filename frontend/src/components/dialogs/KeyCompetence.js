@@ -10,6 +10,8 @@ import {Dialog,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
+import ElectionSystemAPI from '../../api/ElectionSystemAPI';
+//import ProjecttypeBO from '../../api/ProjecttypeBO';
 
 let open = true;
 
@@ -17,8 +19,8 @@ class KeyCompetence extends Component {
  constructor(props) {
       super(props);
 
-      const pt='';
-      const showETCS = false;
+      /*const pt='';
+      const showETCS = false;*/
 
       this.state = {
         modules: [],
@@ -28,18 +30,103 @@ class KeyCompetence extends Component {
         additionalProfessor: [],
         shortDescription: '',
         language: '',
+        ptSelected: {},
+        moSelected:{},
         error: null
       }
       this.baseState = this.state;
     }
 
 
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+        .then(projecttypesBOs =>
+            this.setState({
+                projecttypes: projecttypesBOs,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    projecttypes:[],
+                    error: e
+                }))
+    }
+
+        getAllModules = () => {
+        ElectionSystemAPI.getAPI().getAllModules()
+        .then(moduleBOs =>
+            this.setState({
+                modules: moduleBOs,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    modules:[],
+                    error: e
+                }))
+    }
+
+
+     componentDidMount(){
+        this.getAllProjecttypes();
+        this.getAllModules();
+    }
+
+
+/* add Key Competence*/
+    addKeyCompetence = () => {
+        let newKeyCompetence = new ModuleBO(this.state.modules);
+        ElectionSystemAPI.getAPI().addModule(newModule).then(module => {
+            this.setState(this.baseState);
+
+        }).catch(e =>
+            this.setState({
+                updatingError: e
+            }))
+    }
+
+
+     selectHandleChangeProjecttype = (e) =>{
+        this.pt = this.state.projecttypes[e.target.value].getEcts();
+        this.setState({
+            ptSelected: this.state.projecttypes[e.target.value]
+        },
+        function(){
+            console.log(this.pt);
+            console.log(this.state.ptSelected);
+
+        });
+        this.showETCS = true;
+    }
+
+     selectHandleChangeModule = (e) =>{
+        this.modules = this.state.modules[e.target.value].getName();
+        this.setState({
+            modules: this.state.modules[e.target.value]
+        },
+        function(){
+            console.log(this.modules);
+            console.log(this.state.moSelected);
+
+        });
+        /*this.showETCS = true;*/
+    }
+
+
+    handleClose = () => {
+        this.setState({
+          open: false
+        });
+    }
+
+
+
+
+
 
 
  render(){
     const { classes } = this.props;
-    /* const { modules, edvNumber, projecttypes, numSpots, additionalProfessor, shortDescription, language} = this.state; */
-
+    /*const { modules, edvNumber, projecttypes, numSpots, additionalProfessor, shortDescription, language,
+            moSelected, ptSelected} = this.state;*/
     return(
 
         <Dialog open={open} fullWidth maxWidth='md'>
@@ -50,11 +137,10 @@ class KeyCompetence extends Component {
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" /* value={modules} */>
-                                <MenuItem>none</MenuItem>
-                                <MenuItem>Technology</MenuItem>
-                                <MenuItem>Media/Cultur</MenuItem>
-                                <MenuItem>Management</MenuItem>
+                            <Select label="Module" onChange={this.selectHandleChangeModule}>
+                                    {this.state.modules.map((modules, index) => (
+                                        <MenuItem key={index} value={index}>{modules.getName()}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -62,11 +148,12 @@ class KeyCompetence extends Component {
                         <TextField fullWidth variant="outlined" label="EDV-number:" /* value={edvNumber} *//>
                     </Grid>
                     <Grid item>
-                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                           <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
-                                <Select label="Projecttype" /* value={projecttypes} */>
-                                    <MenuItem>Subject-specific Project </MenuItem>
-                                    <MenuItem>Transdisciplinary Project</MenuItem>
+                                <Select label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
+                                    {this.state.projecttypes.map((ptype, index) => (
+                                        <MenuItem key={index} value={index}>{ptype.getName()}</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                     </Grid>
@@ -119,7 +206,7 @@ class KeyCompetence extends Component {
                 </Grid>
                 <Grid item xs={12} align="center">
                 <Grid item>
-                    <Button variant="contained" color="primary">Submit</Button>
+                    <Button variant="contained" color="primary" onClick={this.addKeyCompetence}>Submit</Button>
                 </Grid>
                 </Grid>
                 </Grid>

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
-import EditProjecttype from'./components/layout/pages/AfterSemesterBegin/EditProjecttype';
+//import CreateProject from'./components/dialogs/CreateProject';
+//import GradingEditingDialog from'./components/dialogs/GradingEditingDialog';
+//import ModuleForm from'./components/dialogs/ModuleForm';
+//import EntryListAdmin from './components/layout/pages/EntryListAdmin';
+//import HomeAfterBegin from './components/layout/pages/AfterSemesterBegin/HomeAfterBegin';
+import EditProjecttype from'./components/dialogs/EditProjecttype';
 
 class App extends Component {
 
@@ -11,7 +16,7 @@ class App extends Component {
         return (
 
             <div>
-                <EditProjecttype />
+                <EditProjecttype/>
 		    </div>
 		);
 	}
