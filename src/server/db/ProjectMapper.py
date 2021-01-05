@@ -48,6 +48,7 @@ class ProjectMapper(Mapper):
             project.set_state(state)
             result.append(project)
 
+
         self._connection.commit()
         cursor.close()
 
@@ -329,3 +330,43 @@ class ProjectMapper(Mapper):
         cursor.close()
         return result
 
+    def find_project_by_state(self, state):
+        """Read out all projects based on their state.
+        :return A collection of projects objects that all represent all projects by state."""
+       
+        result = []
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT * FROM Project WHERE state LIKE '{}' ORDER BY state".format(state))
+        tuples = cursor.fetchall()
+
+        for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
+             date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
+             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
+             add_professor_id, state) in tuples:
+
+            project = Project()
+            project.set_id(id)
+            project.set_date(creation_date)
+            project.set_name(name)
+            project.set_short_description(short_description)
+            project.set_special_room(special_room)
+            project.set_room_desired(room_desired)
+            project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+            project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
+            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
+            project.set_weekly(weekly)
+            project.set_num_spots(num_spots)
+            project.set_language(language)
+            project.set_external_partner(external_partner)
+            project.set_projecttype_id(projecttype_id)
+            project.set_module_id(module_id)
+            project.set_professor_id(professor_id)
+            project.set_add_professor_id(add_professor_id)
+            project.set_state(state)
+            result.append(project)
+
+        self._connection.commit()
+        cursor.close()
+
+        return result

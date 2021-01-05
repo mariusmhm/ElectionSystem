@@ -64,9 +64,10 @@ class ElectionSystemAdministration (object):
             return mapper.delete(student)
 
 
-    def create_student(self, name, google_user_id, firstname, mail, role, matrikel_nr, study):
+    def create_student(self, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study):
         student = Student()
         student.set_name(name)
+        student.set_date(creation_date)
         student.set_google_user_id(google_user_id)
         student.set_firstname(firstname)
         student.set_mail(mail)
@@ -74,7 +75,6 @@ class ElectionSystemAdministration (object):
         student.set_matrikel_nr(matrikel_nr)
         student.set_study(study)
         student.set_id(1)
-        student.set_date(1)
 
         with StudentMapper() as mapper:
             return mapper.insert(student)
@@ -129,15 +129,15 @@ class ElectionSystemAdministration (object):
             return mapper.delete(user)
 
 
-    def create_user(self, name, google_user_id, firstname, mail, role):
+    def create_user(self, name, creation_date, google_user_id, firstname, mail, role):
         user = User()
         user.set_name(name)
+        user.set_date(creation_date)
         user.set_google_user_id(google_user_id)
         user.set_firstname(firstname)
         user.set_mail(mail)
         user.set_role(role)
         user.set_id(1)
-        user.set_date(1)
 
         with UserMapper() as mapper:
             return mapper.insert(user)
@@ -146,15 +146,17 @@ class ElectionSystemAdministration (object):
         #---SEMESTER SPECIFIC OPERATIONS-----
 
 
-    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date, grading_beginn_date):
+    def create_semester(self, creation_date, winter_semester, grading_end_date, submit_projects_end_date, election_end_date, submit_projects_beginn_date, grading_beginn_date, election_beginn_date):
         """Create a new semester:"""
         semester = Semester()
+        semester.set_date(creation_date)
         semester.set_wintersemester(winter_semester)
         semester.set_grading_end_date(grading_end_date)
         semester.set_submit_projects_end_date(submit_projects_end_date)
+        semester.set_election_end_date(election_end_date)
         semester.set_submit_projects_beginn_date(submit_projects_beginn_date)
         semester.set_grading_beginn_date(grading_beginn_date)
-        semester.set_date(1)
+        semester.set_election_beginn_date(election_beginn_date)
         semester.set_id(1)
 
 
@@ -183,15 +185,15 @@ class ElectionSystemAdministration (object):
 
     #-----Participation--------
 
-    def create_participation(self, priority, grading_id, student_id, project_id):
+    def create_participation(self, creation_date, priority, grading_id, student_id, project_id):
         #create participation
         pp = Participation()
+        pp.set_date(creation_date)
         pp.set_priority(priority)
         pp.set_grading_id(grading_id)
         pp.set_student_id(student_id)
         pp.set_project_id(project_id)
         pp.set_id(1)
-        pp.set_date(1)
 
         with ParticipationMapper() as mapper:
             return mapper.insert(pp)
@@ -231,7 +233,7 @@ class ElectionSystemAdministration (object):
 
     #-----Grading-------
 
-    def create_grading(self, grade):
+    def create_grading(self, creation_date, grade):
 
         allgrades = self.get_all_grades()
 
@@ -245,9 +247,9 @@ class ElectionSystemAdministration (object):
             return None
         else:
             g = Grading()
+            g.set_date(creation_date)
             g.set_grade(grade)
             g.set_id(1)
-            g.set_date(1)
 
             with GradingMapper() as mapper:
                 return mapper.insert(g)
@@ -300,12 +302,12 @@ class ElectionSystemAdministration (object):
         with ProjecttypeMapper() as mapper:
             return mapper.delete(pt)
 
-    def create_projecttype(self,name, sws, ect):
+    def create_projecttype(self, name, creation_date, sws, ect):
         projecttype = Projecttype()
         projecttype.set_name(name)
+        projecttype.set_id(creation_date)
         projecttype.set_ect(ect)
         projecttype.set_sws(sws)
-        projecttype.set_id(1)
         projecttype.set_date(1)
 
         with ProjecttypeMapper() as mapper:
@@ -333,11 +335,16 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_projecttype_id(number)
 
+    def get_project_by_state(self, state):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_state(state)
+
     # --- Project SPECIFIC OPERATIONS ---
 
-    def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
+    def create_project(self, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
         #create project
         project = Project()
+        project.set_date(creation_date)
         project.set_name(name)
         project.set_short_description(short_description)
         project.set_special_room(special_room)
@@ -356,8 +363,8 @@ class ElectionSystemAdministration (object):
         project.set_add_professor_id(add_professor_id)
         project.set_state(state)
         project.set_id(1)
-        project.set_date(1)
         
+        print(date_blockdays_during_lecture)
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
@@ -376,12 +383,12 @@ class ElectionSystemAdministration (object):
 
     #------Module specific operations----
 
-    def create_module(self, edv_number, name):
+    def create_module(self, creation_date, edv_number, name):
         """Create a new Module:"""
         module = Module()
+        module.set_date(creation_date)
         module.set_edv_number(edv_number)
         module.set_name(name)
-        module.set_date(1)
         module.set_id(1)
 
         with ModuleMapper() as mapper:
@@ -439,12 +446,11 @@ class ElectionSystemAdministration (object):
                     highest_prio = highest_prio - 1
                     print("sec row", pp.get_priority())
             
+        elif len(old_pp) >= min_pp:
+            new_pp = old_pp
+            print("third row")
         else:
-            if len(old_pp) >= min_pp:
-                new_pp = old_pp
-                print("third row")
-            else:
-                print("There are not enough Participations for this Project")
+            print("There are not enough Participations for this Project")
 
         for new in new_pp:
             old_pp.remove(new)
@@ -454,5 +460,3 @@ class ElectionSystemAdministration (object):
         for old in old_pp:
             adm.delete_participation(old)
             print("del row", old.get_priority())
-
-ElectionSystemAdministration.finish_election(1, 1)

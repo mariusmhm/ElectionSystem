@@ -38,7 +38,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 })
 
 aut = api.model('Automat', {
-    'state': fields.String(attribute='_current_state', description='states of the automat')
+    'state': fields.String(attribute='_state', description='states of the automat')
 })
 
 user = api.inherit('User', nbo, {
@@ -57,8 +57,10 @@ semester = api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
+    'election_end_date':fields.Date(attribute='_election_end_date', description='End date of election'),
     'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
-    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading')
+    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading'),
+    'election_beginn_date':fields.Date(attribute='_election_end_date', description='Start date of election')
 })
 
 grading = api.inherit('Grading', bo, {
@@ -79,20 +81,20 @@ projecttype = api.inherit('Projecttype', nbo, {
 
 project = api.inherit('Project', nbo, aut, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
-    'special_room': fields.Boolean(attribute='_special_room ', description='If there is a special room needed'),
+    'special_room': fields.Boolean(attribute='_special_room', description='If there is a special room needed'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
-    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture ', description='The number of the blockdays prior lecture'),
-    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture ', description='The dates of the blockdays during lecture'),
-    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture ', description='The number of blockdays needed during lecture'),
+    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='The number of the blockdays prior lecture'),
+    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
+    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='The number of blockdays needed during lecture'),
     'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='The number of blockdays needed during exams'),
-    'weekly': fields.Boolean(attribute='_weekly ', description='if weekly lectures are needed'),
-    'num_spots': fields.Integer(attribute='_num_spots ', description='If weekly lectures are needed'),
-    'language': fields.String(attribute='_language ', description='The language the project will be given'),
-    'external_partner' : fields.String(attribute='_external_partner ', description='External partner'),
-    'projecttype_id': fields.Integer(attribute='_projecttype_id ', description='The projecttype of the project'),
-    'module_id': fields.Integer(attribute='_module_id ', description='The module of the project'),
-    'professor_id': fields.Integer(attribute='_professor_id ', description='The professor giving the project'),
-    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed')
+    'weekly': fields.Boolean(attribute='_weekly', description='if weekly lectures are needed'),
+    'num_spots': fields.Integer(attribute='_num_spots', description='If weekly lectures are needed'),
+    'language': fields.String(attribute='_language', description='The language the project will be given'),
+    'external_partner' : fields.String(attribute='_external_partner', description='External partner'),
+    'projecttype_id': fields.Integer(attribute='_projecttype_id', description='The projecttype of the project'),
+    'module_id': fields.Integer(attribute='_module_id', description='The module of the project'),
+    'professor_id': fields.Integer(attribute='_professor_id', description='The professor giving the project'),
+    'add_professor_id': fields.Integer(attribute='_add_professor_id', description='If there is a additional professor is needed')
 })
 
 module = api.inherit('Module', nbo, {
@@ -100,7 +102,7 @@ module = api.inherit('Module', nbo, {
 })
 
 
-# --- STUDENT SPECIFIC OPERATIONS ---
+#------Student---------
 
 @electionSystem.route('/student')
 @electionSystem.response(500, 'when server has problems')
@@ -118,7 +120,7 @@ class StudentListOperations(Resource):
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_student(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
+            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
 
             return s, 200
         else:
@@ -134,7 +136,6 @@ class StudentOperations(Resource):
         single_student = adm.get_student_by_id(id)
         return single_student
 
-    # irrelevant for user and student as a prototype?
     @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
     def put(self, id):
@@ -195,6 +196,7 @@ class StudentsStudyOperations(Resource):
         students = adm.get_student_by_study(study)
         return students
 
+
 @electionSystem.route('/students-by-participations/<int:project_id>')
 @electionSystem.response(500,'when the server has problems')
 class StudentParticipationOperations(Resource):
@@ -204,7 +206,8 @@ class StudentParticipationOperations(Resource):
         students = adm.get_all_students_of_participation(project_id)
         return students
 
-# --- USER SPECIFIC OPERATIONS ---
+
+#------User---------
 
 @electionSystem.route('/user')
 @electionSystem.response(500, 'when server has problems')
@@ -222,7 +225,7 @@ class UserListOperations(Resource):
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
-            u = adm.create_user(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
+            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
 
             return u, 200
         else:
@@ -238,7 +241,6 @@ class UserOperations(Resource):
         single_user = adm.get_user_by_id(id)
         return single_user
 
-    # irrelevant for user and student as a prototype?
     @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
     def put(self, id):
@@ -289,8 +291,7 @@ class UserRoleOperations(Resource):
         return users
 
 
-#---Semester specific functions---
-
+#------Semester---------
 
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'If there is a server-side error.')
@@ -305,7 +306,7 @@ class SemesterListOperations(Resource):
     @electionSystem.marshal_with(semester, code=200)
     @electionSystem.expect(semester)  # We expect a semester object from the client side.
     def post(self):
-        """Create a new customer object."""
+        """Create a new semester object."""
         """It is up to the election administration (business logic) to have a correct ID
             to forgive. The corrected object will eventually be returned. """
         adm = ElectionSystemAdministration()
@@ -313,7 +314,8 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date())
+            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
+             proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date(), proposal.get_election_beginn_date())
             return s, 200
 
         else:
@@ -356,6 +358,7 @@ class SemesterOperations(Resource):
         else:
             return '', 500
 
+
 #------Participation---------
 
 @electionSystem.route('/participation')
@@ -369,7 +372,7 @@ class ParticipationsListOperations(Resource):
         proposal = Participation.from_dict(api.payload)
 
         if proposal is not None:
-            p = adm.create_participation(proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
+            p = adm.create_participation(proposal.get_date(), proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
             return p, 200
         else:
             #server error
@@ -440,6 +443,7 @@ class ParticipationsPriorityProjectListOperations(Resource):
         pp = adm.get_by_project(project_id)
         return pp
 
+
 #------Grading---------
 
 @electionSystem.route('/grading')
@@ -459,7 +463,7 @@ class GradingListOperations(Resource):
         proposal = Grading.from_dict(api.payload)
 
         if proposal is not None:
-            g = adm.create_grading(proposal.get_grade())
+            g = adm.create_grading(proposal.get_date(), proposal.get_grade())
             return g, 200
         else:
             #server error
@@ -492,7 +496,9 @@ class GradingOperations(Resource):
         g = adm.get_by_grading_id(id)
         adm.delete_grading(g)
         return '', 200
-# ----------------------------Projecttype specific operations---------------------------
+
+
+#------Projecttype---------
 
 @electionSystem.route('/projecttype')
 @electionSystem.response(500, 'when the server has an error')
@@ -519,7 +525,7 @@ class ProjecttypeListOperations(Resource):
         prpl = Projecttype.to_dict(api.payload)
 
         if prpl is not None:
-            p = adm.create_projecttype(prpl.get_name(), prpl.get_ect(), prpl.get_sws())
+            p = adm.create_projecttype(prpl.get_name(), prpl.get_date(), prpl.get_ect(), prpl.get_sws())
 
             return p, 200
         else:
@@ -576,8 +582,7 @@ class ProjecttypeNameOperations(Resource):
         return all_pt
 
 
-#---Module specific operations---
-
+#------Module---------
 
 @electionSystem.route('/module')
 @electionSystem.response(500, 'If there is a server-side error.')
@@ -599,7 +604,7 @@ class ModuleListOperations(Resource):
 
         proposal = Module.to_dict(api.payload)
         if proposal is not None:
-            m = adm.create_module(proposal.get_edv_number(), proposal.get_name())
+            m = adm.create_module(proposal.get_date(), proposal.get_edv_number(), proposal.get_name())
             return m, 200
 
         else:
@@ -665,9 +670,8 @@ class ModuleEdvOperations(Resource):
         edv_module = adm.get_projecttype_by_id(edv_number)
         return edv_module
 
-#----Module end---
 
-#--- project |START| ---
+#------Project---------
 
 @electionSystem.route('/project')
 @electionSystem.response(500, 'when the server has an error')
@@ -694,7 +698,7 @@ class ProjectListOperations(Resource):
         prpl = Project.to_dict(api.payload)
 
         if prpl is not None:
-            p = adm.create_project(prpl.get_name(), prpl.get_short_description(), prpl.get_special_room(),
+            p = adm.create_project(prpl.get_date(), prpl.get_name(), prpl.get_short_description(), prpl.get_special_room(),
                                    prpl.get_room_desired(), prpl.get_num_blockdays_prior_lecture(), prpl.get_date_blockdays_during_lecture(), 
                                    prpl.get_num_blockdays_during_lecture(), prpl.get_num_blockdays_in_exam(), prpl.get_weekly(),
                                    prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_projecttype_id(),
@@ -772,6 +776,16 @@ class ProjectPtypeOperation(Resource):
     def get(self, id):
         adm = ElectionSystemAdministration()
         p = adm.get_project_by_projecttypeID(id)
+        return p
+
+
+@electionSystem.route('/project-by-state/<string:state>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjectStateOperations(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, state):
+        adm = ElectionSystemAdministration()
+        p = adm.get_project_by_state(state)
         return p
 
 

@@ -188,7 +188,7 @@ export default class ProjectBO extends NamedBusinessObject {
 
     // Returns an Array of ProjectBO from a given JSON
 
-    static fromJSON(project) {
+    static fromJSON(projects) {
         let res = [];
 
         if (Array.isArray(project)) {

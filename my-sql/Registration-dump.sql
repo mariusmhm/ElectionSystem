@@ -8,9 +8,11 @@ CREATE TABLE `Semester` (
 	`winter_semester` tinyint NOT NULL DEFAULT '0',
 	`submit_projects_end_date` DATE,
 	`grading_end_date` DATE,
+  `election_end_date` DATE,
   `submit_projects_beginn_date` DATE,
   `grading_beginn_date` DATE,
-    PRIMARY KEY(`id`)
+  `election_beginn_date` DATE,
+  PRIMARY KEY(`id`)
 );
 
 DROP TABLE IF EXISTS `Module`;
@@ -56,7 +58,7 @@ CREATE TABLE Project(
   `special_room` tinyint(1) NOT NULL DEFAULT '0',
   `room_desired` varchar(128) NOT NULL DEFAULT '',
   `num_blockdays_prior_lecture` int(11) NOT NULL DEFAULT '0',
-  `date_blockdays_during_lecture` int(11) NOT NULL DEFAULT '0',
+  `date_blockdays_during_lecture` DATE,
   `num_blockdays_during_lecture` int(11) NOT NULL DEFAULT '0',
   `num_blockdays_in_exam` int(11) NULL DEFAULT '0',
   `weekly` tinyint(1) NOT NULL DEFAULT '0',
@@ -67,6 +69,7 @@ CREATE TABLE Project(
   `module_id` int(11) DEFAULT 0,
   `professor_id` int(11) DEFAULT 0,
   `add_professor_id` int(11) DEFAULT 0,
+  `state` varchar(128) DEFAULT 'new',
 
   PRIMARY KEY (`id`),
   FOREIGN KEY (`projecttype_id`) REFERENCES `Projecttype`(`id`),
