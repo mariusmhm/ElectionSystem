@@ -146,14 +146,16 @@ class ElectionSystemAdministration (object):
         #---SEMESTER SPECIFIC OPERATIONS-----
 
 
-    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date, grading_beginn_date):
+    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, election_end_date, submit_projects_beginn_date, grading_beginn_date, election_beginn_date):
         """Create a new semester:"""
         semester = Semester()
         semester.set_wintersemester(winter_semester)
         semester.set_grading_end_date(grading_end_date)
         semester.set_submit_projects_end_date(submit_projects_end_date)
+        semester.set_election_end_date(election_end_date)
         semester.set_submit_projects_beginn_date(submit_projects_beginn_date)
         semester.set_grading_beginn_date(grading_beginn_date)
+        semester.set_election_beginn_date(election_beginn_date)
         semester.set_date(1)
         semester.set_id(1)
 

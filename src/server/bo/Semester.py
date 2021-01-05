@@ -10,8 +10,10 @@ class Semester(BusinessObject):
         self._winter_semester = True
         self._submit_projects_end_date = date
         self._grading_end_date = date
+        self._election_end_date = date
         self._submit_projects_beginn_date = date
         self._grading_beginn_date = date
+        self._election_beginn_date = date
 
     def get_wintersemester(self):
         """Read out winter_semester."""
@@ -37,6 +39,14 @@ class Semester(BusinessObject):
         """Set the grading end date."""
         self._grading_end_date = gdate
 
+    def get_election_end_date(self):
+        """Read the election end date."""
+        return self._election_end_date
+
+    def set_election_end_date(self, edate):
+        """Set the election end date."""
+        self._election_end_date = edate
+
     def get_grading_beginn_date(self):
         """Read the grading beginn date."""
         return self._grading_beginn_date
@@ -52,6 +62,14 @@ class Semester(BusinessObject):
     def set_submit_projects_beginn_date(self, submit_beginn_date):
         """Set the submit beginn date."""
         self._submit_projects_beginn_date = submit_beginn_date
+
+    def get_election_beginn_date(self):
+        """Read the election beginn date."""
+        return self._election_beginn_date
+
+    def set_election_beginn_date(self, ebdate):
+        """Set the election beginn date."""
+        self._election_beginn_date = ebdate
 
     def __str__(self):
 
@@ -70,10 +88,12 @@ class Semester(BusinessObject):
         """Convert a Python dict() in a Semester()."""
         semester = Semester()
         semester.set_id(dicti["id"])
+        semester.set_date(dicti["creation_date"])
         semester.set_wintersemester(dicti["winter_semester"])
         semester.set_submit_projects_end_date(dicti["submit_projects_end_date"])
         semester.set_grading_end_date(dicti["grading_end_date"])
-        semester.set_date(dicti["creation_date"])
+        semester.set_election_end_date(dicti["election_end_date"])
         semester.set_submit_projects_beginn_date(dicti["submit_projects_beginn_date"])
         semester.set_grading_beginn_date(dicti["grading_beginn_date"])
+        semester.set_election_beginn_date(dicti["election_beginn_date"])
         return semester

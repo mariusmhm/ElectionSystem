@@ -24,7 +24,6 @@ export default class GradingBO extends BusinessObject {
 
     static fromJSON(gradings) {
         let result = [];
-        console.log('from json aufgerufen');
 
         if (Array.isArray(gradings)) {
             gradings.forEach((g) => {

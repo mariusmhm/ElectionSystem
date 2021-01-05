@@ -57,8 +57,10 @@ semester = api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
     'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
     'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
+    'election_end_date':fields.Date(attribute='_election_end_date', description='End date of election'),
     'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
-    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading')
+    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading'),
+    'election_beginn_date':fields.Date(attribute='_election_end_date', description='Start date of election')
 })
 
 grading = api.inherit('Grading', bo, {
@@ -305,7 +307,7 @@ class SemesterListOperations(Resource):
     @electionSystem.marshal_with(semester, code=200)
     @electionSystem.expect(semester)  # We expect a semester object from the client side.
     def post(self):
-        """Create a new customer object."""
+        """Create a new semester object."""
         """It is up to the election administration (business logic) to have a correct ID
             to forgive. The corrected object will eventually be returned. """
         adm = ElectionSystemAdministration()
@@ -313,7 +315,8 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date())
+            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
+             proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date(), proposal.get_election_beginn_date())
             return s, 200
 
         else:
