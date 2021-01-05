@@ -775,5 +775,15 @@ class ProjectPtypeOperation(Resource):
         return p
 
 
+@electionSystem.route('/project-by-state/<string:state>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjectStateOperations(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, state):
+        adm = ElectionSystemAdministration()
+        p = adm.get_project_by_state(state)
+        return p
+
+
 if __name__ == '__main__':
     app.run(debug=True)

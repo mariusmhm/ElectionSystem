@@ -333,6 +333,10 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_projecttype_id(number)
 
+    def get_project_by_state(self, state):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_state(state)
+
     # --- Project SPECIFIC OPERATIONS ---
 
     def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
