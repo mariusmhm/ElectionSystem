@@ -12,14 +12,9 @@ from server.bo.Module import Module
 from server.bo.Participation import Participation
 from server.bo.Project import Project
 from server.bo.Projecttype import Projecttype
-<<<<<<< HEAD
-from server.bo.Project import Project
-from server.bo.Module import Module
-=======
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 app = Flask(__name__)
 
@@ -82,11 +77,6 @@ projecttype = api.inherit('Projecttype', nbo, {
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
-<<<<<<< HEAD
-module = api.inherit('Module',nbo, {
-    'edv_number': fields.String(attribute='_edv_number', description='Anzahl der ECTS für ein Modul'),
-})
-=======
 project = api.inherit('Project', nbo, aut, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
     'special_room': fields.Boolean(attribute='_special_room ', description='If there is a special room needed'),
@@ -109,7 +99,6 @@ module = api.inherit('Module', nbo, {
     'edv_number': fields.String(attribute='_edv_number', description='Edv number for a module'),
 })
 
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 # --- STUDENT SPECIFIC OPERATIONS ---
 
@@ -587,134 +576,9 @@ class ProjecttypeNameOperations(Resource):
         return all_pt
 
 
-<<<<<<< HEAD
-#--- Module |START| ---
-"""
-@electionSystem.route('/module')
-@electionSystem.response(500, 'if server has a problem')
-class ModuleListOperations(Resource):
-    @electionSystem.marshal_list_with(module)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        module=adm.get_all_modules()
-        return module
-"""
-
-#--- Module |END| ---
-
-#--- project |START| ---
-"""
-@electionSystem.route('/projects')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_list_with(project)
-    def get(self):
-        adm=ElectionSystemAdministration()
-        projects=adm.get_all_projects()
-        return projects
-    
-    @electionSystem.marshal_with(project, code=200)
-    @electionSystem.expect(project)
-    def post(self):
-        adm = ElectionSystemAdministration()
-        proposal = Project.to_dict(api.payload)
-
-        if proposal is not None:
-            p = adm.create_project(proposal.get_project_id(), proposal.get_project_name(), proposal.get_short_description(), proposal.get_link(), proposal.get_room_desired(), proposal.get_grade_average(), proposal.get_num_blockdays_in_exam(), proposal.get_blockdays_in_exam(), proposal.get_special_room(), proposal.get_date_blockdays_during_lecture(), proposal.get_num_blockdays_prior_lecture(), proposal.get_blockdays_prior_lecture(), proposal.get_num_blockdays_during_lecture(), proposal.get_blockdays_during_lecture(), proposal.get_weekly(), proposal.get_num_spots())
-            return p, 200
-        else:
-            #server error
-            return '', 500"""
-
-"""
-@electionSystem.route('/projects/<int:id>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_with(project)
-    def get(self, id):
-        "
-        adm = ElectionSystemAdministration()
-        pro = adm.find_project_by_id(id)
-        return pro
-
-    def delete(self, id):
-        "
-        adm = ElectionSystemAdministration()
-        pro = adm.find_project_by_id(id)
-        adm.delete_project(pro)
-        return '', 200
-    
-    @electionSystem.marshal_with(project)
-    @electionSystem.expect(project, validate=True)
-    def put(self, id):
-    
-        adm = ElectionSystemAdministration()
-        p = Project.to_dict(api.payload)
-
-        if p is not None:
-            p.set_project_id(id)
-            adm.update_project(p)
-            return '', 200
-        else:
-            return '', 500"""
-
-"""@electionSystem.route('/projects/<string:name>')
-@electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_list_with(project)
-    def get(self, name):
-        adm= ElectionSystemAdministration()
-        projects= adm.find_project_by_name(name)
-        return projects
-
-# --- project specific operations ----"""
-
-# --- FIND PROJECT BY PROFESSOR ID
-
-"""@electionSystem.route('/projects-by-professor/<int:professor_id>')
-@electionSystem.response(500, 'server error')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_with(project)
-    def get(self, professor_id):
-
-        adm = ElectionSystemAdministration()
-        pro = adm.get_project_by_professorID(professor_id)
-"""
-
-# --- FIND PROJECT BY PARTICIPATION ID
-
-"""@electionSystem.route('/projects-by-participation/<int:participation_id>')
-@electionSystem.response(500, 'server error')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_with(project)
-    def get(self, participation_id):
-      Auslesen eines bestimmten Projekts anhand der participation ID
-
-        Das auszulesende Objekt wird durch die ```id``` in dem URI bestimmt.
-     
-        adm = ElectionSystemAdministration()
-        pro = adm.get_project_by_participationID(participation_id)
-        return pro"""
-
-# --- FIND PROJECT BY PROJECTTYPE ID
-
-"""@electionSystem.route('/projects-by-projecttype/<int:projecttype_id>')
-@electionSystem.response(500, 'server error')
-class ProjectListOperations(Resource):
-    @electionSystem.marshal_with(project)
-    def get(self, projecttype_id):
-        adm = ElectionSystemAdministration()
-        pro = adm.get_project_by_projecttypeID(projecttype_id)
-        return pro"""
-
-
-#---Module specific operations--
-
-=======
 #---Module specific operations---
 
 
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 @electionSystem.route('/module')
 @electionSystem.response(500, 'If there is a server-side error.')
 class ModuleListOperations(Resource):
@@ -745,10 +609,6 @@ class ModuleListOperations(Resource):
 
 @electionSystem.route('/module/<int:id>')
 @electionSystem.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-<<<<<<< HEAD
-@electionSystem.param('module_id', 'Die ID des Module-Objekts')
-=======
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 class ModuleOperations(Resource):
     @electionSystem.marshal_with(module)
     def get(self, id):
@@ -784,11 +644,7 @@ class ModuleOperations(Resource):
 @electionSystem.route('/module/<string:name>')
 @electionSystem.response(500, 'when the server has problems')
 class ModuleNameOperations(Resource):
-<<<<<<< HEAD
-    @electionSystem.marshal_with(projecttype)
-=======
     @electionSystem.marshal_with(module)
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
     def get(self, name):
         """Reads out the a specific Module-Object by name
                 The realization of reading out the object is by ```name`` in the URI.
@@ -800,11 +656,7 @@ class ModuleNameOperations(Resource):
 @electionSystem.route('/module/<string:edv_number>')
 @electionSystem.response(500, 'when the server has problems')
 class ModuleEdvOperations(Resource):
-<<<<<<< HEAD
-    @electionSystem.marshal_with(projecttype)
-=======
     @electionSystem.marshal_with(module)
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
     def get(self, edv_number):
         """Reads out the a specific Module-Object by edv number
         The realization of reading out the object is by ```edv``` in the URI.
@@ -813,15 +665,6 @@ class ModuleEdvOperations(Resource):
         edv_module = adm.get_projecttype_by_id(edv_number)
         return edv_module
 
-<<<<<<< HEAD
-
-
-
-#--- Project |END| ---
-#---------------------
-
-
-=======
 #----Module end---
 
 #--- project |START| ---
@@ -931,7 +774,6 @@ class ProjectPtypeOperation(Resource):
         p = adm.get_project_by_projecttypeID(id)
         return p
 
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 if __name__ == '__main__':
     app.run(debug=True)

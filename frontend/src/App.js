@@ -1,24 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-/**import Header from './components/layout/Header';**/
-//  import Grid from '@material-ui/core/Grid';
-/**import firebase from 'firebase/app';**/
-/**import 'firebase/auth';**/
-/**import SignIn from './components/pages/Signin';**/
-/**import LoadingProgress from './components/dialogs/LoadingProgress';**/
-/**import firebaseConfig from './firebaseconfig';**/
-/**import ContextErrorMessage from './components/dialogs/ContextErrorMessage';**/
-/**import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';**/
-
-//import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
-import theme from './theme';
-//import CreateProject from './components/dialogs/CreateProject'
-//import ProjectContent from './components/layout/pages/ProjectContent'
-import { ThemeProvider } from '@material-ui/core/styles';
-//import Semester from './components/dialogs/Semester';
-//import KeyCompetence from './components/dialogs/KeyCompetence';
-import Test from './components/dialogs/Test';
-=======
 import Header from './components/layout/Header';
 //import Grid from '@material-ui/core/Grid';
 import firebase from 'firebase/app';
@@ -39,7 +19,6 @@ import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
 import Semester from './components/dialogs/Semester'
 import HomeScreen from './components/layout/HomeScreen'
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 
 class App extends Component {
@@ -97,17 +76,6 @@ class App extends Component {
 		}
 	}
 
-<<<<<<< HEAD
-    render() {
-        return (
-            <ThemeProvider theme={theme}>
-                <div>
-                    <Test /> {/* INSERT HERE WHAT YOU WANT TO TEST */}
-                </div>
-            </ThemeProvider>
-        )
-  }
-=======
     //Handles the sign in request of the SignIn component uses the firebase.auth() component to sign in.
     handleSignIn = () => {
 		this.setState({
@@ -116,8 +84,7 @@ class App extends Component {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithRedirect(provider);
 	}
-
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
+   
 
    //Lifecycle method, which is called when the component gets inserted into the browsers DOM.
    //Initializes the firebase SDK.

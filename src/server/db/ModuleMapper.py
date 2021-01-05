@@ -19,7 +19,7 @@ class ModuleMapper (Mapper):
          res = []
          crs = self._connection.cursor()
 
-         crs.execute("SELECT * FROM Module ")
+         crs.execute("SELECT * FROM Module")
          tupsrc = crs.fetchall()
 
          for (id, creation_date, name, edv_number) in tupsrc:
@@ -175,9 +175,6 @@ class ModuleMapper (Mapper):
 
         self._connection.commit()
         cursor.close()
-<<<<<<< HEAD
-=======
          
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 

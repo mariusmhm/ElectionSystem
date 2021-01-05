@@ -512,8 +512,6 @@ export default class ElectionSystemAPI {
       })
     }
 
-<<<<<<< HEAD
-=======
     getStudentForMail(mail){
         return this.#fetchAdvanced(this.#getStudentForMailURL(mail))
         .then((responseJSON) => {
@@ -524,7 +522,6 @@ export default class ElectionSystemAPI {
       })
     }
 
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
     addStudent(student){
         return this.#fetchAdvanced(this.#addStudentURL(), {
             method: 'POST',

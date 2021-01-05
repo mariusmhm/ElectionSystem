@@ -1,30 +1,18 @@
-<<<<<<< HEAD
-CREATE DATABASE IF NOT EXISTS `electionsystem`;
-USE `electionsystem`;
-
-
-DROP TABLE IF EXISTS `Module`;
-CREATE TABLE `Module` (
-=======
 CREATE DATABASE IF NOT EXISTS electionsystem;
 USE electionsystem;
 
 DROP TABLE IF EXISTS `Semester`;
 CREATE TABLE `Semester` (
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 	`id` int(11) NOT NULL DEFAULT '0',
 	`creation_date` DATE,
-	`name` VARCHAR(30),
-	`edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
+	`winter_semester` tinyint NOT NULL DEFAULT '0',
+	`submit_projects_end_date` DATE,
+	`grading_end_date` DATE,
+  `submit_projects_beginn_date` DATE,
+  `grading_beginn_date` DATE,
     PRIMARY KEY(`id`)
 );
 
-<<<<<<< HEAD
-INSERT INTO Module VALUES (1, '1863-04-01',  "Schlüsselkompetenz", "1234");
-
-
-
-=======
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
 	`id` int(11) NOT NULL DEFAULT '0',
@@ -85,4 +73,3 @@ CREATE TABLE Project(
   FOREIGN KEY (`professor_id`) REFERENCES `User`(`id`),
   FOREIGN KEY (`add_professor_id`) REFERENCES `User`(`id`)
 );
-

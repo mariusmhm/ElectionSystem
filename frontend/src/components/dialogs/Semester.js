@@ -19,6 +19,7 @@ import {ElectionSystemAPI, SemesterBO} from '../../api';
 
 
 
+
 let open= true;
 
 class Semester extends Component {

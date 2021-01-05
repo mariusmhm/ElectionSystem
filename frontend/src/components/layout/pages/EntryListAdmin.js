@@ -1,23 +1,14 @@
 import React, {Component} from 'react';
-<<<<<<< HEAD
-import {  Button, Grid, Typography, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Container} from'@material-ui/core';
-//import CssBaseline from '@material-ui/core/CssBaseline';
-=======
 import { TextField, Button, Grid, Typography, TableContainer, Input, Table, TableBody, TableCell, TableHead, TableRow, Container} from'@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 import {withStyles} from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-<<<<<<< HEAD
-import {ElectionSystemAPI} from '../../../api';
-=======
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
 
 
->>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 
 
