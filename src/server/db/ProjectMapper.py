@@ -48,6 +48,7 @@ class ProjectMapper(Mapper):
             project.set_state(state)
             result.append(project)
 
+
         self._connection.commit()
         cursor.close()
 

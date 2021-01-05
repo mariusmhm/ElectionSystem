@@ -362,6 +362,7 @@ class ElectionSystemAdministration (object):
         project.set_id(1)
         project.set_date(1)
         
+        print(date_blockdays_during_lecture)
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)

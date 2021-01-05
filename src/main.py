@@ -38,7 +38,7 @@ nbo = api.inherit('NamedBusinessObject', bo, {
 })
 
 aut = api.model('Automat', {
-    'state': fields.String(attribute='_current_state', description='states of the automat')
+    'state': fields.String(attribute='_state', description='states of the automat')
 })
 
 user = api.inherit('User', nbo, {
@@ -79,20 +79,20 @@ projecttype = api.inherit('Projecttype', nbo, {
 
 project = api.inherit('Project', nbo, aut, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
-    'special_room': fields.Boolean(attribute='_special_room ', description='If there is a special room needed'),
+    'special_room': fields.Boolean(attribute='_special_room', description='If there is a special room needed'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
-    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture ', description='The number of the blockdays prior lecture'),
-    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture ', description='The dates of the blockdays during lecture'),
-    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture ', description='The number of blockdays needed during lecture'),
+    'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='The number of the blockdays prior lecture'),
+    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
+    'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='The number of blockdays needed during lecture'),
     'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='The number of blockdays needed during exams'),
-    'weekly': fields.Boolean(attribute='_weekly ', description='if weekly lectures are needed'),
-    'num_spots': fields.Integer(attribute='_num_spots ', description='If weekly lectures are needed'),
-    'language': fields.String(attribute='_language ', description='The language the project will be given'),
-    'external_partner' : fields.String(attribute='_external_partner ', description='External partner'),
-    'projecttype_id': fields.Integer(attribute='_projecttype_id ', description='The projecttype of the project'),
-    'module_id': fields.Integer(attribute='_module_id ', description='The module of the project'),
-    'professor_id': fields.Integer(attribute='_professor_id ', description='The professor giving the project'),
-    'add_professor_id': fields.Integer(attribute='_additional_professor_id ', description='If there is a additional professor is needed')
+    'weekly': fields.Boolean(attribute='_weekly', description='if weekly lectures are needed'),
+    'num_spots': fields.Integer(attribute='_num_spots', description='If weekly lectures are needed'),
+    'language': fields.String(attribute='_language', description='The language the project will be given'),
+    'external_partner' : fields.String(attribute='_external_partner', description='External partner'),
+    'projecttype_id': fields.Integer(attribute='_projecttype_id', description='The projecttype of the project'),
+    'module_id': fields.Integer(attribute='_module_id', description='The module of the project'),
+    'professor_id': fields.Integer(attribute='_professor_id', description='The professor giving the project'),
+    'add_professor_id': fields.Integer(attribute='_add_professor_id', description='If there is a additional professor is needed')
 })
 
 module = api.inherit('Module', nbo, {

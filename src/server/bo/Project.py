@@ -1,5 +1,6 @@
 from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Automat import Automat
+from datetime import date
 
 
 
@@ -13,7 +14,7 @@ class Project(Automat, NamedBusinessObject):
         self._special_room = True
         self._room_desired = ""
         self._num_blockdays_prior_lecture = 0
-        self._date_blockdays_during_lecture = 0
+        self._date_blockdays_during_lecture = date
         self._num_blockdays_during_lecture = 0
         self._num_blockdays_in_exam = 0
         self._weekly = True
