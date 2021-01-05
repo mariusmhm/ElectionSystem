@@ -15,6 +15,18 @@ CREATE TABLE `Semester` (
   PRIMARY KEY(`id`)
 );
 
+
+
+DROP TABLE IF EXISTS `Projecttype`;
+CREATE TABLE `Projecttype` (
+	`id` int(11) NOT NULL DEFAULT '0',
+	`name` VARCHAR(30),
+	`sws` int(11) NOT NULL DEFAULT '0',
+	`ect` int(11) NOT NULL DEFAULT '0',	
+    PRIMARY KEY(`id`)
+);
+
+
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
 	`id` int(11) NOT NULL DEFAULT '0',
