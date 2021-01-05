@@ -102,7 +102,7 @@ module = api.inherit('Module', nbo, {
 })
 
 
-# --- STUDENT SPECIFIC OPERATIONS ---
+#------Student---------
 
 @electionSystem.route('/student')
 @electionSystem.response(500, 'when server has problems')
@@ -120,7 +120,7 @@ class StudentListOperations(Resource):
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_student(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
+            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
 
             return s, 200
         else:
@@ -136,7 +136,6 @@ class StudentOperations(Resource):
         single_student = adm.get_student_by_id(id)
         return single_student
 
-    # irrelevant for user and student as a prototype?
     @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)
     def put(self, id):
@@ -197,6 +196,7 @@ class StudentsStudyOperations(Resource):
         students = adm.get_student_by_study(study)
         return students
 
+
 @electionSystem.route('/students-by-participations/<int:project_id>')
 @electionSystem.response(500,'when the server has problems')
 class StudentParticipationOperations(Resource):
@@ -206,7 +206,8 @@ class StudentParticipationOperations(Resource):
         students = adm.get_all_students_of_participation(project_id)
         return students
 
-# --- USER SPECIFIC OPERATIONS ---
+
+#------User---------
 
 @electionSystem.route('/user')
 @electionSystem.response(500, 'when server has problems')
@@ -224,7 +225,7 @@ class UserListOperations(Resource):
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
-            u = adm.create_user(prpl.get_name(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
+            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
 
             return u, 200
         else:
@@ -240,7 +241,6 @@ class UserOperations(Resource):
         single_user = adm.get_user_by_id(id)
         return single_user
 
-    # irrelevant for user and student as a prototype?
     @electionSystem.marshal_with(user)
     @electionSystem.expect(user, validate=True)
     def put(self, id):
@@ -291,8 +291,7 @@ class UserRoleOperations(Resource):
         return users
 
 
-#---Semester specific functions---
-
+#------Semester---------
 
 @electionSystem.route('/semester')
 @electionSystem.response(500, 'If there is a server-side error.')
@@ -315,7 +314,7 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
+            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
              proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date(), proposal.get_election_beginn_date())
             return s, 200
 
@@ -359,6 +358,7 @@ class SemesterOperations(Resource):
         else:
             return '', 500
 
+
 #------Participation---------
 
 @electionSystem.route('/participation')
@@ -372,7 +372,7 @@ class ParticipationsListOperations(Resource):
         proposal = Participation.from_dict(api.payload)
 
         if proposal is not None:
-            p = adm.create_participation(proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
+            p = adm.create_participation(proposal.get_date(), proposal.get_priority(), proposal.get_grading_id(), proposal.get_student_id(), proposal.get_project_id())
             return p, 200
         else:
             #server error
@@ -443,6 +443,7 @@ class ParticipationsPriorityProjectListOperations(Resource):
         pp = adm.get_by_project(project_id)
         return pp
 
+
 #------Grading---------
 
 @electionSystem.route('/grading')
@@ -462,7 +463,7 @@ class GradingListOperations(Resource):
         proposal = Grading.from_dict(api.payload)
 
         if proposal is not None:
-            g = adm.create_grading(proposal.get_grade())
+            g = adm.create_grading(proposal.get_date(), proposal.get_grade())
             return g, 200
         else:
             #server error
@@ -495,7 +496,9 @@ class GradingOperations(Resource):
         g = adm.get_by_grading_id(id)
         adm.delete_grading(g)
         return '', 200
-# ----------------------------Projecttype specific operations---------------------------
+
+
+#------Projecttype---------
 
 @electionSystem.route('/projecttype')
 @electionSystem.response(500, 'when the server has an error')
@@ -522,7 +525,7 @@ class ProjecttypeListOperations(Resource):
         prpl = Projecttype.to_dict(api.payload)
 
         if prpl is not None:
-            p = adm.create_projecttype(prpl.get_name(), prpl.get_ect(), prpl.get_sws())
+            p = adm.create_projecttype(prpl.get_name(), prpl.get_date(), prpl.get_ect(), prpl.get_sws())
 
             return p, 200
         else:
@@ -579,8 +582,7 @@ class ProjecttypeNameOperations(Resource):
         return all_pt
 
 
-#---Module specific operations---
-
+#------Module---------
 
 @electionSystem.route('/module')
 @electionSystem.response(500, 'If there is a server-side error.')
@@ -602,7 +604,7 @@ class ModuleListOperations(Resource):
 
         proposal = Module.to_dict(api.payload)
         if proposal is not None:
-            m = adm.create_module(proposal.get_edv_number(), proposal.get_name())
+            m = adm.create_module(proposal.get_date(), proposal.get_edv_number(), proposal.get_name())
             return m, 200
 
         else:
@@ -668,9 +670,8 @@ class ModuleEdvOperations(Resource):
         edv_module = adm.get_projecttype_by_id(edv_number)
         return edv_module
 
-#----Module end---
 
-#--- project |START| ---
+#------Project---------
 
 @electionSystem.route('/project')
 @electionSystem.response(500, 'when the server has an error')
@@ -697,7 +698,7 @@ class ProjectListOperations(Resource):
         prpl = Project.to_dict(api.payload)
 
         if prpl is not None:
-            p = adm.create_project(prpl.get_name(), prpl.get_short_description(), prpl.get_special_room(),
+            p = adm.create_project(prpl.get_date(), prpl.get_name(), prpl.get_short_description(), prpl.get_special_room(),
                                    prpl.get_room_desired(), prpl.get_num_blockdays_prior_lecture(), prpl.get_date_blockdays_during_lecture(), 
                                    prpl.get_num_blockdays_during_lecture(), prpl.get_num_blockdays_in_exam(), prpl.get_weekly(),
                                    prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_projecttype_id(),
