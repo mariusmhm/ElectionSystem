@@ -1,4 +1,3 @@
-from server.bo.BusinessObject import BusinessObject
 from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
@@ -33,5 +32,9 @@ class Module(NamedBusinessObject):
         module.set_name(dicti["name"])
         module.set_edv_number(dicti["edv_number"])
         return module
+<<<<<<< HEAD
+=======
+
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 

@@ -1,13 +1,10 @@
-from server.State import State
+class Automat():
 
-"""Vorläufiger Test-Automat"""
-
-class Automat (State):
     def __init__(self):
-        self.__current_state=State()
+        self._state = ""
 
-    def get_current_state(self):
-        return self.__current_state
+    def get_state(self):
+        return self._state
 
-    def set_current_state(self,state):
-        self.__current_state=state
+    def set_state(self, txt):
+        self._state = txt

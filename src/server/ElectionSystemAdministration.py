@@ -1,20 +1,33 @@
+from server.bo.Grading import Grading
+from server.bo.Module import Module
+from server.bo.Participation import Participation
+from server.bo.Project import Project
+from server.bo.Projecttype import Projecttype
+from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
+<<<<<<< HEAD
 from server.bo.Semester import Semester
 from server.bo.Participation import Participation
 from server.bo.Grading import Grading
 from server.bo.Project import Project
 from server.bo.Module import Module
+=======
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
-from server.db.StudentMapper import StudentMapper
-from server.db.UserMapper import UserMapper
-from server.db.SemesterMapper import SemesterMapper
-from server.db.ParticipationMapper import ParticipationMapper
 from server.db.GradingMapper import GradingMapper
-from server.bo.Projecttype import Projecttype
+from server.db.ModuleMapper import ModuleMapper
+from server.db.ParticipationMapper import ParticipationMapper
+from server.db.ProjectMapper import ProjectMapper
 from server.db.ProjecttypeMapper import ProjecttypeMapper
+<<<<<<< HEAD
 from server.db.ProjectMapper import ProjectMapper
 from server.db.ModuleMapper import ModuleMapper
+=======
+from server.db.SemesterMapper import SemesterMapper
+from server.db.StudentMapper import StudentMapper
+from server.db.UserMapper import UserMapper
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 
 class ElectionSystemAdministration(object):
@@ -71,14 +84,24 @@ class ElectionSystemAdministration(object):
         with StudentMapper() as mapper:
             return mapper.insert(student)
 
+<<<<<<< HEAD
     def get_all_students_of_participation(self, project_id):
         print('methoden Aufruf')
         participations = self.get_all_by_project_id(project_id)
+=======
+    def get_all_students_of_participation(self,project_id):
+        print('methoden Aufruf')
+        participations=self.get_all_by_project_id(project_id)
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
         students = []
         print(participations)
 
         for element in participations:
+<<<<<<< HEAD
             student_i = element.get_student_id()
+=======
+            student_i= element.get_student_id()
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
             students.append(self.get_student_by_id(student_i))
 
         print(students)
@@ -127,10 +150,18 @@ class ElectionSystemAdministration(object):
         with UserMapper() as mapper:
             return mapper.insert(user)
 
+<<<<<<< HEAD
         # ---SEMESTER SPECIFIC OPERATIONS-----
 
     def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date,
                         grading_beginn_date):
+=======
+
+        #---SEMESTER SPECIFIC OPERATIONS-----
+
+
+    def create_semester(self, winter_semester, grading_end_date, submit_projects_end_date, submit_projects_beginn_date, grading_beginn_date):
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
         """Create a new semester:"""
         semester = Semester()
         semester.set_wintersemester(winter_semester)
@@ -164,7 +195,11 @@ class ElectionSystemAdministration(object):
         with SemesterMapper() as mapper:
             mapper.delete(semester)
 
+<<<<<<< HEAD
     # -----Participation--------
+=======
+    #-----Participation--------
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
     def create_participation(self, priority, grading_id, student_id, project_id):
         # create participation
@@ -206,6 +241,10 @@ class ElectionSystemAdministration(object):
     def get_by_project(self, project_id):
         with ParticipationMapper() as mapper:
             return mapper.find_by_project(project_id)
+<<<<<<< HEAD
+=======
+
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
     def delete_grading_id(self, participation):
         with ParticipationMapper() as mapper:
@@ -233,6 +272,11 @@ class ElectionSystemAdministration(object):
 
             with GradingMapper() as mapper:
                 return mapper.insert(g)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
     def save_grading(self, grading):
         with GradingMapper() as mapper:
@@ -249,6 +293,10 @@ class ElectionSystemAdministration(object):
 
             mapper.delete(grading)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
     def get_all_grades(self):
         with GradingMapper() as mapper:
             return mapper.find_all()
@@ -257,9 +305,15 @@ class ElectionSystemAdministration(object):
         with GradingMapper() as mapper:
             return mapper.find_by_id(id)
 
+<<<<<<< HEAD
     # ------------Projecttype-----------
 
     def get_all_projecttypes(self):
+=======
+#------------Projecttype-----------
+
+    def get_all_projecttypes (self):
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
         with ProjecttypeMapper() as mapper:
             return mapper.find_all()
 
@@ -290,7 +344,115 @@ class ElectionSystemAdministration(object):
         with ProjecttypeMapper() as mapper:
             return mapper.insert(projecttype)
 
+<<<<<<< HEAD
     # --- Election Priority Logic ---
+=======
+     #---project related----
+
+    def get_all_projects(self):
+        with ProjectMapper() as mapper:
+            return mapper.find_all()
+
+    def get_project_by_id(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_id(number)
+
+    def get_project_by_name(self, name):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_name(name)
+
+    def get_project_by_professorID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_professor_id(number)
+
+    def get_project_by_projecttypeID(self, number):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_projecttype_id(number)
+
+    # --- Project SPECIFIC OPERATIONS ---
+
+    def create_project(self, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
+        #create project
+        project = Project()
+        project.set_name(name)
+        project.set_short_description(short_description)
+        project.set_special_room(special_room)
+        project.set_room_desired(room_desired)
+        project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+        project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+        project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
+        project.set_num_blockdays_in_exam(num_blockdays_in_exam)
+        project.set_weekly(weekly)
+        project.set_num_spots(num_spots)
+        project.set_language(language)
+        project.set_external_partner(external_partner)
+        project.set_projecttype_id(projecttype_id)
+        project.set_module_id(module_id)
+        project.set_professor_id(professor_id)
+        project.set_add_professor_id(add_professor_id)
+        project.set_state(state)
+        project.set_id(1)
+        project.set_date(1)
+        
+
+        with ProjectMapper() as mapper:
+            return mapper.insert(project)
+
+    def delete_project(self, project):
+        """Delete the project."""
+        with ProjectMapper() as mapper:
+           return mapper.delete(project)
+
+
+    def update_project(self, project):
+        """Save the project."""
+
+        with ProjectMapper() as mapper:
+            mapper.update(project)
+
+    #------Module specific operations----
+
+    def create_module(self, edv_number, name):
+        """Create a new Module:"""
+        module = Module()
+        module.set_edv_number(edv_number)
+        module.set_name(name)
+        module.set_date(1)
+        module.set_id(1)
+
+        with ModuleMapper() as mapper:
+            return mapper.insert(module)
+
+    def get_module_by_id(self, id):
+        """Read out the module by ID."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def get_module_by_edv(self,edv_number):
+        """Read out the module by edv."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_edv_number(edv_number)
+
+    def get_module_by_name(self,name):
+        """Read out the module by name."""
+        with ModuleMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_all_modules(self):
+        """Read out all module"""
+        with ModuleMapper() as mapper:
+            return mapper.find_all()
+
+    def save_module(self, module):
+        """update a module."""
+        with ModuleMapper() as mapper:
+            mapper.update(module)
+
+    def delete_module(self, module):
+        """delete a module"""
+        with ModuleMapper() as mapper:
+            mapper.delete(module)
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
     def finish_election(self, project_id):
         adm = ElectionSystemAdministration()
@@ -436,3 +598,44 @@ class ElectionSystemAdministration(object):
         with ModuleMapper() as mapper:
             mapper.delete(module)
 
+<<<<<<< HEAD
+=======
+    # --- Election Priority Logic ---
+
+    def finish_election(self, project_id):
+        adm = ElectionSystemAdministration()
+        project_by_id = adm.get_project_by_id(project_id)
+        old_pp = adm.get_by_project(project_id)
+        new_pp = []
+        highest_prio = 4
+        min_pp = 5
+        participation_num = project_by_id.get_num_spots()
+
+        if len(old_pp) > participation_num:
+            for pp in old_pp:
+                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
+                    print("first row", pp.get_priority())
+                elif 0 < highest_prio and len(new_pp) < participation_num:
+                    new_pp.append(pp)
+                    highest_prio = highest_prio - 1
+                    print("sec row", pp.get_priority())
+            
+        else:
+            if len(old_pp) >= min_pp:
+                new_pp = old_pp
+                print("third row")
+            else:
+                print("There are not enough Participations for this Project")
+
+        for new in new_pp:
+            old_pp.remove(new)
+            adm.save_participation(new)
+            print("add row", new.get_priority())
+
+        for old in old_pp:
+            adm.delete_participation(old)
+            print("del row", old.get_priority())
+
+ElectionSystemAdministration.finish_election(1, 1)
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960

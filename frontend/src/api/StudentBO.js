@@ -10,12 +10,12 @@ export default class StudentBO extends UserBO {
 
     // setting a new Matrikel Number for Student
     setMatrikelNr(aMatrikelNr) {
-        this.matrikelNr = aMatrikelNr;
+        this.matrikel_nr = aMatrikelNr;
     }
 
     // getting the Students Matrikel Number
     getMatrikelNr() {
-        return this.matrikelNr;
+        return this.matrikel_nr;
     }
 
     // setting a new Study for Student
@@ -28,7 +28,7 @@ export default class StudentBO extends UserBO {
         return this.study;
     }
 
-    // Returns an Array of Students from a given JSON
+    // Returns an Array of StudentBO from a given JSON
     static fromJSON(students) {
         let res = [];
 

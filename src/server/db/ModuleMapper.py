@@ -175,5 +175,9 @@ class ModuleMapper (Mapper):
 
         self._connection.commit()
         cursor.close()
+<<<<<<< HEAD
+=======
+         
+>>>>>>> d9d9f00f6b1cb5a5f80e5d479cbcac9a3ea3e960
 
 
