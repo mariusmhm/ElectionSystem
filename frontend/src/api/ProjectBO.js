@@ -19,7 +19,7 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
         this.numBlockDaysDuringLecture = aNumBlockDaysDuringLecture;
         this.numBlockDaysInExam = aNumBlockDaysInExam;
         this.weekly = aWeekly;
-        this.numSpots = aNumSpots;
+        this.num_spots = aNumSpots;
         this.language = aLanguage;
         this.externalPartner = aExternalPartner;
         this.projectType = aProjectType;
@@ -34,104 +34,104 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
                 aLanguage, aExternalPartner){
         super();
 
-        this.shortDescription = aShortDescription;
-        this.specialRoom = aSpecialRoom;
-        this.roomDesired = aRoomDesired;
-        this.numBlockDaysPriorLecture = aNumBlockDaysPriorLecture;
-        this.dateBlockDaysDuringLecture = aDateBlockDaysDuringLecture;
-        this.numBlockDaysDuringLecture = aNumBlockDaysDuringLecture;
-        this.numBlockDaysInExam = aNumBlockDaysInExam;
+        this.short_description = aShortDescription;
+        this.special_room = aSpecialRoom;
+        this.room_desired = aRoomDesired;
+        this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
+        this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
+        this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
+        this.num_blockdays_in_exam = aNumBlockDaysInExam;
         this.weekly = aWeekly;
-        this.numSpots = aNumSpots;
+        this.num_spots = aNumSpots;
         this.language = aLanguage;
-        this.externalPartner = aExternalPartner;
-        this.projectType = aProjectType;
-        this.module = aModule;
-        this.projectProfessor = aProfessor;
-        this.addProfessor = aAddProfessor;
+        this.external_partner = aExternalPartner;
+        this.projecttype_id = aProjectType;
+        this.module_id = aModule;
+        this.professor_id = aProfessor;
+        this.add_professor_id = aAddProfessor;
         }
 
 //ShortDesscription
 
     getShortDescription() {
         //Read out of the shortDescription.
-        return this.shortDescription;
+        return this.short_description;
     }
 
     setShortDescription(aShortDescription){
         //Set the shortDescription.
-        this.shortDescription = aShortDescription;
+        this.short_description = aShortDescription;
     }
 
 //SpecialRoom
     getSpecialRoom() {
         //Read out of the special room.
-        return this.specialRoom;
+        return this.special_room;
     }
 
     setSpecialRoom(aSpecialRoom){
         //Set the special room.
-        this.specialRoom = aSpecialRoom;
+        this.special_room = aSpecialRoom;
     }
 
 //roomDesired
 
     getRoomDesired() {
         //Read out room.
-        return this.roomDesired;
+        return this.room_desired;
     }
 
     setRoomDesired(aRoomDesired){
         //Set the room.
-        this.roomDesired = aRoomDesired;
+        this.room_desired = aRoomDesired;
     }
 
 //number of blockdays prior lecture
 
     getNumBlockDaysPriorLecture() {
         //Read out of the NumBlockDaysPriorLecture .
-        return this.numBlockDaysPriorLecture;
+        return this.num_blockdays_prior_lecture;
     }
 
     setNumBlockDaysPriorLecture(aNumBlockDaysPriorLecture){
         //Set the NumBlockDaysPriorLecture .
-        this.numBlockDaysPriorLecture = aNumBlockDaysPriorLecture;
+        this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
     }
 
 //Date of blockdays during lecture
 
     getDateBlockDaysDuringLecture() {
-        //Read out of the dateBlockDaysDuringLecture.
-        return this.dateBlockDaysDuringLecture;
+        //Read out of the date_blockdays_during_lecture.
+        return this.date_blockdays_during_lecture;
     }
 
     setDateBlockDaysDuringLecture(aDateBlockDaysDuringLecture){
-        //Set the dateBlockDaysDuringLecture.
-        this.dateBlockDaysDuringLecture = aDateBlockDaysDuringLecture;
+        //Set the date_blockdays_during_lecture.
+        this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
     }
 
 //number of blockdays during lecture
 
     getNumBlockDaysDuringLecture() {
         //Read out of the NumBlockDaysDuringLecture .
-        return this.numBlockDaysDuringLecture;
+        return this.num_blockdays_during_lecture;
     }
 
     setNumBlockDaysDuringLecture(aNumBlockDaysDuringLecture){
         //Set the NumBlockDaysDuringLecture .
-        this.numBlockDaysDuringLecture = aNumBlockDaysDuringLecture;
+        this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
     }
 
 //number of blockdays in exam
 
     getNumBlockDaysInExam() {
-        //Read out of the numBlockDaysInExam.
-        return this.numBlockDaysInExam;
+        //Read out of the num_blockdays_in_exam.
+        return this.num_blockdays_in_exam;
     }
 
     setNumBlockDaysInExam(aNumBlockDaysInExam){
-        //Set the numBlockDaysInExam.
-        this.numBlockDaysInExam = aNumBlockDaysInExam;
+        //Set the num_blockdays_in_exam.
+        this.num_blockdays_in_exam = aNumBlockDaysInExam;
     }
 
 //weekly
@@ -148,13 +148,13 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
 //number of spots
 
     getNumSpots() {
-        //Read out of the numSpots.
-        return this.numSpots;
+        //Read out of the num_spots.
+        return this.num_spots;
     }
 
     setNumSpots(aNumSpots){
-        //Set the numSpots.
-        this.numSpots = aNumSpots;
+        //Set the num_spots.
+        this.num_spots = aNumSpots;
     }
 
 //language
@@ -173,57 +173,57 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
 
     getExternalPartner(){
     //Reads out the external Partner
-        return this.externalPartner;
+        return this.external_partner;
     }
 
     setExternalPartner(aExternalPartner){
     //Sets the external Partner
-        this.externalPartner = aExternalPartner;
+        this.external_partner = aExternalPartner;
     }
 
 //projecttype
    
     getProjectType() {
-        //Read out of the projectType.
-        return this.projectType;
+        //Read out of the projecttype_id.
+        return this.projecttype_id;
     }
 
     setProjectType(aProjectType){
         //Set the project type.
-        this.projectType = aProjectType;
+        this.projecttype_id = aProjectType;
     }
 
-//module
+//module_id
 
     getModule() {
-        //Read out of the module.
-        return this.module;
+        //Read out of the module_id.
+        return this.module_id;
     }
 
     setModule(aModule){
-        //Set the module.
-        this.module = aModule;
+        //Set the module_id.
+        this.module_id = aModule;
     }
 //professor
-    getProjectProfessor() {
-        //Read out of the module.
-        return this.projectProfessor;
+    getProfessor() {
+        //Read out of the professor_id.
+        return this.professor_id;
     }
 
-    setProjectProfessor(aProfessor){
-        //Set the module.
-        this.projectProfessor = aProfessor;
+    setProfessor(aProfessor){
+        //Set the professor_id.
+        this.professor_id = aProfessor;
     }
 //add professor
 
     getAddProfessor(){
     //Read out of the additional professor.
-        return this.addProfessor;
+        return this.add_professor_id;
     }
 
     setAddProfessor(aAddProfessor){
     //Set the additional professor
-        this.addProfessor =  aAddProfessor;
+        this.add_professor_id =  aAddProfessor;
     }
 
 

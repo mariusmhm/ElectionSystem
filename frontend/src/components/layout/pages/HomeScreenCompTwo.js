@@ -61,6 +61,7 @@ constructor(props){
                     projects: [],
                     error: e
                 }))
+        console.log('ausgeführt');
     }
 
     componentDidMount(){
@@ -76,10 +77,7 @@ constructor(props){
 
         return (
 
-            <div>
-                
-            </div>
-           /* <div>
+             <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
                     <Typography className={classes.grayHeader}> PROJECT OVERVIEW </Typography>
@@ -145,8 +143,12 @@ constructor(props){
                                 <TableBody>
                                     {this.state.projects.map(project => (
                                         <TableRow key={project.getID()} project={project}>
+                                            
+
+
+
                                             <TableCell>
-                                            {this.state.projects.map(project => (
+
                                                 <TreeView
                                                     key={project.getID()}
                                                     project={project}
@@ -154,13 +156,34 @@ constructor(props){
                                                     defaultExpandIcon={<ChevronRightIcon />}>
                                                         <TreeItem nodeId="1"  label={project.getName()}>
                                                             <TreeItem className={classes.redHeader} nodeId="2" label="SHORT DESCRIPTION"/>
-                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={project.getShortDescription()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"SHORT DESCRIPTION " + project.getShortDescription()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Room Desired " + project.getRoomDesired()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Special Room " + project.getSpecialRoom()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Number " + project.getNumBlockDaysPriorLecture()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Number " + project.getDateBlockDaysDuringLecture()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Number " + project.getNumBlockDaysDuringLecture()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Number " + project.getNumBlockDaysInExam()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Weekly " + project.getWeekly()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"NumberSpots " + project.getNumSpots()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Language " + project.getLanguage()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"External Partner:  " + project.getExternalPartner()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Partner " + project.getProjectType()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Module " + project.getModule()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Professor " + project.getProfessor()}/>
+                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={"Second Professor" + project.getAddProfessor()}/>
+                                                            
+
+
+
+
+
+
                                                             <TreeItem nodeId="4" className={classes.redHeader}label="ECT:"/>
                                                             <TreeItem nodeId="4" className={classes.redHeader}label="SWS:"/>
                                                             <TreeItem nodeId="4" className={classes.redHeader}label={"Professor:" + project.getProfessor()}/>
                                                         </TreeItem>
                                                 </TreeView>
-                                            ))}
+                                            
                                             </TableCell>
                                             <TableCell>
                                                 <FormControl className={classes.formControl}>
@@ -192,201 +215,10 @@ constructor(props){
                             </Table>
                         </TableContainer>
                      </Grid>
-                    <Typography className={classes.redHeader}> subject-specific </Typography>
-                    <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.state.projects.map(project => (
-                                        <TableRow key={project.getID()} project={project}>
-                                            <TableCell>
-                                            {this.state.projects.map(project => (
-                                                <TreeView
-                                                    key={project.getID()}
-                                                    project={project}
-                                                    defaultCollapseIcon={<ExpandMoreIcon />}
-                                                    defaultExpandIcon={<ChevronRightIcon />}>
-                                                        <TreeItem nodeId="1"  label={project.getName()}>
-                                                            <TreeItem className={classes.redHeader} nodeId="2" label="SHORT DESCRIPTION"/>
-                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={project.getShortDescription()}/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="ECT:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="SWS:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label={"Professor:" + project.getProfessor()}/>
-                                                        </TreeItem>
-                                                </TreeView>
-                                            ))}
-                                            </TableCell>
-                                            <TableCell>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            className={classes.selectEmpty}>
-                                                                <MenuItem > no priority</MenuItem>
-                                                                <MenuItem > 1st priority</MenuItem>
-                                                                <MenuItem >2nd priority </MenuItem>
-                                                                <MenuItem >3rd priority </MenuItem>
-                                                                <MenuItem >4th priority </MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                             </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                  variant="contained"
-                                                  color="secondary"
-                                                  className={classes.button}>
-                                                    DESELECT
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-
-                                    ))}
-                               </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
-                    <Typography className={classes.redHeader}> interdisciplinary projects </Typography>
-                            <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.state.projects.map(project => (
-                                        <TableRow key={project.getID()} project={project}>
-                                            <TableCell>
-                                            {this.state.projects.map(project => (
-                                                <TreeView
-                                                    key={project.getID()}
-                                                    project={project}
-                                                    defaultCollapseIcon={<ExpandMoreIcon />}
-                                                    defaultExpandIcon={<ChevronRightIcon />}>
-                                                        <TreeItem nodeId="1"  label={project.getName()}>
-                                                            <TreeItem className={classes.redHeader} nodeId="2" label="SHORT DESCRIPTION"/>
-                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={project.getShortDescription()}/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="ECT:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="SWS:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label={"Professor:" + project.getProfessor()}/>
-                                                        </TreeItem>
-                                                </TreeView>
-                                            ))}
-                                            </TableCell>
-                                            <TableCell>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            className={classes.selectEmpty}>
-                                                                <MenuItem > no priority</MenuItem>
-                                                                <MenuItem > 1st priority</MenuItem>
-                                                                <MenuItem >2nd priority </MenuItem>
-                                                                <MenuItem >3rd priority </MenuItem>
-                                                                <MenuItem >4th priority </MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                             </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                  variant="contained"
-                                                  color="secondary"
-                                                  className={classes.button}>
-                                                    DESELECT
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-
-                                    ))}
-                               </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
-                    <Typography className={classes.redHeader}> transdisciplinary projects </Typography>
-                            <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.state.projects.map(project => (
-                                        <TableRow key={project.getID()} project={project}>
-                                            <TableCell>
-                                            {this.state.projects.map(project => (
-                                                <TreeView
-                                                    key={project.getID()}
-                                                    project={project}
-                                                    defaultCollapseIcon={<ExpandMoreIcon />}
-                                                    defaultExpandIcon={<ChevronRightIcon />}>
-                                                        <TreeItem nodeId="1"  label={project.getName()}>
-                                                            <TreeItem className={classes.redHeader} nodeId="2" label="SHORT DESCRIPTION"/>
-                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={project.getShortDescription()}/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="ECT:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="SWS:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label={"Professor:" + project.getProfessor()}/>
-                                                        </TreeItem>
-                                                </TreeView>
-                                            ))}
-                                            </TableCell>
-                                            <TableCell>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            className={classes.selectEmpty}>
-                                                                <MenuItem > no priority</MenuItem>
-                                                                <MenuItem > 1st priority</MenuItem>
-                                                                <MenuItem >2nd priority </MenuItem>
-                                                                <MenuItem >3rd priority </MenuItem>
-                                                                <MenuItem >4th priority </MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                             </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                  variant="contained"
-                                                  color="secondary"
-                                                  className={classes.button}>
-                                                    DESELECT
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-
-                                    ))}
-                               </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
+                    
 
 				</Container>
-		    </div>*/
+		    </div>
 		);
 	}
 }

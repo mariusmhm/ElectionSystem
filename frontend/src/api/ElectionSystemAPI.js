@@ -95,6 +95,7 @@ export default class ElectionSystemAPI {
     getAllProjects(){
         return this.#fetchAdvanced(this.#getAllProjectsURL()).then((responseJSON) => {
             let projectBOs = ProjectBO.fromJSON(responseJSON);
+            console.info('response'+ projectBOs);
             return new Promise(function (resolve){
                 resolve(projectBOs)
             })
