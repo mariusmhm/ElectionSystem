@@ -24,32 +24,36 @@ class ElectionSystemAdministration (object):
 
     # --- STUDENT SPECIFIC OPERATIONS ---
 
-    def get_all_students (self):
+    def get_all_students(self):
         with StudentMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_student_by_id (self, id):
+    def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             return mapper.find_by_id(id)
 
 
-    def get_student_by_name (self, name):
+    def get_student_by_name(self, name):
         with StudentMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_student_by_mail (self, mail):
+    def get_student_by_mail(self, mail):
         with StudentMapper() as mapper:
             return mapper.find_by_mail(mail)
 
+    def get_student_by_google_id(self, id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_student_by_matrikel_nr (self, matrikel_nr):
+
+    def get_student_by_matrikel_nr(self, matrikel_nr):
         with StudentMapper() as mapper:
             return mapper.find_by_matrikel_nr(matrikel_nr)
 
 
-    def get_student_by_study (self, study):
+    def get_student_by_study(self, study):
         with StudentMapper() as mapper:
             return mapper.find_by_study(study)
 
@@ -94,27 +98,30 @@ class ElectionSystemAdministration (object):
 
     # --- USER SPECIFIC OPERATIONS ---
 
-    def get_all_users (self):
+    def get_all_users(self):
         with UserMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_user_by_id (self, id):
+    def get_user_by_id(self, id):
         with UserMapper() as mapper:
             return mapper.find_by_id(id)
 
+    def get_user_by_google_id(self, id):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_user_by_name (self, name):
+    def get_user_by_name(self, name):
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_user_by_mail (self, mail):
+    def get_user_by_mail(self, mail):
         with UserMapper() as mapper:
             return mapper.find_by_mail(mail)
 
 
-    def get_user_by_role (self, role):
+    def get_user_by_role(self, role):
         with UserMapper() as mapper:
             return mapper.find_by_role(role)
 

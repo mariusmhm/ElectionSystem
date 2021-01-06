@@ -59,11 +59,13 @@ export default class ElectionSystemAPI {
 
     //Student 
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
+    #getStudentForGoogleIDURL = (googleId) => `${this.#electionSystemServerBaseURL}/student-by-google-id/${googleId}`;
     #getStudentForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/student-by-mail/${mail}`;
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
 
     //User
-    #addUserURL =() =>  `${this.#electionSystemServerBaseURL}/user`;
+    #addUserURL = () =>  `${this.#electionSystemServerBaseURL}/user`;
+    #getUserForGoogleIDURL = (googleID) =>  `${this.#electionSystemServerBaseURL}/user-by-google-id/${googleID}`;
     #getUserForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/user-by-mail/${mail}`;
     #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
     #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
@@ -512,6 +514,16 @@ export default class ElectionSystemAPI {
       })
     }
 
+    getStudentForGoogleID(googleID){
+      return this.#fetchAdvanced(this.#getStudentForGoogleIDURL(googleID))
+      .then((responseJSON) => {
+      let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(responseStudentBOs);
+      })
+    })
+  }
+
     getStudentForMail(mail){
         return this.#fetchAdvanced(this.#getStudentForMailURL(mail))
         .then((responseJSON) => {
@@ -565,6 +577,16 @@ export default class ElectionSystemAPI {
         })
       })
     }
+
+    getUserForGoogleID(googleID){
+      return this.#fetchAdvanced(this.#getUserForGoogleIDURL(googleID))
+      .then((responseJSON) => {
+      let responseUserBOs = UserBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(responseUserBOs);
+      })
+    })
+  }
 
     getUserForMail(mail){
       return this.#fetchAdvanced(this.#getUserForMailURL(mail))

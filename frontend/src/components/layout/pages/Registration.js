@@ -29,8 +29,7 @@ class Registration extends Component {
             matrikelnumber: null,
             study:'',
             redirect: false,
-            cuser: {},
-            cstudent: {},
+            error: null
         };
         
         if (firebase.auth().currentUser != null) {
@@ -42,34 +41,40 @@ class Registration extends Component {
               
         }
 
+        
 
     }
 
-    getUserbyMail = () => {
-        ElectionSystemAPI.getAPI().getUserForMail(this.state.mail)
-        .then(user =>
-            this.setState({
-                cuser: user
-            })).catch(e =>
+
+    getUserbyGoogleId = () => {
+        ElectionSystemAPI.getAPI().getUserForGoogleID(this.state.googleID).then(user => {
+            if(user[0].getGoogleID() != null){
                 this.setState({
-                    cuser:{},
+                    redirect: true,
+                })
+            }
+        }).catch(e =>
+                this.setState({
+                    error: e,
                 }))
     }
 
-    getStudentbyMail = () => {
-        ElectionSystemAPI.getAPI().getStudentForMail(this.state.mail)
-        .then(student =>
-            this.setState({
-                cstudent:student
-            })).catch(e =>
+    getStudentbyGoogleId = () => {
+        ElectionSystemAPI.getAPI().getStudentForGoogleID(this.state.googleID).then(student => {
+            if(student[0].getGoogleID() != null){
                 this.setState({
-                    cstudent:{},
+                    redirect: true,
+                })
+            }
+        }).catch(e =>
+                this.setState({
+                    error: e,
                 }))
     }
 
     componentDidMount(){
-        this.getStudentbyMail();
-        this.getUserbyMail()
+        this.getStudentbyGoogleId();
+        this.getUserbyGoogleId()
     }
 
     handleRadioChange = e => {
@@ -102,16 +107,15 @@ class Registration extends Component {
             newStudent.matrikel_nr = this.state.matrikelnumber;
             newStudent.study = this.state.study;
             
-            ElectionSystemAPI.getAPI().addStudent(newStudent).catch(student => {
-                //this.setState(this.baseState);
+            ElectionSystemAPI.getAPI().addStudent(newStudent).then(student => {
                 this.setState({
                     redirect: true
-                })
+                });
             }).catch(e => 
                 this.setState({
                     updatingError: e
                 }))
-        }else{
+        }else if(this.state.role==='user'){
             console.log('addUser');
             let newUser = new UserBO();
             newUser.firstname = this.state.firstname;
@@ -119,8 +123,7 @@ class Registration extends Component {
             newUser.role = this.state.role; 
             newUser.mail = this.state.mail;
             newUser.google_user_id = this.state.googleID;
-            ElectionSystemAPI.getAPI().addUser(newUser).catch(user => {
-               //this.setState(this.baseState);
+            ElectionSystemAPI.getAPI().addUser(newUser).then(user => {
                 this.setState({
                     redirect: true
                 })
@@ -140,17 +143,8 @@ class Registration extends Component {
 
     render(){
         const { classes } = this.props; 
-        if(this.state.cuser != null){
-            this.setState({
-                redirect: true
-            })
-        }else if(this.state.cstudent != null){
-            this.setState({
-                redirect: true
-            })
-        }
         
-        if (this.state.redirect){
+        if (this.state.redirect === true){
             return <Redirect to='/project-content'/>;
         }
         return (

@@ -66,6 +66,32 @@ class UserMapper(Mapper):
 
         return res
 
+    def find_by_google_id(self, id):
+        """Read out all users.
+        :return A collection of user objects that all users represent."""
+
+        res = None
+        crs = self._connection.cursor()
+
+        crs.execute("SELECT * FROM User WHERE google_user_id LIKE '{}'".format(id))
+        tupsrc = crs.fetchall()
+        
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+            user = User()
+            user.set_id(id)
+            user.set_name(name)
+            user.set_date(creation_date)
+            user.set_google_user_id(google_user_id)
+            user.set_firstname(user_firstname)
+            user.set_mail(mail)
+            user.set_role(role)
+            res = user
+
+        self._connection.commit()
+        crs.close()
+
+        return res
+
 
     def find_by_name(self, name):
         """Read out all users.

@@ -67,6 +67,32 @@ class StudentMapper(Mapper):
 
         return res
 
+    def find_by_google_id(self, id):
+        
+        res = None
+        crs = self._connection.cursor()
+
+        crs.execute("SELECT * FROM Student WHERE google_user_id LIKE '{}'".format(id))
+        tupsrc = crs.fetchall()
+        
+        for (id, name, creation_date, google_user_id, firstname, mail, role, matrikel_nr, study) in tupsrc:
+            student = Student()
+            student.set_id(id)
+            student.set_name(name)
+            student.set_date(creation_date)
+            student.set_google_user_id(google_user_id)
+            student.set_firstname(firstname)
+            student.set_mail(mail)
+            student.set_role(role)
+            student.set_matrikel_nr(matrikel_nr)
+            student.set_study(study)
+            res = student
+
+        self._connection.commit()
+        crs.close()
+
+        return res
+
 
     def find_by_name(self, name):
         
@@ -97,7 +123,7 @@ class StudentMapper(Mapper):
 
     def find_by_mail(self, mail):
         
-        res = []
+        res = None
         crs = self._connection.cursor()
 
         crs.execute("SELECT * FROM Student WHERE mail LIKE '{}' ORDER BY mail".format(mail))
@@ -114,7 +140,7 @@ class StudentMapper(Mapper):
             student.set_role(role)
             student.set_matrikel_nr(matrikel_nr)
             student.set_study(study)
-            res.append(student)
+            res = student
 
         self._connection.commit()
         crs.close()

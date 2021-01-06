@@ -128,7 +128,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={HomeScreen} />
+        				<Route exact path="/project-content" component={ProjectContent} />
     				</Switch>
                 </Router>
 			</ThemeProvider>
