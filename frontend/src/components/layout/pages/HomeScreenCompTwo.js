@@ -46,9 +46,7 @@ constructor(props){
         this.baseState = this.state;
     }
 
-    componentDidMount(){
-        this.getAllProjects();
-    }
+    
 
     /** Gives back the semester */
     getAllProjects = () => {
@@ -65,6 +63,10 @@ constructor(props){
                 }))
     }
 
+    componentDidMount(){
+        this.getAllProjects();
+    }
+
 
 
 
@@ -73,7 +75,11 @@ constructor(props){
         const {projects} = this.state;
 
         return (
+
             <div>
+                
+            </div>
+           /* <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
                     <Typography className={classes.grayHeader}> PROJECT OVERVIEW </Typography>
@@ -122,7 +128,7 @@ constructor(props){
                                 </FormControl>
                         </Grid>
                     </Grid>
-                    <Typography className={classes.redHeader}> Key-Competences </Typography>
+                    <Typography className={classes.redHeader}> key-competences </Typography>
                         <Grid item container
                             direction="column"
                             xs={12}
@@ -380,7 +386,7 @@ constructor(props){
                      </Grid>
 
 				</Container>
-		    </div>
+		    </div>*/
 		);
 	}
 }

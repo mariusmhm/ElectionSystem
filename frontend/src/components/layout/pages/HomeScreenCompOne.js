@@ -78,7 +78,7 @@ class HomeScreenCompOne extends Component {
                     </Typography>
                     <Typography
                         className={classes.redHeader}>
-                            supjectspecific projects
+                            subjectspecific projects
                     </Typography>
                     <br/>
                     <Grid item container
