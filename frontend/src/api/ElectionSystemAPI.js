@@ -201,11 +201,15 @@ export default class ElectionSystemAPI {
    getAllProjecttypes(){
         return this.#fetchAdvanced(this.#getAllProjecttypesURL()).then((responseJSON)=> {
             let projecttypeBOs =ProjecttypeBO.fromJSON(responseJSON);
+            console.info('response'+ projecttypeBOs);
             return new Promise(function(resolve){
                 resolve(projecttypeBOs);
             })
         })
     }
+
+ 
+
 
     getProjecttypeForProject(projectID){
         return this.#fetchAdvanced(this.#getProjecttypeForProjectURL(projectID)).then((responseJSON) => {
