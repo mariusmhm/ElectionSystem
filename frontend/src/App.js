@@ -15,10 +15,11 @@ import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 //import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
-import CreateProject from './components/dialogs/CreateProject'
-import ProjectContent from './components/layout/pages/ProjectContent'
-import Semester from './components/dialogs/Semester'
-import HomeScreen from './components/layout/HomeScreen'
+import CreateProject from './components/dialogs/CreateProject';
+import ProjectContent from './components/layout/pages/ProjectContent';
+import Semester from './components/dialogs/Semester';
+import HomeScreen from './components/layout/HomeScreen';
+import HomeScreenAdmin from './components/layout/HomeScreenAdmin';
 
 
 class App extends Component {
@@ -128,7 +129,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={HomeScreen} />
+        				<Route exact path="/project-content" component={HomeScreenAdmin} />
     				</Switch>
                 </Router>
 			</ThemeProvider>

@@ -29,6 +29,8 @@ export default class ElectionSystemAPI {
     #addProjecttypeURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #updateProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
     #deleteProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
+    #getProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
+
 
     //Module
     #getAllModulesURL = () => `${this.#electionSystemServerBaseURL}/modules`;
@@ -86,6 +88,8 @@ export default class ElectionSystemAPI {
       return res.json();
     }
     )
+
+    }
 
     //----------Projects-------------------------
 
@@ -253,6 +257,14 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
+    getProjecttype(projecttypeid){
+      return this.#fetchAdvanced(this.#getProjecttypeURL(projecttypeid)).then((responseJSON)=> {
+        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON)[0];
+        return new Promise(function(resolve){
+            resolve(projecttypeBOs);
+        })
+    })
 
     //----------Module-------------------------
 
