@@ -2,15 +2,87 @@ import React, {Component} from 'react';
 import {Button, Icon, Grid, TextField, Typography, withStyles} from'@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import {ElectionSystemAPI, ProjecttypeBO} from '../../../api';
 
+
+let projectid = 1;
 
 class ProjectContent extends Component {
 
    constructor(props) {
       super(props);
-
       
+
+      this.state = {
+          project: [],
+          error: null,
+          projectname: '',
+          projecttypeid: 1,
+          projecttype: [],
+          moduleid: 1,
+          module: [],
+          loaded: false,
+          ptloaded: false,
+          mloaded: false,
+          addProfShow: false,
+      }
    }
+
+   getProject = () => {
+    ElectionSystemAPI.getAPI().getProject(projectid)
+    .then(projectBO => {
+        this.setState({
+            project: projectBO,
+            projectname: projectBO.getName(),
+            loaded:true
+        });
+        if(this.state.project.getAddProfessor() != null){
+            this.setState({
+                addProfShow: true
+            })
+        }
+    }).catch(e =>
+            this.setState({
+                project:[],
+                error: e
+            }))
+    }   
+
+    getProjecttype = () => {
+    ElectionSystemAPI.getAPI().getProjecttype(this.state.projecttypeid)
+    .then(projecttypeBO =>{
+        this.setState({
+            projecttype: projecttypeBO,
+            error: null,
+            ptloaded: true
+        })
+    }).catch(e =>
+            this.setState({
+                projecttypes:[],
+                error: e
+            }))
+    }
+
+    getModule = () => {
+        ElectionSystemAPI.getAPI().getModule(this.state.moduleid)
+        .then(moduleBO => {
+            this.setState({
+                module: moduleBO,
+                error: null,
+                mloaded: true,
+            })
+        }).catch(e =>
+                this.setState({
+                    module:[],
+                    error: e
+                }))
+    }
+
+componentDidMount(){
+    this.getProject();
+    this.getProjecttype();
+    this.getModule()
+}
 
 
  render(){
@@ -20,64 +92,69 @@ class ProjectContent extends Component {
         <div className={classes.pageContent}>
             
             <Grid container spacing={2} justify="center" className={classes.grid}>
-            <Grid container justify="flex-start" alignItems="flex-start" md={1}>
-                <Grid item>
+            <Grid item xs={1} style={{ alignItems: 'center'}}>
                 <IconButton className={classes.arrowButton}>
                     <ArrowBackIosIcon color="secondary"/> 
                 </IconButton>
                 </Grid>
-            </Grid>
+            <Grid item xs={11}>
+                    <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname : null}</Typography>
+                </Grid>
 
-            <Grid container direction="column" spacing={2} xs={12} md={5}>
+            <Grid container direction="column" spacing={2} xs={12} md={4}>
+                
                 <Grid item>
-                    <Typography>PROJECTNAME</Typography>
+                    <Typography>Modul: { this.state.mloaded ? this.state.module.getName() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Modul:</Typography>
+                    <Typography>EDV Number: </Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>EDV Number:</Typography>
+                    <Typography>Project type: { this.state.ptloaded ? this.state.projecttype.getName() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Project type:</Typography>
+                    <Typography>ECTS:  { this.state.ptloaded ? this.state.projecttype.getEcts() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>ETCS:</Typography>
+                    <Typography>SWS: { this.state.ptloaded ? this.state.projecttype.getSws() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>SWS:</Typography>
+                    <Typography>Language: { this.state.loaded ? this.state.project.getLanguage() : null}</Typography>
+                </Grid>
+                { this.state.addProfShow ? 
+                <Grid item>
+                    <Typography>Additional Professors: { this.state.loaded ? this.state.project.getAddProfessor() : null}</Typography>
+                </Grid>
+                : null
+                }
+                <Grid item>
+                    <Typography>External co-operation partner: { this.state.loaded ? this.state.project.getExternalPartner() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Language:</Typography>
+                    <Typography>Weekly lecture:  { this.state.loaded ? this.state.project.getWeekly() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Additional Professors:</Typography>
+                    <Typography>Particular room necessary: { this.state.loaded ? this.state.project.getRoomDesired() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>External co-operation partner:</Typography>
+                    <Typography>Blockdays prior to semester: { this.state.loaded ? this.state.project.getNumBlockDaysPriorLecture() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Weekly lecture:</Typography>
+                    <Typography>Blockdays during semester: { this.state.loaded ? this.state.project.getNumBlockDaysPriorLecture() : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>Particular room necessary:</Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>Blockdays prior to semester:</Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>Blockdays during semester:</Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>Blockdays during exam week:</Typography>
+                    <Typography>Blockdays during exam week: { this.state.loaded ? this.state.project.getNumBlockDaysInExam() : null}</Typography>
                 </Grid>
             </Grid>
             <Grid container direction="column" spacing={2} xs={12} md={6}>
                 <Grid item>
-                    <Typography>Short description:</Typography>
+                    <Typography>Short description: </Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>State:</Typography>
+                    <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
+                </Grid>
+                <Grid item>
+                    <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography>Reason:</Typography>
@@ -106,8 +183,10 @@ const styles = theme => ({
     pageContent:{
         margin: theme.spacing(1)
     },
-    arrowButton:{
-        padding: theme.spacing(0)
+    header: {
+        fontSize: '1.5rem',
+        paddingTop: theme.spacing(1),
+        paddingLeft: theme.spacing(1)
     }
 });
 

@@ -23,15 +23,17 @@ export default class ElectionSystemAPI {
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     
-    //Project type
+    //Projecttype
     #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
+    #getProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
     #getProjecttypeForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}/projecttype`;
     #addProjecttypeURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #updateProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
     #deleteProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
 
     //Module
-    #getAllModulesURL = () => `${this.#electionSystemServerBaseURL}/modules`;
+    #getAllModulesURL = () => `${this.#electionSystemServerBaseURL}/module`;
+    #getModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
     #getModuleForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}/module`;
     #addModuleURL = () => `${this.#electionSystemServerBaseURL}/module`;
     #updateModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
@@ -67,6 +69,7 @@ export default class ElectionSystemAPI {
     #addUserURL = () =>  `${this.#electionSystemServerBaseURL}/user`;
     #getUserForGoogleIDURL = (googleID) =>  `${this.#electionSystemServerBaseURL}/user-by-google-id/${googleID}`;
     #getUserForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/user-by-mail/${mail}`;
+    #getUserForRoleURL = (role) => `${this.#electionSystemServerBaseURL}/user-by-role/${role}`;
     #getUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
     #updateUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
     #deleteUserURL = (id) => `${this.#electionSystemServerBaseURL}/user/${id}`;
@@ -208,9 +211,18 @@ export default class ElectionSystemAPI {
         })
     }
 
+    getProjecttype(projecttypeid){
+      return this.#fetchAdvanced(this.#getProjecttypeURL(projecttypeid)).then((responseJSON)=> {
+        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON)[0];
+        return new Promise(function(resolve){
+            resolve(projecttypeBOs);
+        })
+    })
+    }
+
     getProjecttypeForProject(projectID){
         return this.#fetchAdvanced(this.#getProjecttypeForProjectURL(projectID)).then((responseJSON) => {
-          let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+          let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON)[0];
           return new Promise(function (resolve) {
             resolve(projecttypeBOs);
         })
@@ -270,10 +282,20 @@ export default class ElectionSystemAPI {
         }) 
     }
 
+    getModule(moduleid){
+      return this.#fetchAdvanced(this.#getModuleURL(moduleid))
+      .then((responseJSON) => {
+      let responseModuleBOs = ModuleBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(responseModuleBOs);
+      })
+    })
+  }
+
     getModuleForProject(projectID){
         return this.#fetchAdvanced(this.#getModuleForProjectURL(projectID))
         .then((responseJSON) => {
-        let responseModuleBOs = ModuleBO.fromJSON(responseJSON);
+        let responseModuleBOs = ModuleBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseModuleBOs);
         })
@@ -340,7 +362,7 @@ export default class ElectionSystemAPI {
     */
     getGrade(gradeID){
       return this.#fetchAdvanced(this.#getGradeURL(gradeID)).then((responseJSON)=> {
-        let responseGradingBOs = GradingBO.fromJSON(responseJSON);
+        let responseGradingBOs = GradingBO.fromJSON(responseJSON)[0];
         return new Promise(function(resolve){
           resolve(responseGradingBOs);
         })
@@ -402,7 +424,7 @@ export default class ElectionSystemAPI {
     getParticipation(participationID){
       return this.#fetchAdvanced(this.#getParticipationURL(participationID))
       .then((responseJSON) => {
-        let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseParticipationBOs);
         })
@@ -507,7 +529,7 @@ export default class ElectionSystemAPI {
     getStudent(studentID){
         return this.#fetchAdvanced(this.#getStudentURL(studentID))
         .then((responseJSON) => {
-        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+        let responseStudentBOs = StudentBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseStudentBOs);
         })
@@ -517,7 +539,7 @@ export default class ElectionSystemAPI {
     getStudentForGoogleID(googleID){
       return this.#fetchAdvanced(this.#getStudentForGoogleIDURL(googleID))
       .then((responseJSON) => {
-      let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+      let responseStudentBOs = StudentBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseStudentBOs);
       })
@@ -527,7 +549,7 @@ export default class ElectionSystemAPI {
     getStudentForMail(mail){
         return this.#fetchAdvanced(this.#getStudentForMailURL(mail))
         .then((responseJSON) => {
-        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+        let responseStudentBOs = StudentBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseStudentBOs);
         })
@@ -571,7 +593,7 @@ export default class ElectionSystemAPI {
     getUser(userID){
         return this.#fetchAdvanced(this.#getUserURL(userID))
         .then((responseJSON) => {
-        let responseUserBOs = UserBO.fromJSON(responseJSON);
+        let responseUserBOs = UserBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseUserBOs);
         })
@@ -581,9 +603,19 @@ export default class ElectionSystemAPI {
     getUserForGoogleID(googleID){
       return this.#fetchAdvanced(this.#getUserForGoogleIDURL(googleID))
       .then((responseJSON) => {
-      let responseUserBOs = UserBO.fromJSON(responseJSON);
+      let responseUserBOs = UserBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(responseUserBOs);
+      })
+    })
+  }
+
+    getUserForRole(role){
+    return this.#fetchAdvanced(this.#getUserForRoleURL(role))
+    .then((responseJSON) => {
+    let responseUserBOs = UserBO.fromJSON(responseJSON);
+    return new Promise(function (resolve) {
+      resolve(responseUserBOs);
       })
     })
   }
@@ -591,7 +623,7 @@ export default class ElectionSystemAPI {
     getUserForMail(mail){
       return this.#fetchAdvanced(this.#getUserForMailURL(mail))
         .then((responseJSON) => {
-        let responseUserBOs = UserBO.fromJSON(responseJSON);
+        let responseUserBOs = UserBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
           resolve(responseUserBOs);
         })

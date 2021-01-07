@@ -48,7 +48,7 @@ class Registration extends Component {
 
     getUserbyGoogleId = () => {
         ElectionSystemAPI.getAPI().getUserForGoogleID(this.state.googleID).then(user => {
-            if(user[0].getGoogleID() != null){
+            if(user.getGoogleID() != null){
                 this.setState({
                     redirect: true,
                 })
@@ -61,7 +61,7 @@ class Registration extends Component {
 
     getStudentbyGoogleId = () => {
         ElectionSystemAPI.getAPI().getStudentForGoogleID(this.state.googleID).then(student => {
-            if(student[0].getGoogleID() != null){
+            if(student.getGoogleID() != null){
                 this.setState({
                     redirect: true,
                 })
@@ -94,7 +94,7 @@ class Registration extends Component {
                 show: false
               });
         }
-    };
+    }
 
     addUser = () => {
         if(this.state.role==='student'){
