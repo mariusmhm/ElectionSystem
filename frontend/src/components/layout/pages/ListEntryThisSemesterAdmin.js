@@ -55,7 +55,21 @@ constructor(props){
                 }))
     }
 
-    /**Gives back the projecttype by id**//
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+        .then(projecttypeBO =>
+            this.setState({
+                projecttype: projecttypeBO,
+                loaded: true,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    projecttype: [],
+                    error: e
+                }))
+    }
+
+    /**Gives back the projecttype by id**/
      getProjecttype = () => {
         ElectionSystemAPI.getAPI().getProjecttype()
         .then(projecttypeBO => { this.setState({
@@ -72,7 +86,7 @@ constructor(props){
     }
 
 
-      //Handles the single delete Button
+      /**Delets the project  **/
       deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
@@ -84,7 +98,7 @@ constructor(props){
         );
 
         this.setState({
-          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
+          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
         })
     }
 
@@ -158,7 +172,7 @@ constructor(props){
                                             <TableCell> {project.getName()} </TableCell>
                                             <TableCell> {project.getProjectType()} </TableCell>
                                             <TableCell> {project.getProfessor()} </TableCell>
-                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler}/> </IconButton></TableCell>
+                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler(project)}/> </IconButton></TableCell>
                                         </TableRow>
 
                                     ))}

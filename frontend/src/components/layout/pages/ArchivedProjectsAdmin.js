@@ -53,7 +53,21 @@ constructor(props){
                 }))
     }
 
-    /**Gives back the projecttype by id**//
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+        .then(projecttypeBO =>
+            this.setState({
+                projecttype: projecttypeBO,
+                loaded: true,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    projecttype: [],
+                    error: e
+                }))
+    }
+
+    /**Gives back the projecttype by id**/
      getProjecttype = () => {
         ElectionSystemAPI.getAPI().getProjecttype()
         .then(projecttypeBO => { this.setState({
@@ -69,8 +83,7 @@ constructor(props){
                 }))
     }
 
-
-      //Handles the single delete Button
+     /**Delets the project  **/
       deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
@@ -82,15 +95,30 @@ constructor(props){
         );
 
         this.setState({
-          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
+          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
         })
     }
 
+    /**Delets all projects
+    deleteAllProjectHandler = (project) => {
+        console.log(project);
+        ElectionSystemAPI.getAPI().deleteProject(project.getAllProjects).then(project => {
+          console.log(project);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
 
+        this.setState({
+          projects: this.state.projects.filter(projectFromState => projectFromState.getAllProjects() != project.getAllProjects())
+        })
+    }**/
 
+    //onClick ={this.deleteAllProjectHandler}
 
   render() {
-    const {projects} = this.state;
+    const {projects, project} = this.state;
      const {classes}= this.props;
         return (
 
@@ -113,7 +141,7 @@ constructor(props){
                                         <TableCell>PROJECT</TableCell>
                                         <TableCell>PROJECT TYPE</TableCell>
                                         <TableCell>PROFESSOR</TableCell>
-                                        <TableCell> <Button  variant="contained" color="secondary" startIcon={<DeleteIcon />} className={classes.button}>Delete All</Button> </TableCell>
+                                        <TableCell> <Button  variant="contained" color="secondary"  startIcon={<DeleteIcon />} className={classes.button}>Delete All</Button> </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -122,7 +150,7 @@ constructor(props){
                                             <TableCell> {project.getName()}</TableCell>
                                             <TableCell> {project.getProjectType()}</TableCell>
                                             <TableCell> {project.getProfessor()}</TableCell>
-                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler}/> </IconButton></TableCell>
+                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler(project)}/> </IconButton></TableCell>
                                         </TableRow>
                                     ))}
                                </TableBody>

@@ -20,6 +20,7 @@ import ProjectContent from './components/layout/pages/ProjectContent';
 import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/HomeScreenAdmin';
+import EntryListAdmin from './components/layout/pages/EntryListAdmin';
 
 
 class App extends Component {

@@ -43,6 +43,7 @@ constructor(props){
 
     componentDidMount(){
         this.getAllProjects();
+        this.getProjecttype();
     }
 
     /** Gives back the projects */
@@ -52,7 +53,7 @@ constructor(props){
                 projects: projectBO,
                 loaded: true,
                 error: null
-            },console.log("hei")
+            },console.log("ausgeführt")
             )
             }).catch(e =>
                 this.setState({
@@ -61,9 +62,39 @@ constructor(props){
                 }))
     }
 
-    /**Gives back the projecttype by id**//
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+        .then(projecttypeBO =>
+            this.setState({
+                projecttype: projecttypeBO,
+                loaded: true,
+                error: null
+            })).catch(e =>
+                this.setState({
+                    projecttype: [],
+                    error: e
+                }))
+    }
+
+    /**Gives back the projecttype by id**/
      getProjecttype = () => {
-        ElectionSystemAPI.getAPI().getProjecttype()
+     ElectionSystemAPI.getAPI().getProjecttype(this.state.projecttypeid)
+     .then(projecttypeBO =>{
+         this.setState({
+             projecttype: projecttypeBO,
+             error: null,
+             ptloaded: true
+         })
+     }).catch(e =>
+             this.setState({
+                 projecttypes:[],
+                 error: e
+             }))
+     }
+
+    /** Gives back the projects */
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
         .then(projecttypeBO => { this.setState({
                 projecttype: projecttypeBO,
                 loaded: true,
@@ -78,8 +109,9 @@ constructor(props){
     }
 
 
+
       //Handles the single delete Button
-      deleteProjectHandler = (project) => {
+    deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
           console.log(project);
