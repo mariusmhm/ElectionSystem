@@ -4,8 +4,10 @@ import Teilnehmerliste from './components/layout/pages/Teilnehmerliste'
 import ArchiveProject from'./components/layout/pages/ProjectGenehmigen/ArchiveProject'
 import ListEntryDiesesSemester from'./components/layout/pages/ProjectGenehmigen/ListEntryDiesesSemester'
 import HomeScreenAdminBeginn from'./components/layout/pages/ProjectGenehmigen/HomeScreenAdminBeginn'
-import AddStudent from'./components/dialogs/AddStudent'
-import CreateProject from'./components/dialogs/CreateProject'
+import DeleteStudent from'./components/dialogs/DeleteStudent'
+import ModulBearbeitung from'./components/dialogs/ModulBearbeitung'
+import NotenschlüsselBearbeitung from'./components/dialogs/NotenschlüsselBearbeitung'
+
 
 class App extends Component {
 
@@ -16,7 +18,7 @@ class App extends Component {
         return (
 
             <div>
-                <AddStudent/>
+                <DeleteStudent/>
 		    </div>
 		);
 	}
