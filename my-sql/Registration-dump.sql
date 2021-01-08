@@ -15,6 +15,17 @@ CREATE TABLE `Semester` (
   PRIMARY KEY(`id`)
 );
 
+DROP TABLE IF EXISTS `Projecttype`;
+CREATE TABLE `Projecttype` (
+	`id` int(11) NOT NULL DEFAULT '0',
+	`name` VARCHAR(30),
+    `creation_date` DATE,
+	`sws` int(11) NOT NULL DEFAULT '0',
+	`ect` int(11) NOT NULL DEFAULT '0',	
+    PRIMARY KEY(`id`)
+);
+
+
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
 	`id` int(11) NOT NULL DEFAULT '0',
@@ -23,29 +34,28 @@ CREATE TABLE `Module` (
 	`edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
     PRIMARY KEY(`id`)
 );
-INSERT INTO `Module` VALUES (2, '2021-08-02', "Schlüsselkompetenz", "1234");
+INSERT INTO `Module` VALUES (2, '2021-01-05', "Schlüsselkompetenz","324");
 
-DROP TABLE IF EXISTS Grading;
-CREATE TABLE Grading(
-    `id` int(11) NOT NULL DEFAULT 0,
+DROP TABLE IF EXISTS `Grading`;
+CREATE TABLE `Grading`(
+    `id` int(11) NOT NULL DEFAULT '0',
     `creation_date` DATE,
-    `grade` float NOT NULL DEFAULT 0,
+    `grade` float NOT NULL DEFAULT '0',
 
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS Participation;
-CREATE TABLE Participation(
-    `id` int(11) NOT NULL DEFAULT 0,
+DROP TABLE IF EXISTS `Participation`;
+CREATE TABLE `Participation`(
+    `id` int(11) NOT NULL DEFAULT '0',
     `creation_date` DATE,
-    `priority` int(11) DEFAULT 0,
+    `priority` int(11) DEFAULT '0',
     `grading_id` INT NULL,
-    `student_id` int(11) DEFAULT 0,
-    `project_id` int(11) DEFAULT 0,
+    `student_id` int(11) DEFAULT '0',
+    `project_id` int(11) DEFAULT '0',
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`grading_id`) REFERENCES `Grading`(`id`),
-    FOREIGN KEY (`student_id`) REFERENCES `Student`(`id`),
     FOREIGN KEY (`project_id`) REFERENCES `Project`(`id`)
 );
 

@@ -20,14 +20,15 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjecttypeBO from '../../api/ProjecttypeBO';
+import ModuleBO from '../../api/ModuleBO';
 
 let open = true;
 
 class EditProjecttype extends Component {
 
-    constructor(props){
-        super(props)
-        this.state= {
+  constructor(props){
+    super(props)
+    this.state= {
         projecttypeName:'',
         modules:[],
         ect:'',
@@ -36,37 +37,33 @@ class EditProjecttype extends Component {
         deletingError: null,
         error: null,
 
-        };
+    };
         this.baseState = this.state;
-    }
+  }
 
-    getAllModules = () => {
-        ElectionSystemAPI.getAPI().getAllModules()
-        .then(moduleBOs =>
-            this.setState({
-                modules: moduleBOs,
-                error: null
-            })).catch(e =>
-                this.setState({
-                    modules:[],
-                    error: e
-                }))
-    }
+ getAllModules = () => {
+   ElectionSystemAPI.getAPI().getAllModules().then(moduleBO =>
+      this.setState({
+           modules: moduleBO,
+           loaded: true,
+           error: null
+           })).catch(e =>
+           this.setState({
+                modules:[],
+                error: e
+           }))
+      console.log('ausgeführt');
+   }
 
-
-
-     componentDidMount(){
+   componentDidMount(){
         this.getAllModules();
-    }
-
-
-
+   }
 
    handleSubmit =(event) =>{
         event.preventDefault()
         alert(` "The Projecttype" ${this.state.projectypeName} "with the module" ${this.state.module} "is added".`)
 
-}
+   }
 
     handleInputProjecttypeNameChange =(event)=>{
         event.preventDefault()
@@ -98,12 +95,12 @@ class EditProjecttype extends Component {
 
 
     selectHandleChangeModule = (e) =>{
-        this.modules = this.state.modules[e.target.value].getName();
+        this.mo= this.state.modules[e.target.value].getName();
         this.setState({
-            modules: this.state.modules[e.target.value]
+            moSelected: this.state.modules[e.target.value]
         },
         function(){
-            console.log(this.modules);
+            console.log(this.mo);
             console.log(this.state.moSelected);
 
         });
@@ -151,10 +148,22 @@ class EditProjecttype extends Component {
             }))
     }
 
+   updateProjecttype = () => {
+        let originProjecttype = this.state.projecttype;
+        // clone original Projecttype, in case the backend call fails
+        let updatedProjecttype = Object.assign(new ProjecttypeBO(), originProjecttype); //eventuell raus nehehmen
+        // set the new attributes from our dialog
+        updatedProjecttype.setName(this.state.projecttypeName);
+        updatedProjecttype.setSws(this.state.sws);
+        updatedProjecttype.setEcts(this.state.ect);
+        //updatedProjecttype.setMoules(this.state.modules);??
+        console.log(JSON.stringify(updatedProjecttype));
+        ElectionSystemAPI.getAPI().updateProjecttype(updatedProjecttype).catch(e => console.log(e));
+   }
 
 
  render(){
-    const { projecttype, error } = this.state;
+    const { projecttype, error, modules, ect, sws, moSelected} = this.state;
     const { classes } = this.props;
 
   return (
@@ -227,12 +236,11 @@ class EditProjecttype extends Component {
                     </Grid>
                     </Grid>
                     <Grid item xs={6} justify='center'>
-                        <FormControl fullWidth variant="outlined" onSubmit={this.handleSubmit}>
+                        <FormControl fullWidth variant="outlined">
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" onChange={this.selectHandleChangeModule}>
-                                    {this.state.modules.map((modules, index) => (
-                                        <MenuItem key={index} value={index}>{modules.getName()}</MenuItem>
-                                    ))}
+                            <Select label="Module" /*onChange={this.selectHandleChangeModule}*/>
+                                    {this.state.modules.map((module) => (
+                                        <MenuItem key={module.getID()} value={module}>{module.getName()}</MenuItem>))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -240,7 +248,7 @@ class EditProjecttype extends Component {
                         <Button
                         variant="outlined"
                         type="submit"
-                        color="secondary" onClick={this.clearFormButtonClicked}>
+                        color="secondary" onClick={this.updateProjecttype}>
                             Add
                         </Button>
                     </Grid>
