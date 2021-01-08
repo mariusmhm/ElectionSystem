@@ -16,7 +16,7 @@ import {withStyles} from '@material-ui/core';
 
 let open= true;
 
-class CreateProject extends Component {
+class AddStudent extends Component {
 
  render(){
     const { classes } = this.props;
@@ -143,4 +143,4 @@ const styles = theme => ({
 });
 
 
-export default withStyles(styles)(AddStudent);
+export default withStyles(styles)(CreateProject);
