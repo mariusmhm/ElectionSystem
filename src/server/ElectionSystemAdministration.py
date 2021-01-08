@@ -24,32 +24,36 @@ class ElectionSystemAdministration (object):
 
     # --- STUDENT SPECIFIC OPERATIONS ---
 
-    def get_all_students (self):
+    def get_all_students(self):
         with StudentMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_student_by_id (self, id):
+    def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             return mapper.find_by_id(id)
 
 
-    def get_student_by_name (self, name):
+    def get_student_by_name(self, name):
         with StudentMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_student_by_mail (self, mail):
+    def get_student_by_mail(self, mail):
         with StudentMapper() as mapper:
             return mapper.find_by_mail(mail)
 
+    def get_student_by_google_id(self, id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_student_by_matrikel_nr (self, matrikel_nr):
+
+    def get_student_by_matrikel_nr(self, matrikel_nr):
         with StudentMapper() as mapper:
             return mapper.find_by_matrikel_nr(matrikel_nr)
 
 
-    def get_student_by_study (self, study):
+    def get_student_by_study(self, study):
         with StudentMapper() as mapper:
             return mapper.find_by_study(study)
 
@@ -94,27 +98,30 @@ class ElectionSystemAdministration (object):
 
     # --- USER SPECIFIC OPERATIONS ---
 
-    def get_all_users (self):
+    def get_all_users(self):
         with UserMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_user_by_id (self, id):
+    def get_user_by_id(self, id):
         with UserMapper() as mapper:
             return mapper.find_by_id(id)
 
+    def get_user_by_google_id(self, id):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_user_by_name (self, name):
+    def get_user_by_name(self, name):
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_user_by_mail (self, mail):
+    def get_user_by_mail(self, mail):
         with UserMapper() as mapper:
             return mapper.find_by_mail(mail)
 
 
-    def get_user_by_role (self, role):
+    def get_user_by_role(self, role):
         with UserMapper() as mapper:
             return mapper.find_by_role(role)
 
@@ -343,6 +350,7 @@ class ElectionSystemAdministration (object):
 
     def create_project(self, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
         #create project
+
         project = Project()
         project.set_date(creation_date)
         project.set_name(name)
@@ -360,7 +368,8 @@ class ElectionSystemAdministration (object):
         project.set_projecttype_id(projecttype_id)
         project.set_module_id(module_id)
         project.set_professor_id(professor_id)
-        project.set_add_professor_id(add_professor_id)
+        if add_professor_id is not 0:
+            project.set_add_professor_id(add_professor_id)
         project.set_state(state)
         project.set_id(1)
         
