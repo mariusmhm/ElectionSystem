@@ -22,7 +22,7 @@ export default class ElectionSystemAPI {
     #addProjectURL = () => `${this.#electionSystemServerBaseURL}/project`;
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
-    
+
     //Projecttype
     #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #getProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
@@ -30,8 +30,6 @@ export default class ElectionSystemAPI {
     #addProjecttypeURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
     #updateProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
     #deleteProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
-    #getProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/projecttype/${id}`;
-
 
     //Module
     #getAllModulesURL = () => `${this.#electionSystemServerBaseURL}/module`;
@@ -40,14 +38,14 @@ export default class ElectionSystemAPI {
     #addModuleURL = () => `${this.#electionSystemServerBaseURL}/module`;
     #updateModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
     #deleteModuleURL = (id) => `${this.#electionSystemServerBaseURL}/module/${id}`;
-    
+
     //Grading
     #getAllGradesURL = () => `${this.#electionSystemServerBaseURL}/grading`
     #getGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`
     #addGradeURL = () => `${this.#electionSystemServerBaseURL}/grading`;
     #updateGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grade/${id}`;
     #deleteGradeURL = (id) => `${this.#electionSystemServerBaseURL}/grading/${id}`;
-    
+
     //Participation
     #getAllParticipationsForProjectURL = (id) => `${this.#electionSystemServerBaseURL}/participation-by-project/${id}`;
     #getParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
@@ -61,7 +59,7 @@ export default class ElectionSystemAPI {
     #addSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`;
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
-    //Student 
+    //Student
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
     #getStudentForGoogleIDURL = (googleId) => `${this.#electionSystemServerBaseURL}/student-by-google-id/${googleId}`;
     #getStudentForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/student-by-mail/${mail}`;
@@ -84,10 +82,10 @@ export default class ElectionSystemAPI {
         }
         return this.#api;
       }
-    
+
     #fetchAdvanced = (url, init) => fetch(url, init)
     .then(res => {
-      // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500. 
+      // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
         throw Error(`${res.status} ${res.statusText}`);
       }
@@ -95,11 +93,9 @@ export default class ElectionSystemAPI {
     }
     )
 
-    }
-
     //----------Projects-------------------------
 
-    /** 
+    /**
     *@public
     */
     getAllProjects(){
@@ -127,7 +123,7 @@ export default class ElectionSystemAPI {
           resolve(projecttypeBOs);
       })
     })
-    } 
+    }
 
     getProjectForProjecttype(projecttypeid){
       return this.#fetchAdvanced(this.#getProjectForProjecttypeURL(projecttypeid)).then((responseJSON) => {
@@ -139,7 +135,7 @@ export default class ElectionSystemAPI {
     }
 
 
-    /** 
+    /**
     *@param {ProjectBO} projectBO
     *@public
     */
@@ -159,7 +155,7 @@ export default class ElectionSystemAPI {
           })
     }
 
-    /** 
+    /**
     *@param {Number} projectID
     *@public
     */
@@ -172,7 +168,7 @@ export default class ElectionSystemAPI {
           })
     }
 
-    /** 
+    /**
     *@param {ProjectBO} projectBO
     *@public
     */
@@ -187,7 +183,7 @@ export default class ElectionSystemAPI {
           })
     }
 
-    /** 
+    /**
     *@param {Number} projectID
     *@public
     */
@@ -204,7 +200,7 @@ export default class ElectionSystemAPI {
 
     //----------Projecttype-------------------------
 
-     /** 
+     /**
     *@public
     */
    getAllProjecttypes(){
@@ -273,17 +269,9 @@ export default class ElectionSystemAPI {
           })
     }
 
-    getProjecttype(projecttypeid){
-      return this.#fetchAdvanced(this.#getProjecttypeURL(projecttypeid)).then((responseJSON)=> {
-        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON)[0];
-        return new Promise(function(resolve){
-            resolve(projecttypeBOs);
-        })
-    })
-
     //----------Module-------------------------
 
-    /** 
+    /**
     *@public
     */
     getAllModules(){
@@ -292,7 +280,7 @@ export default class ElectionSystemAPI {
             return new Promise(function (resolve){
                 resolve(responseModuleBOs)
             })
-        }) 
+        })
     }
 
     getModule(moduleid){
@@ -355,7 +343,7 @@ export default class ElectionSystemAPI {
 
     //----------Grading-------------------------
 
-     /** 
+     /**
     *@public
     */
     getAllGrades(){
@@ -367,10 +355,10 @@ export default class ElectionSystemAPI {
             resolve(responseGradingBOs);
         })
       })
-    
+
     }
 
-    /** 
+    /**
     *@public
     */
     getGrade(gradeID){
@@ -380,10 +368,10 @@ export default class ElectionSystemAPI {
           resolve(responseGradingBOs);
         })
       })
-  
+
     }
-  
-    
+
+
     addGrade(grading){
         return this.#fetchAdvanced(this.#addGradeURL(), {
             method: 'POST',
@@ -500,10 +488,10 @@ export default class ElectionSystemAPI {
           return new Promise(function (resolve){
               resolve(responseSemesterBOs)
           })
-      }) 
+      })
     }
-    
-    
+
+
     addSemester(semester){
         return this.#fetchAdvanced(this.#addSemesterURL(), {
           method: 'POST',
@@ -586,15 +574,15 @@ export default class ElectionSystemAPI {
     }
 
     getStudentByParticipations(projectID){
-        return this.#fetchAdvanced(this.#getStudentsByParticipationsURL(projectID))
-        .then((responseJSON) => {
-        let responseStudentBOs = StudentBO.fromJSON(responseJSON);
-        return new Promise(function (resolve) {
-          resolve(responseStudentBOs);
-          console.log(responseStudentBOs);
-        })
-      })
-    }
+    return this.#fetchAdvanced(this.#getStudentsByParticipationsURL(projectID))
+    .then((responseJSON) => {
+    let responseStudentBOs = StudentBO.fromJSON(responseJSON);
+    return new Promise(function (resolve) {
+      resolve(responseStudentBOs);
+      console.log(responseStudentBOs);
+    })
+  })
+}
 
     //----------User-------------------------
 
@@ -676,5 +664,5 @@ export default class ElectionSystemAPI {
           })
     }
 
-   
+
 }

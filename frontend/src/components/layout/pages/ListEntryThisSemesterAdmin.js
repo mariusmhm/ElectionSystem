@@ -28,7 +28,7 @@ constructor(props){
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: null,
+            loaded: false,
 
 
 
@@ -113,7 +113,7 @@ constructor(props){
             <div>
                 <Container maxWidth="md">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary">THIS SEMESTER</Typography>
+                    <Typography variant='h4' color="secondary" className={classes.redHeader}>THIS SEMESTER</Typography>
                     <br/>
                     <Typography variant='h6' color="gray">Approved Projects</Typography>
                     <br/>
@@ -137,7 +137,7 @@ constructor(props){
                                     {this.state.projects.map(project => (
                                         <TableRow key={project.getID()}>
                                             <TableCell> {project.getName()} </TableCell>
-                                            <TableCell> {project.getProjectType()} </TableCell>
+                                            <TableCell> {this.getProjecttype} </TableCell>
                                             <TableCell> {project.getProfessor()} </TableCell>
                                         </TableRow>
 
@@ -162,7 +162,6 @@ constructor(props){
                                         <TableCell>PROJECT</TableCell>
                                         <TableCell>PROJECT TYPE</TableCell>
                                         <TableCell>PROFESSPR</TableCell>
-                                        <TableCell> <Button  variant="contained" color="secondary" startIcon={<DeleteIcon />} className={classes.button}>Delete All</Button> </TableCell>
 
                                     </TableRow>
                                 </TableHead>
@@ -170,9 +169,9 @@ constructor(props){
                                     {this.state.projects.map(project => (
                                         <TableRow key={project.getID()} project={project}>
                                             <TableCell> {project.getName()} </TableCell>
-                                            <TableCell> {project.getProjectType()} </TableCell>
+                                            <TableCell> {this.getProjecttype} </TableCell>
                                             <TableCell> {project.getProfessor()} </TableCell>
-                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler(project)}/> </IconButton></TableCell>
+                                            <TableCell> <IconButton aria-label="delete" ><DeleteIcon /> </IconButton></TableCell>
                                         </TableRow>
 
                                     ))}
@@ -199,7 +198,7 @@ const styles = theme => ({
         color: theme.palette.red,
         fontFamily: 'Arial',
         fontStyle: 'bold',
-        fontSize: 15
+        fontSize: 30
     }
 });
 export default withStyles(styles) (ListEntryThisSemesterAdmin);

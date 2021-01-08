@@ -31,19 +31,19 @@ constructor(props){
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: null,
+            loaded: false,
 
 
 
 
         };
         this.baseState = this.state;
-        console.log(this.state.projects)
+
     }
 
     componentDidMount(){
         this.getAllProjects();
-        this.getProjecttype();
+        this.getAllProjecttypes();
     }
 
     /** Gives back the projects */
@@ -62,44 +62,14 @@ constructor(props){
                 }))
     }
 
-    getAllProjecttypes = () => {
-        ElectionSystemAPI.getAPI().getAllProjecttypes()
-        .then(projecttypeBO =>
-            this.setState({
-                projecttype: projecttypeBO,
-                loaded: true,
-                error: null
-            })).catch(e =>
-                this.setState({
-                    projecttype: [],
-                    error: e
-                }))
-    }
-
-    /**Gives back the projecttype by id**/
-     getProjecttype = () => {
-     ElectionSystemAPI.getAPI().getProjecttype(this.state.projecttypeid)
-     .then(projecttypeBO =>{
-         this.setState({
-             projecttype: projecttypeBO,
-             error: null,
-             ptloaded: true
-         })
-     }).catch(e =>
-             this.setState({
-                 projecttypes:[],
-                 error: e
-             }))
-     }
-
-    /** Gives back the projects */
+    /** Gives back the projecttypes */
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
         .then(projecttypeBO => { this.setState({
                 projecttype: projecttypeBO,
                 loaded: true,
                 error: null
-            },console.log("hei")
+            },console.log(this.state.projecttype + "hello")
             )
             }).catch(e =>
                 this.setState({
@@ -110,7 +80,7 @@ constructor(props){
 
 
 
-      //Handles the single delete Button
+
     deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
@@ -135,7 +105,7 @@ constructor(props){
             <div>
                 <Container maxWidth="md">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary" className={classes.redHeader}>New Projects</Typography>
+                    <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
                      <Grid item container
                             direction="column"
                             xs={12}
@@ -156,7 +126,7 @@ constructor(props){
                                     {this.state.projects.map(project => (
                                         <TableRow key={project.getID() } project={project}>
                                             <TableCell> {project.getName()}</TableCell>
-                                            <TableCell> {project.getProjectType().get}</TableCell>
+                                            <TableCell> {project.getProjecttype}</TableCell>
                                             <TableCell> {project.getProfessor()}</TableCell>
                                             <TableCell> <Button color="gray" variant="outlined" className={classes.button}> Bewerten</Button> </TableCell>
                                         </TableRow>

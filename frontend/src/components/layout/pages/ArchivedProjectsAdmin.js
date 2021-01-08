@@ -26,7 +26,7 @@ constructor(props){
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: null,
+            loaded: false,
 
 
 
@@ -36,6 +36,8 @@ constructor(props){
 
     componentDidMount(){
         this.getAllProjects();
+        this.getAllProjecttypes();
+
     }
 
     /** Gives back the semester */
@@ -99,23 +101,8 @@ constructor(props){
         })
     }
 
-    /**Delets all projects
-    deleteAllProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getAllProjects).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
 
-        this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getAllProjects() != project.getAllProjects())
-        })
-    }**/
 
-    //onClick ={this.deleteAllProjectHandler}
 
   render() {
     const {projects, project} = this.state;
@@ -141,16 +128,16 @@ constructor(props){
                                         <TableCell>PROJECT</TableCell>
                                         <TableCell>PROJECT TYPE</TableCell>
                                         <TableCell>PROFESSOR</TableCell>
-                                        <TableCell> <Button  variant="contained" color="secondary"  startIcon={<DeleteIcon />} className={classes.button}>Delete All</Button> </TableCell>
+
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {this.state.projects.map(project => (
                                         <TableRow key={project.getID()} project={project}>
-                                            <TableCell> {project.getName()}</TableCell>
-                                            <TableCell> {project.getProjectType()}</TableCell>
+                                        <TableCell> {project.getName()}</TableCell>
+                                            <TableCell> {project.getProjecttype}</TableCell>
                                             <TableCell> {project.getProfessor()}</TableCell>
-                                            <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjectHandler(project)}/> </IconButton></TableCell>
+                                            <TableCell> <IconButton aria-label="delete" ><DeleteIcon /> </IconButton></TableCell>
                                         </TableRow>
                                     ))}
                                </TableBody>
