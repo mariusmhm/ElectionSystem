@@ -176,6 +176,14 @@ class StudentMailOperations(Resource):
         students = adm.get_student_by_mail(mail)
         return students
 
+@electionSystem.route('/student-by-google-id/<string:id>')
+@electionSystem.response(500, 'when server has problems')
+class StudentMailOperations(Resource):
+    @electionSystem.marshal_with(student)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        students = adm.get_student_by_google_id(id)
+        return students
 
 @electionSystem.route('/student-by-nr/<int:matrikel_nr>')
 @electionSystem.response(500, 'when server has problems')
@@ -278,6 +286,15 @@ class UserMailOperations(Resource):
     def get(self, mail):
         adm = ElectionSystemAdministration()
         user = adm.get_user_by_mail(mail)
+        return user
+
+@electionSystem.route('/user-by-google-id/<string:id>')
+@electionSystem.response(500, 'when server has problems')
+class UserMailOperations(Resource):
+    @electionSystem.marshal_with(user)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        user = adm.get_user_by_google_id(id)
         return user
 
 

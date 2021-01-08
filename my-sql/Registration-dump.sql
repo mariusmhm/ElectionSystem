@@ -15,6 +15,7 @@ CREATE TABLE `Semester` (
   PRIMARY KEY(`id`)
 );
 
+
 DROP TABLE IF EXISTS `Projecttype`;
 CREATE TABLE `Projecttype` (
 	`id` int(11) NOT NULL DEFAULT '0',
@@ -64,7 +65,7 @@ CREATE TABLE Project(
   `id` int(11) NOT NULL DEFAULT '0',
   `creation_date` DATE,
   `name` VARCHAR(128) NOT NULL DEFAULT '',
-  `short_description` varchar(128) NOT NULL DEFAULT '',
+  `short_description` TEXT NOT NULL DEFAULT '',
   `special_room` tinyint(1) NOT NULL DEFAULT '0',
   `room_desired` varchar(128) NOT NULL DEFAULT '',
   `num_blockdays_prior_lecture` int(11) NOT NULL DEFAULT '0',
@@ -74,11 +75,11 @@ CREATE TABLE Project(
   `weekly` tinyint(1) NOT NULL DEFAULT '0',
   `num_spots` int(11) NOT NULL DEFAULT '0',
   `language` varchar(128) NOT NULL DEFAULT '',
-  `external_partner` varchar(128) NOT NULL DEFAULT '',
+  `external_partner` varchar(128) DEFAULT '',
   `projecttype_id` int(11) DEFAULT 0,
   `module_id` int(11) DEFAULT 0,
   `professor_id` int(11) DEFAULT 0,
-  `add_professor_id` int(11) DEFAULT 0,
+  `add_professor_id`int(11) DEFAULT 0,
   `state` varchar(128) DEFAULT 'new',
 
   PRIMARY KEY (`id`),
