@@ -1,4 +1,8 @@
+import React, { Component } from 'react';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from "@material-ui/core";
+import {ExpandMoreIcon} from '@material-ui/icons/ExpandMore';
 
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
 
 
 
@@ -14,7 +18,7 @@ class TableEntry extends Component {
             updatingError: null,
             deletingError: null,
             loaded: null,
-            
+            id: null,
 
 
 
@@ -28,8 +32,8 @@ class TableEntry extends Component {
     }
 
         /** Gives back the project */
-        getAllProjects = () => {
-            ElectionSystemAPI.getAPI().getAllProjects()
+        getProjectForProjecttype = () => {
+            ElectionSystemAPI.getAPI().getProjectForProjecttype(this.props.id)
                 .then(projectBO =>
                     this.setState({
                         projects: projectBO,
@@ -60,15 +64,37 @@ class TableEntry extends Component {
         }
     
         componentDidMount() {
-            this.getAllProjects();
+            this.getProjectForProjecttype();
             this.getAllProjecttypes();
         }
         
 
         render (){
             
+            return(
+                <Grid item xs={12} spacing={3}>
+                {this.state.projects.map(project=>(
+                    <Grid>
+                        <Accordion>
+                            <AccordionSummary >
+                            {project.getName()}
+                            
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>
+                                    Beschreibung: {project.getID()}
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                            
+                    </Grid>
+                    
+                ))}
+                </Grid>
+            )
         }
 
 
 
 }
+export default (TableEntry);

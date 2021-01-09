@@ -43,6 +43,8 @@ class HomeScreenCompTwo extends Component {
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            value: null,
+            id: null,
 
 
 
@@ -51,7 +53,7 @@ class HomeScreenCompTwo extends Component {
 
         };
         this.baseState = this.state;
-        this.toggleClass = this.toggleClass.bind(this);
+        
         
         
     }
@@ -77,6 +79,15 @@ class HomeScreenCompTwo extends Component {
           );
         }
       }
+
+    handleChange(value) {
+        if (typeof value != "string"){
+            return;
+        }
+        this.setState({
+            value: value
+        });
+    }
 
 
     /** Gives back the project */
@@ -114,6 +125,7 @@ class HomeScreenCompTwo extends Component {
     componentDidMount() {
         this.getAllProjects();
         this.getAllProjecttypes();
+        this.handleChange();
 
     }
 
@@ -123,10 +135,64 @@ class HomeScreenCompTwo extends Component {
     render() {
         const { classes } = this.props;
         const { projects } = this.state;
-        const {activeIndex} = this.state;
+        const {activeIndex, id} = this.state;
  
 
         return (
+            <div>
+                <Container maxWidth="xl">
+                    <CssBaseline />
+                    <Typography variant="h1" align='center'>Project overview</Typography>
+                    
+                    <Tabs
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        variant="fullWidth"
+                        indicatorColor="secondary"
+                        
+                    >
+                        
+                        <Tab label="SELECT" />
+                        <Tab label="MY SELECTION" />
+                    </Tabs>
+                    <Paper>
+                        {this.state.projecttypes.map(projecttypes => (
+                            <Grid>
+                            <Card style={{ backgroundColor: 'grey', color: 'white' }}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={4} spacing={3}>
+                                        <Typography variant="h6" align='left'>
+                                            {projecttypes.getName()}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={4} spacing={3}>
+                                        <Typography variant="h6" align='left'>
+                                            ECTS: {projecttypes.getEcts()}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={4} spacing={3}>
+                                        <Typography variant="h6" align='left'>
+                                            SWS: {projecttypes.getSws()}
+                                        </Typography>
+                                    </Grid>
+                                </Grid>   
+                            </Card>
+                            <Grid container spacing={3}>
+                            <TableEntry 
+                                id = {projecttypes.getID()}
+                                
+                            />
+                            </Grid>
+                                
+                            </Grid>
+                            
+                        ))}
+                    </Paper>
+
+                    
+                </Container>
+            </div>
+            /*
             <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
@@ -260,10 +326,10 @@ class HomeScreenCompTwo extends Component {
                         ))}
 
                     </Table>
-                    </Paper>
+                    </Paper>"
                 </Container>
 
-            </div>
+            </div>*/
         );
     }
 }

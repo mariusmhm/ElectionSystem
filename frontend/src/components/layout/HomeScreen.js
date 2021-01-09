@@ -5,6 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
 import HomeScreenCompOne from './pages/HomeScreenCompOne';
 import HomeScreenCompTwo from './pages/HomeScreenCompTwo';
+import HomeScreenFull from './pages/HomeScreenFull'
 
 
 
@@ -28,7 +29,7 @@ class HomeScreen extends Component {
                       <br/>
                       <br/>
                       
-                      <HomeScreenCompTwo />
+                      <HomeScreenFull />
                       <Divider/>
                       <div>
 
