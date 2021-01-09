@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
@@ -35,7 +35,8 @@ class TableEntry extends Component {
             select: true,
             lastname: '',
             firstname: '',
-            priority: 0
+            priority: 0,
+            student: 5
 
 
 
@@ -90,7 +91,6 @@ class TableEntry extends Component {
 
     handleSelect(){
         this.setState({select: !this.state.select})
-        
     }
 
     handleChange(e) {
@@ -98,10 +98,23 @@ class TableEntry extends Component {
         this.setState({ priority: e.target.value });
       }
 
+    addParticipation = () =>{
+        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.state.id);
+        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
+            newParticipation.setPriority(this.state.priority)
+            newParticipation.setProjectID(this.state.id)
+            newParticipation.setStudentID(this.state.student)
+            console.log(newParticipation)
+            
+        }).catch(e =>
+            
+            this.setState({
+                updatingError: e
+            }))
+    }
+
     componentDidMount() {
         this.getUser();
-
-      
     }
 
 
@@ -113,8 +126,9 @@ class TableEntry extends Component {
         const {activeIndex, buttonText} = this.state;
 
         return (
+            
             <TableRow key={this.props.id}>
-                <TableCell>
+                <TableCell position="absolute" top={0}>
                     <Button
                         variant="contained"
                         color="primary"
@@ -128,14 +142,17 @@ class TableEntry extends Component {
                 </TableCell>
 
 
-                <TableCell>
+                <TableCell colSpan="3">
                     <Typography variant="h5">
                         {this.props.name}
                     </Typography>
-
+                    
                     <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
+                                {this.props.dsc}
                     </Collapse>
+                    
+
+                    
                 </TableCell>
                 <TableCell>
                     <Typography variant="h5">
@@ -147,9 +164,8 @@ class TableEntry extends Component {
                 </TableCell>
                 <TableCell>
                     SWS:  {this.props.sws}
-                    priority: {this.state.priority}
                 </TableCell>
-                <TableCell>
+                
                     <TableCell>
                         <FormControl>
                             <InputLabel class="demo-simple-select-helper-label">Priority</InputLabel>
@@ -175,14 +191,20 @@ class TableEntry extends Component {
                         endIcon={<PlaylistAddCheckIcon />}
                         color={this.state.select ? "primary": "secondary"} 
                          
-                        onClick={this.handleSelect} > {this.state.select ? "Select" : "Deselect"}
+                        onClick={this.handleSelect, this.addParticipation} > {this.state.select ? "Select" : "Deselect"}
                         
                         
                                 
                     </Button>
-                    </TableCell>
+                    
                 </TableCell>
+                
+                
+            
             </TableRow>
+            
+            
+            
         )
     }
 

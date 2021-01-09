@@ -6,7 +6,7 @@ import {withStyles} from '@material-ui/core';
 import HomeScreenCompOne from './pages/HomeScreenCompOne';
 import HomeScreenCompTwo from './pages/HomeScreenCompTwo';
 import HomeScreenFull from './pages/HomeScreenFull'
-
+import CreateProject from '../dialogs/CreateProject'
 
 
 
@@ -31,6 +31,7 @@ class HomeScreen extends Component {
                       
                       <HomeScreenCompTwo />
                       <Divider/>
+                      
                       <div>
 
                       <Divider/>

@@ -121,11 +121,15 @@ class HomeScreenCompTwo extends Component {
                                         Project
                                     </Typography>
                                 </TableCell>
+                                <TableCell />
+                                <TableCell />
+                                
                                 <TableCell >
                                     <Typography variant="h2">
                                         Professor
                                     </Typography>
                                 </TableCell>
+                                
                                 <TableCell >
                                     <Typography variant="h2">
                                         ECTS
@@ -138,7 +142,12 @@ class HomeScreenCompTwo extends Component {
                                 </TableCell>
                                 <TableCell >
                                     <Typography variant="h2">
-                                        Wählen
+                                        Priority
+                                    </Typography>
+                                </TableCell>
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        Choose
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -148,7 +157,7 @@ class HomeScreenCompTwo extends Component {
                         {this.state.projecttypes.map(projecttype => (
                             <TableBody>
                                 <TableRow>
-                                    <TableCell colSpan="7" style={{ backgroundColor: 'grey', color: 'white' }}>
+                                    <TableCell colSpan="10" style={{ backgroundColor: 'grey', color: 'white' }}>
                                         <Typography variant="h3">
                                             {projecttype.getName()}
                                             {projecttype.getID()}
