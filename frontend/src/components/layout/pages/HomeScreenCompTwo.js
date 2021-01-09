@@ -48,34 +48,13 @@ class HomeScreenCompTwo extends Component {
 
         };
         this.baseState = this.state;
-        this.toggleClass = this.toggleClass.bind(this);
+        
         
         
     }
 
 
-    toggleClass(index, e) {
-        this.setState({
-          activeIndex: this.state.activeIndex === index ? null : index
-        });
-      }
-
-    moreLess(index) {
-        if (this.state.activeIndex === index) {
-          return (
-            <span>
-              <i className="fas fa-angle-up" /> Hide Description
-            </span>
-          );
-        } else {
-          return (
-            <span>
-              <i className="fas fa-angle-down" /> Show Description
-            </span>
-          );
-        }
-      }
-
+    
 
     /** Gives back the project */
     getAllProjects = () => {
@@ -135,7 +114,7 @@ class HomeScreenCompTwo extends Component {
                         <TableHead>
 
                             <TableRow align="right">
-                                <TableCell />
+                                
                                 <TableCell />
                                 <TableCell >
                                     <Typography variant="h2">
@@ -182,63 +161,13 @@ class HomeScreenCompTwo extends Component {
                                 {this.state.projects.map(project => {
                                     if (project.getProjectType() === projecttype.getID()) {
                                         return (
+                                            <TableEntry
+                                                id = {project.getID()}
+                                                name = {project.getName()}
+                                                prof = {project.getProfessor()}
+                                                dsc = {project.getShortDescription()}
+                                            />
                                             
-                                            <TableRow key={project.getID()}>
-                                                <TableCell>
-                                                    <Button 
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={this.toggleClass.bind(this, project.getID())}
-                                                    >
-                                                        {this.moreLess(project.getID())}
-                                                    </Button>
-                                                    
-                                                
-                                                   
-                                                </TableCell>
-                                                
-                                                <TableEntry
-
-                                                />
-                                                <TableCell>
-                                                    <Typography variant="h5">
-                                                        {project.getName()}
-                                                    </Typography>
-                                                    
-                                                    <Collapse in={activeIndex === project.getID()}>
-                                                        {project.getShortDescription()}
-                                                    </Collapse>
-                                                </TableCell>
-                                                <TableCell>
-                                                    {project.getProfessor()}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {projecttype.getEcts()}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {projecttype.getSws()}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <TableCell>
-                                                        <FormControl >
-                                                            <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
-                                                            <Select
-                                                                labelId="demo-simple-select-label"
-                                                                id="demo-simple-select"
-                                                            >
-                                                                <MenuItem > no priority</MenuItem>
-                                                                <MenuItem > 1st priority</MenuItem>
-                                                                <MenuItem >2nd priority </MenuItem>
-                                                                <MenuItem >3rd priority </MenuItem>
-                                                                <MenuItem >4th priority </MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <ParticipationButton/>
-                                                    </TableCell>
-                                                </TableCell>
-                                            </TableRow>
                                         )
                                     }
                                 }

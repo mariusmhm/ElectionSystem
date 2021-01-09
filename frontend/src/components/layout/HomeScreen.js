@@ -29,7 +29,7 @@ class HomeScreen extends Component {
                       <br/>
                       <br/>
                       
-                      <HomeScreenFull />
+                      <HomeScreenCompTwo />
                       <Divider/>
                       <div>
 

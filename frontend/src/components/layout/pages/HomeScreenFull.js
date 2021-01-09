@@ -27,6 +27,7 @@ import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '..
 import { ja } from 'date-fns/locale';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableEntry from '../../assets/TableEntry';
+import ParticipationButton from '../../assets/ParticipationButton'
 
 
 
@@ -91,20 +92,22 @@ class HomeScreenCompTwo extends Component {
 
 
     /** Gives back the project */
-    getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
-            .then(projectBO =>
-                this.setState({
-                    projects: projectBO,
-                    loaded: true,
-                    error: null
-                })).catch(e =>
+        /** Gives back the project */
+        getProjectForProjecttype = () => {
+            ElectionSystemAPI.getAPI().getProjectForProjecttype(this.props.id)
+                .then(projectBO =>
                     this.setState({
-                        projects: [],
-                        error: e
-                    }))
-        console.log('Project ausgeführt');
-    }
+                        projects: projectBO,
+                        loaded: true,
+                        error: null
+                    })).catch(e =>
+                        this.setState({
+                            projects: [],
+                            error: e
+                        }))
+            console.log('Project ausgeführt');
+        }
+    
 
     /** Gives back the projecttype */
     getAllProjecttypes = () => {
@@ -123,7 +126,7 @@ class HomeScreenCompTwo extends Component {
     }
 
     componentDidMount() {
-        this.getAllProjects();
+        this.getProjectForProjecttype();
         this.getAllProjecttypes();
         this.handleChange();
 
@@ -178,10 +181,15 @@ class HomeScreenCompTwo extends Component {
                                 </Grid>   
                             </Card>
                             <Grid container spacing={3}>
-                            <TableEntry 
-                                id = {projecttypes.getID()}
-                                
-                            />
+                                {this.state.projects.map(project => (
+                                    <TableEntry 
+                                    name = {project.getName()}
+                                    dsc = {project.getShortDescription()}
+                                    prof = {project.getProfessor()}
+                                />
+                                ))}
+                            
+                            <ParticipationButton/>
                             </Grid>
                                 
                             </Grid>
