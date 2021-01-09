@@ -178,7 +178,7 @@ class StudentMailOperations(Resource):
 
 @electionSystem.route('/student-by-google-id/<string:id>')
 @electionSystem.response(500, 'when server has problems')
-class StudentMailOperations(Resource):
+class StudentGoogleOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, id):
         adm = ElectionSystemAdministration()
@@ -290,7 +290,7 @@ class UserMailOperations(Resource):
 
 @electionSystem.route('/user-by-google-id/<string:id>')
 @electionSystem.response(500, 'when server has problems')
-class UserMailOperations(Resource):
+class UserGoogleOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, id):
         adm = ElectionSystemAdministration()

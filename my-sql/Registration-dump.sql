@@ -20,8 +20,8 @@ CREATE TABLE `Semester` (
 DROP TABLE IF EXISTS `Projecttype`;
 CREATE TABLE `Projecttype` (
 	`id` int(11) NOT NULL DEFAULT '0',
-	`creation_date` DATE,
   `name` VARCHAR(30),
+	`creation_date` DATE,
 	`sws` int(11) NOT NULL DEFAULT '0',
 	`ect` int(11) NOT NULL DEFAULT '0',	
     PRIMARY KEY(`id`)
