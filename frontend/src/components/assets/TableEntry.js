@@ -94,8 +94,9 @@ class TableEntry extends Component {
     }
 
     handleChange(e) {
-        console.log("Fruit Selected!!");
+        console.log("Participation created");
         this.setState({ priority: e.target.value });
+        this.addParticipation();
       }
 
     addParticipation = () =>{
@@ -191,7 +192,7 @@ class TableEntry extends Component {
                         endIcon={<PlaylistAddCheckIcon />}
                         color={this.state.select ? "primary": "secondary"} 
                          
-                        onClick={this.handleSelect, this.addParticipation} > {this.state.select ? "Select" : "Deselect"}
+                        onClick={this.handleSelect} > {this.state.select ? "Select" : "Deselect"}
                         
                         
                                 
