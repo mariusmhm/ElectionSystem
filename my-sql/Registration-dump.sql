@@ -25,7 +25,7 @@ CREATE TABLE `Projecttype` (
 	`ect` int(11) NOT NULL DEFAULT '0',	
     PRIMARY KEY(`id`)
 );
-
+INSERT INTO `Projecttype` VALUES (2, "Interdisziplinär",'2021-01-05', 3,4);
 
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
@@ -65,7 +65,7 @@ CREATE TABLE Project(
   `id` int(11) NOT NULL DEFAULT '0',
   `creation_date` DATE,
   `name` VARCHAR(128) NOT NULL DEFAULT '',
-  `short_description` TEXT NOT NULL DEFAULT '',
+  `short_description` LONGTEXT NOT NULL DEFAULT '',
   `special_room` tinyint(1) NOT NULL DEFAULT '0',
   `room_desired` varchar(128) NOT NULL DEFAULT '',
   `num_blockdays_prior_lecture` int(11) NOT NULL DEFAULT '0',

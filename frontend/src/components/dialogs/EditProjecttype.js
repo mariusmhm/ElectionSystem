@@ -94,8 +94,8 @@ class EditProjecttype extends Component {
     } weiss nicht ob man das braucht*/
 
 
-    selectHandleChangeModule = (e) =>{
-        this.mo= this.state.modules[e.target.value].getName();
+   /* selectHandleChangeModule = (e) =>{
+        this.mo = this.state.modules[e.target.value].getName();
         this.setState({
             moSelected: this.state.modules[e.target.value]
         },
@@ -104,8 +104,7 @@ class EditProjecttype extends Component {
             console.log(this.state.moSelected);
 
         });
-        /*this.showETCS = true;*/
-    }
+    }*/
 
 
     deleteProjecttypeHandler = (projecttype) => {
