@@ -1,42 +1,54 @@
 import NamedBusinessObject from './NamedBusinessObject';
 
-export default class ProjectBO extends NamedBusinessObject {
+export default class ProjectBO extends NamedBusinessObject{
 /// Represents a Project.
 
-    constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aSpecialRoom,
-                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture,aBlockDaysPriorLectureTrue,aNumBlockDaysDuringLecture,
-                aBlockDaysDuringLecture,aWeekly,aShortDescription,aNumSpots,aProjectType, aModule, aProfessor, aParticipation, aAddProfessor,
-                aLanguage, aExternalPartner){
+    constructor(aShortDescription, aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
+                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture, aNumBlockDaysDuringLecture,
+                aWeekly, aNumSpots,aProjectType, aModule, aProfessor, aAddProfessor,
+                aLanguage, aExternalPartner, aState){
         super();
 
-        this.roomDesired = aRoomDesired;
-        this.numBlockDaysInExam = aNumBlockDaysInExam;
-        this.specialRoom = aSpecialRoom;
-        this.dateBlockDaysDuringLecture = aDateBlockDaysDuringLecture;
-        this.numBlockDaysPriorLecture = aNumBlockDaysPriorLecture;
-        this.numBlockDaysDuringLecture = aNumBlockDaysDuringLecture;
+        this.short_description = aShortDescription;
+        this.special_room = aSpecialRoom;
+        this.room_desired = aRoomDesired;
+        this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
+        this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
+        this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
+        this.num_blockdays_in_exam = aNumBlockDaysInExam;
         this.weekly = aWeekly;
-        this.shortDescription = aShortDescription;
-        this.numSpots = aNumSpots;
-        this.projectType = aProjectType;
-        this.module = aModule;
-        this.projectProfessor = aProfessor;
-        this.addProfessor = aAddProfessor;
+        this.num_spots = aNumSpots;
         this.language = aLanguage;
-        this.externalPartner = aExternalPartner;
+        this.external_partner = aExternalPartner;
+        this.projecttype_id = aProjectType;
+        this.module_id = aModule;
+        this.professor_id = aProfessor;
+        this.add_professor_id = aAddProfessor;
+        this.state = aState;
 
     }
 
 
 
+
+    // setting the state
+    setState(aState){
+        this.state = aState;
+    }
+
+    // getting the state
+    getState(){
+        return this.state;
+    }
+
     getAddProfessor(){
     //Read out of the additional professor.
-        return this.addProfessor;
+        return this.add_professor_id;
     }
 
     setAddProfessor(aAddProfessor){
     //Set the additional professor
-        this.addProfessor =  aAddProfessor;
+        this.add_professor_id =  aAddProfessor;
     }
 
     getLanguage(){
@@ -51,82 +63,76 @@ export default class ProjectBO extends NamedBusinessObject {
 
     getExternalPartner(){
     //Reads out the external Partner
-        return this.externalPartner;
+        return this.external_partner;
     }
 
     setExternalPartner(aExternalPartner){
     //Sets the external Partner
-        this.externalPartner = aExternalPartner;
+        this.external_partner = aExternalPartner;
     }
 
-    getRoomDesired() {
+    getRoomDesired(){
         //Read out room.
-        return this.roomDesired;
+        return this.room_desired;
     }
 
     setRoomDesired(aRoomDesired){
         //Set the room.
-        this.roomDesired = aRoomDesired;
+        this.room_desired = aRoomDesired;
     }
 
-    setGradeAverage(aGradeAverage){
-        //Set the gradeAverage.
-        this.gradeAverage = aGradeAverage;
-    }
-
-
-    getNumBlockDaysInExam() {
+    getNumBlockDaysInExam(){
         //Read out of the numBlockDaysInExam.
-        return this.numBlockDaysInExam;
+        return this.num_blockdays_in_exam;
     }
 
     setNumBlockDaysInExam(aNumBlockDaysInExam){
         //Set the numBlockDaysInExam.
-        this.numBlockDaysInExam = aNumBlockDaysInExam;
+        this.num_blockdays_in_exam = aNumBlockDaysInExam;
     }
 
 
-    getSpecialRoom() {
+    getSpecialRoom(){
         //Read out of the special room.
-        return this.specialRoom;
+        return this.special_room;
     }
 
     setSpecialRoom(aSpecialRoom){
         //Set the special room.
-        this.specialRoom = aSpecialRoom;
+        this.special_room = aSpecialRoom;
     }
 
-    getDateBlockDaysDuringLecture() {
+    getDateBlockDaysDuringLecture(){
         //Read out of the dateBlockDaysDuringLecture.
-        return this.dateBlockDaysDuringLecture;
+        return this.date_blockdays_during_lecture;
     }
 
     setDateBlockDaysDuringLecture(aDateBlockDaysDuringLecture){
         //Set the dateBlockDaysDuringLecture.
-        this.dateBlockDaysDuringLecture = aDateBlockDaysDuringLecture;
+        this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
     }
 
-    getNumBlockDaysPriorLecture() {
+    getNumBlockDaysPriorLecture(){
         //Read out of the NumBlockDaysPriorLecture .
-        return this.numBlockDaysPriorLecture;
+        return this.num_blockdays_prior_lecture;
     }
 
     setNumBlockDaysPriorLecture(aNumBlockDaysPriorLecture){
         //Set the NumBlockDaysPriorLecture .
-        this.numBlockDaysPriorLecture = aNumBlockDaysPriorLecture;
+        this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
     }
 
-    getNumBlockDaysDuringLecture() {
+    getNumBlockDaysDuringLecture(){
         //Read out of the NumBlockDaysDuringLecture .
-        return this.numBlockDaysDuringLecture;
+        return this.num_blockdays_during_lecture;
     }
 
     setNumBlockDaysDuringLecture(aNumBlockDaysDuringLecture){
         //Set the NumBlockDaysDuringLecture .
-        this.numBlockDaysDuringLecture = aNumBlockDaysDuringLecture;
+        this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
     }
 
-    getWeekly() {
+    getWeekly(){
         //Read out of the weekly.
         return this.weekly;
     }
@@ -136,55 +142,57 @@ export default class ProjectBO extends NamedBusinessObject {
         this.weekly = aWeekly;
     }
 
-    getShortDescription() {
+    getShortDescription(){
         //Read out of the shortDescription.
-        return this.shortDescription;
+        return this.short_description;
     }
 
     setShortDescription(aShortDescription){
         //Set the shortDescription.
-        this.shortDescription = aShortDescription;
+        this.short_description = aShortDescription;
     }
 
-    getNumSpots() {
+    getNumSpots(){
         //Read out of the numSpots.
-        return this.numSpots;
+        return this.num_spots;
     }
 
     setNumSpots(aNumSpots){
         //Set the numSpots.
-        this.numSpots = aNumSpots;
+        this.num_spots = aNumSpots;
     }
 
-    getProjectType() {
+    getProjecttype(){
         //Read out of the projectType.
-        return this.projectType;
+        return this.projecttype_id;
     }
 
-    setProjectType(aProjectType){
+    setProjecttype(aProjectType){
         //Set the project type.
-        this.projectType = aProjectType;
+        this.projecttype_id = aProjectType;
     }
 
-    getModule() {
+    getModule(){
         //Read out of the module.
-        return this.module;
+        return this.module_id;
     }
 
     setModule(aModule){
         //Set the module.
-        this.module = aModule;
+        this.module_id = aModule;
     }
 
-    getProjectProfessor() {
+    getProfessor(){
         //Read out of the module.
-        return this.projectProfessor;
+        return this.professor_id;
     }
 
-    setProjectProfessor(aProfessor){
+    setProfessor(aProfessor){
         //Set the module.
-        this.projectProfessor = aProfessor;
+        this.professor_id = aProfessor;
     }
+
+
 
     // Returns an Array of ProjectBO from a given JSON
 
@@ -207,4 +215,3 @@ export default class ProjectBO extends NamedBusinessObject {
         return res;
     }
   }
-

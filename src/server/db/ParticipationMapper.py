@@ -53,7 +53,7 @@ class ParticipationMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
-
+        print(result)
         return result
 
     def find_all_by_project_id(self, project_id):

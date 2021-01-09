@@ -153,9 +153,9 @@ componentDidMount(){
                 <Grid item>
                     <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                     <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                     <Typography>Reason:</Typography>
                 </Grid>

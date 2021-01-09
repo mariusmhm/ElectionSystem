@@ -19,6 +19,7 @@ import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
 import Semester from './components/dialogs/Semester'
 import HomeScreen from './components/layout/HomeScreen'
+import SemesterReport from './components/layout/pages/SemesterReport';
 
 
 class App extends Component {
@@ -128,7 +129,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={ProjectContent} />
+        				<Route exact path="/project-content" component={SemesterReport} />
     				</Switch>
                 </Router>
 			</ThemeProvider>
