@@ -5,6 +5,12 @@ import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
+import FormHelperText from '@material-ui/core/FormHelperText';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+
 
 class TableEntry extends Component {
     constructor(props) {
@@ -69,6 +75,7 @@ class TableEntry extends Component {
 
     render() {
 
+        
         const { classes } = this.props;
         const {activeIndex, buttonText} = this.state;
 
@@ -108,17 +115,18 @@ class TableEntry extends Component {
                 </TableCell>
                 <TableCell>
                     <TableCell>
-                        <FormControl >
-                            <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
+                        <FormControl>
+                            <InputLabel class="demo-simple-select-helper-label">Priority</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                defaultValue="0"
                             >
-                                <MenuItem > no priority</MenuItem>
-                                <MenuItem > 1st priority</MenuItem>
-                                <MenuItem >2nd priority </MenuItem>
-                                <MenuItem >3rd priority </MenuItem>
-                                <MenuItem >4th priority </MenuItem>
+                                <MenuItem value="0">None selected</MenuItem>
+                                <MenuItem value="1"> 1st priority</MenuItem>
+                                <MenuItem value="2">2nd priority </MenuItem>
+                                <MenuItem value="3">3rd priority </MenuItem>
+                                <MenuItem value="4">4th priority </MenuItem>
                             </Select>
                         </FormControl>
                     </TableCell>
@@ -144,4 +152,34 @@ class TableEntry extends Component {
 
 
 }
+
+const styles = theme => ({
+    grid: {
+        width: '100%',
+        margin: '0px',
+        padding: theme.spacing(3)
+    },
+    button: {
+        marginTop: theme.spacing(3)
+    },
+    redHeader: {
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 20
+    },
+
+    grayHeader: {
+        color: theme.palette.gray,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 35
+    },
+
+    formControl: {
+        minWidth: '120px',
+        fontSize: '15px'}
+
+
+});
 export default (TableEntry);
