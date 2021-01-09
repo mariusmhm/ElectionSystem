@@ -84,7 +84,7 @@ project = api.inherit('Project', nbo, aut, {
     'special_room': fields.Boolean(attribute='_special_room', description='If there is a special room needed'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
     'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='The number of the blockdays prior lecture'),
-    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
+    'date_blockdays_during_lecture': fields.String(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
     'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='The number of blockdays needed during lecture'),
     'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='The number of blockdays needed during exams'),
     'weekly': fields.Boolean(attribute='_weekly', description='if weekly lectures are needed'),

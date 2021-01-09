@@ -244,7 +244,7 @@ export default class ElectionSystemAPI {
       })
     }
 
-    addProjecttypeURL(projecttype){
+    addProjecttype(projecttype){
         return this.#fetchAdvanced(this.#addProjecttypeURL(), {
           method: 'POST',
           headers:{

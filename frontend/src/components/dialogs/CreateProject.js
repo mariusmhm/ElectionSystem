@@ -25,10 +25,12 @@ class CreateProject extends Component {
     constructor(props) {
       super(props);
 
-      const showETCS = false;
+        const showETCS = false;
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
       this.state = {
-        creationDate: '',
+        creationDate: date,
         projectname:'',
         modules: [],
         moduleSelected: null,
@@ -46,20 +48,17 @@ class CreateProject extends Component {
         language: '',
         externalPartner: '',
         numBlockdaysPriorLecture: null,
-        numBlockDaysDuringLecture: null,
+        numBlockdaysDuringLecture: null,
         dateDuringLecture: null,
         numBlockdaysInExam: null,
         error: null,
         spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
       }
+        
+
       this.baseState = this.state;
 
-        const today = new Date();
-        const cD = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        this.setState({
-        creationDate: today
-        });
-        console.log(this.state.creationDate);
+        
     } 
 
     
@@ -137,8 +136,9 @@ class CreateProject extends Component {
         console.log(JSON.stringify(newProject));
         console.log(this.state.creationDate)
         console.log('module:' + this.state.moduleSelected);
-        console.log('numBlockdaysPriorLecture:' + this.state.numBlockdaysPriorLecture)
+        console.log('numBlockdaysDuringLecture:' + this.state.numBlockdaysDuringLecture)
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
+            this.showETCS = false;
             this.setState(this.baseState);
             
         }).catch(e =>
@@ -275,7 +275,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="External co-orperation partner:"/>
+                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" id="externalPartner" onChange={this.handleChange}/>
                     </Grid>
                     <Grid item>
                         <Typography>Weekly lecture:</Typography>
@@ -322,7 +322,7 @@ class CreateProject extends Component {
                         <Typography>Blockdays during the semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of Blockdays</InputLabel>
-                            <Select name="numBlockDaysDuringLecture" label="Number of Blockdays" onChange={this.handleSelectChange}>
+                            <Select name="numBlockdaysDuringLecture" label="Number of Blockdays" onChange={this.handleSelectChange}>
                                 <MenuItem value={null}>none</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
