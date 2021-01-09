@@ -7,7 +7,7 @@ import HomeScreenAdminBeginn from'./components/layout/pages/ProjectGenehmigen/Ho
 import DeleteStudent from'./components/dialogs/DeleteStudent'
 import ModulBearbeitung from'./components/dialogs/ModulBearbeitung'
 import NotenschlüsselBearbeitung from'./components/dialogs/NotenschlüsselBearbeitung'
-
+import AddStudents from'./components/dialogs/AddStudents'
 
 class App extends Component {
 
@@ -18,7 +18,7 @@ class App extends Component {
         return (
 
             <div>
-                <DeleteStudent/>
+                <AddStudents/>
 		    </div>
 		);
 	}

@@ -13,10 +13,11 @@ import {Dialog,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
+//import SearchBar from "material-ui-search-bar";
 
 let open= true;
 
-class DeleteStudent extends Component {
+class AddStudents extends Component {
 
  render(){
     const { classes } = this.props;
@@ -26,15 +27,27 @@ class DeleteStudent extends Component {
 
          <Typography
                 variant="h5"
-                align="center"
-                color="secondary">
-                    Sind Sie sicher?
+                align="center">
+                    STUDENT/-IN HINZUFÜGEN
             </Typography>
             <Typography
                 variant="outlined"
                 align="center">
                    Student XY wird aus der Teilnehmerliste von Projekt XY entfernt.
             </Typography>
+
+    //<SearchBar
+      dataSource={state.dataSource}
+      onChange={(value) => setState({dataSource: [ value, value+value, value+value+value]})}
+      onRequestSearch={() => console.log('onRequestSearch')}
+      style={{
+        margin: '0 auto',
+        maxWidth: 800
+      }}
+    />
+
+
+
             <Grid container spacing={2} justify="center" className={classes.grid} >
 
                 <Grid item>
@@ -45,7 +58,7 @@ class DeleteStudent extends Component {
                 </Grid>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined">Sicher</Button>
+                    <Button variant="outlined">Hinzufügen</Button>
                 </Grid>
 
             </Grid>
@@ -65,4 +78,4 @@ const styles = theme => ({
 });
 
 
-export default withStyles(styles)(DeleteStudent);
+export default withStyles(styles)(AddStudents);
