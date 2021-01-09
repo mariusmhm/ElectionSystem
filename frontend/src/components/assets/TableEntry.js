@@ -19,11 +19,12 @@ class TableEntry extends Component {
             tableData: [],
             projects: [],
             projecttypes: [],
+            users: [],
             error: null,
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: null,
+            loaded: false,
             id: null,
             name: null,
             dsc: null,
@@ -32,6 +33,8 @@ class TableEntry extends Component {
             sws: null,
             activeIndex: null,
             select: true,
+            lastname: '',
+            firstname: '',
 
 
 
@@ -43,6 +46,23 @@ class TableEntry extends Component {
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
 
+    }
+
+    getUser = () => {
+        ElectionSystemAPI.getAPI().getUser(this.props.prof)
+            .then(userBO =>
+                this.setState({
+                    users: userBO,
+                    lastname: userBO.getName(),
+                    firstname: userBO.getFirstname(),
+                    loaded: true,
+                    error: null
+                }),console.log(this.state.users)).catch(e =>
+                    this.setState({
+                        users: [],
+                        error: e
+                    }))
+        console.log('User ausgeführt');
     }
 
     toggleClass(index, e) {
@@ -69,6 +89,12 @@ class TableEntry extends Component {
 
     handleSelect(){
         this.setState({select: !this.state.select})
+    }
+
+    componentDidMount() {
+        this.getUser();
+
+      
     }
 
 
@@ -105,7 +131,9 @@ class TableEntry extends Component {
                     </Collapse>
                 </TableCell>
                 <TableCell>
-                    Professor: {this.props.prof}
+                    <Typography variant="h5">
+                        {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
+                    </Typography>
                 </TableCell>
                 <TableCell>
                     ECTS: {this.props.ects}

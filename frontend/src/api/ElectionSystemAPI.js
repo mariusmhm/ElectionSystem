@@ -564,7 +564,8 @@ export default class ElectionSystemAPI {
     getUser(userID){
         return this.#fetchAdvanced(this.#getUserURL(userID))
         .then((responseJSON) => {
-        let responseUserBOs = UserBO.fromJSON(responseJSON);
+        let responseUserBOs = UserBO.fromJSON(responseJSON)[0];
+        console.log(responseUserBOs);
         return new Promise(function (resolve) {
           resolve(responseUserBOs);
         })
