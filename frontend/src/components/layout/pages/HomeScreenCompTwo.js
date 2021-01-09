@@ -24,9 +24,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import { ja } from 'date-fns/locale';
+import { id, ja } from 'date-fns/locale';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
+import ParticipationButton from '../../assets/ParticipationButton'
 
 
 class HomeScreenCompTwo extends Component {
@@ -45,15 +45,13 @@ class HomeScreenCompTwo extends Component {
 
 
 
-            
-
-
         };
         this.baseState = this.state;
         this.toggleClass = this.toggleClass.bind(this);
         
         
     }
+
 
     toggleClass(index, e) {
         this.setState({
@@ -174,6 +172,7 @@ class HomeScreenCompTwo extends Component {
                                         <Typography variant="h3">
                                             {projecttype.getName()}
                                             {projecttype.getID()}
+                                            
                                         </Typography>
                                     </TableCell>
                                 </TableRow>
@@ -231,15 +230,7 @@ class HomeScreenCompTwo extends Component {
                                                         </FormControl>
                                                     </TableCell>
                                                     <TableCell>
-
-                                                        <Button
-                                                            variant="contained"
-                                                            color="secondary"
-                                                            endIcon={<PlaylistAddCheckIcon />}
-                                                        >
-                                                            Choose
-                                                                </Button>
-
+                                                        <ParticipationButton/>
                                                     </TableCell>
                                                 </TableCell>
                                             </TableRow>
@@ -284,6 +275,8 @@ const styles = theme => ({
         fontStyle: 'bold',
         fontSize: 35
     }
+
+
 });
 
 const useStyles = makeStyles((theme) => ({
