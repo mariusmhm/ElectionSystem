@@ -35,6 +35,7 @@ class TableEntry extends Component {
             select: true,
             lastname: '',
             firstname: '',
+            priority: 0
 
 
 
@@ -45,7 +46,7 @@ class TableEntry extends Component {
         this.baseState = this.state;
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-
+        this.handleChange = this.handleChange.bind(this);
     }
 
     getUser = () => {
@@ -89,7 +90,13 @@ class TableEntry extends Component {
 
     handleSelect(){
         this.setState({select: !this.state.select})
+        
     }
+
+    handleChange(e) {
+        console.log("Fruit Selected!!");
+        this.setState({ priority: e.target.value });
+      }
 
     componentDidMount() {
         this.getUser();
@@ -140,6 +147,7 @@ class TableEntry extends Component {
                 </TableCell>
                 <TableCell>
                     SWS:  {this.props.sws}
+                    priority: {this.state.priority}
                 </TableCell>
                 <TableCell>
                     <TableCell>
@@ -149,6 +157,7 @@ class TableEntry extends Component {
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
                                 defaultValue="0"
+                                onChange={this.handleChange}
                             >
                                 <MenuItem value="0">None selected</MenuItem>
                                 <MenuItem value="1"> 1st priority</MenuItem>
