@@ -88,6 +88,14 @@ class GradingEditingDialog extends Component {
         })
     }
 
+   /** handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  handleClose = () => {
+    setOpen(false);
+  };**/
+
  render(){
     const { gradings, error } = this.state;
     const { classes } = this.props;

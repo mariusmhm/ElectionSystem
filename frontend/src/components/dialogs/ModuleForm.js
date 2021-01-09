@@ -107,13 +107,14 @@ class ModuleForm extends Component {
 
                 
                 
-                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
+                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}>
                     <Grid item>
                         <Button variant="outlined" color="primary">Cancel</Button>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" color="primary">OKAY</Button>
                     </Grid>
+
                 </Grid>
                 
             </Grid>

@@ -14,79 +14,74 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Container from '@material-ui/core/Container';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import TableEntryButtonAdmin from './TableEntryButtonAdmin';
+
 
 
 class ArchivedProjectsAdmin extends Component {
-constructor(props){
+constructor(props) {
         super(props)
-        this.state= {
+        this.state = {
+            tableData: [],
             projects: [],
-            projecttype:[],
+            projecttypes: [],
             error: null,
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: false,
+            loaded: null,
+            activeIndex: null,
 
 
 
         };
         this.baseState = this.state;
-    }
 
+
+
+    }
     componentDidMount(){
-        this.getAllProjects();
+        this.getProjectForState();
         this.getAllProjecttypes();
-
     }
 
-    /** Gives back the semester */
-    getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
-        .then(projectBO =>
-            this.setState({
-                projects: projectBO,
-                loaded: true,
-                error: null
-            })).catch(e =>
-                this.setState({
-                    project: [],
-                    error: e
-                }))
-    }
 
+
+     /** Gives back the projecttype */
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
-        .then(projecttypeBO =>
+            .then(ProjecttypeBO =>
+                this.setState({
+                    projecttypes: ProjecttypeBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projecttypes: [],
+                        error: e
+                    }))
+        console.log('Projecttype ausgeführt');
+    }
+
+
+
+    //Gives back the projects by state "new"
+    getProjectForState = () =>{
+        ElectionSystemAPI.getAPI().getProjectForState("archived")
+        .then(projectBO => { this.setState({
+            projects: projectBO,
+            loaded: true,
+            error: null
+        })}).catch(e =>
             this.setState({
-                projecttype: projecttypeBO,
-                loaded: true,
-                error: null
-            })).catch(e =>
-                this.setState({
-                    projecttype: [],
-                    error: e
-                }))
+                projects:[],
+                error: e
+        }))
+
     }
 
-    /**Gives back the projecttype by id**/
-     getProjecttype = () => {
-        ElectionSystemAPI.getAPI().getProjecttype()
-        .then(projecttypeBO => { this.setState({
-                projecttype: projecttypeBO,
-                loaded: true,
-                error: null
-            },console.log("hei")
-            )
-            }).catch(e =>
-                this.setState({
-                    projecttype: [],
-                    error: e
-                }))
-    }
 
-     /**Delets the project  **/
-      deleteProjectHandler = (project) => {
+    deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
           console.log(project);
@@ -97,12 +92,9 @@ constructor(props){
         );
 
         this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
         })
     }
-
-
-
 
   render() {
     const {projects, project} = this.state;
@@ -125,24 +117,35 @@ constructor(props){
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>PROJECT</TableCell>
-                                        <TableCell>PROJECT TYPE</TableCell>
-                                        <TableCell>PROFESSOR</TableCell>
-
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                project
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                professor
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                projecttype
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
-                                <TableBody>
-                                    {this.state.projects.map(project => (
-                                        <TableRow key={project.getID()} project={project}>
-                                        <TableCell> {project.getName()}</TableCell>
-                                            <TableCell> {project.getProjecttype}</TableCell>
-                                            <TableCell> {project.getProfessor()}</TableCell>
-                                            <TableCell> <IconButton aria-label="delete" ><DeleteIcon /> </IconButton></TableCell>
-                                        </TableRow>
-                                    ))}
-                               </TableBody>
+                            <TableBody>
+                                {this.state.projects.map(project => (
+                                            <TableEntryButtonAdmin
+                                                name = {project.getName()}
+                                                prof = {project.getProfessor()}
+                                                type = {project.getProjectType()}
+                                            />
+                                )
+                                )}
+                            </TableBody>
                             </Table>
-                    </TableContainer>
+                        </TableContainer>
                 </Grid>
              </Container>
 		    </div>
@@ -164,6 +167,10 @@ const styles = theme => ({
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 30
+    },
+    tableRow:{
+    color:'lightGray',
+    fontFamily:'Arial'
     }
 });
 export default withStyles(styles) (ArchivedProjectsAdmin);

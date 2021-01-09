@@ -21,6 +21,7 @@ import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/HomeScreenAdmin';
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
+import GradingEditingDialog from './components/dialogs/GradingEditingDialog';
 
 
 class App extends Component {
@@ -115,6 +116,11 @@ class App extends Component {
 							<>
 							<Redirect to='/Registration'/>
 							<Route path='/Registration'><Registration /></Route>
+
+							<Route path='/Grading-Editing-Dialog'>
+							    <GradingEditingDialog />
+							</Route>
+
                             </>
 							:
 							// else show the sign in page

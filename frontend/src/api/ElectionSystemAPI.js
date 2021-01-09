@@ -22,6 +22,7 @@ export default class ElectionSystemAPI {
     #addProjectURL = () => `${this.#electionSystemServerBaseURL}/project`;
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
+    #getProjectForStateURL = (state) => `${this.#electionSystemServerBaseURL}/project-by-state/${state}`;
 
     //Projecttype
     #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
@@ -109,30 +110,42 @@ export default class ElectionSystemAPI {
 
     getProjectForProjectName(pname){
       return this.#fetchAdvanced(this.#getProjectForProjectNameURL(pname)).then((responseJSON) => {
-        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        let projectBOs = ProjectBO.fromJSON(responseJSON)[0];
         return new Promise(function (resolve) {
-          resolve(projecttypeBOs);
+          resolve(projectBOs);
       })
     })
     }
 
     getProjectForProfessor(profid){
       return this.#fetchAdvanced(this.#getProjectForProfessorURL(profid)).then((responseJSON) => {
-        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
-          resolve(projecttypeBOs);
+          resolve(projectBOs);
       })
     })
     }
 
     getProjectForProjecttype(projecttypeid){
       return this.#fetchAdvanced(this.#getProjectForProjecttypeURL(projecttypeid)).then((responseJSON) => {
-        let projecttypeBOs = ProjecttypeBO.fromJSON(responseJSON);
+        let projectBOs = ProjecttypeBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
-          resolve(projecttypeBOs);
+          resolve(projectBOs);
       })
     })
     }
+
+    getProjectForState(state){
+    return this.#fetchAdvanced(this.#getProjectForStateURL(state)).then((responseJSON) => {
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+      })
+    })
+    }
+
+
+
 
 
     /**
@@ -154,6 +167,7 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
 
     /**
     *@param {Number} projectID
