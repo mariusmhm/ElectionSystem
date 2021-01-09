@@ -13,14 +13,27 @@ import {Dialog,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
-//import SearchBar from "material-ui-search-bar";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 let open= true;
 
 class AddStudents extends Component {
 
+
+
+ /** Handles the close / cancel button click event */
+  handleClose = () => {
+    // Reset the state
+    this.setState(this.baseState);
+    this.props.onClose(null);
+  }
+
+
  render(){
     const { classes } = this.props;
+
+
 
     return(
         <Dialog open={open}>
@@ -28,37 +41,32 @@ class AddStudents extends Component {
          <Typography
                 variant="h5"
                 align="center">
-                    STUDENT/-IN HINZUFÜGEN
+                    ADD STUDENT
             </Typography>
-            <Typography
-                variant="outlined"
-                align="center">
-                   Student XY wird aus der Teilnehmerliste von Projekt XY entfernt.
-            </Typography>
-
-    //<SearchBar
-      dataSource={state.dataSource}
-      onChange={(value) => setState({dataSource: [ value, value+value, value+value+value]})}
-      onRequestSearch={() => console.log('onRequestSearch')}
-      style={{
-        margin: '0 auto',
-        maxWidth: 800
-      }}
-    />
-
-
-
+                <Grid>
+                    <br/>
+                </Grid>
+            <Autocomplete
+              id="combo-box-demo"
+              options={ExampleStudents}
+              getOptionLabel={(option) => option.title}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Search Student" variant="outlined" />}
+            />
+                <Grid>
+                    <br/>
+                </Grid>
             <Grid container spacing={2} justify="center" className={classes.grid} >
 
                 <Grid item>
-                    <Button variant="outlined" color="secondary">Abbrechen</Button>
+                    <Button variant="outlined" color="secondary" className={classes.button}>Cancel</Button>
 
                 <Grid>
                     <br/>
                 </Grid>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined">Hinzufügen</Button>
+                    <Button variant="outlined">Add</Button>
                 </Grid>
 
             </Grid>
@@ -67,8 +75,12 @@ class AddStudents extends Component {
     );
  }
 
-
 }
+const ExampleStudents = [
+  { title: 'Max Mustermann'},
+  { title: 'Max Mustermann'},
+  { title: 'Max Mustermann'},
+];
 
 const styles = theme => ({
     grid:{

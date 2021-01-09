@@ -14,6 +14,7 @@ import {Dialog,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 
+
 let open= true;
 
 class DeleteStudent extends Component {
@@ -28,24 +29,30 @@ class DeleteStudent extends Component {
                 variant="h5"
                 align="center"
                 color="secondary">
-                    Sind Sie sicher?
+                    Are you sure?
             </Typography>
+                <Grid>
+                    <br/>
+                </Grid>
             <Typography
                 variant="outlined"
                 align="center">
-                   Student XY wird aus der Teilnehmerliste von Projekt XY entfernt.
+                   Student XY will be removed from the participant list of Project XY.
             </Typography>
+                <Grid>
+                    <br/>
+                </Grid>
             <Grid container spacing={2} justify="center" className={classes.grid} >
 
                 <Grid item>
-                    <Button variant="outlined" color="secondary">Abbrechen</Button>
+                    <Button variant="outlined" color="secondary">Cancel</Button>
 
                 <Grid>
                     <br/>
                 </Grid>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined">Sicher</Button>
+                    <Button variant="outlined">Sure</Button>
                 </Grid>
 
             </Grid>
