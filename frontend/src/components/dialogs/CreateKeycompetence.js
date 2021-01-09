@@ -25,21 +25,29 @@ class KeyCompetence extends Component {
       const showETCS = false;*/
 
       this.state = {
+        creationDate: '',
+        projectName:'',
         modules: [],
         edvNumber: '',
         projecttypes: [],
-        numSpots: '',
-        additionalProfessor: [],
+        projecttype: {},
+        numSpots: null,
+        additionalProfessor: null,
         shortDescription: '',
         language: '',
-        ptSelected: {},
-        moSelected:{},
-        laSelected:{},
+        ptSelected:null,
+        moSelected:null,
         addingInProgress: false,
         addingError: null,
         error: null
       }
       this.baseState = this.state;
+
+        const today = new Date();
+            const cD = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            this.setState({
+            creationDate: today
+        });
     }
 
 
@@ -77,7 +85,7 @@ class KeyCompetence extends Component {
 
 
 
-    addKeyCompetence = () => {
+    /*addKeyCompetence = () => {
         let newProject = new ProjectBO(this.state.projects);
         ElectionSystemAPI.getAPI().addProject(newProject).then(module => {
             this.setState(this.baseState);
@@ -86,7 +94,7 @@ class KeyCompetence extends Component {
             this.setState({
                 updatingError: e
             }))
-    }
+    }*/
 
 
      selectHandleChangeProjecttype = (e) =>{
@@ -129,45 +137,112 @@ class KeyCompetence extends Component {
 
     }
 
-
-
-
-  handleClose = () => {
+    handleChange =(e) =>{
+        const value= e.target.value;
+        console.log(value);
         this.setState({
-          open: false
-        });
-  }
+            [e.target.id]:[e.target.value]
+    })
+    }
 
+    textFieldValueChange = (event) => {
+    const value = event.target.value;
 
-  addProject = () => {
-    let newProject = new ProjectBO(
-    this.state.projecttypes, this.state.numSpots, this.state.shortDescription, this.state.language , this.state.additionalProfessor);
-    ElectionSystemAPI.getAPI().addProject(newProject).then(project => {
-      // Backend call sucessfull
-      // reinit the dialogs state for a new empty customer
-      this.setState(this.baseState);
-      this.props.onClose(project); // call the parent with the customer object from backend
-    }).catch(e =>
-      this.setState({
-        addingInProgress: false,    // disable loading indicator
-        addingError: e              // show error message
-      })
-    );
-    // set loading to true
+    let error = false;
+    if (value.trim().length === 0) {
+      error = true;
+    }
+
     this.setState({
-      addingInProgress: true,       // show loading indicator
-      addingError: null             // disable error message
+      [event.target.id]: event.target.value,
+      [event.target.id + 'ValidationFailed']: error,
+      [event.target.id + 'Edited']: true
     });
   }
 
 
+  /*handleClose = () => {
+        this.setState({
+          open: false
+        });
+  }*/
+
+
+  /*addProject = () => {
+    let newProject = new ProjectBO(
+    this.state.projectName, this.state.ptSelected.getID(), this.moSelected.getID(), this.state.numSpots,
+     this.state.shortDescription,this.state.language , this.state.additionalProfessor.getID());
+    ElectionSystemAPI.getAPI().addProject(newProject).then(project => {
+      // Backend call sucessfull
+      // reinit the dialogs state for a new empty customer
+      this.setState(this.baseState);
+       }).catch(e =>
+      this.setState({
+        addingInProgress: false,              // disable loading indicator
+        addingError: e                        // show error message
+      })
+    );
+
+    // set loading to true
+    this.setState({
+      addingInProgress: true,                 // show loading indicator
+      addingError: null                       // disable error message
+    });
+  }*/
+
+/*addProject = () => {
+    // clone the original cutomer, in case the backend call fails
+    let addedProject= Object.assign(new ProjectBO(), this.props.projectName);
+    // set the new attributes from our dialog
+    addedProject.setName(this.state.projectName);
+    ElectionSystemAPI.getAPI().addProject(addedProject).then(project => {
+      this.setState({
+        updatingInProgress: false,              // disable loading indicator
+        updatingError: null                     // no error message
+      });
+      // keep the new state as base state
+      this.baseState.projectName = this.state.projectName;
+      this.props.onClose(addedProject);      // call the parent with the new customer
+    }).catch(e =>
+      this.setState({
+        addingInProgress: false,// disable loading indicator
+        updatingError: e
+      })
+    );
+    // set loading to true
+    this.setState({
+      addingInProgress: true,                 // show loading indicator
+      addingError: null                       // disable error message
+    });
+  }*/
+
+addProjecttype = () => {
+  let newProjecttype = new ProjecttypeBO(this.state.projecttypeNameInput, this.state.ectInput, this.state.swsInput);
+  ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttype => {
+    // Backend call sucessfull
+    // reinit the dialogs state for a new empty customer
+    this.setState(this.baseState);
+    this.props.onClose(projecttype); // call the parent with the customer object from backend
+  }).catch(e =>
+    this.setState({
+      updatingInProgress: false,    // disable loading indicator
+      updatingError: e              // show error message
+    })
+  );
+
+  // set loading to true
+  this.setState({
+    updatingInProgress: true,       // show loading indicator
+    updatingError: null             // disable error message
+  });
+}
 
 
 
 
  render(){
     const { classes } = this.props;
-    const { modules, edvNumber, projecttypes, numSpots, additionalProfessor, shortDescription, language,
+    const { projectName, modules, edvNumber, projecttypes, numSpots, additionalProfessor, shortDescription, language,
             moSelected, ptSelected, laSelected} = this.state;
     return(
 
@@ -177,23 +252,27 @@ class KeyCompetence extends Component {
 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
+                        <TextField fullWidth variant="outlined" label="Keycompetence Name:" id="projectName" onChange= {this.handleChange}
+                        value={projectName} />
+                    </Grid>
+                    <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" onChange={this.selectHandleChangeModule}>
+                            <Select id="moSelected" label="Module" onChange={this.handleChange}>
                                     {this.state.modules.map((modules, index) => (
-                                        <MenuItem key={index} value={index}>{modules.getName()}</MenuItem>
+                                        <MenuItem key={modules.getID()} value={modules.getID()}>{modules.getName()}</MenuItem>
                                     ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-number:" onChange= {this.textFieldValueChange}
+                        <TextField fullWidth variant="outlined" label="EDV-number:" id="edvNumber" onChange= {this.handleChange}
                         value={edvNumber} />
                     </Grid>
                     <Grid item>
                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
-                                <Select label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
+                                <Select id="ptSelected" label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
                                         <MenuItem key={index} value={index}>{ptype.getName()}</MenuItem>
                                     ))}
@@ -222,7 +301,7 @@ class KeyCompetence extends Component {
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>
-                            <Select label="Professoren" value={additionalProfessor} /* funktion*/ >
+                            <Select id="additionalProfessor" label="Professoren" value={additionalProfessor} /* funktion*/ >
                                 <MenuItem>Susanne Stingel</MenuItem>
                                 <MenuItem>Mike Friedrichsen</MenuItem>
                                 <MenuItem>Martin Engstler</MenuItem>
@@ -232,7 +311,7 @@ class KeyCompetence extends Component {
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
-                            <Select label="Sprache" onChange={this.selectHandleChangelanguage} value={this.state.language} >
+                            <Select id="language" label="Sprache" onChange={this.selectHandleChangelanguage} value={language} >
                                 <MenuItem>none</MenuItem>
                                 <MenuItem>german</MenuItem>
                                 <MenuItem>english</MenuItem>
@@ -240,7 +319,8 @@ class KeyCompetence extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" onChange={this.textFieldValueChange} multiline rows={10} label="Short description:" value={shortDescription} />
+                        <TextField fullWidth variant="outlined" id="shortDescription" onChange={this.handleChange}
+                        multiline rows={10} label="Short description:" value={shortDescription} />
                     </Grid>
                     <Grid item xs={12} align="center">
                 <Grid item>
@@ -249,7 +329,7 @@ class KeyCompetence extends Component {
                 </Grid>
                 <Grid item xs={12} align="center">
                 <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.addKeyCompetence}>Submit</Button>
+                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
                 </Grid>
                 </Grid>

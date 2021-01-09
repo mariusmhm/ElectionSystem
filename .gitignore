@@ -141,6 +141,10 @@ node_modules
 /frontend/build
 /src/static/reactclient
 
+App.js
+Mapper.py
+Registration-dump.sql
+
 # misc
 .DS_Store
 .env.local
