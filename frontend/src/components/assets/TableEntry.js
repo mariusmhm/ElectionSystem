@@ -3,7 +3,7 @@ import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuIte
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
-import ParticipationButton from '../assets/ParticipationButton'
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 
 class TableEntry extends Component {
@@ -22,7 +22,10 @@ class TableEntry extends Component {
             name: null,
             dsc: null,
             prof: null,
+            ects: null,
+            sws: null,
             activeIndex: null,
+            select: true,
 
 
 
@@ -32,6 +35,7 @@ class TableEntry extends Component {
         };
         this.baseState = this.state;
         this.toggleClass = this.toggleClass.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
 
     }
 
@@ -57,13 +61,16 @@ class TableEntry extends Component {
         }
       }
 
+    handleSelect(){
+        this.setState({select: !this.state.select})
+    }
 
 
 
     render() {
 
         const { classes } = this.props;
-        const {activeIndex} = this.state;
+        const {activeIndex, buttonText} = this.state;
 
         return (
             <TableRow key={this.props.id}>
@@ -91,13 +98,13 @@ class TableEntry extends Component {
                     </Collapse>
                 </TableCell>
                 <TableCell>
-                    {this.props.prof}
+                    Professor: {this.props.prof}
                 </TableCell>
                 <TableCell>
-                    ECTS
+                    ECTS: {this.props.ects}
                 </TableCell>
                 <TableCell>
-                    SWS
+                    SWS:  {this.props.sws}
                 </TableCell>
                 <TableCell>
                     <TableCell>
@@ -116,7 +123,18 @@ class TableEntry extends Component {
                         </FormControl>
                     </TableCell>
                     <TableCell>
-                        <ParticipationButton />
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        
+                        endIcon={<PlaylistAddCheckIcon />}
+                        color={this.state.select ? "primary": "secondary"} 
+                         
+                        onClick={this.handleSelect} > {this.state.select ? "Select" : "Deselect"}
+                        
+                        
+                                
+                    </Button>
                     </TableCell>
                 </TableCell>
             </TableRow>

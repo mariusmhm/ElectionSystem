@@ -166,6 +166,8 @@ class HomeScreenCompTwo extends Component {
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 dsc = {project.getShortDescription()}
+                                                ects = {projecttype.getEcts()}
+                                                sws = {projecttype.getSws()}
                                             />
                                             
                                         )
