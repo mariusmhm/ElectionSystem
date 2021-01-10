@@ -1,4 +1,3 @@
-//import { makeStyles} from '@material-ui/core/styles';
 import React, {Component} from 'react';
 import {Dialog,
     TextField,
@@ -16,80 +15,131 @@ import {Dialog,
     InputLabel,
     Select
     } from'@material-ui/core';
+import {withStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ElectionSystemAPI from '../../api/ElectionSystemAPI';
+import ProjecttypeBO from '../../api/ProjecttypeBO';
+import ModuleBO from '../../api/ModuleBO';
 
 let open = true;
 
 class EditProjecttype extends Component {
 
-    constructor(props){
-        super(props)
-        this.state= {
-        projecttypeName:'',
-        module:'',
-        ects:'',
+  constructor(props){
+    super(props)
+    this.state= {
+        creationDate:'',
+        projecttypename:'',
+        modules:[],
+        moSelected:null,
+        ect:'',
         sws:'',
+        projecttypes: [],
+        projecttype: {},
+        deletingError: null,
+        error: null,
 
-        }
-    }
+    };
+        this.baseState = this.state;
+  }
+
+ getAllModules = () => {
+   ElectionSystemAPI.getAPI().getAllModules().then(moduleBO =>
+      this.setState({
+           modules: moduleBO,
+           loaded: true,
+           error: null
+           })).catch(e =>
+           this.setState({
+                modules:[],
+                error: e
+           }))
+      console.log('ausgeführt');
+   }
+
+   componentDidMount(){
+        this.getAllModules();
+   }
 
 
-    handleSubmit =(event) =>{
-        event.preventDefault()
-        alert(` "The Projecttype" ${this.state.projectypeName} "with the module" ${this.state.module} "is added".`)
+    deleteProjecttypeHandler = (projecttype) => {
+        console.log(projecttype);
+        ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype => {
+          console.log(projecttype);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
 
-}
-
-    handleInputProjecttypeNameChange =(event)=>{
-        event.preventDefault()
         this.setState({
-            projecttypeName: event.target.value
+          projecttype: this.state.proejcttype.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
         })
     }
 
-    handleInputECTSChange=(event)=>{
-        event.preventDefault()
-        this.setState({
-            ect: event.target.value
-        })
+    addProjecttype = () => {
+        let newProjecttype = new ProjecttypeBO();
+        newProjecttype.setDate(this.state.creationDate);
+        newProjecttype.setName(this.state.projecttypname);
+        newProjecttype.setEcts(this.state.ect);
+        newProjecttype.setSws(this.state.sws);
+        newProjecttype.setModule(this.state.moSelected);
+        console.log(JSON.stringify(newProjecttype));
+        console.log(this.state.creationDate)
+        console.log('module:' + this.state.moSelected);
+        ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projectBO => {
+            this.setState(this.baseState);
+
+        }).catch(e =>
+            this.setState({
+                error: e
+            }))
+
     }
 
-    handleInputSWSChange=(event)=>{
-        event.preventDefault()
+
+    handleChange = (e) =>{
+        console.log(e.target.value);
+        console.log(e.target.id);
         this.setState({
-            sws: event.target.value
-        })
+            [e.target.id]: e.target.value
+        });
     }
 
-     handleInputModuleChange=(event)=>{
-        event.preventDefault()
+    handleSelectChange = (e) =>{
+        console.log(e.target.value);
+        console.log(e.target.name);
         this.setState({
-            module: event.target.value
-        })
+            [e.target.name]: e.target.value
+        });
     }
 
-
-
-
+    handleClose = () => {
+        this.setState({
+          open: false
+        });
+    }
 
 
 
  render(){
+    const {projecttype} = this.state;
+    const { classes } = this.props;
 
   return (
 
-      <Dialog open={open}>
+      <Dialog open={open} fullWidth maxWidth='md'>
             <Typography
                 variant="h4"
                 align="center">
-                    EditProjecttype
+                    Edit Project type
             </Typography>
             <Typography
                 variant="h5"
                 align="center"
                 color="secondary">
-                    Projecttype
+                    Project type
             </Typography>
             <br/>
             <br/>
@@ -104,17 +154,17 @@ class EditProjecttype extends Component {
                                  <TableCell> Delete </TableCell>
                            </TableRow>
                       </TableHead>
-                      <TableBody>
-                           <TableRow>
-                                    <TableCell> {this.state.projecttypeName}</TableCell>
-                                   <TableCell> {this.state.module}</TableCell>
-                                   <TableCell> {this.state.sws}</TableCell>
-                                    <TableCell> {this.state.ect}</TableCell>
-                                   <TableCell><IconButton aria-label="delete"><DeleteIcon />
-                                    </IconButton>
-                                   </TableCell>
-                           </TableRow>
-                      </TableBody>
+                        <TableBody>
+                             {this.state.projecttypes.map(ptyp => (
+                                 <TableRow key={ptyp.getID()} ptyp={ptyp}>
+                                      <TableCell> {ptyp.getName()}</TableCell>
+                                      /*insert Module*/
+                                      <TableCell> {ptyp.getEcts()}</TableCell>
+                                      <TableCell> {ptyp.getSws()}</TableCell>
+                                      <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjecttypeHandler(ptyp)}/> </IconButton></TableCell>
+                                 </TableRow>
+                                 ))}
+                        </TableBody>
                  </Table>
             </TableContainer>
             <br/>
@@ -123,59 +173,43 @@ class EditProjecttype extends Component {
                 align="center"
                 color="secondary">Add Projecttype
              </Typography>
-            <FormControl onSubmit={this.handleSubmit}>
+             <br/>
+            <FormControl fullWidth onSubmit={this.handleSubmit}>
                 <Grid container spacing={2} justify="center" align="center" >
-                    <Grid item xs={8}>
-                        <TextField fullWidth
-                        variant="outlined"
-                        label="Projecttype name:"
-                        onChange={this.handleInputProjecttypeNameChange}
-                        value={this.state.projecttypeName} />
+                    <Grid item xs={6}>
+                        <TextField fullWidth variant="outlined" id="projecttypename"
+                         label="Name:" onChange={this.handleChange} value={this.state.projecttypename}/>
                     </Grid>
-                    <Grid item xs={8}>
-                        <TextField fullWidth
-                        variant ="outlined"
-                        label="ECTS"
-                        value={this.state.ect}
-                        onChange={this.handleInputECTSChange}/>
+                   <Grid item container direction="row" xs={12} spacing={2} justify="center" align="center">
+                    <Grid item xs={3}>
+                        <TextField fullWidth variant ="outlined" id= "ect" label="ECTS" value={this.state.ect} onChange={this.handleChange}/>
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField fullWidth variant="outlined" label="SWS" value={this.state.sws}
-                        onChange={this.handleInputSWSChange}/>
+                        <TextField fullWidth variant="outlined" label="SWS" id="sws" value={this.state.sws} onChange={this.handleChange}/>
+                    </Grid>
                     </Grid>
                     <Grid item xs={6} justify='center'>
-                        <FormControl fullWidth variant="outlined" onSubmit={this.handleSubmit}>
+                        <FormControl fullWidth variant="outlined">
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module" value={this.state.module} onChange={this.handleInputModuleChange}>
-                                <MenuItem value="1">MODULE 1</MenuItem>
-                                <MenuItem value="2">MODULE 2</MenuItem>
-                                <MenuItem value="3">MODULE 3</MenuItem>
+                            <Select label="moSelected" onChange={this.handleSelectChange}>
+                                    {this.state.modules.map((module) => (
+                                         <MenuItem key={module.getID()} value={module.getID()}>{module.getName()}</MenuItem>))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} align="center">
-                        <Button
-                        variant="outlined"
-                        type="submit"
-                        color="secondary">
-                            Hinzufügen
-                        </Button>
                     </Grid>
                     <Grid item >
-                        <Button
-                        variant="outlined"
-                        color="secondary">
-                            Abbrechen
+                        <Button variant="outlined" color="secondary" onClick={this.handleClose}>
+                            Close
                         </Button>
                     </Grid>
                     <Grid>
                         <br/>
                     </Grid>
-                    <Grid item>
-                        <Button
-                        type="submit"
-                        variant="outlined">
-                            Fertig
+                    <Grid item> 
+                        <Button type="submit" variant="outlined" onClick={this.addProjecttype} >
+                            Add
                         </Button>
                     </Grid>
             </Grid>
@@ -185,4 +219,14 @@ class EditProjecttype extends Component {
   );
 }
 }
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: '20px'
+    },
+    dialogHeader:{
+        textAlign: "center"
+    }
+});
 export default EditProjecttype;
