@@ -1,12 +1,11 @@
 import NamedBusinessObject from './NamedBusinessObject';
-import Automat from './Automat';
 
 export default class ProjectBO extends NamedBusinessObject{
 /// Represents a Project.
 
-constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aSpecialRoom,
-                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture,aBlockDaysPriorLectureTrue,aNumBlockDaysDuringLecture,
-                aBlockDaysDuringLecture,aWeekly,aShortDescription,aNumSpots,aProjectType, aModule, aProfessor, aParticipation, aAddProfessor,
+    constructor(aShortDescription, aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
+                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture, aNumBlockDaysDuringLecture,
+                aWeekly, aNumSpots,aProjectType, aModule, aProfessor, aAddProfessor,
                 aLanguage, aExternalPartner, aState){
         super();
 
@@ -33,171 +32,171 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
 
 
     // setting the state
-setState(aState){
+    setState(aState){
         this.state = aState;
     }
 
     // getting the state
-getState(){
+    getState(){
         return this.state;
     }
 
     getAddProfessor(){
     //Read out of the additional professor.
-return this.add_professor_id;
+        return this.add_professor_id;
     }
 
     setAddProfessor(aAddProfessor){
     //Set the additional professor
-this.add_professor_id =  aAddProfessor;
+        this.add_professor_id =  aAddProfessor;
     }
 
     getLanguage(){
     //Reads out the language.
-return this.language
+        return this.language
     }
 
     setLanguage(aLanguage){
     //Sets the language
-this.language = aLanguage;
+        this.language = aLanguage;
     }
 
     getExternalPartner(){
     //Reads out the external Partner
-return this.external_partner;
+        return this.external_partner;
     }
 
     setExternalPartner(aExternalPartner){
     //Sets the external Partner
-this.external_partner = aExternalPartner;
+        this.external_partner = aExternalPartner;
     }
 
     getRoomDesired(){
         //Read out room.
-return this.room_desired;
+        return this.room_desired;
     }
 
     setRoomDesired(aRoomDesired){
         //Set the room.
-this.room_desired = aRoomDesired;
+        this.room_desired = aRoomDesired;
     }
 
     getNumBlockDaysInExam(){
         //Read out of the numBlockDaysInExam.
-return this.num_blockdays_in_exam;
+        return this.num_blockdays_in_exam;
     }
 
     setNumBlockDaysInExam(aNumBlockDaysInExam){
         //Set the numBlockDaysInExam.
-this.num_blockdays_in_exam = aNumBlockDaysInExam;
+        this.num_blockdays_in_exam = aNumBlockDaysInExam;
     }
 
 
     getSpecialRoom(){
         //Read out of the special room.
-return this.special_room;
+        return this.special_room;
     }
 
     setSpecialRoom(aSpecialRoom){
         //Set the special room.
-this.special_room = aSpecialRoom;
+        this.special_room = aSpecialRoom;
     }
 
     getDateBlockDaysDuringLecture(){
         //Read out of the dateBlockDaysDuringLecture.
-return this.date_blockdays_during_lecture;
+        return this.date_blockdays_during_lecture;
     }
 
     setDateBlockDaysDuringLecture(aDateBlockDaysDuringLecture){
         //Set the dateBlockDaysDuringLecture.
-this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
+        this.date_blockdays_during_lecture = aDateBlockDaysDuringLecture;
     }
 
     getNumBlockDaysPriorLecture(){
         //Read out of the NumBlockDaysPriorLecture .
-return this.num_blockdays_prior_lecture;
+        return this.num_blockdays_prior_lecture;
     }
 
     setNumBlockDaysPriorLecture(aNumBlockDaysPriorLecture){
         //Set the NumBlockDaysPriorLecture .
-this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
+        this.num_blockdays_prior_lecture = aNumBlockDaysPriorLecture;
     }
 
     getNumBlockDaysDuringLecture(){
         //Read out of the NumBlockDaysDuringLecture .
-return this.num_blockdays_during_lecture;
+        return this.num_blockdays_during_lecture;
     }
 
     setNumBlockDaysDuringLecture(aNumBlockDaysDuringLecture){
         //Set the NumBlockDaysDuringLecture .
-this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
+        this.num_blockdays_during_lecture = aNumBlockDaysDuringLecture;
     }
 
     getWeekly(){
         //Read out of the weekly.
-return this.weekly;
+        return this.weekly;
     }
 
     setWeekly(aWeekly){
         //Set the weekly .
-this.weekly = aWeekly;
+        this.weekly = aWeekly;
     }
 
     getShortDescription(){
         //Read out of the shortDescription.
-return this.short_description;
+        return this.short_description;
     }
 
     setShortDescription(aShortDescription){
         //Set the shortDescription.
-this.short_description = aShortDescription;
+        this.short_description = aShortDescription;
     }
 
     getNumSpots(){
         //Read out of the numSpots.
-return this.num_spots;
+        return this.num_spots;
     }
 
     setNumSpots(aNumSpots){
         //Set the numSpots.
-this.num_spots = aNumSpots;
+        this.num_spots = aNumSpots;
     }
 
-    getProjectType(){
+    getProjecttype(){
         //Read out of the projectType.
-return this.projecttype_id;
+        return this.projecttype_id;
     }
 
-    setProjectType(aProjectType){
+    setProjecttype(aProjectType){
         //Set the project type.
-this.projecttype_id = aProjectType;
+        this.projecttype_id = aProjectType;
     }
 
     getModule(){
         //Read out of the module.
-return this.module_id;
+        return this.module_id;
     }
 
     setModule(aModule){
         //Set the module.
-this.module_id = aModule;
+        this.module_id = aModule;
     }
 
     getProfessor(){
         //Read out of the module.
-return this.professor_id;
+        return this.professor_id;
     }
 
     setProfessor(aProfessor){
         //Set the module.
-this.professor_id = aProfessor;
+        this.professor_id = aProfessor;
     }
 
 
 
     // Returns an Array of ProjectBO from a given JSON
 
-static fromJSON(projects) {
+    static fromJSON(projects) {
         let res = [];
 
         if (Array.isArray(projects)) {
@@ -207,7 +206,7 @@ static fromJSON(projects) {
             })
         }
         // it's a single object and not an array
-else {
+        else {
             let s = projects;
             Object.setPrototypeOf(s, ProjectBO.prototype);
             res.push(s);
@@ -216,5 +215,3 @@ else {
         return res;
     }
   }
-
-

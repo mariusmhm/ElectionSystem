@@ -47,18 +47,11 @@ CREATE TABLE `Projecttype` (
 	`creation_date` DATE,
 	`name` VARCHAR(30),
 	`sws` int(11),
-	`ect` int(11),	
+	`ect` int(11),
     PRIMARY KEY(`id`)
 );
 
-DROP TABLE IF EXISTS `Module`;
-CREATE TABLE `Module` (
-	`id` int(11),
-	`creation_date` DATE,
-	`name` VARCHAR(30),
-	`edv_number` VARCHAR(11),
-    PRIMARY KEY(`id`)
-);
+
 
 DROP TABLE IF EXISTS `Grading`;
 CREATE TABLE `Grading`(
@@ -68,6 +61,8 @@ CREATE TABLE `Grading`(
 
     PRIMARY KEY (`id`)
 );
+
+
 
 DROP TABLE IF EXISTS `Participation`;
 CREATE TABLE `Participation`(
@@ -83,3 +78,15 @@ CREATE TABLE `Participation`(
     FOREIGN KEY (`student_id`) REFERENCES `Student`(`id`),
     FOREIGN KEY (`project_id`) REFERENCES `Project`(`id`)
 );
+
+DROP TABLE IF EXISTS `Module`;
+CREATE TABLE `Module`(
+	`id` int(11),
+	`creation_date` DATE,
+	`name` VARCHAR(30),
+	`edv_number` VARCHAR(11),
+    PRIMARY KEY(`id`)
+);
+
+INSERT INTO `Projecttype` VALUES (1,'2020-0-02',"interdisziplinär",12, 8);
+INSERT INTO `Module` VALUES (1, '2020-0-02',"Recht",123);

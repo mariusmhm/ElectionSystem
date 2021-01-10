@@ -137,12 +137,11 @@ constructor(props) {
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
-                                {this.state.projects.map(project => (
                             <TableBody>
                                 <TableRow>
                                     <TableCell colSpan="3" >
                                         <Typography variant="h6" className={classes.tableRow}>
-                                            {project.getState()}
+                                            Neu
                                         </Typography>
                                     </TableCell>
                                 </TableRow>

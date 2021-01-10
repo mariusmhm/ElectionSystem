@@ -10,6 +10,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../../api';
+import TableEntryAdmin from './TableEntryAdmin';
+
 //import Participator from '../../../Buttons/Participator';
 //import PropTypes from 'prop-types';
 //import DeleteIcon from '@material-ui/icons/Delete';
@@ -24,67 +27,140 @@ import Typography from '@material-ui/core/Typography';
  */
 
 class ApprovedProjects extends Component {
-constructor(props){
-    super(props)
 
-    this.state= {
-    rows:[
-    {
-    id:1,
-    project_name:"User Experience",
-    project_type:"inter",
-    professor:"Kunz"},
+constructor(props) {
+        super(props)
+        this.state = {
+            tableData: [],
+            projects: [],
+            projecttypes: [],
+            error: null,
+            priority: '',
+            updatingError: null,
+            deletingError: null,
+            loaded: null,
+            activeIndex: null,
 
-     {
-    id:2,
-    project_name:"Programmieren",
-    project_type:"xyz",
-    professor:"Thies"},
 
-     {
-    id:3,
-    project_name:"ADS",
-    project_type:"mno",
-    professor:"Thies"},
 
-    ]
+        };
+        this.baseState = this.state;
     }
-}
+
+    componentDidMount(){
+        this.getProjectForState();
+        this.getAllProjecttypes();
+    }
+
+     /** Gives back the projecttype */
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+            .then(ProjecttypeBO =>
+                this.setState({
+                    projecttypes: ProjecttypeBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projecttypes: [],
+                        error: e
+                    }))
+        console.log('Projecttype ausgeführt');
+    }
+
+
+
+    //Gives back the projects by state "new"
+    getProjectForState = () =>{
+        ElectionSystemAPI.getAPI().getProjectForState("approved")
+        .then(projectBO => { this.setState({
+            projects: projectBO,
+            loaded: true,
+            error: null
+        })}).catch(e =>
+            this.setState({
+                projects:[],
+                error: e
+        }))
+
+    }
+
+    deleteProjectHandler = (project) => {
+        console.log(project);
+        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
+          console.log(project);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
+
+        this.setState({
+          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
+        })
+    }
+
+
+
 
 
   render() {
-        const {classes}= this.props;
+
+     const {projects} = this.state;
+     const {classes}= this.props;
+
         return (
             <div>
-                <Container maxWidth="sm">
+                <Container maxWidth="md">
                     <CssBaseline />
-                    <br/>
-                    <br/>
-                    <Typography variant='h4' color="secondary">THIS SEMESTER</Typography>
-                    <br/>
-                    <Typography variant='h6' color="gray">Approved Projects</Typography>
-                    <br/>
-                    <Grid item>
+                    <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
+                     <Grid item container
+                            direction="column"
+                            xs={12}
+                            md={12}
+                            spacing={2}
+                            align="center"
+                            className={classes.grid}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Project</TableCell>
-                                        <TableCell>Projectart</TableCell>
-                                        <TableCell>Professor</TableCell>
-                                        <TableCell>Participator</TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                project
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                professor
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                projecttype
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
-                                <TableBody>
-                                    {this.state.rows.map(row=> (
-                                        <TableRow key={row.id}>
-                                            <TableCell> {row.project_name}</TableCell>
-                                            <TableCell> {row.project_type}</TableCell>
-                                            <TableCell> {row.professor}</TableCell>
-                                            <TableCell> <Button variant="outlined">Participator</Button></TableCell>
-                                        </TableRow>
-                                    ))}
-                               </TableBody>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell colSpan="3" >
+                                        <Typography variant="h6" className={classes.tableRow}>
+                                            Neu
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                                {this.state.projects.map(project => (
+                                            <TableEntryAdmin
+                                                name = {project.getName()}
+                                                prof = {project.getProfessor()}
+                                                type = {project.getProjectType()}
+                                            />
+                                )
+                                )}
+
+                            </TableBody>
+                        ))}
                             </Table>
                         </TableContainer>
                      </Grid>
@@ -93,4 +169,26 @@ constructor(props){
 		);
 	}
 }
-export default ApprovedProjects;
+
+
+
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: theme.spacing(3)
+    },
+    button:{
+        marginTop: theme.spacing(3)
+    },
+    redHeader:{
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 30
+    },
+    tableRow:{
+    color:'white',
+    fontFamily:'Arial'
+    }
+});
