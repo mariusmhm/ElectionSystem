@@ -12,6 +12,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './pages/RejectedProjectsAdmin';
+import GradingEditingDialog from '../dialogs/GradingEditingDialog';
 
 
 
@@ -30,9 +31,9 @@ class HomeScreenAdmin extends Component {
         };
     }
 
-    handleClick = (e)=>{
-        return <Redirect to='/Grading-Editing-Dialog'/>;
 
+    openDialog() {
+        this.setState({ open: true });
     }
 
 
@@ -62,7 +63,7 @@ class HomeScreenAdmin extends Component {
                                 </Fab>
                             </Grid>
                             <Grid item>
-                            <Fab color="primary" variant="extended" aria-lable="edit">
+                            <Fab color="primary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
                                 <EditIcon /> Edit grading
                                 </Fab>
                             </Grid>
@@ -77,6 +78,8 @@ class HomeScreenAdmin extends Component {
                                 </Fab>
                             </Grid>
                        </Grid>
+
+
 				  </Container>
 		);
 	}

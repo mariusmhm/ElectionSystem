@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryAdmin from './TableEntryAdmin';
+import TableEntryButtonTwo from './TableEntryButtonTwo';
 
 /**
  * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
@@ -139,7 +140,7 @@ constructor(props) {
                                 </TableHead>
                             <TableBody>
                                 {this.state.projects.map(project => (
-                                            <TableEntryAdmin
+                                            <TableEntryButtonTwo
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjectType()}

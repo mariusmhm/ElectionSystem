@@ -30,6 +30,7 @@ class GradingEditingDialog extends Component {
             grade: '',
             updatingError: null,
             deletingError: null,
+            open: false,
 
 
         };
@@ -96,11 +97,15 @@ class GradingEditingDialog extends Component {
     setOpen(false);
   };**/
 
+  openDialog() {
+   this.setState({ open: true });
+   }
+
  render(){
     const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
-        <Dialog open={open} maxWidth='xs' fullWidth>
+        <Dialog open={this.state.open}  maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
             <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
                 <Grid item xs={12}>

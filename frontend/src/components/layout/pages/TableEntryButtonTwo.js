@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
@@ -8,11 +8,12 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
 
-class TableEntryAdmin extends Component {
+class TableEntryButtonTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -37,6 +38,7 @@ class TableEntryAdmin extends Component {
             select: true,
             lastname: '',
             firstname: '',
+            project:'',
             priority: 0
 
 
@@ -112,10 +114,25 @@ class TableEntryAdmin extends Component {
 
     componentDidMount() {
         this.getUser();
-         this.getProjectType();
+        this.getProjectType();
 
 
     }
+    /**Delets the project
+      deleteProjectHandler = (project) => {
+        console.log(project);
+        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
+          console.log(project);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
+
+        this.setState({
+          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+        })
+    }**/
 
 
 
@@ -140,6 +157,9 @@ class TableEntryAdmin extends Component {
                 </TableCell>
                 <TableCell>
                         {this.state.loaded ? this.state.projecttypeName: null}
+                </TableCell>
+                <TableCell>
+                     <Button variant ="outlined"> Bewerten </Button>
                 </TableCell>
 
             </TableRow>
@@ -173,4 +193,4 @@ const styles = theme => ({
 
 
 });
-export default (TableEntryAdmin);
+export default (TableEntryButtonTwo);
