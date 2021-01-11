@@ -10,17 +10,13 @@ import {Dialog,
     TableCell,
     TableBody,
     TableContainer,
-    TableRow,
-    MenuItem,
-    InputLabel,
-    Select
+    TableRow
     } from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjecttypeBO from '../../api/ProjecttypeBO';
-import ModuleBO from '../../api/ModuleBO';
 
 let open = true;
 
@@ -31,8 +27,6 @@ class EditProjecttype extends Component {
     this.state= {
         creationDate:'',
         projecttypename:'',
-        modules:[],
-        moSelected:null,
         ect:'',
         sws:'',
         projecttypes: [],
@@ -43,6 +37,19 @@ class EditProjecttype extends Component {
     };
         this.baseState = this.state;
   }
+
+    getAllProjecttypes = () => {
+            ElectionSystemAPI.getAPI().getAllProjecttypes()
+            .then(projecttypesBOs =>
+                this.setState({
+                    projecttypes: projecttypesBOs,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projecttypes:[],
+                        error: e
+                    }))
+        }
 
  getAllModules = () => {
    ElectionSystemAPI.getAPI().getAllModules().then(moduleBO =>
@@ -60,13 +67,14 @@ class EditProjecttype extends Component {
 
    componentDidMount(){
         this.getAllModules();
+        this.getAllProjecttypes();
    }
 
 
-    deleteProjecttypeHandler = (projecttype) => {
-        console.log(projecttype);
-        ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype => {
-          console.log(projecttype);
+   /*deleteProjecttypeHandler = (ptype) => {
+        console.log(ptype);
+        ElectionSystemAPI.getAPI().deleteProjecttype(ptype.getID()).then(ptype => {
+          console.log(ptype);
         }).catch(e =>
           this.setState({
             deletingError: e
@@ -74,21 +82,19 @@ class EditProjecttype extends Component {
         );
 
         this.setState({
-          projecttype: this.state.proejcttype.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
+          projecttype: this.state.projecttype.filter(projecttypeFromState => projecttypeFromState.getID() != ptype.getID())
         })
-    }
+    }*/
 
     addProjecttype = () => {
         let newProjecttype = new ProjecttypeBO();
-        newProjecttype.setDate(this.state.creationDate);
         newProjecttype.setName(this.state.projecttypname);
-        newProjecttype.setEcts(this.state.ect);
+        newProjecttype.setDate(this.state.creationDate);
         newProjecttype.setSws(this.state.sws);
-        newProjecttype.setModule(this.state.moSelected);
+        newProjecttype.setEcts(this.state.ect);
         console.log(JSON.stringify(newProjecttype));
-        console.log(this.state.creationDate)
-        console.log('module:' + this.state.moSelected);
-        ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projectBO => {
+        console.log(this.state.creationDate);
+        ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
             this.setState(this.baseState);
 
         }).catch(e =>
@@ -124,7 +130,7 @@ class EditProjecttype extends Component {
 
 
  render(){
-    const {projecttype} = this.state;
+    const {projecttypes, projecttype} = this.state;
     const { classes } = this.props;
 
   return (
@@ -148,22 +154,25 @@ class EditProjecttype extends Component {
                       <TableHead>
                            <TableRow>
                                  <TableCell> Project Type Name</TableCell>
-                                 <TableCell> Module </TableCell>
-                                 <TableCell> SWS </TableCell>
                                  <TableCell> ECTS </TableCell>
+                                 <TableCell> SWS </TableCell>
                                  <TableCell> Delete </TableCell>
                            </TableRow>
                       </TableHead>
                         <TableBody>
-                             {this.state.projecttypes.map(ptyp => (
-                                 <TableRow key={ptyp.getID()} ptyp={ptyp}>
-                                      <TableCell> {ptyp.getName()}</TableCell>
-                                      /*insert Module*/
-                                      <TableCell> {ptyp.getEcts()}</TableCell>
-                                      <TableCell> {ptyp.getSws()}</TableCell>
-                                      <TableCell> <IconButton aria-label="delete"><DeleteIcon onClick={this.deleteProjecttypeHandler(ptyp)}/> </IconButton></TableCell>
-                                 </TableRow>
-                                 ))}
+                            <TableRow>
+                                {this.state.projecttypes.map((ptype, index) => (
+                                        <TableCell>{ptype.getName()}</TableCell>
+                                    ))}
+                                {this.state.projecttypes.map((ptype, index) => (
+                                        <TableCell key={index} value={index}>{ptype.getEcts()}</TableCell>
+                                    ))}
+                                {this.state.projecttypes.map((ptype, index) => (
+                                        <TableCell key={index} value={index}>{ptype.getSws()}</TableCell>
+                                    ))}
+                                <TableCell> <IconButton aria-label="delete"><DeleteIcon
+                                /*onClick={() => this.deleteProjecttypeHandler(ptype)}*//> </IconButton></TableCell>
+                            </TableRow>
                         </TableBody>
                  </Table>
             </TableContainer>
@@ -188,15 +197,6 @@ class EditProjecttype extends Component {
                         <TextField fullWidth variant="outlined" label="SWS" id="sws" value={this.state.sws} onChange={this.handleChange}/>
                     </Grid>
                     </Grid>
-                    <Grid item xs={6} justify='center'>
-                        <FormControl fullWidth variant="outlined">
-                            <InputLabel>Module</InputLabel>
-                            <Select label="moSelected" onChange={this.handleSelectChange}>
-                                    {this.state.modules.map((module) => (
-                                         <MenuItem key={module.getID()} value={module.getID()}>{module.getName()}</MenuItem>))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
@@ -207,7 +207,7 @@ class EditProjecttype extends Component {
                     <Grid>
                         <br/>
                     </Grid>
-                    <Grid item> 
+                    <Grid item>
                         <Button type="submit" variant="outlined" onClick={this.addProjecttype} >
                             Add
                         </Button>
@@ -229,4 +229,7 @@ const styles = theme => ({
         textAlign: "center"
     }
 });
-export default EditProjecttype;
+
+
+export default withStyles(styles)(EditProjecttype);
+
