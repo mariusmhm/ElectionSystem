@@ -107,8 +107,8 @@ class App extends Component {
 			    <CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
                     <Container maxWidth='md'>
-                        <Header user={currentUser} />
-                        {
+                        {//<Header user={currentUser} />
+                        }{
                         // Is a user signed in?
 						currentUser ?
 							<>
