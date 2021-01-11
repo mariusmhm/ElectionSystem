@@ -244,7 +244,7 @@ export default class ElectionSystemAPI {
       })
     }
 
-       addProjecttype(projecttypeBO){
+    addProjecttype(projecttypeBO){
         return this.#fetchAdvanced(this.#addProjecttypeURL(), {
           method: 'POST',
           headers:{
@@ -252,12 +252,13 @@ export default class ElectionSystemAPI {
             'Content-type': 'application/json',
           },
           body: JSON.stringify(projecttypeBO)
-            }).then((responseJSON) => {
-            let responseProjecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
-            return new Promise(function (resolve) {
-              resolve(responseProjecttypeBO);
-            })
           })
+            .then((responseJSON) => {
+              let projecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
+              return new Promise(function (resolve) {
+                resolve(projecttypeBO);
+              })
+            })
     }
 
     updateProjecttype(projecttypeBO){

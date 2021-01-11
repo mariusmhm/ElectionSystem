@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 //import HomeScreenCompOne from './components/layout/pages/HomeScreenCompOne';
 //import HomeAfterBegin from './components/layout/pages/AfterSemesterBegin/HomeAfterBegin';
 //import EditProjecttype from'./components/dialogs/EditProjecttype';
-import CreateKeycompetence from'./components/dialogs/CreateKeycompetence';
+//import CreateKeycompetence from'./components/dialogs/CreateKeycompetence';
 //import HomeScreenAdmin from './components/layout/pages/HomeScreen/HomeScreenAdmin';
 import EditProjecttype from'./components/dialogs/EditProjecttype';
 
@@ -19,7 +19,7 @@ class App extends Component {
         return (
 
             <div>
-                <CreateKeycompetence/>
+                <EditProjecttype/>
           </div>
       );
    }

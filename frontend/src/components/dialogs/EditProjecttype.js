@@ -12,7 +12,7 @@ import {Dialog,
     TableContainer,
     TableRow
     } from'@material-ui/core';
-//import {withStyles} from '@material-ui/core';
+import {withStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
@@ -229,4 +229,7 @@ const styles = theme => ({
         textAlign: "center"
     }
 });
-export default EditProjecttype;
+
+
+export default withStyles(styles)(EditProjecttype);
+
