@@ -32,7 +32,17 @@ export default class ProjecttypeBO extends NamedBusinessObject {
   getEcts(){
     return this.ect;
   }
-  
+
+   /*getModule(){
+        //Read out of the module.
+        return this.module_id;
+    }
+
+   setModule(aModule){
+        //Set the module.
+        this.module_id = aModule;
+   }*/
+
   // Returns an Array of ProjecttypeBO from a given JSON
   
     static fromJSON(projecttypes) {
