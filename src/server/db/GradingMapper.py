@@ -18,8 +18,8 @@ class GradingMapper (Mapper):
 
         for (id, creation_date, grade) in tuples:
             grading = Grading()
-            grading.set_date(creation_date)
             grading.set_id(id)
+            grading.set_date(creation_date)
             grading.set_grade(grade)
             result.append(grading)
 

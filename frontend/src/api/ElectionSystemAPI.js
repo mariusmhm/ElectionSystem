@@ -6,6 +6,7 @@ import ProjecttypeBO from './ProjecttypeBO';
 import SemesterBO from './SemesterBO';
 import StudentBO from './StudentBO';
 import UserBO from './UserBO';
+import State from './State';
 
 export default class ElectionSystemAPI {
 
@@ -23,6 +24,10 @@ export default class ElectionSystemAPI {
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #getProjectForStateURL = (state) => `${this.#electionSystemServerBaseURL}/project-by-state/${state}`;
+
+    //State
+    #getAllStatesURL = () => `${this.#electionSystemServerBaseURL}/state`;
+    #getStateURL = (id) => `${this.#electionSystemServerBaseURL}/state/${id}`;
 
     //Projecttype
     #getAllProjecttypesURL = () => `${this.#electionSystemServerBaseURL}/projecttype`;
@@ -145,9 +150,6 @@ export default class ElectionSystemAPI {
     }
 
 
-
-
-
     /**
     *@param {ProjectBO} projectBO
     *@public
@@ -212,6 +214,24 @@ export default class ElectionSystemAPI {
           })
     }
 
+    //----------State-------------------------
+    getAllStates(){
+      return this.#fetchAdvanced(this.#getAllStatesURL()).then((responseJSON)=> {
+          let states = State.fromJSON(responseJSON);
+          return new Promise(function(resolve){
+              resolve(states);
+          })
+      })
+    }
+
+    getState(stateid){
+      return this.#fetchAdvanced(this.#getStateURL(stateid)).then((responseJSON)=> {
+        let state = State.fromJSON(responseJSON)[0];
+        return new Promise(function(resolve){
+          resolve(state);
+        })
+      })
+    }
     //----------Projecttype-------------------------
 
      /**

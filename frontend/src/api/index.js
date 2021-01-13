@@ -9,3 +9,4 @@ export {default as ProjecttypeBO} from './ProjecttypeBO';
 export {default as SemesterBO} from './SemesterBO';
 export {default as StudentBO} from './StudentBO';
 export {default as UserBO} from './UserBO';
+export {default as State} from './State';

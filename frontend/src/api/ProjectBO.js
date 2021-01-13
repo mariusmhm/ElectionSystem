@@ -5,8 +5,7 @@ export default class ProjectBO extends NamedBusinessObject{
 
     constructor(aShortDescription, aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
                 aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture, aNumBlockDaysDuringLecture,
-                aWeekly, aNumSpots,aProjectType, aModule, aProfessor, aAddProfessor,
-                aLanguage, aExternalPartner, aState){
+                aWeekly, aNumSpots, aLanguage, aExternalPartner, aEdvNumber, aProjectType, aModule, aProfessor, aAddProfessor, aCurrentState){
         super();
 
         this.short_description = aShortDescription;
@@ -20,11 +19,12 @@ export default class ProjectBO extends NamedBusinessObject{
         this.num_spots = aNumSpots;
         this.language = aLanguage;
         this.external_partner = aExternalPartner;
+        this.edv_number = aEdvNumber
         this.projecttype_id = aProjectType;
         this.module_id = aModule;
         this.professor_id = aProfessor;
         this.add_professor_id = aAddProfessor;
-        this.state = aState;
+        this.current_state_id = aCurrentState;
 
     }
 
@@ -32,13 +32,13 @@ export default class ProjectBO extends NamedBusinessObject{
 
 
     // setting the state
-    setState(aState){
-        this.state = aState;
+    setState(aCurrentState){
+        this.current_state_id = aCurrentState;
     }
 
     // getting the state
     getState(){
-        return this.state;
+        return this.current_state_id;
     }
 
     getAddProfessor(){
@@ -160,6 +160,16 @@ export default class ProjectBO extends NamedBusinessObject{
     setNumSpots(aNumSpots){
         //Set the numSpots.
         this.num_spots = aNumSpots;
+    }
+
+    getEdvNumber(){
+        //Read out of the module.
+        return this.edv_number;
+    }
+
+    setProfessEdvNumber(aEdvNumber){
+        //Set the module.
+        this.edv_number = aEdvNumber;
     }
 
     getProjecttype(){
