@@ -24,6 +24,7 @@ export default class ElectionSystemAPI {
     #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #getProjectForStateURL = (state) => `${this.#electionSystemServerBaseURL}/project-by-state/${state}`;
+    #getProjectForModuleURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-module/${id}`;
 
     //State
     #getAllStatesURL = () => `${this.#electionSystemServerBaseURL}/state`;
@@ -148,7 +149,15 @@ export default class ElectionSystemAPI {
       })
     })
     }
-
+ 
+    getProjectForModule(module){
+    return this.#fetchAdvanced(this.#getProjectForModuleURL(module)).then((responseJSON) => {
+        let projectBOs = ProjectBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(projectBOs);
+      })
+    })
+    }
 
     /**
     *@param {ProjectBO} projectBO
