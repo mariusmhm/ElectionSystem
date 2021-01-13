@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {Dialog,
-    DialogTitle, 
-    MenuItem, 
-    Select, 
-    InputLabel, 
-    TextField, 
-    RadioGroup, 
-    FormControl, 
-    FormControlLabel, 
-    Radio, 
+    DialogTitle,
+    MenuItem,
+    Select,
+    InputLabel,
+    TextField,
+    RadioGroup,
+    FormControl,
+    FormControlLabel,
+    Radio,
     Button,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
-import {ElectionSystemAPI, ProjecttypeBO} from '../../api';
+import DateFnsUtils from "@date-io/date-fns";
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import {ElectionSystemAPI, ProjectBO} from '../../api';
 
 let open = true;
 
@@ -23,31 +25,43 @@ class CreateProject extends Component {
     constructor(props) {
       super(props);
 
-      const pt='';
-      const showETCS = false;
+        const showETCS = false;
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
       this.state = {
+        creationDate: date,
         projectname:'',
         modules: [],
+        moduleSelected: null,
         edvNumber: '',
         projecttypes: [],
-        ptSelected: {},
-        numSpots: '',
-        additionalProfessor: [],
+        projecttype: {},
+        ptSelected: null,
+        numSpots: null,
+        professors: [],
+        additionalProf: null,
         weekly: false,
-        specialRoom: '',
+        specialRoom: false,
+        desiredRoom: '',
         shortDescription: '',
         language: '',
         externalPartner: '',
-        numBlockdaysPriorLecture: '',
-        numNlockdaysDuringlecture: '',
-        blockdaysInExam: '',
-        error: null
+        numBlockdaysPriorLecture: null,
+        numBlockdaysDuringLecture: null,
+        dateDuringLecture: null,
+        numBlockdaysInExam: null,
+        error: null,
+        spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
       }
-      this.baseState = this.state;
-    } 
 
-    
+
+      this.baseState = this.state;
+
+
+    }
+
+
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
         .then(projecttypesBOs =>
@@ -60,65 +74,158 @@ class CreateProject extends Component {
                     error: e
                 }))
     }
-    
-    
-    componentDidMount(){
-        this.getAllProjecttypes();
+
+    getAllModules = () => {
+        ElectionSystemAPI.getAPI().getAllModules()
+        .then(moduleBOs =>{
+            this.setState({
+                modules: moduleBOs,
+                error: null
+            });
+            console.log(this.state.modules)
+        }).catch(e =>
+                this.setState({
+                    modules:[],
+                    error: e
+                }))
     }
 
-    // Add a new Project 
+    getUsersForRole = () => {
+        ElectionSystemAPI.getAPI().getUserForRole('professor')
+        .then(userBOs =>{
+            this.setState({
+                professors: userBOs,
+                error: null
+            });
+            //console.log(this.state.professors)
+        }).catch(e =>
+                this.setState({
+                    professors:[],
+                    error: e
+                }))
+    }
+
+
+    componentDidMount(){
+        this.getAllProjecttypes();
+        this.getAllModules();
+        this.getUsersForRole()
+    }
+
+    // Add a new Project
      addProject = () => {
-    
-         
+        let newProject = new ProjectBO();
+        newProject.setDate(this.state.creationDate);
+        newProject.setName(this.state.projectname);
+        newProject.setModule(this.state.moduleSelected);
+        newProject.setProjecttype(this.state.ptSelected);
+        newProject.setNumSpots(this.state.numSpots);
+        newProject.setAddProfessor(this.state.additionalProf);
+        newProject.setShortDescription(this.state.shortDescription);
+        newProject.setState("new");
+        newProject.setLanguage(this.state.language);
+        newProject.setProfessor(36);
+        newProject.setExternalPartner(this.state.externalPartner);
+        newProject.setWeekly(this.state.weekly);
+        newProject.setSpecialRoom(this.state.specialRoom);
+        newProject.setRoomDesired(this.state.desiredRoom);
+        newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
+        newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
+        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
+        newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
+        console.log(JSON.stringify(newProject));
+        console.log(this.state.creationDate)
+        console.log('module:' + this.state.moduleSelected);
+        console.log('numBlockdaysDuringLecture:' + this.state.numBlockdaysDuringLecture)
+        ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
+            this.showETCS = false;
+            this.setState(this.baseState);
+
+        }).catch(e =>
+            this.setState({
+                error: e
+            }))
+
     }
 
     selectHandleChangeProjecttype = (e) =>{
-       
-        this.pt = this.state.projecttypes[e.target.value].getEcts();
-        this.setState({
-            ptSelected: this.state.projecttypes[e.target.value]
-        },
-        function(){
-            console.log(this.pt);
-            console.log(this.state.ptSelected);
 
+        this.setState({
+            projecttype: this.state.projecttypes[e.target.value],
+            ptSelected: this.state.projecttypes[e.target.value].getID()
         });
         this.showETCS = true;
+    }
+
+    handleChange = (e) =>{
+        console.log(e.target.value);
+        console.log(e.target.id);
+        this.setState({
+            [e.target.id]: e.target.value
+        });
+    }
+
+    handleSelectChange = (e) =>{
+        console.log(e.target.value);
+        console.log(e.target.name);
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    roomHandleChange = (e) =>{
+        if(e.target.value === "true"){
+            this.setState({
+                specialRoom: true
+            })
+        }else if(e.target.value){
+            this.setState({
+                specialRoom: false
+            })
+        }
+    }
+
+    handleDateChange = (date) =>{
+        const nDate = new Date(date);
+        const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+        this.setState({
+            dateDuringLecture: nD
+        })
     }
 
     handleClose = () => {
         this.setState({
           open: false
         });
-    } 
+    }
 
-    
-    
+
+
  render(){
-    const { classes } = this.props; 
-    const { modules, edvNumber, projecttypes, numSpots, additionalProfessor, weekly, specialRoom, roomDesired, shortDescription, language, externalPartner,
-         numBlockdaysPriorLecture, numBlockdaysDuringLecture, blockdaysInExam, ptSelected } = this.state;
+    const { classes } = this.props;
 
     return(
-      
+
         <Dialog open={open} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>SUBMIT PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
-                
+
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField fullWidth variant="outlined" label="Projectname:"/>
+                    <Grid item>
+                        <TextField fullWidth variant="outlined" id="projectname" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select label="Module">
-                                <MenuItem>none</MenuItem>
+                            <Select name="moduleSelected" label="Module" onChange={this.handleSelectChange}>
+                                {this.state.modules.map((module) => (
+                                        <MenuItem key={module.getID()} value={module.getID()}>{module.getName()}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-number:" /* value={edvNumber} *//>
+                        <TextField fullWidth variant="outlined" label="EDV-number:" />
                     </Grid>
                     <Grid item>
                             <FormControl fullWidth variant="outlined" className={classes.FormControl}>
@@ -132,50 +239,48 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item container justify="space-between">
                         <Grid item>
-                            <Typography>ETCS: {this.showETCS ? this.state.ptSelected.getEcts() : null}</Typography>
+                            <Typography>ETCS: {this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
-                            <Typography>SWS: {this.showETCS ? this.state.ptSelected.getSws() : null}</Typography>
+                            <Typography>SWS: {this.showETCS ? this.state.projecttype.getSws() : null}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of spots</InputLabel>
-                            <Select label="Particpiant" /* value={numbSpots} */>
-                                <MenuItem>none</MenuItem>
-                                <MenuItem>1</MenuItem>
-                                <MenuItem>2</MenuItem>
-                                <MenuItem>3</MenuItem>
+                            <Select name="numSpots" label="Number of spots" onChange={this.handleSelectChange}>
+                            {this.state.spots.map((number, index) => (
+                                        <MenuItem key={index} value={number}>{number}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>
-                            <Select label="Professoren" /* value={additionalProfessor} */>
-                                <MenuItem>Susanne Stingel</MenuItem>
-                                <MenuItem>Mike Friedrichsen</MenuItem>
-                                <MenuItem>Martin Engstler</MenuItem>
+                            <Select name="additionalProf" label="Additional professors" onChange={this.handleSelectChange}>
+                                {this.state.professors.map((prof) => (
+                                        <MenuItem key={prof.getID()} value={prof.getID()}>{prof.getFirstname()} {prof.getName()}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
-                            <Select label="Sprache" /* value={language} */>
-                                <MenuItem>none</MenuItem>
-                                <MenuItem>german</MenuItem>
-                                <MenuItem>english</MenuItem>
+                            <Select name="language" label="language" onChange={this.handleSelectChange}>
+                                <MenuItem value="german">german</MenuItem>
+                                <MenuItem value="english">english</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" /* value={externalPartner} */ />
+                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" id="externalPartner" onChange={this.handleChange}/>
                     </Grid>
                     <Grid item>
                         <Typography>Weekly lecture:</Typography>
                         <FormControl>
-                                <RadioGroup row={true} /* value={weekly} */>
+                                <RadioGroup row={true} id="weekly" onChange={this.handleChange}>
                                 <FormControlLabel value="true" control={<Radio />} label="yes" />
                                 <FormControlLabel value="false" control={<Radio />} label="no" />
                             </RadioGroup>
@@ -185,62 +290,84 @@ class CreateProject extends Component {
 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={10} label="Short description:" /* value={shortDescription} *//>
+                        <TextField fullWidth variant="outlined" multiline rows={10} label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
                     </Grid>
                     <Grid item>
                         <Typography>Particular room necessary:</Typography>
                         <FormControl>
-                                <RadioGroup row={true} /* value={specialRoom} */>
+                                <RadioGroup row={true} id="specialRoom" onChange={this.roomHandleChange} value={String(this.state.specialRoom)}>
                                 <FormControlLabel value="true" control={<Radio />} label="yes" />
                                 <FormControlLabel value="false" control={<Radio />} label="no" />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
+                    { this.state.specialRoom ?
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={3} label="Desired room:" /* value={roomDesired} *//>
+                        <TextField fullWidth variant="outlined" multiline rows={3} id="desiredRoom" label="Desired room:" onChange={this.handleChange} value={this.state.desiredRoom}/>
                     </Grid>
+                    : null}
                     <Grid item>
+                        <Typography>Blockdays prior to semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel >Blockdays prior to semester</InputLabel>
-                            <Select label="Präsenztermine" /* value={numBlockdaysPriorLecture} */>
-                                <MenuItem>none</MenuItem>
-                                <MenuItem>1</MenuItem>
-                                <MenuItem>2</MenuItem>
+                        <InputLabel>Number of Blockdays</InputLabel>
+                            <Select name="numBlockdaysPriorLecture" label="Number of Blockdays" onChange={this.handleSelectChange}>
+                                <MenuItem value={null}>none</MenuItem>
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
+                        <Typography>Blockdays during the semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Blockdays during the semester</InputLabel>
-                            <Select label="Blocktage" /* value={numBlockdaysDuringLecture} */>
-                                <MenuItem value="">none</MenuItem>
-                                <MenuItem>1</MenuItem>
-                                <MenuItem>2</MenuItem>
+                        <InputLabel>Number of Blockdays</InputLabel>
+                            <Select name="numBlockdaysDuringLecture" label="Number of Blockdays" onChange={this.handleSelectChange}>
+                                <MenuItem value={null}>none</MenuItem>
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <Typography>For interdisciplinary/ transdisciplinary Projects:</Typography>
+                    <Typography>Blockday during semester preferred start date:</Typography>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="dd/MM/yyyy"
+                            margin="normal"
+                            id="dateDuringLecture"
+                            value={this.state.dateDuringLecture}
+                            onChange={this.handleDateChange}
+                        />
+                    </MuiPickersUtilsProvider>
+                    </Grid>
+                    <Grid item>
+                        <Typography color="secondary">Only for Interdisciplinary/ Transdisciplinary Projects:</Typography>
+                        <Typography>Blockdays during exam week:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel >Blockdays during exam week</InputLabel>
-                            <Select label="Blockdays" /* value={blockdaysInExam} */>
-                                <MenuItem>none</MenuItem>
-                                <MenuItem>1</MenuItem>
-                                <MenuItem>2</MenuItem>
+                        <InputLabel>Number of Blockdays</InputLabel>
+                            <Select name="numBlockdaysInExam" label="Number of Blockdays" onChange={this.handleSelectChange}>
+                                <MenuItem value={null}>none</MenuItem>
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
 
                 </Grid>
-                
-                
-                <Grid item> 
+
+
+                <Grid item>
                     <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
                 </Grid>
-                <Grid item> 
-                    <Button variant="contained" color="primary">Submit</Button>
+                <Grid item>
+                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
-                
+
             </Grid>
 
         </Dialog>

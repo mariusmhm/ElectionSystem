@@ -13,9 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './pages/RejectedProjectsAdmin';
 import GradingEditingDialog from '../dialogs/GradingEditingDialog';
-
-
-
+import ApprovedKeyCompetence from './pages/ApprovedKeyCompetence';
 
 
 class HomeScreenAdmin extends Component {
@@ -50,6 +48,8 @@ class HomeScreenAdmin extends Component {
                       <RejectedProjectsAdmin/>
                   <Divider/>
                       <ArchivedProjectsAdmin/>
+                  <Divider/>
+                      <ApprovedKeyCompetence/>
                   <Divider/>
                        <Grid container row={true} justify="center" alignItems="center" align ="center" spacing={2} className={classes.button}>
                             <Grid item >
