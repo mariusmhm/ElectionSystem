@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
+import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
 
 
 
@@ -100,34 +101,37 @@ updateGrade= () => {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>NAME</TableCell>
-                                            <TableCell>MARTRICULATION NUMBER</TableCell>
-                                            <TableCell>COURSE OF STUDY</TableCell>
-                                            <TableCell>GRADE</TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    NAME
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    MARTRICULATION NUMBER
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    COURSE OF STUDY
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    GRADE
+                                                </Typography>
+                                            </TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {this.state.students.map(student => (
-                                            <TableRow key={student.getID()} student={student}>
-                                                <TableCell > {student.getName()} </TableCell>
-                                                <TableCell >{student.getMatrikelNr()} </TableCell>
-                                                <TableCell > {student.getStudy()}</TableCell>
-                                                <TableCell>
-                                                    <FormControl>
-                                                        <InputLabel >GRADE </InputLabel>
-                                                            <Select labelId="grading">
-                                                                {this.state.gradings.map((grading, index) => (
-                                                                    <MenuItem key={index} value={index}>
-                                                                        {grading.getGrade()}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                                <TableCell>
-                                                <Button  variant="contained" color="secondary" >save</Button> </TableCell>
-                                            </TableRow>
-                                                 ))}
+                                {this.state.students.map(student => (
+                                            <TableListEntryTeilnehmer
+                                                name = {student.getName()}
+                                                mrtnr = {student.getMartriculationNumber()}
+                                                course = {student.getCourseOfStudy()}
+                                            />
+                                )
+                                )}
                                     </TableBody>
                                 </Table>
                         </TableContainer>
@@ -168,6 +172,11 @@ const styles = theme => ({
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 15
+    },
+
+    tableRow:{
+    color:'lightGray',
+    fontFamily:'Arial'
     }
 });
 
