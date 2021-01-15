@@ -19,7 +19,7 @@ export default class UserBO extends NamedBusinessObject {
         this.google_user_id = aGoogleID;
     }
     //Reads out the Google Id
-    getGooleID(){
+    getGoogleID(){
         return this.google_user_id;
     }
 

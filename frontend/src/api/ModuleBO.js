@@ -7,18 +7,18 @@ export default class ModuleBO extends NamedBusinessObject {
 
     constructor(aEdvNumber){
         super();
-        this.edvNumber=aEdvNumber;
+        this.edv_number=aEdvNumber;
     }
 
     //Set the EDV Number
 
      setEdvNumber(aEdvNumber){
-        this.edvNumber= aEdvNumber;
+        this.edv_number= aEdvNumber;
      }
 
      //Reads out the edv number of a module
      getEdvNumber(){
-        return this.edvNumber;
+        return this.edv_number;
      }
 
       //Returns an Array of ModuleBO from a given JSON structure.

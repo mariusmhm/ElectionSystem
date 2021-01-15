@@ -23,8 +23,8 @@ class ProjectMapper(Mapper):
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -41,11 +41,12 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result.append(project)
 
 
@@ -69,8 +70,8 @@ class ProjectMapper(Mapper):
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -87,11 +88,12 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result = project
 
         self._connection.commit()
@@ -110,8 +112,8 @@ class ProjectMapper(Mapper):
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -128,11 +130,12 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result.append(project)
 
         self._connection.commit()
@@ -167,8 +170,9 @@ class ProjectMapper(Mapper):
                 project.set_id(1)
             
         command =   "INSERT INTO Project (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,  \
-                    date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state) \
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, edv_number,  \
+                    projecttype_id, module_id, professor_id, add_professor_id, current_state_id) \
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
         data = (project.get_id(),
                 project.get_date(),
@@ -184,6 +188,7 @@ class ProjectMapper(Mapper):
                 project.get_num_spots(),
                 project.get_language(),
                 project.get_external_partner(),
+                project.get_edv_number(),
                 project.get_projecttype_id(),
                 project.get_module_id(),
                 project.get_professor_id(),
@@ -219,8 +224,8 @@ class ProjectMapper(Mapper):
 
         command = "UPDATE Project " + "SET name=%s, short_description=%s, special_room=%s, room_desired=%s, num_blockdays_prior_lecture=%s,  \
                     date_blockdays_during_lecture=%s, num_blockdays_during_lecture=%s, num_blockdays_in_exam=%s, weekly=%s, num_spots=%s, \
-                    language=%s, external_partner=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s, state=%s WHERE id=%s"
-
+                    language=%s, external_partner=%s, edv_number=%s, projecttype_id=%s, module_id=%s, professor_id=%s, add_professor_id=%s, current_state_id=%s WHERE id=%s"
+        
         data = (project.get_name(),
                 project.get_short_description(),
                 project.get_special_room(),
@@ -233,6 +238,7 @@ class ProjectMapper(Mapper):
                 project.get_num_spots(),
                 project.get_language(),
                 project.get_external_partner(),
+                project.get_edv_number(),
                 project.get_projecttype_id(),
                 project.get_module_id(),
                 project.get_professor_id(),
@@ -258,8 +264,8 @@ class ProjectMapper(Mapper):
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -276,11 +282,12 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result.append(project)
 
         self._connection.commit()
@@ -299,8 +306,8 @@ class ProjectMapper(Mapper):
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -317,11 +324,12 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result.append(project)
 
         
@@ -336,13 +344,13 @@ class ProjectMapper(Mapper):
        
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM Project WHERE state LIKE '{}' ORDER BY state".format(state))
+        cursor.execute("SELECT * FROM Project WHERE current_state_id={}".format(state))
         tuples = cursor.fetchall()
 
         for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, 
-             weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id,
-             add_professor_id, state) in tuples:
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
 
             project = Project()
             project.set_id(id)
@@ -359,14 +367,58 @@ class ProjectMapper(Mapper):
             project.set_num_spots(num_spots)
             project.set_language(language)
             project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
             project.set_projecttype_id(projecttype_id)
             project.set_module_id(module_id)
             project.set_professor_id(professor_id)
             project.set_add_professor_id(add_professor_id)
-            project.set_state(state)
+            project.set_state(current_state_id)
             result.append(project)
 
         self._connection.commit()
         cursor.close()
 
+        return result
+    
+   
+    def find_project_by_module(self, id):
+        """Read out all projects based on their module.
+        :return A collection of projects objects that all represent all projects by module."""
+
+        result = []
+        cursor = self._connection.cursor()
+        cursor.execute("SELECT * FROM Project Where module_id={}".format(id))
+
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture,
+             date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam,
+             weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
+             add_professor_id, current_state_id) in tuples:
+            project = Project()
+            project.set_id(id)
+            project.set_date(creation_date)
+            project.set_name(name)
+            project.set_short_description(short_description)
+            project.set_special_room(special_room)
+            project.set_room_desired(room_desired)
+            project.set_num_blockdays_prior_lecture(num_blockdays_prior_lecture)
+            project.set_date_blockdays_during_lecture(date_blockdays_during_lecture)
+            project.set_num_blockdays_during_lecture(num_blockdays_during_lecture)
+            project.set_num_blockdays_in_exam(num_blockdays_in_exam)
+            project.set_weekly(weekly)
+            project.set_num_spots(num_spots)
+            project.set_language(language)
+            project.set_external_partner(external_partner)
+            project.set_edv_number(edv_number)
+            project.set_projecttype_id(projecttype_id)
+            project.set_module_id(module_id)
+            project.set_professor_id(professor_id)
+            project.set_add_professor_id(add_professor_id)
+            project.set_state(current_state_id)
+            result.append(project)
+
+        self._connection.commit()
+        cursor.close()
         return result

@@ -15,6 +15,7 @@ from server.bo.Projecttype import Projecttype
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
+from server.State import State
 
 app = Flask(__name__)
 
@@ -37,8 +38,9 @@ nbo = api.inherit('NamedBusinessObject', bo, {
     'name': fields.String(attribute='_name', description='name of a named business object')
 })
 
-aut = api.model('Automat', {
-    'state': fields.String(attribute='_state', description='states of the automat')
+state = api.model('State', {
+    'id': fields.Integer(attribute='_id', description='unique id of the state'),
+    'name': fields.String(attribute='_name', description='name of the state')
 })
 
 user = api.inherit('User', nbo, {
@@ -79,22 +81,24 @@ projecttype = api.inherit('Projecttype', nbo, {
     'sws': fields.Integer(attribute='_sws', description='Anzahl der SWS für ein Projekttyp')
 })
 
-project = api.inherit('Project', nbo, aut, {
+project = api.inherit('Project', nbo, {
     'short_description': fields.String(attribute='_short_description', description='A short description of the Project'),
     'special_room': fields.Boolean(attribute='_special_room', description='If there is a special room needed'),
     'room_desired': fields.String(attribute='_room_desired', description='The room desired for lecture'),
     'num_blockdays_prior_lecture': fields.Integer(attribute='_num_blockdays_prior_lecture', description='The number of the blockdays prior lecture'),
-    'date_blockdays_during_lecture': fields.Date(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
+    'date_blockdays_during_lecture': fields.String(attribute='_date_blockdays_during_lecture', description='The dates of the blockdays during lecture'),
     'num_blockdays_during_lecture': fields.Integer(attribute='_num_blockdays_during_lecture', description='The number of blockdays needed during lecture'),
     'num_blockdays_in_exam': fields.Integer(attribute='_num_blockdays_in_exam', description='The number of blockdays needed during exams'),
     'weekly': fields.Boolean(attribute='_weekly', description='if weekly lectures are needed'),
     'num_spots': fields.Integer(attribute='_num_spots', description='If weekly lectures are needed'),
     'language': fields.String(attribute='_language', description='The language the project will be given'),
     'external_partner' : fields.String(attribute='_external_partner', description='External partner'),
+    'edv_number': fields.Integer(attribute='_edv_number', description='edv number of project'),
     'projecttype_id': fields.Integer(attribute='_projecttype_id', description='The projecttype of the project'),
     'module_id': fields.Integer(attribute='_module_id', description='The module of the project'),
     'professor_id': fields.Integer(attribute='_professor_id', description='The professor giving the project'),
-    'add_professor_id': fields.Integer(attribute='_add_professor_id', description='If there is a additional professor is needed')
+    'add_professor_id': fields.Integer(attribute='_add_professor_id', description='If there is a additional professor is needed'),
+    'current_state_id': fields.Integer(attribute='_current_state_id', description='Current State id of project')
 })
 
 module = api.inherit('Module', nbo, {
@@ -176,6 +180,14 @@ class StudentMailOperations(Resource):
         students = adm.get_student_by_mail(mail)
         return students
 
+@electionSystem.route('/student-by-google-id/<string:id>')
+@electionSystem.response(500, 'when server has problems')
+class StudentGoogleOperations(Resource):
+    @electionSystem.marshal_with(student)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        students = adm.get_student_by_google_id(id)
+        return students
 
 @electionSystem.route('/student-by-nr/<int:matrikel_nr>')
 @electionSystem.response(500, 'when server has problems')
@@ -278,6 +290,15 @@ class UserMailOperations(Resource):
     def get(self, mail):
         adm = ElectionSystemAdministration()
         user = adm.get_user_by_mail(mail)
+        return user
+
+@electionSystem.route('/user-by-google-id/<string:id>')
+@electionSystem.response(500, 'when server has problems')
+class UserGoogleOperations(Resource):
+    @electionSystem.marshal_with(user)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        user = adm.get_user_by_google_id(id)
         return user
 
 
@@ -701,7 +722,7 @@ class ProjectListOperations(Resource):
             p = adm.create_project(prpl.get_date(), prpl.get_name(), prpl.get_short_description(), prpl.get_special_room(),
                                    prpl.get_room_desired(), prpl.get_num_blockdays_prior_lecture(), prpl.get_date_blockdays_during_lecture(), 
                                    prpl.get_num_blockdays_during_lecture(), prpl.get_num_blockdays_in_exam(), prpl.get_weekly(),
-                                   prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_projecttype_id(),
+                                   prpl.get_num_spots(), prpl.get_language(), prpl.get_external_partner(), prpl.get_edv_number(), prpl.get_projecttype_id(),
                                    prpl.get_module_id(), prpl.get_professor_id(), prpl.get_add_professor_id(), prpl.get_state())
             return p, 200
         else:
@@ -779,7 +800,7 @@ class ProjectPtypeOperation(Resource):
         return p
 
 
-@electionSystem.route('/project-by-state/<string:state>')
+@electionSystem.route('/project-by-state/<int:state>')
 @electionSystem.response(500, 'when the server has problems')
 class ProjectStateOperations(Resource):
     @electionSystem.marshal_with(project)
@@ -787,6 +808,68 @@ class ProjectStateOperations(Resource):
         adm = ElectionSystemAdministration()
         p = adm.get_project_by_state(state)
         return p
+
+@electionSystem.route('/project-by-module/<int:id>')
+@electionSystem.response(500, 'when the server has problems')
+class ProjectStateOperations(Resource):
+    @electionSystem.marshal_with(project)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        p = adm.get_project_by_module(id)
+        return p
+
+#------State---------
+@electionSystem.route('/state')
+@electionSystem.response(500, 'server error')
+class StateListOperations(Resource):
+    @electionSystem.marshal_list_with(state)
+    def get(self):
+        adm = ElectionSystemAdministration()
+        states = adm.get_all_states()
+        return states
+
+    @electionSystem.marshal_with(state, code=200)
+    @electionSystem.expect(state)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = State.from_dict(api.payload)
+
+        if proposal is not None:
+            s = adm.create_state(proposal.get_name())
+            return s, 200
+        else:
+            #server error
+            return '', 500
+
+@electionSystem.route('/state/<int:id>')
+@electionSystem.response(500, 'server error')
+class StateOperations(Resource):
+    @electionSystem.marshal_with(state)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        s = adm.get_by_state_id(id)
+        return s
+
+    @electionSystem.marshal_with(state)
+    @electionSystem.expect(state, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        s = State.from_dict(api.payload)
+
+        if s is not None:
+            s.set_id(id)
+            adm.save_state(s)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        s = adm.get_by_state_id(id)
+        adm.delete_state(s)
+        return '', 200
+
 
 
 if __name__ == '__main__':

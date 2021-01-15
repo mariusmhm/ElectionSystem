@@ -48,7 +48,7 @@ class ProjecttypeMapper(Mapper):
         crs.execute("SELECT * FROM Projecttype WHERE id={}".format(id))
         tupsrc = crs.fetchall()
 
-        for (p_id, creation_date, name, sws, ect) in tupsrc:
+        for (p_id, name, creation_date, sws, ect) in tupsrc:
             projecttype = Projecttype()
             projecttype.set_id(p_id)
             projecttype.set_date(creation_date)

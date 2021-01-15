@@ -6,6 +6,7 @@ from server.bo.Projecttype import Projecttype
 from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
+from server.State import State
 
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
@@ -15,6 +16,7 @@ from server.db.ProjecttypeMapper import ProjecttypeMapper
 from server.db.SemesterMapper import SemesterMapper
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
+from server.db.StateMapper import StateMapper
 
 
 class ElectionSystemAdministration (object):
@@ -24,32 +26,36 @@ class ElectionSystemAdministration (object):
 
     # --- STUDENT SPECIFIC OPERATIONS ---
 
-    def get_all_students (self):
+    def get_all_students(self):
         with StudentMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_student_by_id (self, id):
+    def get_student_by_id(self, id):
         with StudentMapper() as mapper:
             return mapper.find_by_id(id)
 
 
-    def get_student_by_name (self, name):
+    def get_student_by_name(self, name):
         with StudentMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_student_by_mail (self, mail):
+    def get_student_by_mail(self, mail):
         with StudentMapper() as mapper:
             return mapper.find_by_mail(mail)
 
+    def get_student_by_google_id(self, id):
+        with StudentMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_student_by_matrikel_nr (self, matrikel_nr):
+
+    def get_student_by_matrikel_nr(self, matrikel_nr):
         with StudentMapper() as mapper:
             return mapper.find_by_matrikel_nr(matrikel_nr)
 
 
-    def get_student_by_study (self, study):
+    def get_student_by_study(self, study):
         with StudentMapper() as mapper:
             return mapper.find_by_study(study)
 
@@ -94,27 +100,30 @@ class ElectionSystemAdministration (object):
 
     # --- USER SPECIFIC OPERATIONS ---
 
-    def get_all_users (self):
+    def get_all_users(self):
         with UserMapper() as mapper:
             return mapper.find_all()
 
 
-    def get_user_by_id (self, id):
+    def get_user_by_id(self, id):
         with UserMapper() as mapper:
             return mapper.find_by_id(id)
 
+    def get_user_by_google_id(self, id):
+        with UserMapper() as mapper:
+            return mapper.find_by_google_id(id)
 
-    def get_user_by_name (self, name):
+    def get_user_by_name(self, name):
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
 
 
-    def get_user_by_mail (self, mail):
+    def get_user_by_mail(self, mail):
         with UserMapper() as mapper:
             return mapper.find_by_mail(mail)
 
 
-    def get_user_by_role (self, role):
+    def get_user_by_role(self, role):
         with UserMapper() as mapper:
             return mapper.find_by_role(role)
 
@@ -338,11 +347,16 @@ class ElectionSystemAdministration (object):
     def get_project_by_state(self, state):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_state(state)
+    
+    def get_project_by_module(self, id):
+        with ProjectMapper() as mapper:
+            return mapper.find_project_by_module(id)
 
     # --- Project SPECIFIC OPERATIONS ---
 
-    def create_project(self, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, projecttype_id, module_id, professor_id, add_professor_id, state):
+    def create_project(self, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id, add_professor_id, current_state_id):
         #create project
+
         project = Project()
         project.set_date(creation_date)
         project.set_name(name)
@@ -357,14 +371,14 @@ class ElectionSystemAdministration (object):
         project.set_num_spots(num_spots)
         project.set_language(language)
         project.set_external_partner(external_partner)
+        project.set_edv_number(edv_number)
         project.set_projecttype_id(projecttype_id)
         project.set_module_id(module_id)
         project.set_professor_id(professor_id)
-        project.set_add_professor_id(add_professor_id)
-        project.set_state(state)
+        if add_professor_id is not 0:
+            project.set_add_professor_id(add_professor_id)
+        project.set_state(current_state_id)
         project.set_id(1)
-        
-        print(date_blockdays_during_lecture)
 
         with ProjectMapper() as mapper:
             return mapper.insert(project)
@@ -380,6 +394,10 @@ class ElectionSystemAdministration (object):
 
         with ProjectMapper() as mapper:
             mapper.update(project)
+    
+    def get_project_by_module(self, id):
+        with ProjectMapper() as mapper:
+            return mapper.find_by_id(id)
 
     #------Module specific operations----
 
@@ -423,6 +441,33 @@ class ElectionSystemAdministration (object):
         """delete a module"""
         with ModuleMapper() as mapper:
             mapper.delete(module)
+
+    #------State specific operations----
+    def create_state(self, name):
+        """"creates a new state"""
+
+        state = State()
+        state.set_name(name)
+        state.set_id(1)
+
+        with StateMapper() as mapper:
+            return mapper.insert(state)
+
+    def save_state(self, state):
+        with StateMapper() as mapper:
+            mapper.update(state)
+
+    def delete_state(self, state):
+        with StateMapper() as mapper:
+            mapper.delete(state)
+
+    def get_all_states(self):
+        with StateMapper() as mapper:
+            return mapper.find_all()
+
+    def get_by_state_id(self, id):
+        with StateMapper() as mapper:
+            return mapper.find_by_id(id)
 
 
     # --- Election Priority Logic ---
