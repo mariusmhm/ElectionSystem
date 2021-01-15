@@ -131,7 +131,7 @@ class HomeScreenCompTwo extends Component {
                                 </TableCell>
                                 <TableCell >
                                     <Typography variant="h2">
-                                        Choose
+                                  
                                     </Typography>
                                 </TableCell>
                             </TableRow>

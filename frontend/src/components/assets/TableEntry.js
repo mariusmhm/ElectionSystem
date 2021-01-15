@@ -36,7 +36,7 @@ class TableEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 5
+            student: 5,
 
 
 
@@ -94,18 +94,18 @@ class TableEntry extends Component {
     }
 
     handleChange(e) {
-        console.log("Participation created");
         this.setState({ priority: e.target.value });
-        this.addParticipation();
       }
 
     addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.state.id);
+        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.state.id );
         ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
             newParticipation.setPriority(this.state.priority)
-            newParticipation.setProjectID(this.state.id)
+            newParticipation.setProjectID(this.props.id)
             newParticipation.setStudentID(this.state.student)
+            newParticipation.setDate(this.state.date)
             console.log(newParticipation)
+            console.log("Participation created");
             
         }).catch(e =>
             
@@ -165,6 +165,7 @@ class TableEntry extends Component {
                 </TableCell>
                 <TableCell>
                     SWS:  {this.props.sws}
+                    --ID: {this.props.id}
                 </TableCell>
                 
                     <TableCell>
@@ -192,7 +193,11 @@ class TableEntry extends Component {
                         endIcon={<PlaylistAddCheckIcon />}
                         color={this.state.select ? "primary": "secondary"} 
                          
-                        onClick={this.handleSelect} > {this.state.select ? "Select" : "Deselect"}
+                        onClick={() => {
+                            this.addParticipation();
+                            this.handleSelect();
+                          }}>  {this.state.select ? "Select" : "Deselect"}
+                        
                         
                         
                                 
