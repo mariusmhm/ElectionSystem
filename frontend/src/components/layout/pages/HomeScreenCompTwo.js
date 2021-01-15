@@ -7,7 +7,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { withStyles,Paper } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import { AppBar,Box, Tabs, Tab, withStyles, Collapse, Card, Paper } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { ElectionSystemAPI } from '../../../api';
 import TableEntry from '../../assets/TableEntry';
@@ -91,7 +103,9 @@ class HomeScreenCompTwo extends Component {
             <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
-                    <Typography variant="h1">Project overview</Typography>
+                    <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
+                    <Typography variant="h2" align="center" >Project Overview</Typography>
+                    </Box>
                     <Paper>
                     <Table>
 
@@ -131,7 +145,7 @@ class HomeScreenCompTwo extends Component {
                                 </TableCell>
                                 <TableCell >
                                     <Typography variant="h2">
-                                        Choose
+                                  
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -152,7 +166,7 @@ class HomeScreenCompTwo extends Component {
 
 
                                 {this.state.projects.map(project => {
-                                    if (project.getProjectType() === projecttype.getID()) {
+                                    if (project.getProjectType() === projecttype.getID()){
                                         return (
                                             <TableEntry
                                                 id = {project.getID()}
@@ -168,6 +182,8 @@ class HomeScreenCompTwo extends Component {
                                 }
 
                                 )}
+
+
 
 
                             </TableBody>
