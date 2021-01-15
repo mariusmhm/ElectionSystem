@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import {withStyles} from '@material-ui/core';
+import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper, Box } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -23,166 +23,232 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { makeStyles } from '@material-ui/core/styles';
-import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { id, ja } from 'date-fns/locale';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import TableEntry from '../../assets/TableEntry';
+import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
 
 
 
-class HomeScreenCompOne extends Component {
-    constructor(props){
+class HomeScreenCompTwo extends Component {
+    constructor(props) {
         super(props)
-        this.state= {
-            project: [],
-            projecttype:[],
+        this.state = {
+            tableData: [],
+            projects: [],
+            projecttypes: [],
             error: null,
             priority: '',
             updatingError: null,
             deletingError: null,
             loaded: null,
+            activeIndex: null,
 
 
 
         };
         this.baseState = this.state;
+        
+        
+        
     }
 
-    componentDidMount(){
-        this.getAllProjects();
-    }
 
-    /** Gives back the semester */
+    
+
+    /** Gives back the project */
     getAllProjects = () => {
         ElectionSystemAPI.getAPI().getAllProjects()
-        .then(projectBO =>
-            this.setState({
-                project: projectBO,
-                loaded: true,
-                error: null
-            })).catch(e =>
+            .then(projectBO =>
                 this.setState({
-                    project: [],
-                    error: e
-                }))
+                    projects: projectBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projects: [],
+                        error: e
+                    }))
+        console.log('Project ausgeführt');
+    }
+
+    /** Gives back the projecttype */
+    getAllProjecttypes = () => {
+        ElectionSystemAPI.getAPI().getAllProjecttypes()
+            .then(ProjecttypeBO =>
+                this.setState({
+                    projecttypes: ProjecttypeBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projecttypes: [],
+                        error: e
+                    }))
+        console.log('Projecttype ausgeführt');
+    }
+
+    componentDidMount() {
+        this.getAllProjects();
+        this.getAllProjecttypes();
+
     }
 
 
-  render() {
-        const {classes}= this.props;
-        const {projects} = this.state;
+
+
+    render() {
+        const { classes } = this.props;
+        const { projects } = this.state;
+        const {activeIndex} = this.state;
+ 
+
         return (
             <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
-                    <Typography
-                        className={classes.grayHeader}>
-                            MY SELECTION
-                    </Typography>
-                    <Typography
-                        className={classes.redHeader}>
-                            subjectspecific projects
-                    </Typography>
-                    <br/>
-                    <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.state.project.map(project => (
-                                        <TableRow key={project.getID()} project={project}>
-                                            <TableCell>
-                                            {this.state.project.map(project => (
-                                                <TreeView
-                                                    defaultCollapseIcon={<ExpandMoreIcon />}
-                                                    key={project.getID()}
-                                                    project={project}
-                                                    defaultExpandIcon={<ChevronRightIcon />}>
-                                                        <TreeItem nodeId="1"  label={project.getName()}>
-                                                            <TreeItem
-                                                                className={classes.redHeader} nodeId="2" label="SHORT DESCRIPTION"/>
-                                                            <TreeItem nodeId="3" className={classes.grayHeader} label={project.getShortDescription()}/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="ECT:" />
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label="SWS:"/>
-                                                            <TreeItem nodeId="4" className={classes.redHeader}label={"Professor:" + project.getProfessor()}/>
-                                                        </TreeItem>
-                                                </TreeView>
-                                            ))}
-                                            </TableCell>
-                                            <TableCell>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">PRIORITY</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            className={classes.selectEmpty}>
-                                                                <MenuItem > no priority</MenuItem>
-                                                                <MenuItem > 1st priority</MenuItem>
-                                                                <MenuItem >2nd priority </MenuItem>
-                                                                <MenuItem >3rd priority </MenuItem>
-                                                                <MenuItem >4th priority </MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                             </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                  variant="contained"
-                                                  color="secondary"
-                                                  className={classes.button}>
-                                                    DESELECT
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
+                    <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
+                    <Typography variant="h2" align="center" >My selected Projects</Typography>
+                    </Box>
+                    <Paper>
+                    <Table>
 
-                                    ))}
-                               </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
-				</Container>
-		    </div>
-		);
-	}
+                        <TableHead>
+
+                            <TableRow align="right">
+                                
+                                <TableCell />
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        Project
+                                    </Typography>
+                                </TableCell>
+                                <TableCell />
+                                <TableCell />
+                                
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        Professor
+                                    </Typography>
+                                </TableCell>
+                                
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        ECTS
+                                    </Typography>
+                                </TableCell>
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        SWS
+                                    </Typography>
+                                </TableCell>
+                                <TableCell >
+                                    <Typography variant="h2">
+                                        Priority
+                                    </Typography>
+                                </TableCell>
+                                <TableCell >
+                                    <Typography variant="h2">
+                                  
+                                    </Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+
+
+                        {this.state.projecttypes.map(projecttype => (
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell colSpan="10" style={{ backgroundColor: 'grey', color: 'white' }}>
+                                        <Typography variant="h3">
+                                            {projecttype.getName()}
+                                            {projecttype.getID()}
+                                            
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+
+
+                                {this.state.projects.map(project => {
+                                    if (project.getProjectType() === projecttype.getID()) {
+                                        return (
+                                            <SelectedProjectEntry
+                                                id = {project.getID()}
+                                                name = {project.getName()}
+                                                prof = {project.getProfessor()}
+                                                dsc = {project.getShortDescription()}
+                                                ects = {projecttype.getEcts()}
+                                                sws = {projecttype.getSws()}
+                                            />
+                                            
+                                        )
+                                    }
+                                }
+
+                                )}
+
+
+                            </TableBody>
+
+                        ))}
+
+                    </Table>
+                    </Paper>
+                </Container>
+
+            </div>
+        );
+    }
 }
 const styles = theme => ({
-    grid:{
+    grid: {
         width: '100%',
         margin: '0px',
         padding: theme.spacing(3)
     },
-    button:{
+    button: {
         marginTop: theme.spacing(3)
     },
-    redHeader:{
+    redHeader: {
         color: theme.palette.red,
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 20
     },
 
-    grayHeader:{
+    grayHeader: {
         color: theme.palette.gray,
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 35
+    },
+
+    Box: {
+        color: 'red',
     }
+
 
 });
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(15),
-     minWidth: 120,
-    maxWidth: 300
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+          duration: theme.transitions.duration.shortest,
+        }),
+      },
+      expandOpen: {
+        transform: 'rotate(180deg)',
+      },
+      
 }));
-export default withStyles(styles) (HomeScreenCompOne);
+export default withStyles(styles)(HomeScreenCompTwo);

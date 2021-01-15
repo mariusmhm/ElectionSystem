@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 
-class TableEntry extends Component {
+class SelectedProjectEntry extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -32,7 +32,7 @@ class TableEntry extends Component {
             ects: null,
             sws: null,
             activeIndex: null,
-            select: true,
+            select: false,
             lastname: '',
             firstname: '',
             priority: 0,
@@ -91,7 +91,6 @@ class TableEntry extends Component {
 
     handleSelect(){
         this.setState({select: !this.state.select})
-
     }
 
     handleChange(e) {
@@ -167,24 +166,9 @@ class TableEntry extends Component {
                 <TableCell>
                     SWS:  {this.props.sws}
                 </TableCell>
-                
-                    <TableCell>
-                        <FormControl>
-                            <InputLabel class="demo-simple-select-helper-label">Priority</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                defaultValue="0"
-                                onChange={this.handleChange}
-                            >
-                                <MenuItem value="0">None selected</MenuItem>
-                                <MenuItem value="1"> 1st priority</MenuItem>
-                                <MenuItem value="2">2nd priority </MenuItem>
-                                <MenuItem value="3">3rd priority </MenuItem>
-                                <MenuItem value="4">4th priority </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </TableCell>
+                <TableCell>
+                    Priority: {this.props.priority}
+                </TableCell>
                     <TableCell>
                     <Button
                         variant="contained"
@@ -247,4 +231,4 @@ const styles = theme => ({
 
 
 });
-export default (TableEntry);
+export default (SelectedProjectEntry);

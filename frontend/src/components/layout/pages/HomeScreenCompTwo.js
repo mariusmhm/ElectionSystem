@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper } from '@material-ui/core';
+import { AppBar,Box, Tabs, Tab, withStyles, Collapse, Card, Paper } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -107,7 +107,9 @@ class HomeScreenCompTwo extends Component {
             <div>
                 <Container maxWidth="xl">
                     <CssBaseline />
-                    <Typography variant="h1">Project overview</Typography>
+                    <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
+                    <Typography variant="h2" align="center" >Project Overview</Typography>
+                    </Box>
                     <Paper>
                     <Table>
 
@@ -168,7 +170,7 @@ class HomeScreenCompTwo extends Component {
 
 
                                 {this.state.projects.map(project => {
-                                    if (project.getProjectType() === projecttype.getID()) {
+                                    if (project.getProjectType() === projecttype.getID()){
                                         return (
                                             <TableEntry
                                                 id = {project.getID()}
@@ -184,6 +186,8 @@ class HomeScreenCompTwo extends Component {
                                 }
 
                                 )}
+
+
 
 
                             </TableBody>
