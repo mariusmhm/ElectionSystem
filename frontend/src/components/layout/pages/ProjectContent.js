@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Icon, Grid, TextField, Typography, withStyles} from'@material-ui/core';
+import {Button, Icon, Grid, TextField, Typography, withStyles, FormControl, 
+    FormControlLabel, MenuItem, Select, InputLabel} from'@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {ElectionSystemAPI, ProjecttypeBO} from '../../../api';
+import {ElectionSystemAPI, ProjectBO} from '../../../api';
 
 
 let projectid = 1;
@@ -15,7 +16,7 @@ class ProjectContent extends Component {
 
       this.state = {
           user: {},
-          project: [],
+          project: {},
           error: null,
           projectname: '',
           projecttypeid: 1,
@@ -27,6 +28,10 @@ class ProjectContent extends Component {
           mloaded: false,
           addProfShow: false,
           roleAdmin: false,
+          allStates:[],
+          currentState:{},
+          sLoaded: false,
+          newState: null,
       }
    }
 
@@ -47,9 +52,34 @@ class ProjectContent extends Component {
                 user:{},
                 error: e
             }))
-    }  
+    } 
+    
+    getStates = () => {
+    ElectionSystemAPI.getAPI().getAllStates()
+    .then(states => 
+        this.setState({
+            allStates: states,
+        })).catch(e =>
+            this.setState({
+                allStates:[],
+                error: e
+            }))
+    } 
 
-   getProject = () => {
+    getCurrentState = () => {
+    ElectionSystemAPI.getAPI().getState(this.state.project.getState())
+    .then(state => 
+        this.setState({
+            currentState: state,
+            sLoaded: true,
+        })).catch(e =>
+            this.setState({
+                currentState:{},
+                error: e
+            }))
+    }
+
+    getProject = () => {
     ElectionSystemAPI.getAPI().getProject(projectid)
     .then(projectBO => {
         this.setState({
@@ -62,15 +92,20 @@ class ProjectContent extends Component {
                 addProfShow: true
             })
         }
+        this.getProjecttype();
+        this.getModule();
+        this.getUser();
+        this.getStates();
+        this.getCurrentState();
     }).catch(e =>
             this.setState({
-                project:[],
+                project:{},
                 error: e
             }))
     }   
 
     getProjecttype = () => {
-    ElectionSystemAPI.getAPI().getProjecttype(this.state.projecttypeid)
+    ElectionSystemAPI.getAPI().getProjecttype(this.state.project.getProjecttype())
     .then(projecttypeBO =>{
         this.setState({
             projecttype: projecttypeBO,
@@ -85,7 +120,7 @@ class ProjectContent extends Component {
     }
 
     getModule = () => {
-        ElectionSystemAPI.getAPI().getModule(this.state.moduleid)
+        ElectionSystemAPI.getAPI().getModule(this.state.project.getProjecttype())
         .then(moduleBO => {
             this.setState({
                 module: moduleBO,
@@ -99,12 +134,27 @@ class ProjectContent extends Component {
                 }))
     }
 
-componentDidMount(){
-    this.getProject();
-    this.getProjecttype();
-    this.getModule();
-    this.getUser();
-}
+    updateProject = () => {
+        // clone original semester, in case the backend call fails
+        let updatedProject = Object.assign(new ProjectBO(), this.state.project); //eventuell raus nehehmen
+        // set the new attributes from our dialog
+        updatedProject.setState(this.state.newState);
+        console.log(JSON.stringify(updatedProject));
+        ElectionSystemAPI.getAPI().updateProject(updatedProject).catch(e => console.log(e));
+
+    } 
+
+    handleSelectChange = (e) =>{
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    componentDidMount(){
+        this.getProject();
+    }
+
+
 
 
  render(){
@@ -114,13 +164,18 @@ componentDidMount(){
         <div className={classes.pageContent}>
             
             <Grid container spacing={2} justify="center" className={classes.grid}>
-            <Grid item xs={1} style={{ alignItems: 'center'}}>
-                <IconButton className={classes.arrowButton}>
-                    <ArrowBackIosIcon color="secondary"/> 
-                </IconButton>
+                <Grid item xs={1} style={{ alignItems: 'center'}}>
+                    <IconButton className={classes.arrowButton}>
+                        <ArrowBackIosIcon color="secondary"/> 
+                    </IconButton>
                 </Grid>
-            <Grid item xs={11}>
-                    <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname : null}</Typography>
+                <Grid container xs={11}>
+                    <Grid item>
+                        <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname: null}</Typography>
+                    </Grid>
+                   <Grid item>
+                        <Typography className={classes.state}>{ this.state.sLoaded ? this.state.currentState.getName(): null}</Typography>
+                   </Grid>
                 </Grid>
 
             <Grid container direction="column" spacing={2} xs={12} md={4}>
@@ -175,9 +230,22 @@ componentDidMount(){
                 <Grid item>
                     <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
                 </Grid>
-                <Grid item>
-                    <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
+                <Grid container>
+                    <Grid item>
+                    <FormControl style={{minWidth: 120}} variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Revalue</InputLabel>
+                            <Select name="newState" label="revalue" onChange={this.handleSelectChange}>
+                                {this.state.allStates.map((state) => (
+                                        <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
+                                    ))}
+                            </Select>
+                    </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="primary" className={classes.button} onClick={this.updateProject}>Ok</Button>
+                    </Grid>
                 </Grid>
+                
             </Grid>
             
             </Grid>
@@ -185,9 +253,7 @@ componentDidMount(){
 
 
 
-    )
-        
-    
+    ) 
  }
 }
 
@@ -206,6 +272,14 @@ const styles = theme => ({
         fontSize: '1.5rem',
         paddingTop: theme.spacing(1),
         paddingLeft: theme.spacing(1)
+    },
+    state:{
+        paddingTop: theme.spacing(2),
+        paddingLeft: theme.spacing(2)
+    },
+    button:{
+        marginTop: theme.spacing(1),
+        marginLeft: theme.spacing(2)
     }
 });
 

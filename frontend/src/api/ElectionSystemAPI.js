@@ -21,7 +21,7 @@ export default class ElectionSystemAPI {
     #getProjectForProfessorURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-prof/${id}`;
     #getProjectForProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-projecttype/${id}`;
     #addProjectURL = () => `${this.#electionSystemServerBaseURL}/project`;
-    #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
+    #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #getProjectForStateURL = (state) => `${this.#electionSystemServerBaseURL}/project-by-state/${state}`;
     #getProjectForModuleURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-module/${id}`;
@@ -197,11 +197,12 @@ export default class ElectionSystemAPI {
     *@param {ProjectBO} projectBO
     *@public
     */
-    updateProject(){
-        return this.#fetchAdvanced(this.#updateProjectURL(ProjectBO.getID()), {
+    updateProject(project){
+        return this.#fetchAdvanced(this.#updateProjectURL(project.getID()), {
             method: 'PUT'
             }).then((responseJSON) => {
             let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
+            console.log(responseProjectBO)
             return new Promise(function (resolve) {
               resolve(responseProjectBO);
             })

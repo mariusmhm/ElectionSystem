@@ -31,7 +31,7 @@ electionSystem = api.namespace('electionsystem', description="electionsystems fu
 
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
-    'creation_date': fields.Date(attribute='_creation_date', description='creation date of a business object')
+    'creation_date': fields.String(attribute='_creation_date', description='creation date of a business object')
 })
 
 nbo = api.inherit('NamedBusinessObject', bo, {

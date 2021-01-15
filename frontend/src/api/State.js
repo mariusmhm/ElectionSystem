@@ -5,7 +5,6 @@ export default class State {
     /// Represents a state 
     
         constructor(aId, aName){
-            super();
             this.id=aId;
             this.name=aName;
         }
