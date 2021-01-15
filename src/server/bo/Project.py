@@ -26,6 +26,7 @@ class Project(Automat, NamedBusinessObject):
         self._module_id = None
         self._professor_id = None
         self._add_professor_id = None
+        self._current_state_id = None
 
 
     def set_short_description(self, description):
@@ -153,6 +154,13 @@ class Project(Automat, NamedBusinessObject):
         """Readsout the additional professor"""
         return self._add_professor_id
 
+    def set_current_state_id(self, current_stateId):
+        """Sets the modoule of the project"""
+        self._current_state_id = current_stateId
+
+    def get_current_state_id(self):
+        return self._current_state_id
+
 
 
 
@@ -162,7 +170,7 @@ class Project(Automat, NamedBusinessObject):
 
         return "Project:  {}, {}, {}, {}, {}, {}, {}, {}, {}, {} ".
             format(self.get_id(),self.get_name(), self.get_date() ,self.get_link(),self.get_short_description(),
-                   self.get_room_necessary(), self.get_professor_id(),self.get_module_id(),self.get_projecttype_id(),
+                   self.get_room_necessary(), self.get_professor_id(),self.get_module_id(),self.get_current_state_id(), self.get_projecttype_id(),
                    self.get_num_spots())"
     """
 

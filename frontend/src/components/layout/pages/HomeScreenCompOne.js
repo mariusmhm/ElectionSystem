@@ -35,6 +35,7 @@ class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            currentUser: 12,
             tableData: [],
             projects: [],
             projecttypes: [],
@@ -171,7 +172,7 @@ class HomeScreenCompTwo extends Component {
 
 
                                 {this.state.projects.map(project => {
-                                    if (project.getProjectType() === projecttype.getID()) {
+                                    if (project.getProjecttype() === projecttype.getID() ) {
                                         return (
                                             <SelectedProjectEntry
                                                 id = {project.getID()}

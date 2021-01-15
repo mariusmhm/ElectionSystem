@@ -39,6 +39,7 @@ class HomeScreenCompTwo extends Component {
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            select: null,
 
 
 
@@ -145,7 +146,7 @@ class HomeScreenCompTwo extends Component {
                                 </TableCell>
                                 <TableCell >
                                     <Typography variant="h2">
-                                  
+                                        Choose
                                     </Typography>
                                 </TableCell>
                             </TableRow>
@@ -166,7 +167,7 @@ class HomeScreenCompTwo extends Component {
 
 
                                 {this.state.projects.map(project => {
-                                    if (project.getProjectType() === projecttype.getID()){
+                                    if (project.getProjecttype() === projecttype.getID()){
                                         return (
                                             <TableEntry
                                                 id = {project.getID()}
@@ -175,6 +176,7 @@ class HomeScreenCompTwo extends Component {
                                                 dsc = {project.getShortDescription()}
                                                 ects = {projecttype.getEcts()}
                                                 sws = {projecttype.getSws()}
+                                                
                                             />
                                             
                                         )

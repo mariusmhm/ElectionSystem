@@ -107,20 +107,20 @@ class App extends Component {
 				<Router basename={process.env.PUBLIC_URL}>
                     <Container maxWidth='md'>
                         <Header user={currentUser} />
-                        {
-                        // Is a user signed in?
-						currentUser ?
+                        
+                        
+						
 							<>
 							<Redirect to='/Registration'/>
 							<Route path='/Registration'><Registration /></Route>
                             </>
-							:
-							// else show the sign in page
+							
+							
 							<>
 							<Redirect to='/Signin'/>
 							<Signin handleSignIn={this.handleSignIn} />
 							</>
-					}
+					
 					<LoadingProgress show={authLoading} />
 					<ContextErrorMessage error={authError} contextErrorMsg={'Etwas ist schief gelaufen während dem Prozess'} onReload={this.handleSignIn} />
 					<ContextErrorMessage error={appError} contextErrorMsg={'Etwas ist schief geleaufen in der App. Bitte lade die Seite neu.'} />

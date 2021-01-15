@@ -5,7 +5,7 @@ export default class State {
     /// Represents a state 
     
         constructor(aId, aName){
-            super();
+            
             this.id=aId;
             this.name=aName;
         }
@@ -51,4 +51,5 @@ export default class State {
             return result;
         }
     }
+
     
