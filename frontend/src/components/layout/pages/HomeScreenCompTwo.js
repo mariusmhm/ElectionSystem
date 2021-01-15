@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { AppBar,Box, Tabs, Tab, withStyles, Collapse, Card, Paper } from '@material-ui/core';
+import { AppBar,Box,Grid, Tabs, Tab, withStyles, Collapse, Card, Paper } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -107,93 +107,50 @@ class HomeScreenCompTwo extends Component {
                     <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
                     <Typography variant="h2" align="center" >Project Overview</Typography>
                     </Box>
-                    <Paper>
-                    <Table>
+                    
+                    <Grid spacing={3}>
 
-                        <TableHead>
-
-                            <TableRow align="right">
-                                
-                                <TableCell />
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Project
-                                    </Typography>
-                                </TableCell>
-                                <TableCell />
-                                <TableCell />
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Professor
-                                    </Typography>
-                                </TableCell>
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        ECTS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        SWS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Priority
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Choose
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
+                        
+                            {this.state.projecttypes.map(projecttype => (
+                                <Grid xs={12} spacing={3} justify="space-evenly">
+                                            <Typography variant="h3" centered >
+                                                {projecttype.getName()}
+                                                {projecttype.getID()}
+                                            </Typography>
+                                        
+                                    
 
 
-                        {this.state.projecttypes.map(projecttype => (
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan="10" style={{ backgroundColor: 'grey', color: 'white' }}>
-                                        <Typography variant="h3">
-                                            {projecttype.getName()}
-                                            {projecttype.getID()}
-                                            
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-
-
-                                {this.state.projects.map(project => {
-                                    if (project.getProjecttype() === projecttype.getID()){
-                                        return (
-                                            <TableEntry
-                                                id = {project.getID()}
-                                                name = {project.getName()}
-                                                prof = {project.getProfessor()}
-                                                dsc = {project.getShortDescription()}
-                                                ects = {projecttype.getEcts()}
-                                                sws = {projecttype.getSws()}
+                                    {this.state.projects.map(project => {
+                                        if (project.getProjecttype() === projecttype.getID()){
+                                            return (
                                                 
-                                            />
-                                            
-                                        )
+                                                    <Card>
+                                                <TableEntry
+                                                    id = {project.getID()}
+                                                    name = {project.getName()}
+                                                    prof = {project.getProfessor()}
+                                                    dsc = {project.getShortDescription()}
+                                                    ects = {projecttype.getEcts()}
+                                                    sws = {projecttype.getSws()}  
+                                                />
+                                                </Card>
+                                                
+                                            )
+                                        }
                                     }
-                                }
 
-                                )}
+                                    )}
+                                
+                                </Grid>
+                            ))}
+                        
 
 
+                        
 
-
-                            </TableBody>
-
-                        ))}
-
-                    </Table>
-                    </Paper>
+                    </Grid>
+                    
                 </Container>
 
             </div>

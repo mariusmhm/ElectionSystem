@@ -129,7 +129,7 @@ class TableEntry extends Component {
 
         return (
             
-            <TableRow key={this.props.id}>
+            <Grid container key={this.props.id}>
                 <TableCell position="absolute" top={0}>
                     <Button
                         variant="contained"
@@ -207,7 +207,7 @@ class TableEntry extends Component {
                 
                 
             
-            </TableRow>
+            </Grid>
             
             
             
