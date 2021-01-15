@@ -31,7 +31,7 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
     constructor(aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
                 aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture,aNumBlockDaysDuringLecture,
                 aWeekly,aShortDescription,aNumSpots,aProjectType, aModule, aProfessor, aAddProfessor,
-                aLanguage, aExternalPartner){
+                aLanguage, aExternalPartner, aState){
         super();
 
         this.short_description = aShortDescription;
@@ -49,6 +49,7 @@ constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aS
         this.module_id = aModule;
         this.professor_id = aProfessor;
         this.add_professor_id = aAddProfessor;
+        this.current_state_id = aState;
         }
 
 //ShortDesscription
