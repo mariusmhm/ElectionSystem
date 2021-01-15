@@ -136,7 +136,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={HomeScreenAdmin} />
+        				<Route exact path="/project-content" component={EntryListAdmin} />
     				</Switch>
                 </Router>
 			</ThemeProvider>
