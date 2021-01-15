@@ -14,6 +14,7 @@ class ProjectContent extends Component {
       
 
       this.state = {
+          user: {},
           project: [],
           error: null,
           projectname: '',
@@ -25,8 +26,28 @@ class ProjectContent extends Component {
           ptloaded: false,
           mloaded: false,
           addProfShow: false,
+          roleAdmin: false,
       }
    }
+
+
+   getUser = () => {
+    ElectionSystemAPI.getAPI().getUser(36)
+    .then(userBO => {
+        this.setState({
+            user: userBO,
+        });
+        if(this.state.user.getRole() === "Admin"){
+            this.setState({
+                roleAdmin: true,
+            })
+        }
+    }).catch(e =>
+            this.setState({
+                user:{},
+                error: e
+            }))
+    }  
 
    getProject = () => {
     ElectionSystemAPI.getAPI().getProject(projectid)
@@ -81,7 +102,8 @@ class ProjectContent extends Component {
 componentDidMount(){
     this.getProject();
     this.getProjecttype();
-    this.getModule()
+    this.getModule();
+    this.getUser();
 }
 
 
@@ -155,9 +177,6 @@ componentDidMount(){
                 </Grid>
                 <Grid item>
                     <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
-                </Grid>
-                <Grid item>
-                    <Typography>Reason:</Typography>
                 </Grid>
             </Grid>
             

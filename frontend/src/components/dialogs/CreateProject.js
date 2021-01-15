@@ -48,11 +48,13 @@ class CreateProject extends Component {
         language: '',
         externalPartner: '',
         numBlockdaysPriorLecture: null,
-        numBlockdaysDuringLecture: null,
+        numBlockaysDuringLecture: null,
         dateDuringLecture: null,
         numBlockdaysInExam: null,
         error: null,
-        spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+        spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+            15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+            28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
       }
 
 
@@ -97,7 +99,6 @@ class CreateProject extends Component {
                 professors: userBOs,
                 error: null
             });
-            //console.log(this.state.professors)
         }).catch(e =>
                 this.setState({
                     professors:[],
@@ -134,9 +135,6 @@ class CreateProject extends Component {
         newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
         newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
         console.log(JSON.stringify(newProject));
-        console.log(this.state.creationDate)
-        console.log('module:' + this.state.moduleSelected);
-        console.log('numBlockdaysDuringLecture:' + this.state.numBlockdaysDuringLecture)
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
@@ -149,7 +147,6 @@ class CreateProject extends Component {
     }
 
     selectHandleChangeProjecttype = (e) =>{
-
         this.setState({
             projecttype: this.state.projecttypes[e.target.value],
             ptSelected: this.state.projecttypes[e.target.value].getID()
@@ -212,10 +209,10 @@ class CreateProject extends Component {
 
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" id="projectname" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
+                        <TextField fullWidth required variant="outlined" id="projectname" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
                             <Select name="moduleSelected" label="Module" onChange={this.handleSelectChange}>
                                 {this.state.modules.map((module) => (
@@ -225,10 +222,10 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-number:" />
+                        <TextField fullWidth required variant="outlined" label="EDV-number:" />
                     </Grid>
                     <Grid item>
-                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                            <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
                                 <Select label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
@@ -246,7 +243,7 @@ class CreateProject extends Component {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of spots</InputLabel>
                             <Select name="numSpots" label="Number of spots" onChange={this.handleSelectChange}>
                             {this.state.spots.map((number, index) => (
@@ -266,7 +263,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
                             <Select name="language" label="language" onChange={this.handleSelectChange}>
                                 <MenuItem value="german">german</MenuItem>
@@ -276,21 +273,6 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid item>
                         <TextField fullWidth variant="outlined" label="External co-orperation partner:" id="externalPartner" onChange={this.handleChange}/>
-                    </Grid>
-                    <Grid item>
-                        <Typography>Weekly lecture:</Typography>
-                        <FormControl>
-                                <RadioGroup row={true} id="weekly" onChange={this.handleChange}>
-                                <FormControlLabel value="true" control={<Radio />} label="yes" />
-                                <FormControlLabel value="false" control={<Radio />} label="no" />
-                            </RadioGroup>
-                        </FormControl>
-                    </Grid>
-                </Grid>
-
-                <Grid item container direction="column" xs={12} md={6} spacing={2}>
-                    <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={10} label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
                     </Grid>
                     <Grid item>
                         <Typography>Particular room necessary:</Typography>
@@ -303,9 +285,24 @@ class CreateProject extends Component {
                     </Grid>
                     { this.state.specialRoom ?
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={3} id="desiredRoom" label="Desired room:" onChange={this.handleChange} value={this.state.desiredRoom}/>
+                        <TextField fullWidth variant="outlined" multiline rows={2} id="desiredRoom" label="Desired room:" onChange={this.handleChange} value={this.state.desiredRoom}/>
                     </Grid>
                     : null}
+                </Grid>
+
+                <Grid item container direction="column" xs={12} md={6} spacing={2}>
+                    <Grid item>
+                        <TextField fullWidth required variant="outlined" multiline rows={12} label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
+                    </Grid>
+                    <Grid item>
+                        <Typography>Weekly lecture:</Typography>
+                        <FormControl>
+                                <RadioGroup row={true} id="weekly" onChange={this.handleChange} value={String(this.state.weekly)}>
+                                <FormControlLabel value="true" control={<Radio />} label="yes" />
+                                <FormControlLabel value="false" control={<Radio />} label="no" />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
                     <Grid item>
                         <Typography>Blockdays prior to semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
@@ -335,7 +332,8 @@ class CreateProject extends Component {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             disableToolbar
-                            variant="inline"
+                            inputVariant="outlined"
+                            label="Select date"
                             format="dd/MM/yyyy"
                             margin="normal"
                             id="dateDuringLecture"

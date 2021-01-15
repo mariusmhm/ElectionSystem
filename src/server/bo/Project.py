@@ -21,12 +21,11 @@ class Project(Automat, NamedBusinessObject):
         self._num_spots = 0
         self._language = ""
         self._external_partner = ""
+        self._edv_number = 0
         self._projecttype_id = None
         self._module_id = None
         self._professor_id = None
         self._add_professor_id = None
-
-
 
 
     def set_short_description(self, description):
@@ -115,6 +114,12 @@ class Project(Automat, NamedBusinessObject):
     def get_external_partner(self):
         return self._external_partner
 
+    def set_edv_number(self, edv):
+        self._edv_number = edv
+
+    def get_edv_number(self):
+        return self._edv_number
+
     #--- foreign keys ----
 
     def set_projecttype_id(self, projecttypeId):
@@ -180,9 +185,10 @@ class Project(Automat, NamedBusinessObject):
         project.set_num_spots(dicti["num_spots"])
         project.set_language(dicti["language"])
         project.set_external_partner(dicti["external_partner"])
+        project.set_edv_number(dicti["edv_number"])
         project.set_projecttype_id(dicti["projecttype_id"])
         project.set_module_id(dicti["module_id"])
         project.set_professor_id(dicti["professor_id"])
         project.set_add_professor_id(dicti["add_professor_id"])
-        project.set_state(dicti["state"])
+        project.set_state(dicti["current_state_id"])
         return project

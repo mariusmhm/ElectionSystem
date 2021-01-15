@@ -36,10 +36,10 @@ CREATE TABLE `User` (
 DROP TABLE IF EXISTS `Projecttype`;
 CREATE TABLE `Projecttype` (
 	`id` int(11),
-	`creation_date` DATE,
 	`name` VARCHAR(30),
+	`creation_date` DATE,
 	`sws` int(11) ,
-	`ect` int(11),	
+	`ect` int(11),
     PRIMARY KEY(`id`)
 );
 
@@ -105,4 +105,3 @@ CREATE TABLE Project(
    FOREIGN KEY (`professor_id`) REFERENCES `User`(`id`),
   FOREIGN KEY (`add_professor_id`) REFERENCES `User`(`id`)
 );
-

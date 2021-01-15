@@ -1,13 +1,11 @@
 import NamedBusinessObject from './NamedBusinessObject';
-import Automat from './Automat';
 
 export default class ProjectBO extends NamedBusinessObject{
 /// Represents a Project.
 
-    constructor(aRoomDesired,aGradeAverage,aNumBlockDaysInExam, aBlockDaysInExam, aSpecialRoom,
-                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture,aBlockDaysPriorLectureTrue,aNumBlockDaysDuringLecture,
-                aBlockDaysDuringLecture,aWeekly,aShortDescription,aNumSpots,aProjectType, aModule, aProfessor, aParticipation, aAddProfessor,
-                aLanguage, aExternalPartner, aState){
+    constructor(aShortDescription, aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
+                aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture, aNumBlockDaysDuringLecture,
+                aWeekly, aNumSpots, aLanguage, aExternalPartner, aEdvNumber, aProjectType, aModule, aProfessor, aAddProfessor, aCurrentState){
         super();
 
         this.short_description = aShortDescription;
@@ -21,11 +19,12 @@ export default class ProjectBO extends NamedBusinessObject{
         this.num_spots = aNumSpots;
         this.language = aLanguage;
         this.external_partner = aExternalPartner;
+        this.edv_number = aEdvNumber
         this.projecttype_id = aProjectType;
         this.module_id = aModule;
         this.professor_id = aProfessor;
         this.add_professor_id = aAddProfessor;
-        this.state = aState;
+        this.current_state_id = aCurrentState;
 
     }
 
@@ -33,13 +32,13 @@ export default class ProjectBO extends NamedBusinessObject{
 
 
     // setting the state
-    setState(aState){
-        this.state = aState;
+    setState(aCurrentState){
+        this.current_state_id = aCurrentState;
     }
 
     // getting the state
     getState(){
-        return this.state;
+        return this.current_state_id;
     }
 
     getAddProfessor(){
@@ -163,12 +162,22 @@ export default class ProjectBO extends NamedBusinessObject{
         this.num_spots = aNumSpots;
     }
 
-    getProjectType(){
+    getEdvNumber(){
+        //Read out of the module.
+        return this.edv_number;
+    }
+
+    setProfessEdvNumber(aEdvNumber){
+        //Set the module.
+        this.edv_number = aEdvNumber;
+    }
+
+    getProjecttype(){
         //Read out of the projectType.
         return this.projecttype_id;
     }
 
-    setProjectType(aProjectType){
+    setProjecttype(aProjectType){
         //Set the project type.
         this.projecttype_id = aProjectType;
     }
@@ -216,4 +225,3 @@ export default class ProjectBO extends NamedBusinessObject{
         return res;
     }
   }
-
