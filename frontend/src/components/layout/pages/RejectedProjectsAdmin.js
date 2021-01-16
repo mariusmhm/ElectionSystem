@@ -62,7 +62,7 @@ constructor(props) {
 
     //Gives back the projects by state "rejected"
     getProjectForStateTwo = () =>{
-        ElectionSystemAPI.getAPI().getProjectForState("rejected")
+        ElectionSystemAPI.getAPI().getProjectForState(3)
         .then(projectBO => { this.setState({
             projects: projectBO,
             loaded: true,
@@ -120,7 +120,7 @@ constructor(props) {
                                             <TableEntryButtonAdmin
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
-                                                type = {project.getProjectType()}
+                                                type = {project.getProjecttype()}
                                             />
                                 )
                                 )}

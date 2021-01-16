@@ -25,6 +25,8 @@ class TableEntryButtonTwo extends Component {
             projecttypeName: '',
             error: null,
             priority: '',
+            project:'',
+            proj:'',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -38,8 +40,8 @@ class TableEntryButtonTwo extends Component {
             select: true,
             lastname: '',
             firstname: '',
-            project:'',
-            priority: 0
+            priority: 0,
+
 
 
         };
@@ -115,13 +117,30 @@ class TableEntryButtonTwo extends Component {
     componentDidMount() {
         this.getUser();
         this.getProjectType();
+        this.getAllProjects();
 
 
     }
-    /**Delets the project
-      deleteProjectHandler = (project) => {
+
+     /** Gives back the projects */
+    getAllProjects = () => {
+        ElectionSystemAPI.getAPI().getAllProjects()
+            .then(ProjectsBO =>
+                this.setState({
+                    projects: ProjectsBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projects: [],
+                        error: e
+                    }))
+        console.log('Projects ausgeführt');
+    }
+
+    deleteProjectHandler = (project) => {
         console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
+        ElectionSystemAPI.getAPI().deleteProject(this.props.id).then(project => {
           console.log(project);
         }).catch(e =>
           this.setState({
@@ -130,10 +149,9 @@ class TableEntryButtonTwo extends Component {
         );
 
         this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+            projects: this.state.projects.filter(projFromState => projFromState.getID() != project.getID())
         })
-    }**/
-
+    }
 
 
     render() {
@@ -159,7 +177,7 @@ class TableEntryButtonTwo extends Component {
                         {this.state.loaded ? this.state.projecttypeName: null}
                 </TableCell>
                 <TableCell>
-                     <Button variant ="outlined"> Bewerten </Button>
+                     <Button variant ="outlined" > Bewerten </Button>
                 </TableCell>
 
             </TableRow>

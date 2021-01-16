@@ -48,8 +48,7 @@ class HomeScreenAdmin extends Component {
                       <RejectedProjectsAdmin/>
                   <Divider/>
                       <ArchivedProjectsAdmin/>
-                  <Divider/>
-                      <ApprovedKeyCompetence/>
+
                   <Divider/>
                        <Grid container row={true} justify="center" alignItems="center" align ="center" spacing={2} className={classes.button}>
                             <Grid item >

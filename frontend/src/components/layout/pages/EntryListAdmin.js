@@ -52,7 +52,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(1)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
@@ -108,7 +108,7 @@ updateGrade= () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="h6" className={classes.tableRow}>
-                                                    MARTRICULATION NUMBER
+                                                    MRT
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -127,8 +127,8 @@ updateGrade= () => {
                                 {this.state.students.map(student => (
                                             <TableListEntryTeilnehmer
                                                 name = {student.getName()}
-                                                mrtnr = {student.getMartriculationNumber()}
-                                                course = {student.getCourseOfStudy()}
+                                                mrtnr = {student.getMatrikelNr()}
+                                                course = {student.getStudy()}
                                             />
                                 )
                                 )}

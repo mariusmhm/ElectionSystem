@@ -68,7 +68,7 @@ constructor(props) {
 
     //Gives back the projects by state "new"
     getProjectForState = () =>{
-        ElectionSystemAPI.getAPI().getProjectForState("new")
+        ElectionSystemAPI.getAPI().getProjectForState(1)
         .then(projectBO => { this.setState({
             projects: projectBO,
             loaded: true,
@@ -143,7 +143,7 @@ constructor(props) {
                                             <TableEntryButtonTwo
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
-                                                type = {project.getProjectType()}
+                                                type = {project.getProjecttype()}
                                             />
                                 )
                                 )}
