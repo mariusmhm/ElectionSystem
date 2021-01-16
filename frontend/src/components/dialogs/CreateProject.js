@@ -34,7 +34,7 @@ class CreateProject extends Component {
         projectname:'',
         modules: [],
         moduleSelected: null,
-        edvNumber: '',
+        edvNumber: null,
         projecttypes: [],
         projecttype: {},
         ptSelected: null,
@@ -43,12 +43,12 @@ class CreateProject extends Component {
         additionalProf: null,
         weekly: false,
         specialRoom: false,
-        desiredRoom: '',
+        desiredRoom: null,
         shortDescription: '',
         language: '',
-        externalPartner: '',
+        externalPartner: null,
         numBlockdaysPriorLecture: null,
-        numBlockaysDuringLecture: null,
+        numBlockdaysDuringLecture: null,
         dateDuringLecture: null,
         numBlockdaysInExam: null,
         error: null,
@@ -84,7 +84,6 @@ class CreateProject extends Component {
                 modules: moduleBOs,
                 error: null
             });
-            console.log(this.state.modules)
         }).catch(e =>
                 this.setState({
                     modules:[],
@@ -122,10 +121,11 @@ class CreateProject extends Component {
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
         newProject.setAddProfessor(this.state.additionalProf);
+        newProject.setEdvNumber(this.state.edvNumber);
         newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState("new");
+        newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        newProject.setProfessor(36);
+        newProject.setProfessor(36); //prof id vom current user hier einsetzen
         newProject.setExternalPartner(this.state.externalPartner);
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
@@ -135,6 +135,7 @@ class CreateProject extends Component {
         newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
         newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
         console.log(JSON.stringify(newProject));
+        console.log(this.state.numBlockdaysDuringLecture);
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
@@ -160,6 +161,14 @@ class CreateProject extends Component {
         this.setState({
             [e.target.id]: e.target.value
         });
+    }
+
+    handleChangeNum = (e) =>{
+        console.log(typeof e.target.value);
+        console.log(e.target.id);
+        this.setState({
+            [e.target.id]: parseInt(e.target.value, 10)
+        }, console.log(typeof this.state.edvNumber));               
     }
 
     handleSelectChange = (e) =>{
@@ -222,7 +231,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth required variant="outlined" label="EDV-number:" />
+                        <TextField fullWidth required variant="outlined" id="edvNumber" label="EDV-number:" onChange={this.handleChangeNum} value={this.state.edvNumber}/>
                     </Grid>
                     <Grid item>
                             <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
