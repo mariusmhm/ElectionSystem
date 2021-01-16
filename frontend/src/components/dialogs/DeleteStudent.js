@@ -19,6 +19,36 @@ let open= true;
 
 class DeleteStudent extends Component {
 
+  constructor(props){
+    super(props)
+    this.state= {
+        student: {},
+        deletingError: null,
+        error: null,
+
+    };
+        this.baseState = this.state;
+  }
+
+
+    deleteStudentHandler = (student) => {
+        console.log(student);
+        ElectionSystemAPI.getAPI().deleteStudent(student.getID()).then(student=> {
+          console.log(student);
+        }).catch(e =>
+          this.setState({
+            deletingError: e
+          })
+        );
+
+    handleClose = () => {
+        this.setState({
+          open: false
+        });
+    }
+
+
+
  render(){
     const { classes } = this.props;
 
@@ -45,14 +75,14 @@ class DeleteStudent extends Component {
             <Grid container spacing={2} justify="center" className={classes.grid} >
 
                 <Grid item>
-                    <Button variant="outlined" color="secondary">Cancel</Button>
+                    <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button>
 
                 <Grid>
                     <br/>
                 </Grid>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined">Sure</Button>
+                    <Button aria-label="delete" variant="outlined" onClick={() => this.deleteStudentHandler(student)}>Sure</Button>
                 </Grid>
 
             </Grid>
