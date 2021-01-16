@@ -20,15 +20,41 @@ let open= true;
 
 class AddStudents extends Component {
 
+    // Gets all Students
+    getAllStudents = () => {
+        ElectionSystemAPI.getAPI().getAllStudents()
+        .then(StudentBOs)
+            this.setState({
+            students: studentBOs
+            error: null
+            })).catch(e =>
+                this.setState({
+                    students: [],
+                    error: e
+                }))
 
 
- /** Handles the close / cancel button click event */
-  handleClose = () => {
-    // Reset the state
-    this.setState(this.baseState);
-    this.props.onClose(null);
-  }
+    }
+    //Add a new Student to a Project
+    addStudent = () => {
+        let newStudent = newStudentBO();
+        ...
+        console.log(JSON.stringify(newStudent));
+        ElectionSystemAPI.getAPI().addStudent(newStudent).then(studentBO => {
+            this.setState(this.baseState);
 
+        }).catch(e =>
+            this.setState({
+            error: e
+            }))
+     }
+
+ /** Handles the cancel button click event */
+    handleClose = () => {
+        this.setState({
+          open: false
+        });
+    }
 
  render(){
     const { classes } = this.props;
@@ -59,7 +85,7 @@ class AddStudents extends Component {
             <Grid container spacing={2} justify="center" className={classes.grid} >
 
                 <Grid item>
-                    <Button variant="outlined" color="secondary" className={classes.button}>Cancel</Button>
+                    <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button>
 
                 <Grid>
                     <br/>

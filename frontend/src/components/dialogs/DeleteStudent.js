@@ -41,6 +41,7 @@ class DeleteStudent extends Component {
           })
         );
 
+ /** Handles the cancel button click event */
     handleClose = () => {
         this.setState({
           open: false
