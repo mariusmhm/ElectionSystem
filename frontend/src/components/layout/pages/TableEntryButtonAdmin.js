@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
+
 class TableEntryButtonAdmin extends Component {
     constructor(props) {
         super(props)
@@ -118,7 +119,7 @@ class TableEntryButtonAdmin extends Component {
 
 
     }
-    /**Delets the project
+   // Delets the project
       deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
@@ -132,7 +133,7 @@ class TableEntryButtonAdmin extends Component {
         this.setState({
           projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
         })
-    }**/
+    }
 
 
 

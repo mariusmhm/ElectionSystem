@@ -1,9 +1,10 @@
 # service is based on flask
-from flask import Flask
+from flask import Flask, request
 # using flask restX
 from flask_restx import Api, Resource, fields
 # cors as a flask expendency
 from flask_cors import CORS
+
 
 from server.ElectionSystemAdministration import ElectionSystemAdministration
 
@@ -463,6 +464,25 @@ class ParticipationsPriorityProjectListOperations(Resource):
         adm = ElectionSystemAdministration()
         pp = adm.get_by_project(project_id)
         return pp
+
+"""@electionSystem.route('/participation-by-student-project/<int:student_id>/<int:project_id>')
+@electionSystem.response(500, 'If an server sided error occures')
+
+class ParticipationStudentProjectOperations(Resource):
+    @electionSystem.marshal_with(participation)
+    @electionSystem
+    def get(self,student_id=None, project_id=None):
+        
+        #Gets an specific participation object.
+        #The object is determined by the query parameters project_id and student_id.
+        
+
+        #project_id = request.args.get('project_id')
+        #student_id = request.args.get('student_id')
+        adm = ElectionSystemAdministration()
+        parti = adm.get_participation_by_student_and_project(student_id, project_id)
+        return parti"""
+
 
 
 #------Grading---------

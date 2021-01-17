@@ -60,6 +60,7 @@ export default class ElectionSystemAPI {
     #addParticipationURL = () => `${this.#electionSystemServerBaseURL}/participation`;
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
+    /*#getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/get-participation-by-student-project?student_id=`+ student_id +`project_id=`+ project_id;*/
 
     //Semester
     #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
@@ -522,6 +523,16 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
+    /*getParticipationForStudentAndProject(studentID, projectID){
+      return this.#fetchAdvanced(this.#getParticipationForStudentAndProjectURL(studentID, projectID))
+      .then((responseJSON) => {
+        let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(responseParticipationBOs);
+        })
+      })
+    }*/
 
     //----------Semester-------------------------
 

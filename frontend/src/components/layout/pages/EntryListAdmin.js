@@ -52,7 +52,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(1)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
