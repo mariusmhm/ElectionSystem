@@ -41,6 +41,14 @@ class HomeScreenAdmin extends Component {
         this.setState({ open: true });
     }
 
+    closeGDialog = () => {
+        this.setState({
+            open: false})
+    }
+
+    openGDialog() {
+        this.setState({ open: true });
+    }
 
   render() {
     const {classes}= this.props;
@@ -54,6 +62,12 @@ class HomeScreenAdmin extends Component {
                     open={this.state.open}
                     openDialog={this.openDialog}
                     closeDialog={this.closeDialog}
+              />
+              < GradingEditingDialog
+                    HomeScreenAdmin ={HomeScreenAdmin}
+                    openG={this.state.open}
+                    openGDialog={this.openGDialog}
+                    closeGDialog={this.closeGDialog}
               />
 
                       <ListEntryNewProjectsAdmin/ >
@@ -76,7 +90,7 @@ class HomeScreenAdmin extends Component {
                                 </Fab>
                             </Grid>
                             <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
+                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openGDialog()}>
                                 <EditIcon />  grading
                                 </Fab>
                             </Grid>

@@ -18,7 +18,7 @@ import {ElectionSystemAPI, GradingBO} from '../../api';
 
 
 
-let open= true;
+
 
 class GradingEditingDialog extends Component {
 
@@ -89,23 +89,12 @@ class GradingEditingDialog extends Component {
         })
     }
 
-   /** handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  handleClose = () => {
-    setOpen(false);
-  };**/
-
-  openDialog() {
-   this.setState({ open: true });
-   }
 
  render(){
     const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
-        <Dialog open={this.state.open}  maxWidth='xs' fullWidth>
+        <Dialog open={this.props.openG} onClose={this.props.closeGDialog}  maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
             <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
                 <Grid item xs={12}>
@@ -148,7 +137,7 @@ class GradingEditingDialog extends Component {
                 </Grid>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
-                        <Button variant="outlined" color="secondary">Cancel</Button>
+                        <Button variant="outlined" color="secondary" onClick={this.props.cloDialog}>Cancel</Button>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" color="primary">Okay</Button>
