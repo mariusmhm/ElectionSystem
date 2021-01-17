@@ -14,9 +14,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-//import TableEntryAdmin from '../TableEntryAdmin';
-import TableEntryButtonAdmin from './TableEntryButtonAdmin';
-import TableEntryButtonTwo from './TableEntryButtonTwo';
+//import TableEntryAdmin from './TableEntryAdmin';
+//import TableEntryButtonAdmin from './TableEntryButtonAdmin';
+import TableEntryButtonKeyCompetence from './TableEntryButtonKeyCompetence';
 
 
 
@@ -40,8 +40,8 @@ constructor(props) {
     }
 
     componentDidMount(){
+        this.getProjectForModule();
         this.getProjectForState();
-
     }
 
       /**Delets the project  **/
@@ -60,9 +60,22 @@ constructor(props) {
         })
     }
 
-    //Gives back the projects by state "approved"
-    getProjectForState= () =>{
-        ElectionSystemAPI.getAPI().getProjectForState("approved")
+       getProjectForModule= () =>{
+        ElectionSystemAPI.getAPI().getProjectForModule(7)
+        .then(projectBO => {this.setState({
+            projects: projectBO,
+            loaded: true,
+            error: null
+        })}).catch(e =>
+            this.setState({
+                projects:[],
+                error: e
+        }))
+    }
+
+
+   getProjectForState = () =>{
+        ElectionSystemAPI.getAPI().getProjectForState(2)
         .then(projectBO => { this.setState({
             projects: projectBO,
             loaded: true,
@@ -72,12 +85,7 @@ constructor(props) {
                 projects:[],
                 error: e
         }))
-
     }
-
-
-
-
 
 
   render() {
@@ -118,23 +126,28 @@ constructor(props) {
                                                 projecttype
                                             </Typography>
                                         </TableCell>
+                                           <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                module
+                                            </Typography>
+                                        </TableCell>
                                             <TableCell>
                                              <Typography variant="h6" className={classes.tableRow}>
                                                 participator
                                             </Typography>
                                         </TableCell>
                                     </TableRow>
-                                </TableHead>
-                            <TableBody>
-                                   {this.state.projects.map(project => (
-                                            <TableEntryButtonTwo
+                               </TableHead>
+                                        <TableBody>
+                                            {this.state.projects.map(project => (
+                                                    <TableEntryButtonKeyCompetence
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
-                                                type = {project.getProjectType()}
-                                            />
-                                ))}
-                            </TableBody>
-                            </Table>
+                                                type = {project.getProjecttype()}
+                                                module= {project.getModule()}
+                                            />))}
+                                        </TableBody>
+                          </Table>
                         </TableContainer>
                      </Grid>
 

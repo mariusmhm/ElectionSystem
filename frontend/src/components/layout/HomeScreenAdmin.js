@@ -4,14 +4,12 @@ import ArchivedProjectsAdmin from './pages/ArchivedProjectsAdmin';
 import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
 import ApprovedProjectsAdmin from './pages/ApprovedProjectsAdmin';
-import ListEntryNewProjectsAdmin from './pages/ListEntryNewProjectsAdmin';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
-import RejectedProjectsAdmin from './pages/RejectedProjectsAdmin';
 import GradingEditingDialog from '../dialogs/GradingEditingDialog';
 import ApprovedKeyCompetence from './pages/ApprovedKeyCompetence';
 
@@ -42,12 +40,6 @@ class HomeScreenAdmin extends Component {
         return (
 
               <Container maxWidth="MD" align ="center">
-                      <ListEntryNewProjectsAdmin/ >
-                  <Divider/>
-                      <ApprovedProjectsAdmin/ >
-                      <RejectedProjectsAdmin/>
-                  <Divider/>
-                      <ArchivedProjectsAdmin/>
                   <Divider/>
                       <ApprovedKeyCompetence/>
                   <Divider/>

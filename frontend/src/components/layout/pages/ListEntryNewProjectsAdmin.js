@@ -68,7 +68,7 @@ constructor(props) {
 
     //Gives back the projects by state "new"
     getProjectForState = () =>{
-        ElectionSystemAPI.getAPI().getProjectForState("new")
+        ElectionSystemAPI.getAPI().getProjectForState(2)
         .then(projectBO => { this.setState({
             projects: projectBO,
             loaded: true,

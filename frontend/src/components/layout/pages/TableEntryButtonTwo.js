@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, ModuleBO } from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -23,6 +23,7 @@ class TableEntryButtonTwo extends Component {
             users: [],
             type: null,
             projecttypeName: '',
+            moduleName: '',
             error: null,
             priority: '',
             updatingError: null,
@@ -80,6 +81,38 @@ class TableEntryButtonTwo extends Component {
             }))
     }
 
+
+    /*getProjectForModule= () =>{
+        ElectionSystemAPI.getAPI().getProjectForModule(this.props.module)
+        .then(projectBO =>
+        this.setState({
+            projects: projectBO.getModule(),
+            loaded: true,
+            error: null
+        })).catch(e =>
+            this.setState({
+                projects:[],
+                error: e
+        }))
+
+    }*/
+
+     getModule = () => {
+        ElectionSystemAPI.getAPI().getModule(this.props.module)
+                .then(moduleBO =>
+                        this.setState({
+                        moduleName: moduleBO.getName(),
+                        loaded:true,
+                        error: null
+                        })). catch(e =>
+                        this.setState({
+                            moduleName: [],
+                            error: e
+                        }))
+                }
+
+
+
     toggleClass(index, e) {
         this.setState({
           activeIndex: this.state.activeIndex === index ? null : index
@@ -115,9 +148,11 @@ class TableEntryButtonTwo extends Component {
     componentDidMount() {
         this.getUser();
         this.getProjectType();
-
-
+        this.getModule();
     }
+
+
+
     /**Delets the project
       deleteProjectHandler = (project) => {
         console.log(project);
@@ -158,6 +193,7 @@ class TableEntryButtonTwo extends Component {
                 <TableCell>
                         {this.state.loaded ? this.state.projecttypeName: null}
                 </TableCell>
+                        {this.state.loaded ? this.state.moduleName: null}
                 <TableCell>
                      <Button variant ="outlined"> Bewerten </Button>
                 </TableCell>
