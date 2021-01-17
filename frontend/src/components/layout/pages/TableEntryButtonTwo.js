@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, ModuleBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -23,9 +23,10 @@ class TableEntryButtonTwo extends Component {
             users: [],
             type: null,
             projecttypeName: '',
-            moduleName: '',
             error: null,
             priority: '',
+            project:'',
+            proj:'',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -39,8 +40,8 @@ class TableEntryButtonTwo extends Component {
             select: true,
             lastname: '',
             firstname: '',
-            project:'',
-            priority: 0
+            priority: 0,
+
 
 
         };
@@ -81,38 +82,6 @@ class TableEntryButtonTwo extends Component {
             }))
     }
 
-
-    /*getProjectForModule= () =>{
-        ElectionSystemAPI.getAPI().getProjectForModule(this.props.module)
-        .then(projectBO =>
-        this.setState({
-            projects: projectBO.getModule(),
-            loaded: true,
-            error: null
-        })).catch(e =>
-            this.setState({
-                projects:[],
-                error: e
-        }))
-
-    }*/
-
-     getModule = () => {
-        ElectionSystemAPI.getAPI().getModule(this.props.module)
-                .then(moduleBO =>
-                        this.setState({
-                        moduleName: moduleBO.getName(),
-                        loaded:true,
-                        error: null
-                        })). catch(e =>
-                        this.setState({
-                            moduleName: [],
-                            error: e
-                        }))
-                }
-
-
-
     toggleClass(index, e) {
         this.setState({
           activeIndex: this.state.activeIndex === index ? null : index
@@ -148,15 +117,30 @@ class TableEntryButtonTwo extends Component {
     componentDidMount() {
         this.getUser();
         this.getProjectType();
-        this.getModule();
+        this.getAllProjects();
+
+
     }
 
+     /** Gives back the projects */
+    getAllProjects = () => {
+        ElectionSystemAPI.getAPI().getAllProjects()
+            .then(ProjectsBO =>
+                this.setState({
+                    projects: ProjectsBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        projects: [],
+                        error: e
+                    }))
+        console.log('Projects ausgeführt');
+    }
 
-
-    /**Delets the project
-      deleteProjectHandler = (project) => {
+    deleteProjectHandler = (project) => {
         console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
+        ElectionSystemAPI.getAPI().deleteProject(this.props.id).then(project => {
           console.log(project);
         }).catch(e =>
           this.setState({
@@ -165,10 +149,9 @@ class TableEntryButtonTwo extends Component {
         );
 
         this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+            projects: this.state.projects.filter(projFromState => projFromState.getID() != project.getID())
         })
-    }**/
-
+    }
 
 
     render() {
@@ -193,9 +176,8 @@ class TableEntryButtonTwo extends Component {
                 <TableCell>
                         {this.state.loaded ? this.state.projecttypeName: null}
                 </TableCell>
-                        {this.state.loaded ? this.state.moduleName: null}
                 <TableCell>
-                     <Button variant ="outlined"> Bewerten </Button>
+                     <Button variant ="outlined" > Bewerten </Button>
                 </TableCell>
 
             </TableRow>
