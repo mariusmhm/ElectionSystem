@@ -20,6 +20,7 @@ import ProjectContent from './components/layout/pages/ProjectContent'
 import Semester from './components/dialogs/Semester'
 import HomeScreen from './components/layout/HomeScreen'
 import SemesterReport from './components/layout/pages/SemesterReport';
+import ProjectReport from './components/layout/pages/ProjectReport';
 
 
 class App extends Component {
