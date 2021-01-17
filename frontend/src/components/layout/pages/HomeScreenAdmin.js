@@ -12,10 +12,11 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './RejectedProjectsAdmin';
-import GradingEditingDialog from '../../dialogs/GradingEditingDialog';
-import Semester from '../../dialogs/Semester';
-import ModuleForm from '../../dialogs/ModuleForm':
-import EditProjecttype '../../dialogs/EditProjecttype':
+import GradingEditingDialog from '../../dialogs/GradingEditingDialog'
+import EditProjecttype from '../../dialogs/EditProjecttype'
+import Semester from '../../dialogs/Semester'
+import ModuleForm from '../../dialogs/ModuleForm'
+
 
 
 class HomeScreenAdmin extends Component {
