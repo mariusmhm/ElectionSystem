@@ -5,8 +5,12 @@ export default class ProjectBO extends NamedBusinessObject{
 
     constructor(aShortDescription, aRoomDesired,aNumBlockDaysInExam, aSpecialRoom,
                 aDateBlockDaysDuringLecture, aNumBlockDaysPriorLecture, aNumBlockDaysDuringLecture,
+<<<<<<< HEAD
                 aWeekly, aNumSpots,aProjectType, aModule, aProfessor, aAddProfessor,
                 aLanguage, aExternalPartner, aState){
+=======
+                aWeekly, aNumSpots, aLanguage, aExternalPartner, aEdvNumber, aProjectType, aModule, aProfessor, aAddProfessor, aCurrentState){
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
         super();
 
         this.short_description = aShortDescription;
@@ -20,11 +24,19 @@ export default class ProjectBO extends NamedBusinessObject{
         this.num_spots = aNumSpots;
         this.language = aLanguage;
         this.external_partner = aExternalPartner;
+<<<<<<< HEAD
+=======
+        this.edv_number = aEdvNumber
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
         this.projecttype_id = aProjectType;
         this.module_id = aModule;
         this.professor_id = aProfessor;
         this.add_professor_id = aAddProfessor;
+<<<<<<< HEAD
         this.state = aState;
+=======
+        this.current_state_id = aCurrentState;
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
 
     }
 
@@ -32,13 +44,22 @@ export default class ProjectBO extends NamedBusinessObject{
 
 
     // setting the state
+<<<<<<< HEAD
     setState(aState){
         this.state = aState;
+=======
+    setState(aCurrentState){
+        this.current_state_id = aCurrentState;
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
     }
 
     // getting the state
     getState(){
+<<<<<<< HEAD
         return this.state;
+=======
+        return this.current_state_id;
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
     }
 
     getAddProfessor(){
@@ -162,6 +183,19 @@ export default class ProjectBO extends NamedBusinessObject{
         this.num_spots = aNumSpots;
     }
 
+<<<<<<< HEAD
+=======
+    getEdvNumber(){
+        //Read out of the module.
+        return this.edv_number;
+    }
+
+    setEdvNumber(aEdvNumber){
+        //Set the module.
+        this.edv_number = aEdvNumber;
+    }
+
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
     getProjecttype(){
         //Read out of the projectType.
         return this.projecttype_id;
@@ -215,3 +249,8 @@ export default class ProjectBO extends NamedBusinessObject{
         return res;
     }
   }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6
