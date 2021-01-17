@@ -381,13 +381,13 @@ class ProjectMapper(Mapper):
         return result
     
    
-    def find_project_by_module(self, id):
+    def get_project_by_module(self, module_id):
         """Read out all projects based on their module.
         :return A collection of projects objects that all represent all projects by module."""
 
         result = []
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM Project Where module_id={}".format(id))
+        command = "SELECT * FROM Project WHERE module_id={}".format(module_id)
 
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -396,6 +396,7 @@ class ProjectMapper(Mapper):
              date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam,
              weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id,
              add_professor_id, current_state_id) in tuples:
+
             project = Project()
             project.set_id(id)
             project.set_date(creation_date)
