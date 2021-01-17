@@ -16,7 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ModuleBO} from '../../api';
 
-let open = true;
+
 
 class ModuleForm extends Component {
 
@@ -31,7 +31,8 @@ class ModuleForm extends Component {
         creationDate: date,
         modules: [],   
         name: '',
-        mNumber: null,   
+        mNumber: null,
+        open:null,
         deletingError: null   
 
       };
@@ -103,7 +104,7 @@ class ModuleForm extends Component {
 
     return(
         
-        <Dialog open={open} maxWidth='xs' fullWidth>
+        <Dialog open={this.props.open} onClose={this.props.closeDialog} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader} >EDIT MODULE</DialogTitle>
             <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid} >
                 <Grid items>
@@ -149,10 +150,10 @@ class ModuleForm extends Component {
                 
                 <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
-                        <Button variant="outlined" color="primary">Cancel</Button>
+                        <Button variant="outlined" color="primary" onClick={this.props.closeDialog}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary">OKAY</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeDialog}>OKAY</Button>
                     </Grid>
                 </Grid>
                 

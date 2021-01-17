@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import {Container} from '@material-ui/core';
-import ArchivedProjectsAdmin from './pages/ArchivedProjectsAdmin';
+import ArchivedProjectsAdmin from './ArchivedProjectsAdmin';
 import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
-import ApprovedProjectsAdmin from './pages/ApprovedProjectsAdmin';
-import ListEntryNewProjectsAdmin from './pages/ListEntryNewProjectsAdmin';
+import ApprovedProjectsAdmin from './ApprovedProjectsAdmin';
+import ListEntryNewProjectsAdmin from './ListEntryNewProjectsAdmin';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
-import RejectedProjectsAdmin from './pages/RejectedProjectsAdmin';
-import GradingEditingDialog from '../dialogs/GradingEditingDialog';
-import ApprovedKeyCompetence from './pages/ApprovedKeyCompetence';
-import Semester from '../dialogs/Semester'
+import RejectedProjectsAdmin from './RejectedProjectsAdmin';
+import GradingEditingDialog from '../../dialogs/GradingEditingDialog';
+import Semester from '../../dialogs/Semester';
+import ModuleForm from '../../dialogs/ModuleForm':
+import EditProjecttype '../../dialogs/EditProjecttype':
 
 
 class HomeScreenAdmin extends Component {
@@ -55,6 +56,24 @@ class HomeScreenAdmin extends Component {
                     openDialog={this.openDialog}
                     closeDialog={this.closeDialog}
               />
+              < GradingEditingDialog
+                    HomeScreenAdmin ={HomeScreenAdmin}
+                    open={this.state.open}
+                    openDialog={this.openDialog}
+                    closeDialog={this.closeDialog}
+              />
+              < ModuleForm
+                    HomeScreenAdmin ={HomeScreenAdmin}
+                    open={this.state.open}
+                    openDialog={this.openDialog}
+                    closeDialog={this.closeDialog}
+              />
+              < EditProjecttype
+                    HomeScreenAdmin ={HomeScreenAdmin}
+                    open={this.state.open}
+                    openDialog={this.openDialog}
+                    closeDialog={this.closeDialog}
+              />
 
                       <ListEntryNewProjectsAdmin/ >
                   <Divider/>
@@ -66,12 +85,12 @@ class HomeScreenAdmin extends Component {
                   <Divider/>
                        <Grid container row={true} justify="center" alignItems="center" align ="center" spacing={2} className={classes.button}>
                             <Grid item >
-                            <Fab color="secondary" variant="extended" aria-lable="edit">
+                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
                                 <EditIcon />  projecttypes
                                 </Fab>
                             </Grid>
                             <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit">
+                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
                                 <EditIcon />  modules
                                 </Fab>
                             </Grid>

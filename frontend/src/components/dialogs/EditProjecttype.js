@@ -17,7 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjecttypeBO from '../../api/ProjecttypeBO';
 
-let open = true;
+
 
 class EditProjecttype extends Component {
 
@@ -28,6 +28,7 @@ class EditProjecttype extends Component {
         projecttypename:'',
         ect:'',
         sws:'',
+        open:null,
         projecttypes: [],
         projecttype: {},
         deletingError: null,
@@ -78,7 +79,7 @@ class EditProjecttype extends Component {
         console.log(JSON.stringify(newProjecttype));
         console.log(this.state.creationDate);
         ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
-            this.setState(this.baseState);
+            this.setState(this.baseState).then(newProjecttype => {this.props.closeDialog()});
 
         }).catch(e =>
             this.setState({
@@ -118,7 +119,7 @@ class EditProjecttype extends Component {
 
   return (
 
-      <Dialog open={open} fullWidth maxWidth='md'>
+      <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='md'>
             <Typography
                 variant="h4"
                 align="center">
@@ -179,7 +180,7 @@ class EditProjecttype extends Component {
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
-                        <Button variant="outlined" color="secondary" onClick={this.handleClose}>
+                        <Button variant="outlined" color="secondary" onClick={this.props.closeDialog}>
                             Close
                         </Button>
                     </Grid>
