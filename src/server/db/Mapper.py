@@ -10,8 +10,8 @@ class Mapper (AbstractContextManager, ABC):
         self._connection = None
 
     def __enter__(self):
-        self._connection = connector.connect(user='root', password='7891', host='127.0.0.1',
-                                             database='electionsystem')
+        self._connection = connector.connect(user='web357_35', password='XfJbuWNoVCpdnx5l', host='s217.goserver.host',
+                                             database='web357_db35')
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -37,4 +37,3 @@ class Mapper (AbstractContextManager, ABC):
     def delete(self, object):
         pass
 
-    

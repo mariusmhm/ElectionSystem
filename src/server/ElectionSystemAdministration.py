@@ -240,6 +240,19 @@ class ElectionSystemAdministration (object):
         with ParticipationMapper() as mapper:
             mapper.delete_grading_id(participation)
 
+    def get_participation_by_student_and_project(self,project_id, student_id):
+        print('methoden Aufruf')
+        participations=self.get_all_by_project_id(project_id)
+        participation = None
+        print(participations)
+
+        for element in participations:
+            if participations[element].get_student_id() == student_id:
+                participation= participations[element]
+
+            print(participation)
+        return participation
+
     #-----Grading-------
 
     def create_grading(self, creation_date, grade):
@@ -347,7 +360,7 @@ class ElectionSystemAdministration (object):
     def get_project_by_state(self, state):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_state(state)
-    
+
     def get_project_by_module(self, module_id):
         with ProjectMapper() as mapper:
             return mapper.get_project_by_module(module_id)
@@ -394,7 +407,7 @@ class ElectionSystemAdministration (object):
 
         with ProjectMapper() as mapper:
             mapper.update(project)
-    
+
 
 
     #------Module specific operations----
@@ -488,7 +501,7 @@ class ElectionSystemAdministration (object):
                     new_pp.append(pp)
                     highest_prio = highest_prio - 1
                     print("sec row", pp.get_priority())
-            
+
         elif len(old_pp) >= min_pp:
             new_pp = old_pp
             print("third row")

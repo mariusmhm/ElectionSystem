@@ -7,6 +7,7 @@ from datetime import date
 class Project(Automat, NamedBusinessObject):
     """Realization of an examplary Project."""
 
+
     def __init__(self):
         super().__init__()
        

@@ -28,6 +28,7 @@ class Semester extends Component {
         this.state= {
             semester: {},
             error: null,
+            open: null,
             wintersemester: null,
             gradingEndDate: '',
             submitProjectsEndDate: '',
@@ -81,7 +82,7 @@ class Semester extends Component {
         updatedSemester.setSubmitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
         updatedSemester.setGradingBeginnDate(this.state.gradingBeginnDate);
         console.log(JSON.stringify(updatedSemester));
-        ElectionSystemAPI.getAPI().updateSemester(updatedSemester).catch(e => console.log(e));
+        ElectionSystemAPI.getAPI().updateSemester(updatedSemester).then(semester => {this.props.closeDialog()}).catch(e => console.log(e));
 
     } 
 
@@ -143,7 +144,7 @@ class Semester extends Component {
 
  const { semester, error } = this.state;
     return(
-        <Dialog open={open} fullWidth maxWidth='xs'>
+        <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
         <DialogTitle
             fontcolor='primary'
             className={classes.dialogHeader}>
@@ -254,7 +255,8 @@ class Semester extends Component {
                         variant="outlined"
                         color="secondary"
                         align="center"
-                        className={classes.button}>
+                        className={classes.button}
+                        onClick={this.props.closeDialog}>
                             CANCEL
                         </Button>
                     </Grid>
@@ -267,7 +269,8 @@ class Semester extends Component {
                         variant="outlined"
                         align="center"
                         className={classes.button}
-                        onClick={this.updateSemester}>
+                        onClick={this.updateSemester}
+                        onClose={this.props.closeDialog}>
                             DONE
                         </Button>
                     </Grid>
