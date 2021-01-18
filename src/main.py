@@ -57,12 +57,9 @@ student = api.inherit('Student', user, {
 
 semester = api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
-    'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
-    'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
-    'election_end_date':fields.Date(attribute='_election_end_date', description='End date of election'),
-    'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
-    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading'),
-    'election_beginn_date':fields.Date(attribute='_election_end_date', description='Start date of election')
+    'submit_projects':fields.Boolean(attribute='_submit_projects', description='Activate and deaktivate submit projects'),
+    'grading':fields.Boolean(attribute='_grading', description='Activate and deactivate grading'),
+    'election':fields.Boolean(attribute='_election', description='Activate and deactivate election')
 })
 
 grading = api.inherit('Grading', bo, {
@@ -335,8 +332,8 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
-             proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date(), proposal.get_election_beginn_date())
+            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects(),
+             proposal.get_grading(), proposal.get_election())
             return s, 200
 
         else:
@@ -370,11 +367,12 @@ class SemesterOperations(Resource):
         """Update of a specific semester object"""
         adm = ElectionSystemAdministration()
         s = Semester.to_dict(api.payload)
-
+        
         if s is not None:
             """This sets the id of the account object to be overwritten"""
             s.set_id(id)
             adm.save_semester(s)
+
             return '', 200
         else:
             return '', 500

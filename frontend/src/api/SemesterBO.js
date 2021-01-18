@@ -4,15 +4,12 @@ import BusinessObject from './BusinessObject';
 export default class SemesterBO extends BusinessObject {
 //Represents a semester BO. 
   
-   constructor(aWintersemester, aSubmitProjectsEndDate, aGradingEndDate, aElectionEndDate, aGradingBeginnData, aSubmitProjectsBeginnDate, aElectionBeginnDate){
+   constructor(aWintersemester, aSubmitProjects, aGrading, aElection){
       super();
       this.winter_semester = aWintersemester;
-      this.submit_projects_end_date = aSubmitProjectsEndDate;
-      this.grading_end_date = aGradingEndDate;
-      this.election_end_date = aElectionEndDate;
-      this.submit_projects_beginn_date = aSubmitProjectsBeginnDate;
-      this.grading_beginn_date = aGradingBeginnData;
-      this.election_beginn_date = aElectionEndDate;
+      this.submit_projects = aSubmitProjects;
+      this.grading = aGrading;
+      this.election = aElection;
    }
  
    //Set if the semster is a wintersemester
@@ -27,76 +24,40 @@ export default class SemesterBO extends BusinessObject {
       return this.winter_semester;
    }
  
-   //Sets the SubmitProjectEndDate.
+   //Sets the SubmitProject
  
-   setSubmitProjectsEndDate(aSubmitProjectsEndDate){
-      this.submit_projects_end_date = aSubmitProjectsEndDate;
+   setSubmitProjects(aSubmitProjects){
+      this.submit_projects = aSubmitProjects;
    }
  
-   //Readout the SubmitProjectEndDate.
+   //Reads out the SubmitProject
  
-   getSubmitProjectsEndDate(){
-      return this.submit_projects_end_date;
+   getSubmitProjects(){
+      return this.submit_projects;
    }
   
-   //Sets the end date when the project must become a grading.
+   //Sets grading.
 
-   setGradingEndDate(aGradingEndDate){
-      this.grading_end_date = aGradingEndDate;
+   setGrading(aGrading){
+      this.grading = aGrading;
    }
 
-   //Reads out the enddate of Grading of a project.
+   //Reads out grading of a project.
 
-   getGradingEndDate(){
-      return this.grading_end_date;
+   getGrading(){
+      return this.grading;
    }
 
-   //Sets the end date for Election
+   //Sets Election
 
-   setElectionEndDate(aElectionEndDate){
-      this.election_end_date = aElectionEndDate;
+   setElection(aElection){
+      this.election = aElection;
    }
 
-   //Reads out the enddate of Election
+   //Reads out Election
 
-   getElectionEndDate(){
-      return this.election_end_date;
-   }
-
-   //Reads out the beginn date of Grading of a project.
-
-   getGradingBeginnDate(){
-      return this.grading_beginn_date;
-   }
-
-   //Sets the beginn date when the project must become a grading.
-
-   setGradingBeginnDate(aGradingBeginnData){
-      this.grading_beginn_date = aGradingBeginnData;
-   }
-
-   //Reads out the beginn date of submit of a project.
-
-   getSubmitProjectsBeginnDate(){
-      return this.submit_projects_beginn_date;
-   }
-
-   //Sets the beginn date when the project must become be submited.
-
-   setSubmitProjectsBeginnDate(aSubmitProjectsBeginnDate){
-      this.submit_projects_beginn_date = aSubmitProjectsBeginnDate;
-   }
-
-   //Sets the beginn date for the election
-
-   setElectionBeginnDate(aElectionBeginnDate){
-      this.election_beginn_date = aElectionBeginnDate;
-   }
-
-   //Reads out the beginn date of the election
-   
-   getElectionBeginnDate(){
-      return this.election_beginn_date;
+   getElection(){
+      return this.election;
    }
 
 

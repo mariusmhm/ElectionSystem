@@ -3,15 +3,12 @@ USE electionsystem;
 
 DROP TABLE IF EXISTS `Semester`;
 CREATE TABLE `Semester` (
-	  `id` int(11) NOT NULL DEFAULT 0,
-	  `creation_date` DATE,
-	  `winter_semester` tinyint NOT NULL DEFAULT 0,
-	  `submit_projects_end_date` DATE,
-	  `grading_end_date` DATE,
-    `election_end_date` DATE,
-    `submit_projects_beginn_date` DATE,
-    `grading_beginn_date` DATE,
-    `election_beginn_date` DATE,
+	`id` int(11) NOT NULL DEFAULT 0,
+	`creation_date` DATE,
+	`winter_semester` tinyint NOT NULL DEFAULT 0,
+    `submit_projects` tinyint NOT NULL DEFAULT 0,
+    `grading` tinyint NOT NULL DEFAULT 0,
+    `election` tinyint NOT NULL DEFAULT 0,
     PRIMARY KEY(`id`)
 );
 
@@ -19,21 +16,21 @@ CREATE TABLE `Semester` (
 
 DROP TABLE IF EXISTS `Projecttype`;
 CREATE TABLE `Projecttype` (
-	  `id` int(11) NOT NULL DEFAULT '0',
+    `id` int(11) NOT NULL DEFAULT '0',
     `name` VARCHAR(30),
-	  `creation_date` DATE,
-	  `sws` int(11) NOT NULL DEFAULT '0',
-	  `ect` int(11) NOT NULL DEFAULT '0',	
+	`creation_date` DATE,
+	`sws` int(11) NOT NULL DEFAULT '0',
+	`ect` int(11) NOT NULL DEFAULT '0',	
     PRIMARY KEY(`id`)
 );
 
 
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
-	  `id` int(11) NOT NULL DEFAULT '0',
-	  `creation_date` DATE,
-	  `name` VARCHAR(30) NOT NULL DEFAULT '',,
-	  `edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
+	`id` int(11) NOT NULL DEFAULT '0',
+	`creation_date` DATE,
+	`name` VARCHAR(30) NOT NULL DEFAULT '',,
+	`edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
     PRIMARY KEY(`id`)
 );
 
