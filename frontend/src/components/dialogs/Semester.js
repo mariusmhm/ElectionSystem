@@ -10,11 +10,6 @@ import {Dialog,
     DialogTitle,
     Switch
     } from'@material-ui/core';
-import DateFnsUtils from "@date-io/date-fns";
-import {
-        MuiPickersUtilsProvider,
-        KeyboardDatePicker,
-      } from '@material-ui/pickers';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, SemesterBO} from '../../api';
 
