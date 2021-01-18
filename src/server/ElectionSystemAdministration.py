@@ -349,7 +349,7 @@ class ElectionSystemAdministration (object):
             return mapper.find_project_by_state(state)
 
     
-     def get_project_by_module(self, module_id):
+    def get_project_by_module(self, module_id):
         with ProjectMapper() as mapper:
             return mapper.get_project_by_module(module_id)
 
