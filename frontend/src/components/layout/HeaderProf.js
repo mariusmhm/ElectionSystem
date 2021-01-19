@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import logo from '../../hdmLogo.jpg'
 
 
-class Header extends Component {
+class HeaderProf extends Component {
   constructor(props){
     super(props)
     this.state={
@@ -56,7 +56,7 @@ class Header extends Component {
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
             <Button color="inherit" >
-              My Election
+              My Projects
             </Button>
             <Button color="inherit" >
               Projects Overview
@@ -82,7 +82,7 @@ class Header extends Component {
               open={Boolean(this.state.anchorEl)}
               onClose={this.handleClose}
             >
-              <MenuItem onClick={this.handleClose}>My Election</MenuItem>
+              <MenuItem onClick={this.handleClose}>My Projects</MenuItem>
               <MenuItem onClick={this.handleClose}>Projects Overview</MenuItem>
               <MenuItem onClick={this.handleClose}>Logout</MenuItem>
             </Menu>
@@ -106,4 +106,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(HeaderProf);

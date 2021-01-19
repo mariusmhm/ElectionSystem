@@ -1,39 +1,112 @@
 import React, { Component } from 'react';
-import { Avatar, Button, Paper, Tab, Tabs} from '@material-ui/core';
+import { Avatar,
+  Button,
+  withStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem, 
+  Box} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import logo from '../../hdmLogo.jpg'
 
 
-class Header extends Component {
+class HeaderAdmin extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      auth: true,
+      anchorEl: null,
+    }
+    
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      anchorEl: event.target.checked,
+    })
+  }
+  
+  handleMenu = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    })
+  }
+  
+  handleClose = () => {
+    this.setState({
+      anchorEl: null
+    })
+  }
+
 
   render() {
+    const { classes } = this.props;
     return (
 
-      <div className="Header">
-        <Paper>
-          <Tabs
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Avatar variant="square" alt="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/HdM_Logo.svg/2000px-HdM_Logo.svg.png" />
-            <Tab label="Neue Projekte" />
-            <Tab label="Dieses Semester">
-            <Tab label="Archivierte Projekte">
-            </Tab>
-            </Tab>
-            <Button 
-                variant="contained"
-                color="default"
-                href="https://github.com/muenstermannmarius/ElectionSystem"
-                label="logout"
-              >
-                log out
+      <div >
+        <AppBar position="fixed">
+          <Toolbar>
+            <Avatar variant="square" src={logo} className={classes.logo}/>
+            <Typography className={classes.header}>
+            ELECTION SYSTEM
+            </Typography>
+            <Box display={{xs:"none", sm:"none", md:"block"}}>
+            <Button color="inherit" >
+              New Projects
             </Button>
-        
-          </Tabs>
-        </Paper>
+            <Button color="inherit" >
+              Current Semester
+            </Button>
+            <Button color="inherit" >
+              Archieved Projects
+            </Button>
+            <Button color="inherit" >
+              Log out
+            </Button>
+            </Box> 
+            <Box display={{xs:"block", sm:"block", md:"none"}}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>New Projects</MenuItem>
+              <MenuItem onClick={this.handleClose}>Current Semester</MenuItem>
+              <MenuItem onClick={this.handleClose}>Archieved Projects</MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>
+            </Box>
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }
 }
 
-export default Header;
+const styles = theme => ({
+  root:{
+      flexGrow: 1,
+  },
+  logo:{
+    marginRight: theme.spacing(2)
+  },
+  header:{
+    flexGrow: 1,
+  }
+});
+
+export default withStyles(styles)(HeaderAdmin);
