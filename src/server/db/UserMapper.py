@@ -23,7 +23,7 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User")
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -31,7 +31,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res.append(user)
 
         self._connection.commit()
@@ -50,7 +50,7 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE id={}".format(id))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -58,7 +58,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res = user
 
         self._connection.commit()
@@ -76,7 +76,7 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE google_user_id LIKE '{}'".format(id))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -84,7 +84,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res = user
 
         self._connection.commit()
@@ -103,7 +103,7 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE name LIKE '{}' ORDER BY name".format(name))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -111,7 +111,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res.append(user)
 
         self._connection.commit()
@@ -130,7 +130,7 @@ class UserMapper(Mapper):
         crs.execute("SELECT * FROM User WHERE mail LIKE '{}' ORDER BY mail".format(mail))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -138,7 +138,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res.append(user)
 
         self._connection.commit()
@@ -154,10 +154,10 @@ class UserMapper(Mapper):
         res = []
         crs = self._connection.cursor()
 
-        crs.execute("SELECT * FROM User WHERE role LIKE '{}' ORDER BY role".format(role))
+        crs.execute("SELECT * FROM User WHERE role_id LIKE '{}' ORDER BY role_id".format(role))
         tupsrc = crs.fetchall()
         
-        for (id, name, creation_date, google_user_id, user_firstname, mail, role) in tupsrc:
+        for (id, name, creation_date, google_user_id, user_firstname, mail, role_id) in tupsrc:
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -165,7 +165,7 @@ class UserMapper(Mapper):
             user.set_google_user_id(google_user_id)
             user.set_firstname(user_firstname)
             user.set_mail(mail)
-            user.set_role(role)
+            user.set_role_id(role_id)
             res.append(user)
 
         self._connection.commit()
@@ -187,8 +187,8 @@ class UserMapper(Mapper):
             else:
                 user.set_id(1)
 
-        cmd = "INSERT INTO User (id, name, creation_date, google_user_id, firstname, mail, role) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        data = (user.get_id(), user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role())
+        cmd = "INSERT INTO User (id, name, creation_date, google_user_id, firstname, mail, role_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        data = (user.get_id(), user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role_id())
         crs.execute(cmd, data)
 
         self._connection.commit()
@@ -201,8 +201,8 @@ class UserMapper(Mapper):
 
         crs = self._connection.cursor()
 
-        cmd = "UPDATE User " + "SET name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, role=%s WHERE id=%s"
-        data = (user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role(), user.get_id())
+        cmd = "UPDATE User " + "SET name=%s, creation_date=%s, google_user_id=%s, firstname=%s, mail=%s, role_id=%s WHERE id=%s"
+        data = (user.get_name(), user.get_date(), user.get_google_user_id(), user.get_firstname(), user.get_mail(), user.get_role_id(), user.get_id())
         crs.execute(cmd, data)
 
         self._connection.commit()

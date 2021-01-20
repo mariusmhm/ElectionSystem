@@ -7,6 +7,7 @@ from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
 from server.State import State
+from server.Role import Role
 
 from server.db.GradingMapper import GradingMapper
 from server.db.ModuleMapper import ModuleMapper
@@ -17,6 +18,7 @@ from server.db.SemesterMapper import SemesterMapper
 from server.db.StudentMapper import StudentMapper
 from server.db.UserMapper import UserMapper
 from server.db.StateMapper import StateMapper
+from server.db.RoleMapper import RoleMapper
 
 
 class ElectionSystemAdministration (object):
@@ -77,7 +79,7 @@ class ElectionSystemAdministration (object):
         student.set_google_user_id(google_user_id)
         student.set_firstname(firstname)
         student.set_mail(mail)
-        student.set_role(role)
+        student.set_role_id(role)
         student.set_matrikel_nr(matrikel_nr)
         student.set_study(study)
         student.set_id(1)
@@ -145,7 +147,7 @@ class ElectionSystemAdministration (object):
         user.set_google_user_id(google_user_id)
         user.set_firstname(firstname)
         user.set_mail(mail)
-        user.set_role(role)
+        user.set_role_id(role)
         user.set_id(1)
 
         with UserMapper() as mapper:
@@ -465,6 +467,33 @@ class ElectionSystemAdministration (object):
 
     def get_by_state_id(self, id):
         with StateMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    #------Role specific operations----
+    def create_role(self, name):
+        """"creates a new role"""
+
+        role = Role()
+        role.set_name(name)
+        role.set_id(1)
+
+        with RoleMapper() as mapper:
+            return mapper.insert(role)
+
+    def save_role(self, role):
+        with RoleMapper() as mapper:
+            mapper.update(role)
+
+    def delete_role(self, role):
+        with RoleMapper() as mapper:
+            mapper.delete(role)
+
+    def get_all_roles(self):
+        with RoleMapper() as mapper:
+            return mapper.find_all()
+
+    def get_by_role_id(self, id):
+        with RoleMapper() as mapper:
             return mapper.find_by_id(id)
 
 

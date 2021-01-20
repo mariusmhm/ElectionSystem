@@ -2,7 +2,7 @@ from server.bo.NamedBusinessObject import NamedBusinessObject
 from server.Role import Role
 
 
-class User(NamedBusinessObject, Role):
+class User(NamedBusinessObject):
 
     # Realization of an User Class
     def __init__(self):
@@ -10,6 +10,7 @@ class User(NamedBusinessObject, Role):
         self._google_user_id = ""
         self._firstname = ""
         self._mail = ""
+        self.role_id = 0
 
     def set_google_user_id(self, google_user_id):
         #set the google id of an user
@@ -40,6 +41,15 @@ class User(NamedBusinessObject, Role):
         #Get the email of an User
         return self._mail
 
+    def set_role_id(self, role):
+        #Set the role of an User
+        self._role_id = role
+
+
+    def get_role_id(self):
+        #Get the role of an User
+        return self._role_id
+
 
   
     @staticmethod
@@ -54,5 +64,5 @@ class User(NamedBusinessObject, Role):
         user.set_google_user_id(dicti["google_user_id"])
         user.set_firstname(dicti["firstname"])
         user.set_mail(dicti["mail"])
-        user.set_role(dicti["role"])
+        user.set_role_id(dicti["role_id"])
         return user

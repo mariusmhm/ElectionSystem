@@ -97,3 +97,41 @@ CREATE TABLE `State`(
 
     PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `Role`;
+CREATE TABLE `Role`(
+    `id` int(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(30) NOT NULL DEFAULT '0',
+
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `Student`;
+CREATE TABLE `Student`(
+    `id` INT(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    `creation_date` DATE,
+    `google_user_id` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `mail` VARCHAR(128) NOT NULL DEFAULT '',
+    `role_id` int(11) NOT NULL DEFAULT '0',
+    `matrikel_nr` int(11) NOT NULL DEFAULT '0',
+    `study`VARCHAR(128) NOT NULL DEFAULT '',
+
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`role_id`) REFERENCES `Role`(`id`)
+);
+
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User`(
+    `id` INT(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    `creation_date` DATE,
+    `google_user_id` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `mail` VARCHAR(128) NOT NULL DEFAULT '',
+    `role_id` int(11) NOT NULL DEFAULT '0',
+
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`role_id`) REFERENCES `Role`(`id`)
+);

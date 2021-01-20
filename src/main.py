@@ -16,6 +16,7 @@ from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
 from server.State import State
+from server.Role import Role
 
 app = Flask(__name__)
 
@@ -43,11 +44,17 @@ state = api.model('State', {
     'name': fields.String(attribute='_name', description='name of the state')
 })
 
+role = api.model('Role', {
+    'id': fields.Integer(attribute='_id', description='unique id of the role'),
+    'name': fields.String(attribute='_name', description='name of the role')
+})
+
+
 user = api.inherit('User', nbo, {
     'google_user_id': fields.String(attribute='_google_user_id', description='Users Google id from firebase'),
     'firstname': fields.String(attribute='_firstname', description='Users First Name'),
     'mail': fields.String(attribute='_mail', description='Users Mail'),
-    'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
+    'role_id': fields.Integer(attribute='_role_id', description='Foreign key role')
 })
 
 student = api.inherit('Student', user, {
@@ -121,7 +128,7 @@ class StudentListOperations(Resource):
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
+            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role_id(), prpl.get_matrikel_nr(), prpl.get_study())
 
             return s, 200
         else:
@@ -234,7 +241,7 @@ class UserListOperations(Resource):
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
-            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
+            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role_id())
 
             return u, 200
         else:
@@ -299,7 +306,7 @@ class UserGoogleOperations(Resource):
         return user
 
 
-@electionSystem.route('/user-by-role/<string:role>')
+@electionSystem.route('/user-by-role/<int:role>')
 @electionSystem.response(500, 'when server has problems')
 class UserRoleOperations(Resource):
     @electionSystem.marshal_with(user)
@@ -367,7 +374,7 @@ class SemesterOperations(Resource):
         """Update of a specific semester object"""
         adm = ElectionSystemAdministration()
         s = Semester.to_dict(api.payload)
-        
+
         if s is not None:
             """This sets the id of the account object to be overwritten"""
             s.set_id(id)
@@ -866,6 +873,58 @@ class StateOperations(Resource):
         adm = ElectionSystemAdministration()
         s = adm.get_by_state_id(id)
         adm.delete_state(s)
+        return '', 200
+
+#------Role---------
+@electionSystem.route('/role')
+@electionSystem.response(500, 'server error')
+class RoleListOperations(Resource):
+    @electionSystem.marshal_list_with(role)
+    def get(self):
+        adm = ElectionSystemAdministration()
+        roles = adm.get_all_roles()
+        return roles
+
+    @electionSystem.marshal_with(role, code=200)
+    @electionSystem.expect(role)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = Role.from_dict(api.payload)
+
+        if proposal is not None:
+            r = adm.create_role(proposal.get_name())
+            return r, 200
+        else:
+            #server error
+            return '', 500
+
+@electionSystem.route('/role/<int:id>')
+@electionSystem.response(500, 'server error')
+class RoleOperations(Resource):
+    @electionSystem.marshal_with(role)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        r = adm.get_by_role_id(id)
+        return r
+
+    @electionSystem.marshal_with(role)
+    @electionSystem.expect(role, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        r = Role.from_dict(api.payload)
+
+        if s is not None:
+            r.set_id(id)
+            adm.save_role(r)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        r = adm.get_by_role_id(id)
+        adm.delete_role(r)
         return '', 200
 
 
