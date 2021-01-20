@@ -19,14 +19,9 @@ class HeaderAdmin extends Component {
     this.state={
       auth: true,
       anchorEl: null,
+      mobileAnchorEl: null,
     }
     
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      anchorEl: event.target.checked,
-    })
   }
   
   handleMenu = (event) => {
@@ -38,6 +33,18 @@ class HeaderAdmin extends Component {
   handleClose = () => {
     this.setState({
       anchorEl: null
+    })
+  }
+
+  handleMobileMenu = (event) => {
+    this.setState({
+      mobileAnchorEl: event.currentTarget,
+    })
+  }
+
+  handleMobileClose = () => {
+    this.setState({
+      mobileAnchorEl: null
     })
   }
 
@@ -63,31 +70,47 @@ class HeaderAdmin extends Component {
             <Button color="inherit" >
               Archieved Projects
             </Button>
-            <Button color="inherit" >
-              Log out
-            </Button>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="profil-menu"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <AccountCircle/>
+            </IconButton>
+            <Menu
+              id="profil-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>My Profil</MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>
             </Box> 
             <Box display={{xs:"block", sm:"block", md:"none"}}>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={this.handleMenu}
+              onClick={this.handleMobileMenu}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={this.state.anchorEl}
+              anchorEl={this.state.mobileAnchorEl}
               keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
+              open={Boolean(this.state.mobileAnchorEl)}
+              onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleClose}>New Projects</MenuItem>
-              <MenuItem onClick={this.handleClose}>Current Semester</MenuItem>
-              <MenuItem onClick={this.handleClose}>Archieved Projects</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>New Projects</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Current Semester</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Archieved Projects</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
             </Menu>
             </Box>
           </Toolbar>

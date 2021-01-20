@@ -10,6 +10,7 @@ import { Avatar,
   MenuItem, 
   Box} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import logo from '../../hdmLogo.jpg'
 
 
@@ -19,14 +20,9 @@ class Header extends Component {
     this.state={
       auth: true,
       anchorEl: null,
+      mobileAnchorEl: null,
     }
     
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      anchorEl: event.target.checked,
-    })
   }
 
   handleMenu = (event) => {
@@ -38,6 +34,18 @@ class Header extends Component {
   handleClose = () => {
     this.setState({
       anchorEl: null
+    })
+  }
+
+  handleMobileMenu = (event) => {
+    this.setState({
+      mobileAnchorEl: event.currentTarget,
+    })
+  }
+
+  handleMobileClose = () => {
+    this.setState({
+      mobileAnchorEl: null
     })
   }
 
@@ -61,30 +69,47 @@ class Header extends Component {
             <Button color="inherit" >
               Projects Overview
             </Button>
-            <Button color="inherit" >
-              log out
-            </Button>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="profil-menu"
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <AccountCircle/>
+            </IconButton>
+            <Menu
+              id="profil-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>My Profil</MenuItem>
+              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            </Menu>
             </Box> 
             <Box display={{xs:"block", sm:"block", md:"none"}}>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={this.handleMenu}
+              onClick={this.handleMobileMenu}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={this.state.anchorEl}
+              anchorEl={this.state.mobileAnchorEl}
               keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
+              open={Boolean(this.state.mobileAnchorEl)}
+              onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleClose}>My Election</MenuItem>
-              <MenuItem onClick={this.handleClose}>Projects Overview</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>My Election</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Projects Overview</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>My Profil</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
             </Menu>
             </Box>
           </Toolbar>
