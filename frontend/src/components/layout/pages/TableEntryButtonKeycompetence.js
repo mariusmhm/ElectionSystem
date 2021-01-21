@@ -199,4 +199,4 @@ const styles = theme => ({
 
 
 });
-export default (TableEntryButtonTwo);
+export default (TableEntryButtonKeycompetence);
