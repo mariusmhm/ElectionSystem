@@ -93,7 +93,7 @@ class ModuleForm extends Component {
         );
 
         this.setState({
-          modules: this.state.modules.filter(moduleFromState => moduleFromState.getID() != m.getID())
+          modules: this.state.modules.filter(moduleFromState => moduleFromState.getID() !== m.getID())
         })
     }
 
