@@ -5,7 +5,7 @@ class BusinessObject(ABC):
 
     def __init__(self):
         self._id = 0
-        self._creation_date = date
+        self._creation_date = ''
 
     def get_id(self):
         return self._id

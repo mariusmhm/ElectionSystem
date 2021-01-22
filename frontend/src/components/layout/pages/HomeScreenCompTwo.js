@@ -125,7 +125,7 @@ class HomeScreenCompTwo extends Component {
                                         if (project.getProjecttype() === projecttype.getID()){
                                             return (
                                                 
-                                                    <Card>
+                                                    
                                                 <TableEntry
                                                     id = {project.getID()}
                                                     name = {project.getName()}
@@ -134,7 +134,8 @@ class HomeScreenCompTwo extends Component {
                                                     ects = {projecttype.getEcts()}
                                                     sws = {projecttype.getSws()}  
                                                 />
-                                                </Card>
+                                                
+                                                
                                                 
                                             )
                                         }

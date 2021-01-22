@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer, Grid } from "@material-ui/core";
+import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer, Grid, Divider, Container } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
@@ -129,85 +129,97 @@ class TableEntry extends Component {
 
         return (
             
-            <Grid container key={this.props.id}>
-                <TableCell position="absolute" top={0}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.toggleClass.bind(this, this.props.id)}
-                    >
-                        {this.moreLess(this.props.id)}
-                    </Button>
+            <Grid container justify="flex-start" xs={12} xl={12}>
 
-
-
-                </TableCell>
-
-
-                <TableCell colSpan="3">
-                    <Typography variant="h5">
-                        {this.props.name}
-                    </Typography>
-                    
-                    <Collapse in={activeIndex === this.props.id}>
-                                {this.props.dsc}
-                    </Collapse>
-                    
-
-                    
-                </TableCell>
-                <TableCell>
-                    <Typography variant="h5">
-                        {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
-                    </Typography>
-                </TableCell>
-                <TableCell>
-                    ECTS: {this.props.ects}
-                </TableCell>
-                <TableCell>
-                    SWS:  {this.props.sws}
-                </TableCell>
                 
-                    <TableCell>
-                        <FormControl>
-                            <InputLabel class="demo-simple-select-helper-label">Priority</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                defaultValue="0"
-                                onChange={this.handleChange}
-                            >
-                                <MenuItem value="0">None selected</MenuItem>
-                                <MenuItem value="1"> 1st priority</MenuItem>
-                                <MenuItem value="2">2nd priority </MenuItem>
-                                <MenuItem value="3">3rd priority </MenuItem>
-                                <MenuItem value="4">4th priority </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </TableCell>
-                    <TableCell>
-                    <Button
-                        variant="contained"
-                        color="secondary"
+
+                    <Grid container justify="flex-start" xs={12}  >
                         
-                        endIcon={<PlaylistAddCheckIcon />}
-                        color={this.state.select ? "primary": "secondary"} 
-                         
-                        onClick={() => {
-                            this.addParticipation();
-                            this.handleSelect();
-                          }}>  {this.state.select ? "Select" : "Deselect"}
-                        
-                        
-                        
+                        <Grid item xs={12} xl={6}>
                                 
-                    </Button>
-                    
-                </TableCell>
+                                    <Button
+                                            variant="contained"
+                                            color="none"
+                                            onClick={this.toggleClass.bind(this, this.props.id)}
+                                        >
+                                            <Typography variant="h5">{this.props.name}</Typography>
+                                    </Button>
+                                
+                        </Grid>
+                        <Grid container xs={12} xl={6} justify="flex-end">
+                            <Grid item xs={6} xl={2}>
+                                <FormControl>
+                                
+                                    <Select
+                                        labelId="demo-simple-select-helper-label"
+                                        id="demo-simple-select-helper"
+                                        defaultValue="0"
+                                        onChange={this.handleChange}
+                                    >
+                                        <MenuItem value="0">Priority</MenuItem>
+                                        <MenuItem value="1"> 1st priority</MenuItem>
+                                        <MenuItem value="2">2nd priority </MenuItem>
+                                        <MenuItem value="3">3rd priority </MenuItem>
+                                        <MenuItem value="4">4th priority </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            
+                            
+                            
+                            </Grid>
+                            <Grid item xs={6} xl={2}>
+                                
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    
+                                    endIcon={<PlaylistAddCheckIcon />}
+                                    color={this.state.select ? "primary": "secondary"} 
+                                    
+                                    onClick={() => {
+                                        this.addParticipation();
+                                        this.handleSelect();
+                                    }}>  {this.state.select ? "Select" : "Deselect"}      
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                        
+                    </Grid>
+
+                <Divider />
                 
                 
-            
+                
+                <Grid xs={12} container justify="flex-end" spacing={12} >
+
+                    <Grid xs={12} xl={11} container justify="flex-start"  alignItems="flex-end">
+        
+                                <Collapse in={activeIndex === this.props.id}>
+
+                                    <Grid xs={12} xl={6} item >
+
+                                        <Typography variant="h6">Kurzbeschreibung<br/></Typography>
+
+                                            {this.props.dsc}
+
+                                    </Grid>
+                                    <br/>
+                                    <Grid container justify="flex-start" xl={4} xs={4}>
+                                        <Grid item xs={2} xl={2}>Ects: {this.props.ects}</Grid>
+                                        <Grid item xs={2} xl={2}>SWS: {this.props.sws}</Grid>
+                                    </Grid>
+                                    <Divider />
+                                </Collapse>
+                        
+                    </Grid>
+
+                </Grid> 
+                
             </Grid>
+            
+
+           
             
             
             
@@ -218,33 +230,5 @@ class TableEntry extends Component {
 
 }
 
-const styles = theme => ({
-    grid: {
-        width: '100%',
-        margin: '0px',
-        padding: theme.spacing(3)
-    },
-    button: {
-        marginTop: theme.spacing(3)
-    },
-    redHeader: {
-        color: theme.palette.red,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 20
-    },
 
-    grayHeader: {
-        color: theme.palette.gray,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 35
-    },
-
-    formControl: {
-        minWidth: '120px',
-        fontSize: '15px'}
-
-
-});
 export default (TableEntry);

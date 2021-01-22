@@ -51,4 +51,3 @@ class Participation(bo.BusinessObject):
         return participation
 
 
-
