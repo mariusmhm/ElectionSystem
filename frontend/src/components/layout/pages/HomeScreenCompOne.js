@@ -23,7 +23,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO} from '../../../api';
 import { id, ja } from 'date-fns/locale';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableEntry from '../../assets/TableEntry';
@@ -35,10 +35,11 @@ class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentUser: 12,
+            user: 1,
             tableData: [],
-            projects: [],
+            project: null,
             projecttypes: [],
+            participations: [],
             error: null,
             priority: '',
             updatingError: null,
@@ -59,16 +60,16 @@ class HomeScreenCompTwo extends Component {
     
 
     /** Gives back the project */
-    getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+    getProject = (e) => {
+        ElectionSystemAPI.getAPI().getProject(e)
             .then(projectBO =>
                 this.setState({
-                    projects: projectBO,
+                    project: projectBO,
                     loaded: true,
                     error: null
                 })).catch(e =>
                     this.setState({
-                        projects: [],
+                        project: [],
                         error: e
                     }))
         console.log('Project ausgeführt');
@@ -90,9 +91,30 @@ class HomeScreenCompTwo extends Component {
         console.log('Projecttype ausgeführt');
     }
 
+       /** Gives back the projecttype */
+       getParticipationsForStudent = () => {
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.user)
+            .then(ParticipationBO =>
+                this.setState({
+                    participations: ParticipationBO,
+                    loaded: true,
+                    error: null
+                })).catch(e =>
+                    this.setState({
+                        participations: [],
+                        error: e
+                    }))
+        console.log('Participation ausgeführt');
+    }
+
+    
+
+
+
     componentDidMount() {
         this.getAllProjects();
         this.getAllProjecttypes();
+        this.getParticipationsForStudent();
 
     }
 
@@ -101,7 +123,7 @@ class HomeScreenCompTwo extends Component {
 
     render() {
         const { classes } = this.props;
-        const { projects } = this.state;
+        const { project } = this.state;
         const {activeIndex} = this.state;
  
 
@@ -156,7 +178,21 @@ class HomeScreenCompTwo extends Component {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
+                        {this.state.participations.map(participation => (
+                            <TableBody>
+                                {this.getProjects(participation.getProjectID())}
 
+                                <SelectedProjectEntry
+                                                id = {project.getID()}
+                                                name = {project.getName()}
+                                                prof = {project.getProfessor()}
+                                                dsc = {project.getShortDescription()}
+                                                
+                                            />
+
+                                
+                            </TableBody>
+                        ))}
 
                         {this.state.projecttypes.map(projecttype => (
                             <TableBody>
@@ -172,7 +208,7 @@ class HomeScreenCompTwo extends Component {
 
 
                                 {this.state.projects.map(project => {
-                                    if (project.getProjecttype() === projecttype.getID() ) {
+                                    if (project.getProjecttype() === projecttype.getID()) {
                                         return (
                                             <SelectedProjectEntry
                                                 id = {project.getID()}
