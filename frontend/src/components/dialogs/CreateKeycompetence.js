@@ -23,11 +23,11 @@ class CreateKeyCompetence extends Component {
       date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
       this.state = {
-        creationDate: '',
+        creationDate: date,
         projectname:'',
         modules: [],
         moSelected:null,
-        edvNumber: '',
+        edvNumber: null,
         projecttypes: [],
         projecttype: {},
         ptSelected:null,
@@ -71,7 +71,7 @@ class CreateKeyCompetence extends Component {
 
 
    getUsersForRole = () => {
-        ElectionSystemAPI.getAPI().getUserForRole('professor')
+        ElectionSystemAPI.getAPI().getUserForRole(3)
         .then(userBOs =>{
             this.setState({
                 professors: userBOs,
@@ -93,53 +93,37 @@ class CreateKeyCompetence extends Component {
 
 
      selectHandleChangeProjecttype = (e) =>{
-        this.pt = this.state.projecttypes[e.target.value].getName();
         this.setState({
-            ptSelected: this.state.projecttypes[e.target.value]
-        },
-        function(){
-            console.log(this.pt);
-            console.log(this.state.ptSelected);
-
+            ptSelected: this.state.projecttypes[e.target.value].getID(),
+            projecttype: this.state.projecttypes[e.target.value],
         });
         this.showETCS = true;
     }
 
-     selectHandleChangeModule = (e) =>{
-        this.modules = this.state.modules[e.target.value].getName();
-        this.setState({
-            moSelected: this.state.modules[e.target.value]
-        },
-        function(){
-            console.log(this.modules);
-            console.log(this.state.moSelected);
-
-        });
-    }
-
-
 
     handleChange =(e) =>{
-        const value= e.target.value;
-        console.log(value);
         this.setState({
-            [e.target.id]:[e.target.value]
-    })
+            [e.target.id]: e.target.value
+        })
     }
 
    handleSelectChange = (e) =>{
-        console.log(e.target.value);
-        console.log(e.target.name);
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
-  handleClose = () => {
+    handleChangeNum = (e) =>{
+        this.setState({
+            [e.target.id]: parseInt(e.target.value, 10)
+        });               
+    }
+
+    handleClose = () => {
         this.setState({
           open: false
         });
-  }
+    }
 
 
 
@@ -152,14 +136,20 @@ class CreateKeyCompetence extends Component {
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
         newProject.setAddProfessor(this.state.additionalProf);
+        newProject.setEdvNumber(this.state.edvNumber);
         newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState("new");
+        newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        newProject.setProfessor(36);
+        newProject.setProfessor(2);
+        newProject.setWeekly(false);
+        newProject.setSpecialRoom(false);
+        newProject.setRoomDesired(null);
+        newProject.setExternalPartner(null);
+        newProject.setNumBlockDaysPriorLecture(null);
+        newProject.setNumBlockDaysDuringLecture(null);
+        newProject.setDateBlockDaysDuringLecture(null);
+        newProject.setNumBlockDaysInExam(null);
         console.log(JSON.stringify(newProject));
-        console.log(this.state.creationDate)
-        console.log('module:' + this.state.moSelected);
-        console.log('projecttype:' + this.state.ptSelected);
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
@@ -191,14 +181,14 @@ class CreateKeyCompetence extends Component {
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
                             <Select id="moSelected" label="Module" onChange={this.handleSelectChange}>
-                                    {this.state.modules.map((modules, index) => (
+                                    {this.state.modules.map(modules => (
                                         <MenuItem key={modules.getID()} value={modules.getID()}>{modules.getName()}</MenuItem>
                                     ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-number:" id="edvNumber" onChange= {this.handleChange}/>
+                        <TextField fullWidth variant="outlined" label="EDV-number:" id="edvNumber" onChange= {this.handleChangeNum}/>
                     </Grid>
                     <Grid item>
                            <FormControl fullWidth variant="outlined" className={classes.FormControl}>
@@ -212,10 +202,10 @@ class CreateKeyCompetence extends Component {
                     </Grid>
                     <Grid item container justify="space-between">
                         <Grid item>
-                            <Typography>ETCS:{this.showETCS ? this.state.ptSelected.getEcts() : null}</Typography>
+                            <Typography>ETCS:{this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
-                        <Typography>SWS: {this.showETCS ? this.state.ptSelected.getSws() : null}</Typography>
+                        <Typography>SWS: {this.showETCS ? this.state.projecttype.getSws() : null}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item>
@@ -251,17 +241,17 @@ class CreateKeyCompetence extends Component {
                         <TextField fullWidth variant="outlined" multiline rows={10}
                         label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
                     </Grid>
-                    <Grid item xs={12} align="center">
-                <Grid item>
-                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
-                </Grid>
-                </Grid>
-                <Grid item xs={12} align="center">
-                <Grid item>
+                <Grid container item direction="row" justify="center" alignItems="center" spacing={3}>
+                    <Grid item>
+                        <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
+                    </Grid>               
+                    <Grid item>
                     <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
                 </Grid>
-                </Grid>
+                
+                
+            </Grid>
             </Grid>
 
         </Dialog>
