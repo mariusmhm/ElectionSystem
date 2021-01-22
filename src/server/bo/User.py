@@ -10,6 +10,7 @@ class User(NamedBusinessObject, Role):
         self._google_user_id = ""
         self._firstname = ""
         self._mail = ""
+        self._role = ""
 
     def set_google_user_id(self, google_user_id):
         #set the google id of an user
@@ -40,6 +41,11 @@ class User(NamedBusinessObject, Role):
         #Get the email of an User
         return self._mail
 
+    def set_role(self, role):
+        self._role = role
+
+    def get_role(self):
+        return self._role
 
   
     @staticmethod
