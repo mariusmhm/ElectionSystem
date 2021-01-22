@@ -114,7 +114,7 @@ class App extends Component {
 						currentUser ?
 							<>
 							<Redirect to='/Registration'/>
-							<Route path='/Registration'><Registration /></Route>
+							<Route path='/Registration'><SemesterReport /></Route>
                             </>
 							:
 							// else show the sign in page

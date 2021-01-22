@@ -259,8 +259,4 @@ componentDidMount(){
     }
 }
 
-<<<<<<< HEAD
 export default ProjectReport;
-=======
-export default ProjectReport;
->>>>>>> f049612fae8942aa3d5cf0ab9197abb38f0073d6

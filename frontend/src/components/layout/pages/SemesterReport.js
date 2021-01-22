@@ -1,8 +1,8 @@
 import React from 'react';
 import { ElectionSystemAPI } from '../../../api';
-import { Grid, Typography} from '@material-ui/core';
+import { Container, TableCell, Table, TableHead, TableRow, TableBody } from '@material-ui/core';
 
-let studentid = 11;
+let studentid = 1;
 
 class SemesterReport extends React.Component {
 
@@ -55,6 +55,7 @@ class SemesterReport extends React.Component {
     }
 
     getProjectStats = (projectid) =>  {
+        if (this.state.loaded === true) {
             ElectionSystemAPI.getAPI().getProject(projectid)
             .then(projectBO => {
                 this.setState({
@@ -70,12 +71,11 @@ class SemesterReport extends React.Component {
                 project: [],
                 error: e
             }))
-        
+        }
     }
 
     getStudentStats = () => {
-        if (this.state.pploaded === true){
-            ElectionSystemAPI.getAPI().getStudent(this.state.studentid)
+        ElectionSystemAPI.getAPI().getStudent(studentid)
             .then(studentBO => {
                 this.setState({
                     student: studentBO,
@@ -88,7 +88,7 @@ class SemesterReport extends React.Component {
                 student: [],
                 error: e
             }))
-        }
+        
     }
 
     getProfessorStats = () => {
@@ -146,22 +146,47 @@ componentDidMount(){
     this.getProjectStats();
     this.getStudentStats();
     this.getProfessorStats();
-    this.getProjecttypeStats();
     this.getGrade();
 }
 
     render() {
         return(
             <div>
-                {this.state.participations.map(participation => 
-                    this.getProjectStats(participation.getProjectID()))}
-                <Grid container>
-                    <Grid item xs={12}>
-                        <Typography>
-                            {this.state.projectloaded ? this.state.projectname : null}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Container maxWidth="sm">
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Projectname</TableCell>
+                                <TableCell>Professor</TableCell>
+                                <TableCell>Projecttype</TableCell>
+                                <TableCell>ECTS</TableCell>
+                                <TableCell>Grade</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.participations.map(participation => 
+                            <TableRow>
+                                {this.getProjectStats(participation.getProjectID())}
+                                <TableCell>
+                                    {this.state.projectloaded ? this.state.projectname : null}
+                                </TableCell>
+                                <TableCell>
+
+                                </TableCell>
+                                <TableCell>
+                                    
+                                </TableCell>
+                                <TableCell>
+                                    
+                                </TableCell>
+                                <TableCell>
+                                    
+                                </TableCell>
+                            </TableRow>
+                        )}
+                        </TableBody>
+                    </Table>
+                </Container>
                 
 
             </div>
