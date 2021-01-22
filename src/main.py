@@ -465,13 +465,11 @@ class ParticipationsPriorityProjectListOperations(Resource):
         pp = adm.get_by_project(project_id)
         return pp
 
-"""@electionSystem.route('/participation-by-student-project/<int:student_id>/<int:project_id>')
+@electionSystem.route('/participation-by-student-project/<int:student_id><int:project_id>')
 @electionSystem.response(500, 'If an server sided error occures')
-
 class ParticipationStudentProjectOperations(Resource):
     @electionSystem.marshal_with(participation)
-    @electionSystem
-    def get(self,student_id=None, project_id=None):
+    def get(self, student_id, project_id):
         
         #Gets an specific participation object.
         #The object is determined by the query parameters project_id and student_id.
@@ -481,7 +479,7 @@ class ParticipationStudentProjectOperations(Resource):
         #student_id = request.args.get('student_id')
         adm = ElectionSystemAdministration()
         parti = adm.get_participation_by_student_and_project(student_id, project_id)
-        return parti"""
+        return parti
 
 
 

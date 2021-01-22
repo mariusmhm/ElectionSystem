@@ -242,15 +242,18 @@ class ElectionSystemAdministration (object):
 
     def get_participation_by_student_and_project(self,project_id, student_id):
         print('methoden Aufruf')
-        participations=self.get_all_by_project_id(project_id)
+        participations = self.get_all_by_project_id(project_id)
         participation = None
         print(participations)
 
-        for element in participations:
-            if participations[element].get_student_id() == student_id:
-                participation= participations[element]
+        i=0
 
-            print(participation)
+        for element in participations:
+            if element.get_student_id() == student_id:
+                participation = participations[i]
+            else:
+
+                print(participation)
         return participation
 
     #-----Grading-------

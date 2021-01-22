@@ -123,7 +123,7 @@ class TableListEntryTeilnehmer extends Component {
     componentDidMount() {
          this.getStudentByParticipations();
          this.getAllGrades();
-         this.getParticipationsForStudentProject();
+         this.getParticipationForStudentAndProject();
     }
 
     render() {

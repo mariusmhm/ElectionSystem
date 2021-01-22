@@ -60,7 +60,7 @@ export default class ElectionSystemAPI {
     #addParticipationURL = () => `${this.#electionSystemServerBaseURL}/participation`;
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
-    /*#getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/get-participation-by-student-project?student_id=`+ student_id +`project_id=`+ project_id;*/
+    #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/get-participation-by-student-project?student_id=`+ student_id +`project_id=`+ project_id;
 
     //Semester
     #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
@@ -504,7 +504,12 @@ export default class ElectionSystemAPI {
 
     updateParticipation(participationBO){
         return this.#fetchAdvanced(this.#updateParticipationURL(participationBO.getID()), {
-            method: 'PUT'
+            method: 'PUT',
+             headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(participationBO)
             }).then((responseJSON) => {
             let responseParticipationBO = ParticipationBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
@@ -524,7 +529,7 @@ export default class ElectionSystemAPI {
           })
     }
 
-    /*getParticipationForStudentAndProject(studentID, projectID){
+    getParticipationForStudentAndProject(studentID, projectID){
       return this.#fetchAdvanced(this.#getParticipationForStudentAndProjectURL(studentID, projectID))
       .then((responseJSON) => {
         let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
@@ -532,7 +537,7 @@ export default class ElectionSystemAPI {
           resolve(responseParticipationBOs);
         })
       })
-    }*/
+    }
 
     //----------Semester-------------------------
 
