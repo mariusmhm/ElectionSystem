@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer, Grid, Divider, Container } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -36,7 +37,7 @@ class TableEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 5,
+            student: 1,
 
 
 
@@ -141,6 +142,7 @@ class TableEntry extends Component {
                                             variant="contained"
                                             color="none"
                                             onClick={this.toggleClass.bind(this, this.props.id)}
+                                            endIcon={this.state.activeIndex ? <ArrowDropUpIcon/> : <ArrowDropDownIcon />}
                                         >
                                             <Typography variant="h5">{this.props.name}</Typography>
                                     </Button>
@@ -205,16 +207,30 @@ class TableEntry extends Component {
 
                                     </Grid>
                                     <br/>
-                                    <Grid container justify="flex-start" xl={4} xs={4}>
-                                        <Grid item xs={2} xl={2}>Ects: {this.props.ects}</Grid>
-                                        <Grid item xs={2} xl={2}>SWS: {this.props.sws}</Grid>
+                                    <Grid container justify="flex-start" xl={6} xs={6}>
+                                        <Grid item xs={2} xl={2}>
+                                            <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
+                                        </Grid>
+                                        <Grid item xs={2} xl={2}>
+                                            <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
+                                        </Grid>
+                                        <Grid container justify="flex-end" xl={2} xs={2}>
+                                            <Grid item xs={2} xl={2}>
+                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.props.prof}</Typography>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
+                                    <br/>
+                                    
+
                                     <Divider />
                                 </Collapse>
                         
                     </Grid>
 
                 </Grid> 
+
+                
                 
             </Grid>
             
