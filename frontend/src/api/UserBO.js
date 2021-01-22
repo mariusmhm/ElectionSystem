@@ -49,6 +49,10 @@ export default class UserBO extends NamedBusinessObject {
         this.role = aRole
     }
 
+    getRole(){
+        return this.role
+    }
+
     //Returns an Array of UserBOs from a given JSON structure.
 
     static fromJSON(users) {
