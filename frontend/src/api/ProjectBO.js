@@ -167,7 +167,7 @@ export default class ProjectBO extends NamedBusinessObject{
         return this.edv_number;
     }
 
-    setProfessEdvNumber(aEdvNumber){
+    setEdvNumber(aEdvNumber){
         //Set the module.
         this.edv_number = aEdvNumber;
     }

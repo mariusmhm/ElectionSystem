@@ -1,29 +1,25 @@
-                                                import React, { Component } from 'react';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import TableEntryAdmin from './TableEntryAdmin';
-import TableEntryButtonTwo from './TableEntryButtonTwo';
+import TableEntryButtonKeycompetence from './TableEntryButtonKeycompetence';
 
-/**
- * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
- * to a list of projects. This is done by routing the link to /ProjekteGenehmigen and passing the ProjectBO and
- *  as props to the ProjekteGenehmigen component.
- *
- */
 
-class ListEntryNewProjectsAdmin extends Component {
+
+
+class ApprovedKeycompetence extends Component {
 constructor(props) {
         super(props)
         this.state = {
@@ -37,38 +33,37 @@ constructor(props) {
             loaded: null,
             activeIndex: null,
 
-
-
         };
         this.baseState = this.state;
     }
 
     componentDidMount(){
+        this.getProjectForModule();
         this.getProjectForState();
-        this.getAllProjecttypes();
-    }
-
-     /** Gives back the projecttype */
-    getAllProjecttypes = () => {
-        ElectionSystemAPI.getAPI().getAllProjecttypes()
-            .then(ProjecttypeBO =>
-                this.setState({
-                    projecttypes: ProjecttypeBO,
-                    loaded: true,
-                    error: null
-                })).catch(e =>
-                    this.setState({
-                        projecttypes: [],
-                        error: e
-                    }))
-        console.log('Projecttype ausgeführt');
     }
 
 
+        this.setState({
+          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+        })
+    }
 
-    //Gives back the projects by state "new"
-    getProjectForState = () =>{
-        ElectionSystemAPI.getAPI().getProjectForState(1)
+       getProjectForModule= () =>{
+        ElectionSystemAPI.getAPI().getProjectForModule(7) /*get the module id where module is Keycompetence*/
+        .then(projectBO => {this.setState({
+            projects: projectBO,
+            loaded: true,
+            error: null
+        })}).catch(e =>
+            this.setState({
+                projects:[],
+                error: e
+        }))
+    }
+
+
+   getProjectForState = () =>{
+        ElectionSystemAPI.getAPI().getProjectForState(2) /*get the approved Keycompetence */
         .then(projectBO => { this.setState({
             projects: projectBO,
             loaded: true,
@@ -78,39 +73,22 @@ constructor(props) {
                 projects:[],
                 error: e
         }))
-
     }
-
-    deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
-
-        this.setState({
-          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
-        })
-    }
-
-
-
 
 
   render() {
 
-     const {projects} = this.state;
+    const {projects} = this.state;
      const {classes}= this.props;
-
         return (
             <div>
                 <Container maxWidth="md">
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
-                     <Grid item container
+                    <Typography variant='h4' color="secondary" className={classes.redHeader}>THIS SEMESTER</Typography>
+                    <br/>
+                    <Typography variant='h6' color="gray">Keycompetence</Typography>
+                    <br/>
+                    <Grid item container
                             direction="column"
                             xs={12}
                             md={12}
@@ -136,31 +114,36 @@ constructor(props) {
                                                 projecttype
                                             </Typography>
                                         </TableCell>
+                                           <TableCell>
+                                            <Typography variant="h6" className={classes.tableRow}>
+                                                module
+                                            </Typography>
+                                        </TableCell>
+                                            <TableCell>
+                                             <Typography variant="h6" className={classes.tableRow}>
+                                                participator
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
-                                </TableHead>
-                            <TableBody>
-                                {this.state.projects.map(project => (
-                                            <TableEntryButtonTwo
+                               </TableHead>
+                                        <TableBody>
+                                            {this.state.projects.map(project => (
+                                                    <TableEntryButtonKeycompetence
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
-                                            />
-                                )
-                                )}
-
-                            </TableBody>
-
-                            </Table>
+                                                module= {project.getModule()}
+                                            />))}
+                                        </TableBody>
+                          </Table>
                         </TableContainer>
                      </Grid>
+
 				</Container>
 		    </div>
 		);
 	}
 }
-
-
-
 const styles = theme => ({
     grid:{
         width: '100%',
@@ -177,9 +160,9 @@ const styles = theme => ({
         fontSize: 30
     },
     tableRow:{
-    color:'gray',
+    color:'lightGray',
     fontFamily:'Arial'
     }
 });
 
-export default withStyles(styles) (ListEntryNewProjectsAdmin);
+export default withStyles(styles) (ApprovedKeycompetence);

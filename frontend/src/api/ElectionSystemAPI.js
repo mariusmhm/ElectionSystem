@@ -21,7 +21,7 @@ export default class ElectionSystemAPI {
     #getProjectForProfessorURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-prof/${id}`;
     #getProjectForProjecttypeURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-projecttype/${id}`;
     #addProjectURL = () => `${this.#electionSystemServerBaseURL}/project`;
-    #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/projects/${id}`;
+    #updateProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #deleteProjectURL = (id) => `${this.#electionSystemServerBaseURL}/project/${id}`;
     #getProjectForStateURL = (state) => `${this.#electionSystemServerBaseURL}/project-by-state/${state}`;
     #getProjectForModuleURL = (id) => `${this.#electionSystemServerBaseURL}/project-by-module/${id}`;
@@ -72,7 +72,7 @@ export default class ElectionSystemAPI {
     #getStudentForGoogleIDURL = (googleId) => `${this.#electionSystemServerBaseURL}/student-by-google-id/${googleId}`;
     #getStudentForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/student-by-mail/${mail}`;
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
-    #getStudentByParticipationsURL =(id)=>`${this.#electionSystemServerBaseURL}/students-by-participations/${id}`;
+    #getStudentsByParticipationsURL =(id)=>`${this.#electionSystemServerBaseURL}/students-by-participations/${id}`;
 
     //User
     #addUserURL = () =>  `${this.#electionSystemServerBaseURL}/user`;
@@ -150,7 +150,7 @@ export default class ElectionSystemAPI {
       })
     })
     }
-
+ 
     getProjectForModule(module){
     return this.#fetchAdvanced(this.#getProjectForModuleURL(module)).then((responseJSON) => {
         let projectBOs = ProjectBO.fromJSON(responseJSON);
@@ -195,13 +195,19 @@ export default class ElectionSystemAPI {
     }
 
     /**
-    *@param {ProjectBO} projectBO
+    *@param {ProjectBO} project
     *@public
     */
-    updateProject(){
-        return this.#fetchAdvanced(this.#updateProjectURL(ProjectBO.getID()), {
-            method: 'PUT'
-            }).then((responseJSON) => {
+    updateProject(project){
+      console.log('wird aufgerufen');
+        return this.#fetchAdvanced(this.#updateProjectURL(project.getID()), {
+            method: 'PUT',
+            headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+            },
+            body: JSON.stringify(project)
+          }).then((responseJSON) => {
             let responseProjectBO = ProjectBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
               resolve(responseProjectBO);
@@ -275,7 +281,6 @@ export default class ElectionSystemAPI {
     }
 
     addProjecttype(projecttype){
-        console.log("wird ausgeführt");
         return this.#fetchAdvanced(this.#addProjecttypeURL(), {
           method: 'POST',
           headers:{
@@ -293,7 +298,12 @@ export default class ElectionSystemAPI {
 
     updateProjecttype(projecttypeBO){
         return this.#fetchAdvanced(this.#updateProjecttypeURL(projecttypeBO.getID()), {
-            method: 'PUT'
+            method: 'PUT',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(projecttypeBO)
             }).then((responseJSON) => {
               let responseProjecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
@@ -365,7 +375,12 @@ export default class ElectionSystemAPI {
 
     updateModule(moduleBO){
         return this.#fetchAdvanced(this.#updateModuleURL(moduleBO.getID()), {
-            method: 'PUT'
+            method: 'PUT',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(moduleBO)
             }).then((responseJSON) => {
             let responseModuleBO = ModuleBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
@@ -434,7 +449,12 @@ export default class ElectionSystemAPI {
 
     updateGrade(gradingBO){
         return this.#fetchAdvanced(this.#updateGradeURL(gradingBO.getID()), {
-            method: 'PUT'
+            method: 'PUT',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(gradingBO)
             }).then((responseJSON) => {
             let responseGradingBO = GradingBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
@@ -505,7 +525,7 @@ export default class ElectionSystemAPI {
     updateParticipation(participationBO){
         return this.#fetchAdvanced(this.#updateParticipationURL(participationBO.getID()), {
             method: 'PUT',
-             headers:{
+            headers:{
               'Accept': 'application/json, text/plain',
               'Content-type': 'application/json',
             },
@@ -633,7 +653,7 @@ export default class ElectionSystemAPI {
     }
 
     getStudentByParticipations(projectID){
-    return this.#fetchAdvanced(this.#getStudentByParticipationsURL(projectID))
+    return this.#fetchAdvanced(this.#getStudentsByParticipationsURL(projectID))
     .then((responseJSON) => {
     let responseStudentBOs = StudentBO.fromJSON(responseJSON);
     return new Promise(function (resolve) {
@@ -703,7 +723,12 @@ export default class ElectionSystemAPI {
 
     updateUser(userBO){
         return this.#fetchAdvanced(this.#updateUserURL(userBO.getID()), {
-            method: 'PUT'
+            method: 'PUT',
+            headers:{
+              'Accept': 'application/json, text/plain',
+              'Content-type': 'application/json',
+            },
+            body: JSON.stringify(userBO)
             }).then((responseJSON) => {
             let responseUserBO = UserBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {

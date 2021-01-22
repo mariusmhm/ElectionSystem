@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
 
-
-class TableEntryButtonTwo extends Component {
+class SelectedProjectEntry extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -22,12 +20,8 @@ class TableEntryButtonTwo extends Component {
             projects: [],
             projecttypes: [],
             users: [],
-            type: null,
-            projecttypeName: '',
             error: null,
             priority: '',
-            project:'',
-            proj:'',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -38,10 +32,14 @@ class TableEntryButtonTwo extends Component {
             ects: null,
             sws: null,
             activeIndex: null,
-            select: true,
+            select: false,
             lastname: '',
             firstname: '',
             priority: 0,
+            student: 5,
+
+
+
 
 
 
@@ -69,20 +67,6 @@ class TableEntryButtonTwo extends Component {
         console.log('User ausgeführt');
     }
 
-    getProjectType = () => {
-        ElectionSystemAPI.getAPI().getProjecttype(this.props.type)
-        .then(projecttypeBO =>
-            this.setState({
-            projecttypeName: projecttypeBO.getName(),
-            loaded:true,
-            error: null
-            })). catch(e =>
-            this.setState({
-                projecttypeName: [],
-                error: e
-            }))
-    }
-
     toggleClass(index, e) {
         this.setState({
           activeIndex: this.state.activeIndex === index ? null : index
@@ -107,83 +91,115 @@ class TableEntryButtonTwo extends Component {
 
     handleSelect(){
         this.setState({select: !this.state.select})
-
     }
 
     handleChange(e) {
-        console.log("Fruit Selected!!");
         this.setState({ priority: e.target.value });
       }
 
+    addParticipation = () =>{
+        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.props.id );
+        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
+            newParticipation.setPriority(this.state.priority)
+            newParticipation.setProjectID(this.props.id)
+            newParticipation.setStudentID(this.state.student)
+            newParticipation.setDate(this.state.date)
+            console.log(newParticipation)
+            console.log("Participation created");
+            
+        }).catch(e =>
+            
+            this.setState({
+                updatingError: e
+            }))
+    }
+
     componentDidMount() {
         this.getUser();
-        this.getProjectType();
-        this.getAllProjects();
-
-
     }
 
-     /** Gives back the projects */
-    getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
-            .then(ProjectsBO =>
-                this.setState({
-                    projects: ProjectsBO,
-                    loaded: true,
-                    error: null
-                })).catch(e =>
-                    this.setState({
-                        projects: [],
-                        error: e
-                    }))
-        console.log('Projects ausgeführt');
-    }
-
-    deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(this.props.id).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
-
-        this.setState({
-            projects: this.state.projects.filter(projFromState => projFromState.getID() != project.getID())
-        })
-    }
 
 
     render() {
 
-
+        
         const { classes } = this.props;
         const {activeIndex, buttonText} = this.state;
 
         return (
+            
             <TableRow key={this.props.id}>
+                <TableCell position="absolute" top={0}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.toggleClass.bind(this, this.props.id)}
+                    >
+                        {this.moreLess(this.props.id)}
+                    </Button>
 
-                <TableCell>
+
+
+                </TableCell>
+
+
+                <TableCell colSpan="3">
+                    <Typography variant="h5">
                         {this.props.name}
+                    </Typography>
+                    
                     <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
+                                {this.props.dsc}
                     </Collapse>
-                </TableCell>
+                    
 
+                    
+                </TableCell>
                 <TableCell>
+                    <Typography variant="h5">
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
+                    </Typography>
                 </TableCell>
                 <TableCell>
-                        {this.state.loaded ? this.state.projecttypeName: null}
+                    ECTS: {this.props.ects}
                 </TableCell>
                 <TableCell>
-                     <Button variant ="outlined" > Bewerten </Button>
+                    SWS:  {this.props.sws}
                 </TableCell>
-
+                <TableCell>
+                    Priority: {this.props.priority}
+                </TableCell>
+                    <TableCell>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        
+                        endIcon={<PlaylistAddCheckIcon />}
+                        color={this.state.select ? "primary": "secondary"} 
+                         
+                        onClick={() => {
+                            this.addParticipation();
+                            this.handleSelect();
+                          }}>  {this.state.select ? "Select" : "Deselect"}
+                        
+                        
+                        
+                                
+                    </Button>
+                    
+                </TableCell>
+                
+                
+            
             </TableRow>
+            
+            
+            
         )
     }
+
+
+
 }
 
 const styles = theme => ({
@@ -209,7 +225,10 @@ const styles = theme => ({
         fontSize: 35
     },
 
+    formControl: {
+        minWidth: '120px',
+        fontSize: '15px'}
 
 
 });
-export default (TableEntryButtonTwo);
+export default (SelectedProjectEntry);

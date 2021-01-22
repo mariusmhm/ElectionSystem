@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import logo from '../../hdmLogo.jpg'
 
 
-class HeaderAdmin extends Component {
+class HeaderProf extends Component {
   constructor(props){
     super(props)
     this.state={
@@ -23,13 +23,14 @@ class HeaderAdmin extends Component {
     }
     
   }
-  
+
+
   handleMenu = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
     })
   }
-  
+
   handleClose = () => {
     this.setState({
       anchorEl: null
@@ -51,6 +52,7 @@ class HeaderAdmin extends Component {
 
   render() {
     const { classes } = this.props;
+    
     return (
 
       <div >
@@ -61,14 +63,11 @@ class HeaderAdmin extends Component {
             ELECTION SYSTEM
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
-            <Button color="inherit" >
-              New Projects
+            <Button color="inherit">
+              My Projects
             </Button>
-            <Button color="inherit" >
-              Current Semester
-            </Button>
-            <Button color="inherit" >
-              Archieved Projects
+            <Button color="inherit">
+              Projects Overview
             </Button>
             <IconButton
               aria-label="account of current user"
@@ -102,14 +101,13 @@ class HeaderAdmin extends Component {
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={this.state.mobileAnchorEl}
+              anchorEl={this.state.anchorEl}
               keepMounted
-              open={Boolean(this.state.mobileAnchorEl)}
+              open={Boolean(this.state.anchorEl)}
               onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleMobileClose}>New Projects</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Current Semester</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Archieved Projects</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>My Projects</MenuItem>
+              <MenuItem onClick={this.handleMobileClose}>Projects Overview</MenuItem>
               <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
             </Menu>
             </Box>
@@ -132,4 +130,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(HeaderAdmin);
+export default withStyles(styles)(HeaderProf);

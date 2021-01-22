@@ -17,11 +17,15 @@ import {ElectionSystemAPI, StudentBO, UserBO} from '../../../api';
 class Registration extends Component {
     constructor(props) {
         super(props);
+
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     
         // Init the state
         this.state = { 
+            creationDate: date,
             show:false,
-            role:'',
+            role: null,
             firstname:'',
             name:'',
             mail:'',
@@ -29,15 +33,14 @@ class Registration extends Component {
             matrikelnumber: null,
             study:'',
             redirect: false,
-            error: null
+            error: null,
+            value: ''
         };
         
         if (firebase.auth().currentUser != null) {
             //this.state.name = firebase.auth().currentUser.displayName;
             this.state.mail = firebase.auth().currentUser.email;
             this.state.googleID = firebase.auth().currentUser.uid;
-            console.log(this.state.mail);
-            console.log(this.state.googleID);
               
         }
 
@@ -77,35 +80,41 @@ class Registration extends Component {
         this.getUserbyGoogleId()
     }
 
-    handleRadioChange = e => {
-        const  value = e.target.value;
-        console.log(value);
-        this.setState({
-            role: value,
-          });
+    handleRadioChange = (e) => {
 
-        if(value==='student'){
+        if(e.target.value==="student"){
             this.setState({
-                show: true
+                show: true,
+                role: 2,
+                value: e.target.value
               });
     
-        }else{
+        }else if(e.target.value==="professor"){
             this.setState({
-                show: false
+                show: false,
+                role: 3,
+                value: e.target.value
               });
+        }else if(e.target.value==="admin"){
+            this.setState({
+                show: false,
+                role: 1,
+                value: e.target.value
+            })
         }
     }
 
     addUser = () => {
-        if(this.state.role==='student'){
+        if(this.state.role===2){
             let newStudent = new StudentBO();
-            newStudent.name = this.state.name; 
-            newStudent.google_user_id = this.state.googleID;
-            newStudent.firstname = this.state.firstname;
-            newStudent.mail = this.state.mail;
-            newStudent.role = this.state.role;
-            newStudent.matrikel_nr = this.state.matrikelnumber;
-            newStudent.study = this.state.study;
+            newStudent.setDate(this.state.creationDate);
+            newStudent.setName(this.state.name); 
+            newStudent.setGoogleID(this.state.googleID);
+            newStudent.setFirstname(this.state.firstname);
+            newStudent.setMail(this.state.mail);
+            newStudent.setRoleID(this.state.role);
+            newStudent.setMatrikelNr(this.state.matrikelnumber);
+            newStudent.setStudy(this.state.study);
             
             ElectionSystemAPI.getAPI().addStudent(newStudent).then(student => {
                 this.setState({
@@ -115,14 +124,15 @@ class Registration extends Component {
                 this.setState({
                     updatingError: e
                 }))
-        }else if(this.state.role==='user'){
+        }else{
             console.log('addUser');
             let newUser = new UserBO();
-            newUser.firstname = this.state.firstname;
-            newUser.name = this.state.name; 
-            newUser.role = this.state.role; 
-            newUser.mail = this.state.mail;
-            newUser.google_user_id = this.state.googleID;
+            newUser.setDate(this.state.creationDate);
+            newUser.setFirstname(this.state.firstname);
+            newUser.setName(this.state.name); 
+            newUser.setRoleID(this.state.role); 
+            newUser.setMail(this.state.mail);
+            newUser.setGoogleID(this.state.googleID);
             ElectionSystemAPI.getAPI().addUser(newUser).then(user => {
                 this.setState({
                     redirect: true
@@ -164,7 +174,7 @@ class Registration extends Component {
                 </Grid>
                 <Grid item>
                     <FormControl>
-                        <RadioGroup row={true} onChange={this.handleRadioChange} value={this.state.value}>
+                        <RadioGroup row={true} onChange={this.handleRadioChange} name="role" value={this.state.value}>
                             <FormControlLabel value="student"  control={<Radio color="primary"/>} label="Student" />
                             <FormControlLabel value="professor"  control={<Radio color="primary"/>} label="Professor" />
                             <FormControlLabel value="admin" control={<Radio color="primary"/>} label="Admin" />

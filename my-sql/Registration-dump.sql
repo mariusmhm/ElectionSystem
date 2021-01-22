@@ -3,73 +3,54 @@ USE electionsystem;
 
 DROP TABLE IF EXISTS `Semester`;
 CREATE TABLE `Semester` (
-	`id` int(11) NOT NULL DEFAULT '0',
+	`id` int(11) NOT NULL DEFAULT 0,
 	`creation_date` DATE,
-	`winter_semester` tinyint NOT NULL DEFAULT '0',
-	`submit_projects_end_date` DATE,
-	`grading_end_date` DATE,
-  `election_end_date` DATE,
-  `submit_projects_beginn_date` DATE,
-  `grading_beginn_date` DATE,
-  `election_beginn_date` DATE,
-  PRIMARY KEY(`id`)
+	`winter_semester` tinyint NOT NULL DEFAULT 0,
+    `submit_projects` tinyint NOT NULL DEFAULT 0,
+    `grading` tinyint NOT NULL DEFAULT 0,
+    `election` tinyint NOT NULL DEFAULT 0,
+    PRIMARY KEY(`id`)
 );
-
-
-DROP TABLE IF EXISTS `User`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `User` (
-  `id` int(11) ,
- `name` varchar(128) ,
-  `creation_date` DATE,
-  `google_user_id` varchar(128) ,
-  `user_firstname` varchar(128),
-  `mail` varchar(256) ,
-  `role` varchar(128),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 
 
 DROP TABLE IF EXISTS `Projecttype`;
 CREATE TABLE `Projecttype` (
-	`id` int(11),
-	`name` VARCHAR(30),
+    `id` int(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(30),
 	`creation_date` DATE,
-	`sws` int(11) ,
-	`ect` int(11),
+	`sws` int(11) NOT NULL DEFAULT '0',
+	`ect` int(11) NOT NULL DEFAULT '0',	
     PRIMARY KEY(`id`)
 );
 
 
 DROP TABLE IF EXISTS `Module`;
 CREATE TABLE `Module` (
-	`id` int(11),
+	`id` int(11) NOT NULL DEFAULT '0',
 	`creation_date` DATE,
-	`name` VARCHAR(30),
-	`edv_number` VARCHAR(11),
+	`name` VARCHAR(30) NOT NULL DEFAULT '',,
+	`edv_number` VARCHAR(11) NOT NULL DEFAULT '0',
     PRIMARY KEY(`id`)
 );
 
-DROP TABLE IF EXISTS Grading;
-CREATE TABLE Grading(
-    `id` int(11) NOT NULL DEFAULT 0,
+DROP TABLE IF EXISTS `Grading`;
+CREATE TABLE `Grading`(
+    `id` int(11) NOT NULL DEFAULT '0',
     `creation_date` DATE,
-    `grade` float NOT NULL DEFAULT 0,
+    `grade` float NOT NULL DEFAULT '0',
 
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS Participation;
-CREATE TABLE Participation(
-    `id` int(11) NOT NULL DEFAULT 0,
+DROP TABLE IF EXISTS `Participation`;
+CREATE TABLE `Participation`(
+    `id` int(11) NOT NULL DEFAULT '0',
     `creation_date` DATE,
-    `priority` int(11) DEFAULT 0,
+    `priority` int(11) DEFAULT '0',
     `grading_id` INT NULL,
-    `student_id` int(11) DEFAULT 0,
-    `project_id` int(11) DEFAULT 0,
+    `student_id` int(11) DEFAULT '0',
+    `project_id` int(11) DEFAULT '0',
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`grading_id`) REFERENCES `Grading`(`id`),
@@ -115,4 +96,42 @@ CREATE TABLE `State`(
     `name` VARCHAR(30) NOT NULL DEFAULT '0',
 
     PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `Role`;
+CREATE TABLE `Role`(
+    `id` int(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(30) NOT NULL DEFAULT '0',
+
+    PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `Student`;
+CREATE TABLE `Student`(
+    `id` INT(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    `creation_date` DATE,
+    `google_user_id` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `mail` VARCHAR(128) NOT NULL DEFAULT '',
+    `role_id` int(11) NOT NULL DEFAULT '0',
+    `matrikel_nr` int(11) NOT NULL DEFAULT '0',
+    `study`VARCHAR(128) NOT NULL DEFAULT '',
+
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`role_id`) REFERENCES `Role`(`id`)
+);
+
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User`(
+    `id` INT(11) NOT NULL DEFAULT '0',
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    `creation_date` DATE,
+    `google_user_id` VARCHAR(128) NOT NULL DEFAULT '',
+    `firstname` VARCHAR(128) NOT NULL DEFAULT '',
+    `mail` VARCHAR(128) NOT NULL DEFAULT '',
+    `role_id` int(11) NOT NULL DEFAULT '0',
+
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`role_id`) REFERENCES `Role`(`id`)
 );

@@ -1,10 +1,9 @@
 # service is based on flask
-from flask import Flask, request
+from flask import Flask
 # using flask restX
 from flask_restx import Api, Resource, fields
 # cors as a flask expendency
 from flask_cors import CORS
-
 
 from server.ElectionSystemAdministration import ElectionSystemAdministration
 
@@ -17,6 +16,7 @@ from server.bo.Semester import Semester
 from server.bo.Student import Student
 from server.bo.User import User
 from server.State import State
+from server.Role import Role
 
 app = Flask(__name__)
 
@@ -32,7 +32,7 @@ electionSystem = api.namespace('electionsystem', description="electionsystems fu
 
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute='_id', description='Unique id of a business object'),
-    'creation_date': fields.Date(attribute='_creation_date', description='creation date of a business object')
+    'creation_date': fields.String(attribute='_creation_date', description='creation date of a business object')
 })
 
 nbo = api.inherit('NamedBusinessObject', bo, {
@@ -44,11 +44,17 @@ state = api.model('State', {
     'name': fields.String(attribute='_name', description='name of the state')
 })
 
+role = api.model('Role', {
+    'id': fields.Integer(attribute='_id', description='unique id of the role'),
+    'name': fields.String(attribute='_name', description='name of the role')
+})
+
+
 user = api.inherit('User', nbo, {
     'google_user_id': fields.String(attribute='_google_user_id', description='Users Google id from firebase'),
     'firstname': fields.String(attribute='_firstname', description='Users First Name'),
     'mail': fields.String(attribute='_mail', description='Users Mail'),
-    'role': fields.String(attribute='_role', description='User can be an student, administration or a professor')
+    'role_id': fields.Integer(attribute='_role_id', description='Foreign key role')
 })
 
 student = api.inherit('Student', user, {
@@ -58,12 +64,9 @@ student = api.inherit('Student', user, {
 
 semester = api.inherit('Semester', bo, {
     'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
-    'submit_projects_end_date':fields.Date(attribute='_submit_projects_end_date', description='End datum'),
-    'grading_end_date':fields.Date(attribute='_grading_end_date', description='End date of grading'),
-    'election_end_date':fields.Date(attribute='_election_end_date', description='End date of election'),
-    'submit_projects_beginn_date':fields.Date(attribute='_submit_projects_beginn_date', description='Beginning date of submiting projects'),
-    'grading_beginn_date':fields.Date(attribute='_grading_beginn_date', description='Beginning date of grading'),
-    'election_beginn_date':fields.Date(attribute='_election_end_date', description='Start date of election')
+    'submit_projects':fields.Boolean(attribute='_submit_projects', description='Activate and deaktivate submit projects'),
+    'grading':fields.Boolean(attribute='_grading', description='Activate and deactivate grading'),
+    'election':fields.Boolean(attribute='_election', description='Activate and deactivate election')
 })
 
 grading = api.inherit('Grading', bo, {
@@ -125,7 +128,7 @@ class StudentListOperations(Resource):
         prpl = Student.to_dict(api.payload)
 
         if prpl is not None:
-            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role(), prpl.get_matrikel_nr(), prpl.get_study())
+            s = adm.create_student(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role_id(), prpl.get_matrikel_nr(), prpl.get_study())
 
             return s, 200
         else:
@@ -238,7 +241,7 @@ class UserListOperations(Resource):
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
-            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role())
+            u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role_id())
 
             return u, 200
         else:
@@ -303,7 +306,7 @@ class UserGoogleOperations(Resource):
         return user
 
 
-@electionSystem.route('/user-by-role/<string:role>')
+@electionSystem.route('/user-by-role/<int:role>')
 @electionSystem.response(500, 'when server has problems')
 class UserRoleOperations(Resource):
     @electionSystem.marshal_with(user)
@@ -336,8 +339,8 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects_end_date(), proposal.get_grading_end_date(), proposal.get_election_end_date(),
-             proposal.get_submit_projects_beginn_date(), proposal.get_grading_beginn_date(), proposal.get_election_beginn_date())
+            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects(),
+             proposal.get_grading(), proposal.get_election())
             return s, 200
 
         else:
@@ -376,6 +379,7 @@ class SemesterOperations(Resource):
             """This sets the id of the account object to be overwritten"""
             s.set_id(id)
             adm.save_semester(s)
+
             return '', 200
         else:
             return '', 500
@@ -470,17 +474,14 @@ class ParticipationsPriorityProjectListOperations(Resource):
 class ParticipationStudentProjectOperations(Resource):
     @electionSystem.marshal_with(participation)
     def get(self, student_id, project_id):
-        
+
         #Gets an specific participation object.
         #The object is determined by the query parameters project_id and student_id.
-        
 
-        #project_id = request.args.get('project_id')
-        #student_id = request.args.get('student_id')
+
         adm = ElectionSystemAdministration()
         parti = adm.get_participation_by_student_and_project(student_id, project_id)
         return parti
-
 
 
 #------Grading---------
@@ -836,7 +837,6 @@ class ProjectModuleOperations(Resource):
         p = adm.get_project_by_module(id)
         return p
 
-
 #------State---------
 @electionSystem.route('/state')
 @electionSystem.response(500, 'server error')
@@ -887,6 +887,58 @@ class StateOperations(Resource):
         adm = ElectionSystemAdministration()
         s = adm.get_by_state_id(id)
         adm.delete_state(s)
+        return '', 200
+
+#------Role---------
+@electionSystem.route('/role')
+@electionSystem.response(500, 'server error')
+class RoleListOperations(Resource):
+    @electionSystem.marshal_list_with(role)
+    def get(self):
+        adm = ElectionSystemAdministration()
+        roles = adm.get_all_roles()
+        return roles
+
+    @electionSystem.marshal_with(role, code=200)
+    @electionSystem.expect(role)
+    def post(self):
+        adm = ElectionSystemAdministration()
+
+        proposal = Role.from_dict(api.payload)
+
+        if proposal is not None:
+            r = adm.create_role(proposal.get_name())
+            return r, 200
+        else:
+            #server error
+            return '', 500
+
+@electionSystem.route('/role/<int:id>')
+@electionSystem.response(500, 'server error')
+class RoleOperations(Resource):
+    @electionSystem.marshal_with(role)
+    def get(self, id):
+        adm = ElectionSystemAdministration()
+        r = adm.get_by_role_id(id)
+        return r
+
+    @electionSystem.marshal_with(role)
+    @electionSystem.expect(role, validate=True)
+    def put(self, id):
+        adm = ElectionSystemAdministration()
+        r = Role.from_dict(api.payload)
+
+        if s is not None:
+            r.set_id(id)
+            adm.save_role(r)
+            return '', 200
+        else: 
+            return '', 500
+
+    def delete(self, id):
+        adm = ElectionSystemAdministration()
+        r = adm.get_by_role_id(id)
+        adm.delete_role(r)
         return '', 200
 
 

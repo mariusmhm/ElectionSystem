@@ -6,12 +6,12 @@ export default class UserBO extends NamedBusinessObject {
 /// Represents a user of the electionsystem. It is either a sutdent or a professor.
 
 
-    constructor(aGoogleID, aFirstname, aEmail, aRole){
+    constructor(aGoogleID, aFirstname, aEmail, aRoleID){
         super();
         this.google_user_id=aGoogleID;
         this.firstname=aFirstname;
         this.mail=aEmail;
-        this.role=aRole;
+        this.role_id=aRoleID;
     }
 
    //Sets the Google Id
@@ -45,8 +45,13 @@ export default class UserBO extends NamedBusinessObject {
     }
 
     //sets the Users Role
-    setRole(aRole){
-        this.role = aRole
+    setRoleID(aRoleID){
+        this.role_id = aRoleID
+    }
+
+    //Reads out Users role
+    getRoleID(){
+        return this.role_id
     }
 
     //Returns an Array of UserBOs from a given JSON structure.
