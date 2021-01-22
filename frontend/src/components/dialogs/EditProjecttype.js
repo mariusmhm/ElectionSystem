@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Dialog,
-    TextField,
+    DialogTitle,
     FormControl,
     Button,
     Grid,
-    Typography,
+    TextField,
     Table,
     TableHead,
     TableCell,
@@ -19,16 +19,22 @@ import ProjecttypeBO from '../../api/ProjecttypeBO';
 
 
 
+let open = true;
+
 class EditProjecttype extends Component {
 
   constructor(props){
     super(props)
+
+
+    let today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
     this.state= {
-        creationDate:'',
+        creationDate: date,
         projecttypename:'',
-        ect:'',
-        sws:'',
-        open:null,
+        ect:null,
+        sws:null,
         projecttypes: [],
         projecttype: {},
         deletingError: null,
@@ -72,14 +78,15 @@ class EditProjecttype extends Component {
 
     addProjecttype = () => {
         let newProjecttype = new ProjecttypeBO();
-        newProjecttype.setName(this.state.projecttypname);
+        console.log(JSON.stringify(newProjecttype));
+        newProjecttype.setName(this.state.projecttypename);
         newProjecttype.setDate(this.state.creationDate);
         newProjecttype.setSws(this.state.sws);
         newProjecttype.setEcts(this.state.ect);
         console.log(JSON.stringify(newProjecttype));
-        console.log(this.state.creationDate);
+        console.log(this.state.projecttypename);
         ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
-            this.setState(this.baseState).then(newProjecttype => {this.props.closeDialog()});
+            this.setState(this.baseState);
 
         }).catch(e =>
             this.setState({
@@ -89,19 +96,18 @@ class EditProjecttype extends Component {
     }
 
 
-    handleChange = (e) =>{
+   handleNumChange = (e) =>{
+       this.setState({
+            [e.target.id]: parseInt(e.target.value, 10)
+        });
+
+    }
+
+  handleChange = (e) =>{
         console.log(e.target.value);
         console.log(e.target.id);
         this.setState({
             [e.target.id]: e.target.value
-        });
-    }
-
-    handleSelectChange = (e) =>{
-        console.log(e.target.value);
-        console.log(e.target.name);
-        this.setState({
-            [e.target.name]: e.target.value
         });
     }
 
@@ -114,23 +120,12 @@ class EditProjecttype extends Component {
 
 
  render(){
-    const {projecttypes, projecttype} = this.state;
-
+    const { classes } = this.props;
 
   return (
 
-      <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='md'>
-            <Typography
-                variant="h4"
-                align="center">
-                    Edit Project type
-            </Typography>
-            <Typography
-                variant="h5"
-                align="center"
-                color="secondary">
-                    Project type
-            </Typography>
+      <Dialog open={open} fullWidth maxWidth='md'>
+            <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT PROJECTTYPE</DialogTitle>
             <br/>
             <br/>
             <TableContainer>
@@ -157,13 +152,9 @@ class EditProjecttype extends Component {
                  </Table>
             </TableContainer>
             <br/>
-            <Typography
-                variant="h6"
-                align="center"
-                color="secondary">Add Projecttype
-             </Typography>
+             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>Add Projecttype</DialogTitle>
              <br/>
-            <FormControl fullWidth onSubmit={this.handleSubmit}>
+            <FormControl fullWidth onSubmit={this.handleSubmit}  className={classes.FormControl}>
                 <Grid container spacing={2} justify="center" align="center" >
                     <Grid item xs={6}>
                         <TextField fullWidth variant="outlined" id="projecttypename"
@@ -171,16 +162,16 @@ class EditProjecttype extends Component {
                     </Grid>
                    <Grid item container direction="row" xs={12} spacing={2} justify="center" align="center">
                     <Grid item xs={3}>
-                        <TextField fullWidth variant ="outlined" id= "ect" label="ECTS" value={this.state.ect} onChange={this.handleChange}/>
+                        <TextField fullWidth  variant ="outlined" id= "ect" label="ECTS" value={this.state.ect} onChange={this.handleNumChange}/>
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField fullWidth variant="outlined" label="SWS" id="sws" value={this.state.sws} onChange={this.handleChange}/>
+                        <TextField fullWidth variant ="outlined" label="SWS" id="sws" value={this.state.sws} onChange={this.handleNumChange}/>
                     </Grid>
                     </Grid>
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
-                        <Button variant="outlined" color="secondary" onClick={this.props.closeDialog}>
+                        <Button variant="outlined" color="secondary" onClick={this.handleClose}>
                             Close
                         </Button>
                     </Grid>
