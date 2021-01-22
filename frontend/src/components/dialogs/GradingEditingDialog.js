@@ -28,7 +28,7 @@ class GradingEditingDialog extends Component {
             gradings: [],
             error: null,
             grade: '',
-            open:null,
+            openg:null,
             updatingError: null,
             deletingError: null,
 
@@ -93,7 +93,7 @@ class GradingEditingDialog extends Component {
     const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} maxWidth='xs' fullWidth>
+        <Dialog open={this.props.openg} onClose={this.props.closeGrading} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
             <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
                 <Grid item xs={12}>
@@ -136,10 +136,10 @@ class GradingEditingDialog extends Component {
                 </Grid>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}> 
                     <Grid item>
-                        <Button variant="outlined" color="secondary" onClick={this.props.closeDialog}>Cancel</Button>
+                        <Button variant="outlined" color="secondary" onClick={this.props.closeGrading}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeDialog}>Okay</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeGrading}>Okay</Button>
                     </Grid>
                 </Grid>
                 

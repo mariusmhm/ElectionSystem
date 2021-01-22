@@ -109,7 +109,13 @@ constructor(props) {
             <div>
                 <Container maxWidth="md">
                     <CssBaseline />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
+
                      <Grid item container
                             direction="column"
                             xs={12}

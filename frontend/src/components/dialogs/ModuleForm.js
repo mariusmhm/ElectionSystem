@@ -32,7 +32,7 @@ class ModuleForm extends Component {
         modules: [],   
         name: '',
         mNumber: null,
-        open:null,
+        openm:null,
         deletingError: null   
 
       };
@@ -104,7 +104,7 @@ class ModuleForm extends Component {
 
     return(
         
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} maxWidth='xs' fullWidth>
+        <Dialog open={this.props.openm} onClose={this.props.closeModule} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader} >EDIT MODULE</DialogTitle>
             <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid} >
                 <Grid items>
@@ -153,7 +153,7 @@ class ModuleForm extends Component {
                         <Button variant="outlined" color="primary" onClick={this.props.closeDialog}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeDialog}>OKAY</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeModule}>OKAY</Button>
                     </Grid>
 
                 </Grid>

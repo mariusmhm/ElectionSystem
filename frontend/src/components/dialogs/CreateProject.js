@@ -32,6 +32,7 @@ class CreateProject extends Component {
         creationDate: date,
         projectname:'',
         modules: [],
+        openpr:null,
         moduleSelected: null,
         edvNumber: null,
         projecttypes: [],
@@ -139,7 +140,7 @@ class CreateProject extends Component {
             this.showETCS = false;
             this.setState(this.baseState);
             
-        }).catch(e =>
+        }).then(newProject => {this.props.closeProject()}).catch(e =>
             this.setState({
                 error: e
             }))
@@ -205,7 +206,7 @@ class CreateProject extends Component {
 
     return(
       
-        <Dialog open={true} fullWidth maxWidth='md'>
+        <Dialog open={this.props.openpr} onClose={this.props.closeProject} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>SUBMIT PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
                 
@@ -362,7 +363,7 @@ class CreateProject extends Component {
                 
                 
                 <Grid item> 
-                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
+                    <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
                 <Grid item> 
                     <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
