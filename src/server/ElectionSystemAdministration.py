@@ -363,10 +363,10 @@ class ElectionSystemAdministration (object):
     def get_project_by_state(self, state):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_state(state)
-    
-    def get_project_by_module(self, id):
+
+    def get_project_by_module(self, module_id):
         with ProjectMapper() as mapper:
-            return mapper.find_project_by_module(id)
+            return mapper.get_project_by_module(module_id)
 
     # --- Project SPECIFIC OPERATIONS ---
 
@@ -410,10 +410,8 @@ class ElectionSystemAdministration (object):
 
         with ProjectMapper() as mapper:
             mapper.update(project)
-    
-    def get_project_by_module(self, id):
-        with ProjectMapper() as mapper:
-            return mapper.find_by_id(id)
+
+
 
     #------Module specific operations----
 
@@ -506,7 +504,7 @@ class ElectionSystemAdministration (object):
                     new_pp.append(pp)
                     highest_prio = highest_prio - 1
                     print("sec row", pp.get_priority())
-            
+
         elif len(old_pp) >= min_pp:
             new_pp = old_pp
             print("third row")

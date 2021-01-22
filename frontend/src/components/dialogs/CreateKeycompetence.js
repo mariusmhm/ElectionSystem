@@ -23,11 +23,11 @@ class CreateKeyCompetence extends Component {
       date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
       this.state = {
-        creationDate: '',
+        creationDate: date,
         projectname:'',
         modules: [],
         moSelected:null,
-        edvNumber: '',
+        edvNumber: null,
         projecttypes: [],
         projecttype: {},
         ptSelected:null,
@@ -148,12 +148,12 @@ class CreateKeyCompetence extends Component {
         let newProject = new ProjectBO();
         newProject.setDate(this.state.creationDate);
         newProject.setName(this.state.projectname);
-        newProject.setModule(this.state.moSelected);
+        newProject.setModule(7); /*sets the module id to 7 "KeyCompetence" module selected muss raus? */
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
         newProject.setAddProfessor(this.state.additionalProf);
         newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState("new");
+        newProject.setState(1);
         newProject.setLanguage(this.state.language);
         newProject.setProfessor(36);
         console.log(JSON.stringify(newProject));

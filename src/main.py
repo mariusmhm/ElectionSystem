@@ -829,12 +829,13 @@ class ProjectStateOperations(Resource):
 
 @electionSystem.route('/project-by-module/<int:id>')
 @electionSystem.response(500, 'when the server has problems')
-class ProjectStateOperations(Resource):
+class ProjectModuleOperations(Resource):
     @electionSystem.marshal_with(project)
     def get(self, id):
         adm = ElectionSystemAdministration()
         p = adm.get_project_by_module(id)
         return p
+
 
 #------State---------
 @electionSystem.route('/state')

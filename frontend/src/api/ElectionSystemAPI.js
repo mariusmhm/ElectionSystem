@@ -12,7 +12,7 @@ export default class ElectionSystemAPI {
 
     static #api = null;
 
-    #electionSystemServerBaseURL ='http://localhost:5000/electionsystem'
+    #electionSystemServerBaseURL ='http://localhost:5000/electionsystem';
 
     //Project
     #getAllProjectsURL = () => `${this.#electionSystemServerBaseURL}/project`;
@@ -275,6 +275,7 @@ export default class ElectionSystemAPI {
     }
 
     addProjecttype(projecttype){
+        console.log("wird ausgeführt");
         return this.#fetchAdvanced(this.#addProjecttypeURL(), {
           method: 'POST',
           headers:{
@@ -282,8 +283,7 @@ export default class ElectionSystemAPI {
             'Content-type': 'application/json',
           },
           body: JSON.stringify(projecttype)
-          })
-            .then((responseJSON) => {
+          }).then((responseJSON) => {
               let projecttypeBO = ProjecttypeBO.fromJSON(responseJSON)[0];
               return new Promise(function (resolve) {
                 resolve(projecttypeBO);
