@@ -21,6 +21,7 @@ import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
 import AddStudents from './components/dialogs/AddStudents';
+import DeleteStudent from './components/dialogs/DeleteStudent';
 
 
 class App extends Component {
