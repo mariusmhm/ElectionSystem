@@ -20,6 +20,7 @@ import ProjectContent from './components/layout/pages/ProjectContent';
 import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
+import AddStudents from './components/dialogs/AddStudents';
 
 
 class App extends Component {
@@ -129,7 +130,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={ProjectContent} />
+        				<Route exact path="/project-content" component={AddStudents} />
     				</Switch>
                 </Router>
 			</ThemeProvider>
