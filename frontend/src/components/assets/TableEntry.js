@@ -9,6 +9,9 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
+import HomeScreenCompTwo from '../layout/pages/HomeScreenCompTwo';
+import DateFnsUtils from "@date-io/date-fns";
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
 
 
 
@@ -16,13 +19,17 @@ import { makeStyles } from '@material-ui/core/styles';
 class TableEntry extends Component {
     constructor(props) {
         super(props)
+
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
         this.state = {
+            creationDate: date,
             tableData: [],
             projects: [],
             projecttypes: [],
             users: [],
             error: null,
-            priority: '',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -32,12 +39,13 @@ class TableEntry extends Component {
             prof: null,
             ects: null,
             sws: null,
+            participationID: null,
             activeIndex: null,
             select: true,
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 1,
+            student: 2,
 
 
 
@@ -49,6 +57,7 @@ class TableEntry extends Component {
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     getUser = () => {
@@ -91,6 +100,7 @@ class TableEntry extends Component {
       }
 
     handleSelect(){
+        
         this.setState({select: !this.state.select})
 
     }
@@ -100,15 +110,14 @@ class TableEntry extends Component {
       }
 
     addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.props.id );
+        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.state.student, this.props.id);
+        newParticipation.setDate(this.state.creationDate)
+        newParticipation.setPriority(this.state.priority)
+        newParticipation.setProjectID(this.props.id)
+        newParticipation.setStudentID(this.state.student)
         ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            newParticipation.setPriority(this.state.priority)
-            newParticipation.setProjectID(this.props.id)
-            newParticipation.setStudentID(this.state.student)
-            newParticipation.setDate(this.state.date)
             console.log(newParticipation)
-            console.log("Participation created");
-            
+    
         }).catch(e =>
             
             this.setState({
@@ -116,8 +125,50 @@ class TableEntry extends Component {
             }))
     }
 
+
+
+     // Delets the participation
+     deleteParticipation = (participation) => {
+        participation = this.state.participationID;
+        console.log(participation);
+        ElectionSystemAPI.getAPI().deleteParticipation(participation)
+        console.log(participation);
+        
+    }
+
+
+
+
+    handleClick(){
+        this.handleSelect();
+        if(this.state.select === true){
+            return(
+            this.addParticipation(),
+            console.log("Participation created")
+            );
+       }
+       if(this.state.select === false){
+           return(
+            this.deleteParticipation(),
+            console.log("Participation deleted")
+            );
+       }
+    }
+
+
+    askStatus(){
+        if(this.state.participationID === null){
+            return(
+                this.setState({select: false})
+            );
+        }
+    }
+
+    
+
     componentDidMount() {
         this.getUser();
+        this.askStatus();
     }
 
 
@@ -125,15 +176,18 @@ class TableEntry extends Component {
     render() {
 
         
+
         const { classes } = this.props;
         const {activeIndex, buttonText} = this.state;
 
+        
+
         return (
-            
+  
+ 
             <Grid container justify="flex-start" xs={12} xl={12}>
-
-                
-
+                   
+                   
                     <Grid container justify="flex-start" xs={12}  >
                         
                         <Grid item xs={12} xl={6}>
@@ -172,16 +226,16 @@ class TableEntry extends Component {
                             <Grid item xs={6} xl={2}>
                                 
                                 <Button
+                                    
                                     variant="contained"
                                     color="secondary"
                                     
                                     endIcon={<PlaylistAddCheckIcon />}
                                     color={this.state.select ? "primary": "secondary"} 
-                                    
                                     onClick={() => {
-                                        this.addParticipation();
-                                        this.handleSelect();
-                                    }}>  {this.state.select ? "Select" : "Deselect"}      
+                                        this.handleClick();
+                                    }}>    
+                                    {this.state.select ? "Select" : "Selected"}      
                                 </Button>
 
                             </Grid>
