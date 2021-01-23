@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper, Box } from '@material-ui/core';
+import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper, Box, Divider, ButtonBase } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -28,6 +28,7 @@ import { id, ja } from 'date-fns/locale';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableEntry from '../../assets/TableEntry';
 import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
+import Entry from '../../assets/Entry';
 
 
 
@@ -35,16 +36,22 @@ class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentUser: 1,
+            currentUser: 2,
             tableData: [],
             projects: [],
             projecttypes: [],
+            participations: [],
+            selectedProjects: [],
+            participationLoaded: false,
+            projectLoaded: false,
             error: null,
             priority: '',
             updatingError: null,
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            number: 4,
+            participationID: null,
 
 
 
@@ -55,26 +62,39 @@ class HomeScreenCompTwo extends Component {
         
     }
 
-
+    getParticipationsForStudent = () => {
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.currentUser)
+        .then(ParticipationBO =>
+            this.setState({
+                participations: ParticipationBO,
+                participationLoaded: true,
+                error: null
+            })).catch(e => 
+                this.setState({
+                    participationLoaded: [],
+                    error: e
+                }))
+        console.log('Participations loaded from Backend');
+        
+        
+    }
     
 
-    /** Gives back the project */
     getAllProjects = () => {
         ElectionSystemAPI.getAPI().getAllProjects()
             .then(projectBO =>
                 this.setState({
                     projects: projectBO,
-                    loaded: true,
+                    projectLoaded: true,
                     error: null
                 })).catch(e =>
                     this.setState({
                         projects: [],
                         error: e
                     }))
-        console.log('Project ausgeführt');
+        console.log('Project loaded from Backend');
     }
 
-    /** Gives back the projecttype */
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
             .then(ProjecttypeBO =>
@@ -90,114 +110,132 @@ class HomeScreenCompTwo extends Component {
         console.log('Projecttype ausgeführt');
     }
 
+
+    
+
     componentDidMount() {
         this.getAllProjects();
-        this.getAllProjecttypes();
-
+        this.getParticipationsForStudent(); 
+        this.getAllProjecttypes();   
     }
 
 
 
 
     render() {
-        const { classes } = this.props;
-        const { projects } = this.state;
-        const {activeIndex} = this.state;
- 
+        const { projects, selectedProjects, participationLoaded, projectLoaded, participations,projecttypes } = this.state;
+
+        console.log('Projekte: ' + projects.length)
+        console.log('Pr')
+        console.log('Selected: ' + selectedProjects.length)
+        console.log(projects.filter(project => project.id === 1))
+
 
         return (
             <div>
-                <Container maxWidth="xl">
-                    <CssBaseline />
-                    <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
-                    <Typography variant="h2" align="center" >My selected Projects</Typography>
-                    </Box>
-                    <Paper>
-                    <Table>
-
-                        <TableHead>
-
-                            <TableRow align="right">
-                                
-                                <TableCell />
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Project
-                                    </Typography>
-                                </TableCell>
-                                <TableCell />
-                                <TableCell />
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Professor
-                                    </Typography>
-                                </TableCell>
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        ECTS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        SWS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Priority
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                  
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-
-
-                        {this.state.projecttypes.map(projecttype => (
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan="10" style={{ backgroundColor: 'grey', color: 'white' }}>
-                                        <Typography variant="h3">
-                                            {projecttype.getName()}
-                                            {projecttype.getID()}
+                <Grid container>
+                    <Grid container>
+                        {projects.length > 0  ? 
+                            <>
+                            {
+                                projecttypes.map(pt =>
+                                    <>
+                                    <Grid item xs={12}><Typography>{pt.getName()}</Typography></Grid>
+                                    {
+                                        projects.map(p =>
+                                            participations.filter(ptp => ptp.project_id === p.getID()).length > 0 ? 
+                                            pt.getID() === p.getProjecttype() ?
+                                            <>
                                             
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-
-
-                                {this.state.projects.map(project => {
-                                    if (project.getProjecttype() === projecttype.getID() ) {
-                                        return (
-                                            <SelectedProjectEntry
-                                                id = {project.getID()}
-                                                name = {project.getName()}
-                                                prof = {project.getProfessor()}
-                                                dsc = {project.getShortDescription()}
-                                                ects = {projecttype.getEcts()}
-                                                sws = {projecttype.getSws()}
+                                            <Grid container xs={12}>
+                                                
+                                            <TableEntry
+                                                id = {p.getID()}
+                                                name = {p.getName()}
+                                                prof = {p.getProfessor()}
+                                                dsc = {p.getShortDescription()}
+                                                ects = {pt.getEcts()}
+                                                sws = {pt.getSws()}
+                                                participationID = {1}
                                             />
+                                            </Grid>
+                                           
+                                            </>
+                                            :
+                                                null
+                                            :
+                                                null
+                                                
+                                            
                                             
                                         )
                                     }
+                                    
+                                    </>
+                                    
+                                    
+                                )
+                                
+                            } 
+                            </>
+                            : 
+                            <>
+                            <b>Loading</b>
+                            </>
+                        }
+                    </Grid>
+                <Grid item xs={12}>
+                    <Divider/>
+                </Grid>
+                
+                <Grid container>
+                    {projects.length > 0  ? 
+                        <>
+                        {
+                            projecttypes.map(pt =>
+                                <>
+                                <Typography>{pt.getName()}</Typography>
+                                {
+                                    projects.map(p =>
+                                        participations.filter(ptp => ptp.project_id === p.getID()).length > 0 ? 
+                                            null
+                                        :
+                                            pt.getID() === p.getProjecttype() ?
+                                            <Grid container xs={12}>
+                                            <TableEntry
+                                                id = {p.getID()}
+                                                name = {p.getName()}
+                                                prof = {p.getProfessor()}
+                                                dsc = {p.getShortDescription()}
+                                                ects = {pt.getEcts()}
+                                                sws = {pt.getSws()}  
+                                            />
+                                            </Grid>
+                                            :
+                                            null
+                                            
+                                        
+                                    )
                                 }
+                                </>
+                                
+                            )
+                            
+                        } 
+                        </>
+                        : 
+                        <>
+                        <b>Loading</b>
+                        </>
+                    }
+                </Grid>
+                
+                
+                    <Grid item xs={12}>
+                        <Button onClick={() => window.location.reload(false)}>Click to reload</Button>
+                    </Grid>
 
-                                )}
-
-
-                            </TableBody>
-
-                        ))}
-
-                    </Table>
-                    </Paper>
-                </Container>
-
+                </Grid>
             </div>
         );
     }
