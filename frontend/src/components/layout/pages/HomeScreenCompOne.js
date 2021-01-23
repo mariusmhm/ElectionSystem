@@ -28,7 +28,7 @@ import { id, ja } from 'date-fns/locale';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import TableEntry from '../../assets/TableEntry';
 import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
-import Entry from '../../assets/Entry';
+
 
 
 
@@ -51,7 +51,7 @@ class HomeScreenCompTwo extends Component {
             loaded: null,
             activeIndex: null,
             number: 4,
-            participationID: null,
+            participationID: 1,
 
 
 
@@ -146,17 +146,20 @@ class HomeScreenCompTwo extends Component {
                                             participations.filter(ptp => ptp.project_id === p.getID()).length > 0 ? 
                                             pt.getID() === p.getProjecttype() ?
                                             <>
-                                            
+                                            {console.log('Gefunden: ' + participations.find(ptpID => ptpID.project_id === p.getID()).id)}
+                                        
                                             <Grid container xs={12}>
                                                 
                                             <TableEntry
+                                                key = {p.getID()}
                                                 id = {p.getID()}
                                                 name = {p.getName()}
                                                 prof = {p.getProfessor()}
                                                 dsc = {p.getShortDescription()}
                                                 ects = {pt.getEcts()}
                                                 sws = {pt.getSws()}
-                                                participationID = {1}
+                                                participationID = {participations.find(ptpID => ptpID.project_id === p.getID()).id}
+                                                
                                             />
                                             </Grid>
                                            
