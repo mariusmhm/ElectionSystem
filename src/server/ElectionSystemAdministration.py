@@ -157,11 +157,11 @@ class ElectionSystemAdministration (object):
         #---SEMESTER SPECIFIC OPERATIONS-----
 
 
-    def create_semester(self, creation_date, winter_semester, submit_projects, grading, election):
+    def create_semester(self, creation_date, name, submit_projects, grading, election):
         """Create a new semester:"""
         semester = Semester()
         semester.set_date(creation_date)
-        semester.set_wintersemester(winter_semester)
+        semester.set_name(name)
         semester.set_submit_projects(submit_projects)
         semester.set_grading(grading)
         semester.set_election(election)

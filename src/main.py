@@ -62,8 +62,7 @@ student = api.inherit('Student', user, {
     'study': fields.String(attribute='_study', description='Students Study')
 })
 
-semester = api.inherit('Semester', bo, {
-    'winter_semester':fields.Boolean(attribute='_winter_semester', description='Winter Semester is true or false'),
+semester = api.inherit('Semester', nbo, {
     'submit_projects':fields.Boolean(attribute='_submit_projects', description='Activate and deaktivate submit projects'),
     'grading':fields.Boolean(attribute='_grading', description='Activate and deactivate grading'),
     'election':fields.Boolean(attribute='_election', description='Activate and deactivate election')
@@ -339,7 +338,7 @@ class SemesterListOperations(Resource):
         proposal = Semester.to_dict(api.payload)
 
         if proposal is not None:
-            s = adm.create_semester(proposal.get_date(), proposal.get_wintersemester(), proposal.get_submit_projects(),
+            s = adm.create_semester(proposal.get_date(), proposal.get_name(), proposal.get_submit_projects(),
              proposal.get_grading(), proposal.get_election())
             return s, 200
 

@@ -1,24 +1,14 @@
-from server.bo.BusinessObject import BusinessObject
-from datetime import date
+from server.bo.NamedBusinessObject import NamedBusinessObject
 
 """Realization of an semester class"""
     
-class Semester(BusinessObject):
+class Semester(NamedBusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._winter_semester = True
         self._submit_projects = False
         self._grading = False
         self._election = False
-
-    def get_wintersemester(self):
-        """Read out winter_semester."""
-        return self._winter_semester
-
-    def set_wintersemester(self, ws):
-        """Set winter_semester."""
-        self._winter_semester = ws
 
     def get_submit_projects(self):
         """Read submit_project_end_date."""
@@ -51,7 +41,7 @@ class Semester(BusinessObject):
         semester = Semester()
         semester.set_id(dicti["id"])
         semester.set_date(dicti["creation_date"])
-        semester.set_wintersemester(dicti["winter_semester"])
+        semester.set_name(dicti["name"])
         semester.set_submit_projects(dicti["submit_projects"])
         semester.set_grading(dicti["grading"])
         semester.set_election(dicti["election"])

@@ -22,11 +22,11 @@ class SemesterMapper(Mapper):
         crs.execute("SELECT * FROM Semester")
         tupsrc = crs.fetchall()
 
-        for (id, creation_date, winter_semester, submit_projects, grading, election) in tupsrc:
+        for (id, creation_date, name, submit_projects, grading, election) in tupsrc:
             semester = Semester()
             semester.set_id(id)
             semester.set_date(creation_date)
-            semester.set_wintersemester(winter_semester)
+            semester.set_name(name)
             semester.set_submit_projects(submit_projects)
             semester.set_grading(grading)
             semester.set_election(election)
@@ -48,11 +48,11 @@ class SemesterMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, winter_semester, submit_projects, grading, election) = tuples[0]
+            (id, creation_date, name, submit_projects, grading, election) = tuples[0]
             semester = Semester()
             semester.set_id(id)
             semester.set_date(creation_date)
-            semester.set_wintersemester(winter_semester)
+            semester.set_name(name)
             semester.set_submit_projects(submit_projects)
             semester.set_grading(grading)
             semester.set_election(election)
@@ -90,8 +90,8 @@ class SemesterMapper(Mapper):
                 assume that the table is empty and that we can start with ID 1. """
                 semester.set_id(1)
 
-            command = "INSERT INTO Semester (id, creation_date, winter_semester, submit_projects, grading, election) VALUES (%s,%s,%s,%s,%s,%s)"
-            data = (semester.get_id(), semester.get_date(), semester.get_wintersemester(), semester.get_submit_projects(), semester.get_grading(), semester.get_election())
+            command = "INSERT INTO Semester (id, creation_date, name, submit_projects, grading, election) VALUES (%s,%s,%s,%s,%s,%s)"
+            data = (semester.get_id(), semester.get_date(), semester.get_name(), semester.get_submit_projects(), semester.get_grading(), semester.get_election())
             cursor.execute(command, data)
 
         self._connection.commit()
@@ -103,8 +103,8 @@ class SemesterMapper(Mapper):
         """Repeated writing of an object to the database.
         : param semester the object that is to be written to the DB"""
         cursor = self._connection.cursor()
-        cmd = "UPDATE Semester" + " SET winter_semester=%s, submit_projects=%s, grading=%s, election=%s WHERE id=%s"
-        data = (semester.get_wintersemester(), semester.get_submit_projects(), semester.get_grading(), semester.get_election(), semester.get_id())
+        cmd = "UPDATE Semester" + " SET creation_date=%s, name=%s, submit_projects=%s, grading=%s, election=%s WHERE id=%s"
+        data = (semester.get_date(), semester.get_name(), semester.get_submit_projects(), semester.get_grading(), semester.get_election(), semester.get_id())
         cursor.execute(cmd, data)
 
         self._connection.commit()
