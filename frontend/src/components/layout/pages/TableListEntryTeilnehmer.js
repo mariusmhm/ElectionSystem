@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, StudentBO, GradingBO } from '../../../api';
+import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, StudentBO, GradingBO, SemesterBO } from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -29,6 +29,9 @@ class TableListEntryTeilnehmer extends Component {
             select: true,
             lastname: '',
             priority:'',
+            gradingPeriod:null,
+            semester:[],
+            disabled:false,
             gradingid:'',
             partid:'',
             studentid:'',
@@ -73,6 +76,29 @@ class TableListEntryTeilnehmer extends Component {
         ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
 
     }
+
+
+
+    getSemester =() =>{
+        ElectionSystemAPI.getAPI().getSemester(1)
+        .then(semesterBO =>
+            this.setState({
+                semester: semesterBO,
+                gradingPeriod: semesterBO.getGrading(),
+                loaded: true,
+                error: null
+            }),
+            this.handleButtonStyle()
+            ).catch(e =>
+                this.setState({
+                    semester:[],
+                    error: e
+                }))
+        console.log('ausgeführt');
+
+    }
+
+
     getParticipationForStudentAndProject =() =>{
         ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(1,1)
         .then(participationBO =>
@@ -120,10 +146,28 @@ class TableListEntryTeilnehmer extends Component {
         });
     }
 
+    handleButtonStyle(){
+        console.log(this.state.gradingPeriod)
+        if(this.state.gradingPeriod){
+            console.log(this.state.gradingPeriod)
+            this.setState({
+                disabled: false
+            })
+        } else{
+            this.setState({
+                disabled: true
+            })
+        }
+    }
+
+
+
     componentDidMount() {
          this.getStudentByParticipations();
          this.getAllGrades();
          this.getParticipationForStudentAndProject();
+         this.getSemester();
+
     }
 
     render() {
@@ -131,6 +175,9 @@ class TableListEntryTeilnehmer extends Component {
         const { classes } = this.props;
         const {activeIndex, buttonText} = this.state;
         const { gradings, error, students} = this.state;
+
+
+
 
         return (
             <TableRow key={this.props.id}>
@@ -161,7 +208,7 @@ class TableListEntryTeilnehmer extends Component {
                     </FormControl>
                 </TableCell>
                 <TableCell>
-                    <Button variant="outlined" onClick={this.updateParticipation}> SAVE </Button>
+                    <Button variant="outlined" onClick={this.updateParticipation} disabled={this.state.disabled}> SAVE </Button>
                 </TableCell>
 
             </TableRow>
@@ -175,9 +222,7 @@ const styles = theme => ({
         margin: '0px',
         padding: theme.spacing(3)
     },
-    button: {
-        marginTop: theme.spacing(3)
-    },
+
     redHeader: {
         color: theme.palette.red,
         fontFamily: 'Arial',

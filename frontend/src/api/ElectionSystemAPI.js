@@ -66,6 +66,7 @@ export default class ElectionSystemAPI {
     #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
     #addSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`;
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
+    #getSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
     //Student
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
@@ -602,6 +603,16 @@ export default class ElectionSystemAPI {
               resolve(responseSemesterBO);
             })
           })
+    }
+
+    getSemester(semesterID){
+        return this.#fetchAdvanced(this.#getSemesterURL(semesterID))
+        .then((responseJSON) => {
+        let responseSemesterBOs = SemesterBO.fromJSON(responseJSON)[0];
+        return new Promise(function (resolve) {
+          resolve(responseSemesterBOs);
+        })
+      })
     }
 
     //----------Student-------------------------
