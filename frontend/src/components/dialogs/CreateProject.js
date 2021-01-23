@@ -50,7 +50,7 @@ class CreateProject extends Component {
         numBlockdaysPriorLecture: null,
         numBlockdaysDuringLecture: null,
         dateDuringLecture: null,
-        numBlockdaysInExam: 0,
+        numBlockdaysInExam: null,
         error: null,
         spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 
             15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
@@ -92,7 +92,7 @@ class CreateProject extends Component {
     }
 
     getUsersForRole = () => {
-        ElectionSystemAPI.getAPI().getUserForRole('professor')
+        ElectionSystemAPI.getAPI().getUserForRole(3)
         .then(userBOs =>{
             this.setState({
                 professors: userBOs,
@@ -125,7 +125,7 @@ class CreateProject extends Component {
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        newProject.setProfessor(36); //prof id vom current user hier einsetzen
+        newProject.setProfessor(2); //prof id vom current user hier einsetzen
         newProject.setExternalPartner(this.state.externalPartner);
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
@@ -300,7 +300,7 @@ class CreateProject extends Component {
                     <Grid item>
                         <Typography>Weekly lecture:</Typography>
                         <FormControl>
-                                <RadioGroup row={true} id="weekly" onChange={this.handleChange} value={String(this.state.weekly)}>
+                                <RadioGroup row={true} id="weekly" name="weekly" onChange={this.handleSelectChange} value={String(this.state.weekly)}>
                                 <FormControlLabel value="true" control={<Radio />} label="yes" />
                                 <FormControlLabel value="false" control={<Radio />} label="no" />
                             </RadioGroup>

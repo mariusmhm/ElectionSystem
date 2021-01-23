@@ -1,27 +1,14 @@
-import BusinessObject from './BusinessObject';
+import NamedBusinessObject from './NamedBusinessObject';
 
 
-export default class SemesterBO extends BusinessObject {
+export default class SemesterBO extends NamedBusinessObject {
 //Represents a semester BO. 
   
-   constructor(aWintersemester, aSubmitProjects, aGrading, aElection){
+   constructor( aSubmitProjects, aGrading, aElection){
       super();
-      this.winter_semester = aWintersemester;
       this.submit_projects = aSubmitProjects;
       this.grading = aGrading;
       this.election = aElection;
-   }
- 
-   //Set if the semster is a wintersemester
- 
-   setWintersemester(aWintersemester){
-      this.winter_semester = aWintersemester;
-   }
- 
-   //Reads out if the semester is a wintersemester.
- 
-   getWintersemester(){
-      return this.winter_semester;
    }
  
    //Sets the SubmitProject

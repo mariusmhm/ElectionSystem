@@ -5,8 +5,7 @@ import {Dialog,
     Grid,
     Typography,
     FormControlLabel,
-    RadioGroup,
-    Radio,
+    TextField,
     DialogTitle,
     Switch
     } from'@material-ui/core';
@@ -21,16 +20,13 @@ class Semester extends Component {
             semester: {},
             error: null,
             open: null,
-            wintersemester: null,
+            name: '',
             grading: null,
             subProjects: null,
             election: null,
             updatingError: null,
             deletingError: null,
             loaded: null,
-            
-
-
 
         };
         this.baseState = this.state;
@@ -48,7 +44,7 @@ class Semester extends Component {
         .then(semesterBO =>
             this.setState({
                 semester: semesterBO,
-                wintersemester: semesterBO.getWintersemester(),
+                name: semesterBO.getName(),
                 grading: semesterBO.getGrading(),
                 subProjects: semesterBO.getSubmitProjects(),
                 election: semesterBO.getElection(),
@@ -66,7 +62,7 @@ class Semester extends Component {
         // clone original semester, in case the backend call fails
         let updatedSemester = Object.assign(new SemesterBO(), this.state.semester); //eventuell raus nehehmen
         // set the new attributes from our dialog
-        updatedSemester.setWintersemester(this.state.wintersemester);
+        updatedSemester.setName(this.state.name);
         updatedSemester.setSubmitProjects(this.state.subProjects);
         updatedSemester.setGrading(this.state.grading);
         updatedSemester.setElection(this.state.election);        
@@ -75,36 +71,30 @@ class Semester extends Component {
 
     } 
 
-  /** Handles the close / cancel button click event */
-  handleClose = () => {
-    // Reset the state
-    this.setState(this.baseState);
-    this.props.onClose(null);
-  }
+    /** Handles the close / cancel button click event */
+    handleClose = () => {
+        // Reset the state
+        this.setState(this.baseState);
+        this.props.onClose(null);
+    }
 
-  handleRadioChange = (event) => {
-    if(event.target.value === "true"){
-        this.setState({
-            wintersemester: true
-        })
-    }else{
-        this.setState({
-            wintersemester: false
-        })
-    } 
-  }
-
-  handleChangeSwitch = (e) =>{
+    handleChangeSwitch = (e) =>{
       this.setState({
           [e.target.name]: e.target.checked
       })
-  }
+    }
+
+    handleTextFieldChange = e =>{
+        this.setState({
+        [e.target.id]: e.target.value
+        })
+    }
 
 
  render(){
  const { classes } = this.props;
     return(
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
+        <Dialog open={true} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
         <DialogTitle
             fontcolor='primary'
             className={classes.dialogHeader}>
@@ -112,20 +102,7 @@ class Semester extends Component {
         </DialogTitle>
             <Grid container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
                 <Grid item>
-                <FormControl>
-                    <RadioGroup row={true} value={String(this.state.wintersemester)} onChange={this.handleRadioChange} >
-                         <FormControlLabel
-                            value= "true"
-                            control={<Radio color="secondary"/>}
-                            label="winter semester"
-                            align="left"/>
-                         <FormControlLabel
-                            value= "false"
-                            control={<Radio color="secondary"/>}
-                            label="summer semester"
-                            align="right" />
-                    </RadioGroup>
-                </FormControl>
+                    <TextField fullWidth variant="outlined" id="name" label="Name" onChange={this.handleTextFieldChange} value={this.state.name}/>
                 </Grid>
                 <Grid item>
                     <FormControlLabel 
@@ -140,12 +117,12 @@ class Semester extends Component {
                     />
                 </Grid>
                 <Grid item>
-                <FormControlLabel 
+                    <FormControlLabel 
                     control={<Switch color="secondary" checked={this.state.election} onChange={this.handleChangeSwitch} name="election" />}
                     label="Election"
                     />
-            </Grid>
-            <Grid container direction="row" xs={12} md={12} align="center" className={classes.mGrid}>
+                </Grid>
+                <Grid container direction="row" xs={12} md={12} align="center" className={classes.mGrid}>
                     <Grid item xs={6}>
                         <Button variant="outlined" color="primary" align="center" onClick={this.props.closeDialog}>
                             CANCEL
@@ -156,7 +133,7 @@ class Semester extends Component {
                             DONE
                         </Button>
                     </Grid>
-            </Grid>
+                </Grid>
             </Grid>
 
         </Dialog>
