@@ -480,6 +480,7 @@ class ParticipationStudentProjectOperations(Resource):
 
         adm = ElectionSystemAdministration()
         parti = adm.get_participation_by_student_and_project(student_id, project_id)
+        #print(parti.get_grading_id())
         return parti
 
 

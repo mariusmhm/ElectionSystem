@@ -13,6 +13,8 @@ import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
 
 
 
+
+
 class EntryListAdmin extends Component {
 
 
@@ -27,7 +29,9 @@ constructor(props){
     error: null,
     grade: '',
     name: '',
+    firstname:'',
     study:'',
+    id: null,
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
@@ -52,7 +56,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(1)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
@@ -72,11 +76,14 @@ getStudentByParticipations = () => {
         this.getStudentByParticipations();
     }
 
-updateGrade= () => {
-//soon
 
-}
+    removeStudent(studentid){
+        console.log('remove student');
+        this.setState({
+            students: this.state.students.filter(student => student.getID() !== studentid)
+        });
 
+    }
 
  render(){
      const { classes } = this.props;
@@ -87,7 +94,7 @@ updateGrade= () => {
                     <Grid container
                         direction="column"
                         justify="space-around"
-                        className={classes.grid}>
+                        className={classes.pagecontent}>
                             <Typography variant="h4" > Project </Typography>
                             <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
                     </Grid>
@@ -101,9 +108,19 @@ updateGrade= () => {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
+                                        <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    Delete
+                                                </Typography>
+                                            </TableCell>
                                             <TableCell>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     NAME
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    FIRSTNAME
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -113,7 +130,7 @@ updateGrade= () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Typography variant="h6" className={classes.tableRow}>
-                                                    COURSE OF STUDY
+                                                    STUDY
                                                 </Typography>
                                             </TableCell>
                                             <TableCell>
@@ -127,8 +144,13 @@ updateGrade= () => {
                                 {this.state.students.map(student => (
                                             <TableListEntryTeilnehmer
                                                 name = {student.getName()}
+                                                firstname = {student.getFirstname()}
                                                 mrtnr = {student.getMatrikelNr()}
                                                 course = {student.getStudy()}
+                                                student ={student}
+                                                id={student.getID()}
+                                                removeStudent={this.removeStudent}
+
                                             />
                                 )
                                 )}
@@ -177,6 +199,11 @@ const styles = theme => ({
     tableRow:{
     color:'lightGray',
     fontFamily:'Arial'
+    },
+
+    pagecontent:{
+        width: '100%',
+        marginTop: theme.spacing(10)
     }
 });
 

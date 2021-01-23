@@ -8,7 +8,7 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
@@ -22,23 +22,27 @@ class TableListEntryTeilnehmer extends Component {
             deletingError: null,
             loaded: false,
             id: null,
+            del: false,
+            firstname:null,
+            participationForGrading:{},
             name: null,
             mrtnr:null,
             course:null,
             activeIndex: null,
             select: true,
             lastname: '',
+            gradingIdForSelect:null,
             priority:'',
             gradingPeriod:null,
-            semester:[],
+            semester:{},
+            labelname:'Grade',
             disabled:false,
-            gradingid:'',
             partid:'',
             studentid:'',
-            student:'',
+            student:null,
             gradings:[],
             students:[],
-            participations: [],
+            participations:{},
             firstname: '',
             priority: 0
 
@@ -66,90 +70,102 @@ class TableListEntryTeilnehmer extends Component {
 
     //Updates the grade of the student in a participation object
     updateParticipation= () => {
-        let originParticipation = this.state.participations;
         // clone original participation, in case the backend call fails
-        let updatedParticipation = Object.assign(new ParticipationBO(), originParticipation);
+        let updatedParticipation = new ParticipationBO();
         // set the new attributes from our dialog
-        updatedParticipation.setGradingID(this.state.gradingid);
+        console.log('gradingid' + this.state.gradingIdForSelect);
+        updatedParticipation = this.state.participations;
+        updatedParticipation.setGradingID(this.state.gradingIdForSelect);
         console.log(JSON.stringify(updatedParticipation));
-        console.log(JSON.stringify(originParticipation));
         ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
-
     }
 
 
 
-    getSemester =() =>{
-        ElectionSystemAPI.getAPI().getSemester(1)
-        .then(semesterBO =>
+    getAllSemester = () => {
+
+        ElectionSystemAPI.getAPI().getAllSemester()
+        .then(semesterBO =>{
             this.setState({
                 semester: semesterBO,
                 gradingPeriod: semesterBO.getGrading(),
-                loaded: true,
-                error: null
-            }),
-            this.handleButtonStyle()
-            ).catch(e =>
+                error: null,
+                loaded:true
+            });
+            this.handleButtonStyle();
+             }).catch(e =>
                 this.setState({
-                    semester:[],
+                    semester: {},
                     error: e
                 }))
-        console.log('ausgeführt');
-
     }
 
 
-    getParticipationForStudentAndProject =() =>{
-        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(1,1)
-        .then(participationBO =>
+    getParticipationForStudentAndProject =(studentid, projectid) =>{
+        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(studentid,projectid)
+        .then(participationBO =>{
             this.setState({
                 participations: participationBO,
                 partid: participationBO.getID(),
                 loaded: true,
                 error: null
-            }),
-            console.log(this.state.participations)
-            ).catch(e =>
+            });
+            console.log(this.state.del);
+            if(this.state.del){
+                this.deleteParicipation(this.state.participations);
+                console.log('delete');
+            }else if(this.state.del === false){
+                this.updateParticipation();
+                console.log('update');
+            }
+
+            }).catch(e =>
                 this.setState({
                     participations:[],
                     error: e
                 }))
         console.log('ausgeführt');
-
     }
 
-
-    getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
-        .then(studentBOs =>
+    getParticipationForStudentAndProjectTwo =() =>{
+        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,1)
+        .then(participationBO =>{
             this.setState({
-                students: studentBOs,
-                studentid: studentBOs.getID(),
+                participationForGrading: participationBO,
+                gradingIdForSelect: participationBO.getGradingID(),
+
                 loaded: true,
                 error: null
-            })).catch(e =>
+            });
+            if(this.state.gradingIdForSelect !== null){
                 this.setState({
-                    students:[],
+                    labelname: '',
+                })
+            }
+
+            console.log(this.state.gradingIdForSelect)
+            }).catch(e =>
+                this.setState({
+                    participations:[],
                     error: e
                 }))
         console.log('ausgeführt');
-
     }
+
 
 
     handleSelectChangeGrade = (e) =>{
         console.log(e.target.value);
         console.log("New Grade Selected!")
         this.setState({
-            [e.target.name]: e.target.value
+            gradingIdForSelect: e.target.value
 
         });
     }
 
     handleButtonStyle(){
-        console.log(this.state.gradingPeriod)
+
         if(this.state.gradingPeriod){
-            console.log(this.state.gradingPeriod)
             this.setState({
                 disabled: false
             })
@@ -160,13 +176,38 @@ class TableListEntryTeilnehmer extends Component {
         }
     }
 
+    handleClick = (student) =>{
+        this.getParticipationForStudentAndProject(student.getID(),1)
+
+
+    }
+
+
+     deleteParicipation = (participation) => {
+        ElectionSystemAPI.getAPI().deleteParticipation(participation.getID()).then(participation => {
+
+        }).catch(e =>
+          this.setState({
+            error: e
+          })
+        );
+        this.props.removeStudent(participation.getStudentID());
+    }
+
+    deleteHandler(student){
+        this.setState({
+            del: true
+
+        })
+        this.getParticipationForStudentAndProject(student.getID(),1)
+
+    }
 
 
     componentDidMount() {
-         this.getStudentByParticipations();
          this.getAllGrades();
-         this.getParticipationForStudentAndProject();
-         this.getSemester();
+         this.getAllSemester();
+         this.getParticipationForStudentAndProjectTwo();
 
     }
 
@@ -182,7 +223,15 @@ class TableListEntryTeilnehmer extends Component {
         return (
             <TableRow key={this.props.id}>
                 <TableCell>
+                    <Button aria-label="delete" variant="outlined" onClick={() => this.deleteHandler(this.props.student)}>
+                        <DeleteIcon />
+                    </Button>
+                </TableCell>
+                <TableCell>
                         {this.props.name}
+                </TableCell>
+                 <TableCell>
+                        {this.props.firstname}
                 </TableCell>
                 <TableCell>
                         {this.props.mrtnr}
@@ -190,13 +239,15 @@ class TableListEntryTeilnehmer extends Component {
                 <TableCell>
                         {this.props.course}
                 </TableCell>
+
                 <TableCell>
                     <FormControl
                         style={{minWidth: 120}}
                          variant="outlined">
-                       <InputLabel >GRADE </InputLabel>
+                       <InputLabel > {this.state.labelname}</InputLabel>
                            <Select
-                            label="GRADE"
+                            label={this.state.labelname}
+                            value={this.state.gradingIdForSelect}
                             onChange={this.handleSelectChangeGrade}
                             name="gradingid">
                               {this.state.gradings.map((grading) => (
@@ -208,8 +259,9 @@ class TableListEntryTeilnehmer extends Component {
                     </FormControl>
                 </TableCell>
                 <TableCell>
-                    <Button variant="outlined" onClick={this.updateParticipation} disabled={this.state.disabled}> SAVE </Button>
+                    <Button variant="outlined" onClick={() => this.handleClick(this.props.student)} disabled={this.state.disabled}> SAVE </Button>
                 </TableCell>
+
 
             </TableRow>
         )
@@ -236,6 +288,7 @@ const styles = theme => ({
         fontStyle: 'bold',
         fontSize: 35,
     },
+
 
 });
 export default (TableListEntryTeilnehmer);
