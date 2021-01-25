@@ -1,6 +1,6 @@
 import React from 'react';
 import { ElectionSystemAPI } from '../../../api';
-import { Container, TableCell, Table, TableHead, TableRow, TableBody } from '@material-ui/core';
+import { Container, TableCell, Table, TableHead, TableRow, TableBody, Grid, Typography } from '@material-ui/core';
 
 let studentid = 1;
 
@@ -11,6 +11,7 @@ class SemesterReport extends React.Component {
 
         this.state = {
             participations: [],
+            participation: [],
             project: [],
             prof: [],
             student: [],
@@ -31,7 +32,7 @@ class SemesterReport extends React.Component {
             ptid: 0,
             ptname: '',
             ects: 0,
-            pploaded: false,
+            sloaded: false,
             profloaded: false,
             loaded: false,
             gloaded: false,
@@ -41,22 +42,24 @@ class SemesterReport extends React.Component {
     }
 
 
-    getForeignKeys = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(studentid)
-        .then(participationBO => {
-            this.setState({
-                participations: participationBO,
-                loaded: true
-            })
-        }).catch(e => this.setState({
-            participation: [],
-            error: e
-        }))
+    getParticipations = () => {
+        if (this.state.loaded === false) {
+            ElectionSystemAPI.getAPI().getParticipationsForStudent(studentid)
+            .then(participationBO => {
+                this.setState({
+                    participations: participationBO,
+                    loaded: true
+                })
+            }, console.log("Participation")).catch(e => this.setState({
+                participation: [],
+                error: e
+            }))
+        }
     }
 
-    getProjectStats = (projectid) =>  {
+    getProjectStats = (pid) =>  {
         if (this.state.loaded === true) {
-            ElectionSystemAPI.getAPI().getProject(projectid)
+            ElectionSystemAPI.getAPI().getProject(pid)
             .then(projectBO => {
                 this.setState({
                     project: projectBO,
@@ -65,9 +68,9 @@ class SemesterReport extends React.Component {
                     ptid: projectBO.getProjecttype(),
                     projectloaded: true
                 });
-                this.getProfessorStats();
-                this.getProjecttypeStats();
-            }, console.log(this.state.projectname)).catch(e => this.setState({
+                /* this.getProfessorStats();
+                this.getProjecttypeStats(); */
+            }, console.log("Project")).catch(e => this.setState({
                 project: [],
                 error: e
             }))
@@ -84,7 +87,7 @@ class SemesterReport extends React.Component {
                     studentnr: studentBO.getMatrikelNr(),
                     sloaded: true
                 })
-            }).catch(e => this.setState({
+            }, console.log("Student")).catch(e => this.setState({
                 student: [],
                 error: e
             }))
@@ -101,7 +104,7 @@ class SemesterReport extends React.Component {
                     proffname: userBO.getFirstname(),
                     profloaded: true
                 })
-            }).catch(e => this.setState({
+            }, console.log("Professor")).catch(e => this.setState({
                 professor: [],
                 error: e
             }))
@@ -118,7 +121,7 @@ class SemesterReport extends React.Component {
                     ects: ptBO.getEcts(),
                     ptloaded: true
                 })
-            }).catch(e => this.setState({
+            }, console.log("Projecttype")).catch(e => this.setState({
                 projecttype: [],
                 error: e
             }))
@@ -134,58 +137,73 @@ class SemesterReport extends React.Component {
                     grade: gradingBO.getGrade(),
                     gloaded: true
                 })
-            }).catch(e => this.setState({
+            }, console.log("Grade")).catch(e => this.setState({
                 grading: [],
                 error: e
             }))
         }
     }
 
-componentDidMount(){
-    this.getForeignKeys();
+/* componentDidMount(){
+    this.getParticipations();
     this.getProjectStats();
     this.getStudentStats();
     this.getProfessorStats();
+    this.getProjecttypeStats();
     this.getGrade();
-}
+} */
 
     render() {
         return(
             <div>
-                <Container maxWidth="sm">
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Projectname</TableCell>
-                                <TableCell>Professor</TableCell>
-                                <TableCell>Projecttype</TableCell>
-                                <TableCell>ECTS</TableCell>
-                                <TableCell>Grade</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.participations.map(participation => 
-                            <TableRow>
-                                {this.getProjectStats(participation.getProjectID())}
-                                <TableCell>
-                                    {this.state.projectloaded ? this.state.projectname : null}
-                                </TableCell>
-                                <TableCell>
-
-                                </TableCell>
-                                <TableCell>
-                                    
-                                </TableCell>
-                                <TableCell>
-                                    
-                                </TableCell>
-                                <TableCell>
-                                    
-                                </TableCell>
-                            </TableRow>
-                        )}
-                        </TableBody>
-                    </Table>
+                <Container maxWidth="md">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Typography align="center">
+                                <h3>Semester Report for </h3>
+                                <b>{this.state.sloaded ? this.state.studentfname : null} 
+                                {this.state.sloaded ? this.studentname : null} </b>
+                                ({this.state.sloaded ? this.state.studentnr : null})
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Projectname</TableCell>
+                                        <TableCell>Professor</TableCell>
+                                        <TableCell>Projecttype</TableCell>
+                                        <TableCell>ECTS</TableCell>
+                                        <TableCell>Grade</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.state.participations.map(participationBO => 
+                                    <TableRow key={participationBO.getID()}>
+                                        {console.log(participationBO, participationBO.getID())}
+                                        {this.getProjectStats(participationBO.getProjectID())}
+                                        <TableCell>
+                                            {this.state.projectloaded ? this.state.projectname : null}
+                                        </TableCell>
+                                        <TableCell>
+                                            {this.state.profloaded ? this.state.profname : null}, 
+                                            {this.state.profloaded ? this.state.proffname : null}
+                                        </TableCell>
+                                        <TableCell>
+                                            {this.state.ptloaedd ? this.state.ptname : null}
+                                        </TableCell>
+                                        <TableCell>
+                                            {this.state.ptloaded ? this.state.ects : null}
+                                        </TableCell>
+                                        <TableCell>
+                                            {this.state.gloaded ? this.state.grade : null}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                                </TableBody>
+                            </Table>
+                        </Grid>
+                    </Grid>
                 </Container>
                 
 

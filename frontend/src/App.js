@@ -21,6 +21,8 @@ import Semester from './components/dialogs/Semester'
 import HomeScreen from './components/layout/HomeScreen'
 import SemesterReport from './components/layout/pages/SemesterReport';
 import ProjectReport from './components/layout/pages/ProjectReport';
+import ProfileChange from './components/layout/pages/ProfileChange';
+import GradingEditingDialog from './components/dialogs/GradingEditingDialog';
 
 
 class App extends Component {
@@ -114,7 +116,7 @@ class App extends Component {
 						currentUser ?
 							<>
 							<Redirect to='/Registration'/>
-							<Route path='/Registration'><SemesterReport /></Route>
+							<Route path='/Registration'><ProfileChange /></Route>
                             </>
 							:
 							// else show the sign in page
@@ -130,7 +132,7 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={SemesterReport} />
+        				<Route exact path="/project-content" component={ProfileChange} />
     				</Switch>
                 </Router>
 			</ThemeProvider>
