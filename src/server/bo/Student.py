@@ -45,7 +45,7 @@ class Student(User):
         student.set_google_user_id(dicti["google_user_id"])
         student.set_firstname(dicti["firstname"])
         student.set_mail(dicti["mail"])
-        student.set_role(dicti["role"])
+        student.set_role_id(dicti["role_id"])
         student.set_matrikel_nr(dicti["matrikel_nr"])
         student.set_study(dicti["study"])
         return student

@@ -15,6 +15,7 @@ import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 //import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
+<<<<<<< HEAD
 import CreateProject from './components/dialogs/CreateProject'
 import ProjectContent from './components/layout/pages/ProjectContent'
 import Semester from './components/dialogs/Semester'
@@ -23,6 +24,15 @@ import SemesterReport from './components/layout/pages/SemesterReport';
 import ProjectReport from './components/layout/pages/ProjectReport';
 import ProfileChange from './components/layout/pages/ProfileChange';
 import GradingEditingDialog from './components/dialogs/GradingEditingDialog';
+=======
+import CreateProject from './components/dialogs/CreateProject';
+import ProjectContent from './components/layout/pages/ProjectContent';
+import Semester from './components/dialogs/Semester';
+import HomeScreen from './components/layout/HomeScreen';
+import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
+import AddStudents from './components/dialogs/AddStudents';
+import DeleteStudent from './components/dialogs/DeleteStudent';
+>>>>>>> 1250c4b5459cd49531c6114bb130d33233ea95de
 
 
 class App extends Component {
@@ -132,7 +142,11 @@ class App extends Component {
                     </Container>
 
 					<Switch>
+<<<<<<< HEAD
         				<Route exact path="/project-content" component={ProfileChange} />
+=======
+        				<Route exact path="/project-content" component={AddStudents} />
+>>>>>>> 1250c4b5459cd49531c6114bb130d33233ea95de
     				</Switch>
                 </Router>
 			</ThemeProvider>

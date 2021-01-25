@@ -5,22 +5,13 @@ import {Dialog,
     Grid,
     Typography,
     FormControlLabel,
-    RadioGroup,
-    Radio,
-    DialogTitle
+    TextField,
+    DialogTitle,
+    Switch
     } from'@material-ui/core';
-import DateFnsUtils from "@date-io/date-fns";
-import {
-        MuiPickersUtilsProvider,
-        KeyboardDatePicker,
-      } from '@material-ui/pickers';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, SemesterBO} from '../../api';
 
-
-
-
-let open= true;
 
 class Semester extends Component {
     constructor(props){
@@ -29,16 +20,13 @@ class Semester extends Component {
             semester: {},
             error: null,
             open: null,
-            wintersemester: null,
-            gradingEndDate: '',
-            submitProjectsEndDate: '',
-            submitProjectsBeginnDate: '',
-            gradingBeginnDate: '',
+            name: '',
+            grading: null,
+            subProjects: null,
+            election: null,
             updatingError: null,
             deletingError: null,
             loaded: null,
-
-
 
         };
         this.baseState = this.state;
@@ -56,11 +44,10 @@ class Semester extends Component {
         .then(semesterBO =>
             this.setState({
                 semester: semesterBO,
-                wintersemester: semesterBO.getWintersemester(),
-                gradingEndDate: semesterBO.getGradingEndDate(),
-                submitProjectsEndDate: semesterBO.getSubmitProjectsEndDate(),
-                submitProjectsBeginnDate: semesterBO.getSubmitProjectsBeginnDate(),
-                gradingBeginnDate: semesterBO.getGradingBeginnDate(),
+                name: semesterBO.getName(),
+                grading: semesterBO.getGrading(),
+                subProjects: semesterBO.getSubmitProjects(),
+                election: semesterBO.getElection(),
                 loaded: true,
                 error: null
             })).catch(e =>
@@ -72,211 +59,81 @@ class Semester extends Component {
 
     //Updates the semester
     updateSemester = () => {
-        let originSemester = this.state.semester;
         // clone original semester, in case the backend call fails
-        let updatedSemester = Object.assign(new SemesterBO(), originSemester); //eventuell raus nehehmen
+        let updatedSemester = Object.assign(new SemesterBO(), this.state.semester); //eventuell raus nehehmen
         // set the new attributes from our dialog
-        updatedSemester.setWintersemester(this.state.wintersemester);
-        updatedSemester.setGradingEndDate(this.state.gradingEndDate);
-        updatedSemester.setSubmitProjectsEndDate(this.state.submitProjectsEndDate);
-        updatedSemester.setSubmitProjectsBeginnDate(this.state.submitProjectsBeginnDate);
-        updatedSemester.setGradingBeginnDate(this.state.gradingBeginnDate);
+        updatedSemester.setName(this.state.name);
+        updatedSemester.setSubmitProjects(this.state.subProjects);
+        updatedSemester.setGrading(this.state.grading);
+        updatedSemester.setElection(this.state.election);        
         console.log(JSON.stringify(updatedSemester));
         ElectionSystemAPI.getAPI().updateSemester(updatedSemester).then(semester => {this.props.closeDialog()}).catch(e => console.log(e));
 
     } 
 
-  /** Handles the close / cancel button click event */
-  handleClose = () => {
-    // Reset the state
-    this.setState(this.baseState);
-    this.props.onClose(null);
-  }
+    /** Handles the close / cancel button click event */
+    handleClose = () => {
+        // Reset the state
+        this.setState(this.baseState);
+        this.props.onClose(null);
+    }
 
-  handleRadioChange = (event) => {
-    if(event.target.value === "true"){
+    handleChangeSwitch = (e) =>{
+      this.setState({
+          [e.target.name]: e.target.checked
+      })
+    }
+
+    handleTextFieldChange = e =>{
         this.setState({
-            wintersemester: true
-        })
-    }else{
-        this.setState({
-            wintersemester: false
+        [e.target.id]: e.target.value
         })
     }
-    
-    
-  };
 
-  handleSubmitProjectsBeginnDateChange = (date) => {
-    const nDate = new Date(date);
-    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
-    this.setState({
-        submitProjectsBeginnDate: nD
-    })
-  };
-
-  handleSubmitProjectsEndDateChange = (date) => {
-    const nDate = new Date(date);
-    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
-    this.setState({
-        submitProjectsEndDate: nD
-    })
-  };
-
-  handleGradingBeginnDateChange = (date) => {
-    const nDate = new Date(date);
-    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
-    this.setState({
-        gradingBeginnDate: nD
-    })
-  };
-
-  handleGradingEndDateChange = (date) => {
-    const nDate = new Date(date);
-    const nD = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
-    this.setState({
-        gradingEndDate: nD
-    })
-  };
 
  render(){
  const { classes } = this.props;
-
- const { semester, error } = this.state;
     return(
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
+        <Dialog open={true} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
         <DialogTitle
             fontcolor='primary'
             className={classes.dialogHeader}>
                 EDIT THE SEMESTER PERIOD
         </DialogTitle>
-            <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-                <FormControl>
-                    <RadioGroup row={true} value={String(this.state.wintersemester)} onChange={this.handleRadioChange} >
-                         <FormControlLabel
-                            value= "true"
-                            control={<Radio />}
-                            label="winter semester"
-                            align="left"/>
-                         <FormControlLabel
-                            value= "false"
-                            control={<Radio />}
-                            label="summer semester"
-                            align="right" />
-                    </RadioGroup>
-                </FormControl>
-            <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-            <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-            <Typography
-                    variant="h6"
-                    color="secondary"
-                    align="center"
-                    className={classes.redHeader}>
-                        DUE DATE FOR NEW PROJECTS
-            </Typography>
+            <Grid container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
+                <Grid item>
+                    <TextField fullWidth variant="outlined" id="name" label="Name" onChange={this.handleTextFieldChange} value={this.state.name}/>
+                </Grid>
+                <Grid item>
+                    <FormControlLabel 
+                    control={<Switch color="secondary" checked={this.state.subProjects} onChange={this.handleChangeSwitch} name="subProjects" />}
+                    label="Submit Projects"
+                    />
+                </Grid>
                 <Grid item align="center">
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-projects-beginn"
-                            value={this.state.submitProjectsBeginnDate}
-                            onChange={this.handleSubmitProjectsBeginnDateChange}
-                            KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
+                <FormControlLabel 
+                    control={<Switch color="secondary" checked={this.state.grading} onChange={this.handleChangeSwitch} name="grading" />}
+                    label="Grading"
+                    />
                 </Grid>
-                <Grid item >
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-projects-end"
-                            value={this.state.submitProjectsEndDate}
-                            onChange={this.handleSubmitProjectsEndDateChange}
-                            KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
+                <Grid item>
+                    <FormControlLabel 
+                    control={<Switch color="secondary" checked={this.state.election} onChange={this.handleChangeSwitch} name="election" />}
+                    label="Election"
+                    />
                 </Grid>
-            </Grid>
-             <Grid item container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-            <Typography
-                variant="h6"
-                align="center"
-                color="secondary"
-                className={classes.redHeader}>
-                    DUE DATE FOR GIVING GRADES
-            </Typography>
-                <Grid item xs={12} md={12}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-grading-beginn"
-                            value={this.state.gradingBeginnDate}
-                            onChange={this.handleGradingBeginnDateChange}
-                            KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="dd/MM/yyyy"
-                            margin="normal"
-                            id="date-picker-grading-end"
-                            value={this.state.gradingEndDate}
-                            onChange={this.handleGradingEndDateChange}
-                            KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                            }}
-                        />
-                    </MuiPickersUtilsProvider>
-                </Grid>
-            </Grid>
-            </Grid>
-            <Grid item container direction="row" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
+                <Grid container direction="row" xs={12} md={12} align="center" className={classes.mGrid}>
                     <Grid item xs={6}>
-                        <Button
-                        variant="outlined"
-                        color="secondary"
-                        align="center"
-                        className={classes.button}
-                        onClick={this.props.closeDialog}>
+                        <Button variant="outlined" color="primary" align="center" onClick={this.props.closeDialog}>
                             CANCEL
                         </Button>
                     </Grid>
-                    <Grid>
-                        <br/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                        type="submit"
-                        variant="outlined"
-                        align="center"
-                        className={classes.button}
-                        onClick={this.updateSemester}
-                        onClose={this.props.closeDialog}>
+                    <Grid item xs={6}> 
+                        <Button variant="contained" color="primary" align="center" onClick={this.updateSemester} onClose={this.props.closeDialog}>
                             DONE
                         </Button>
                     </Grid>
-
-            
-            </Grid>
+                </Grid>
             </Grid>
 
         </Dialog>
@@ -287,13 +144,14 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+        paddingTop: theme.spacing(0)
+    },
+    mGrid:{
+        paddingTop: theme.spacing(3)
     },
     dialogHeader:{
         textAlign: "center"
-    },
-    button:{
-        marginTop: theme.spacing(3)
     },
     redHeader:{
         color: theme.palette.red,

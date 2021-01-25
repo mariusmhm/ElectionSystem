@@ -166,7 +166,7 @@ class ProjectContent extends Component {
                         <ArrowBackIosIcon color="secondary"/> 
                     </IconButton>
                 </Grid>
-                <Grid container xs={11}>
+                <Grid container item xs={11}>
                     <Grid item>
                         <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname: null}</Typography>
                     </Grid>
@@ -175,7 +175,7 @@ class ProjectContent extends Component {
                    </Grid>
                 </Grid>
 
-            <Grid container direction="column" spacing={2} xs={12} md={4}>
+            <Grid container item direction="column" spacing={2} xs={12} md={4}>
                 
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module.getName() : null}</Typography>
@@ -220,18 +220,36 @@ class ProjectContent extends Component {
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.project.getNumBlockDaysInExam() : null}</Typography>
                 </Grid>
             </Grid>
-            <Grid container direction="column" spacing={2} xs={12} md={6}>
+            <Grid container item direction="column" spacing={2} xs={12} md={6}>
                 <Grid item>
                     <Typography style={{ fontWeight: 600 }}>Short description:</Typography>
                 </Grid>
                 <Grid item>
                     <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
                 </Grid>
+<<<<<<< HEAD
                 {/* <Grid item>
                     <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
                 </Grid> */}
                 <Grid item>
                     <Typography>Reason:</Typography>
+=======
+                { this.state.userRole === "administration" &&
+                <Grid container>
+                    <Grid item>
+                    <FormControl style={{minWidth: 120}} variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Revalue</InputLabel>
+                            <Select name="newState" defaultValue="" label="revalue" onChange={this.handleSelectChange}>
+                                {this.state.allStates.map((state) => (
+                                        <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
+                                    ))}
+                            </Select>
+                    </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="primary" className={classes.button} onClick={this.updateProject}>Ok</Button>
+                    </Grid>
+>>>>>>> 1250c4b5459cd49531c6114bb130d33233ea95de
                 </Grid>
                 
                 
@@ -249,7 +267,7 @@ class ProjectContent extends Component {
 const styles = theme => ({
     grid:{
         width: '100%',
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(10),
         margin: theme.spacing(3),
         paddingLeft: theme.spacing(2)
         
