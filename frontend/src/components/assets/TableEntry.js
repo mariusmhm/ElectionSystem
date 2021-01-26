@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import HomeScreenCompTwo from '../layout/pages/HomeScreenCompTwo';
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import {withStyles} from '@material-ui/core';
+import HomeScreenCompOne from '../layout/pages/HomeScreenCompOne';
 
 
 
@@ -46,6 +48,8 @@ class TableEntry extends Component {
             firstname: '',
             priority: 0,
             student: 2,
+            
+
 
 
 
@@ -129,35 +133,41 @@ class TableEntry extends Component {
 
      // Delets the participation
      deleteParticipation = (participation) => {
-        participation = this.state.participationID;
+        participation = this.props.participationID;
         console.log(participation);
         ElectionSystemAPI.getAPI().deleteParticipation(participation)
         console.log(participation);
         
     }
 
-
+    reload(){
+        window.location.reload();
+    }
 
 
     handleClick(){
-        this.handleSelect();
+        
+        
         if(this.state.select === true){
             return(
             this.addParticipation(),
-            console.log("Participation created")
+            console.log("Participation created"),
+            this.handleSelect()
             );
        }
        if(this.state.select === false){
            return(
             this.deleteParticipation(),
-            console.log("Participation deleted")
+            console.log("Participation deleted"),
+            this.handleSelect()
             );
        }
     }
 
 
+
     askStatus(){
-        if(this.state.participationID === null){
+        if(this.props.participationID != null){
             return(
                 this.setState({select: false})
             );
@@ -167,7 +177,7 @@ class TableEntry extends Component {
     
 
     componentDidMount() {
-        this.getUser();
+        ///this.getUser();
         this.askStatus();
     }
 
@@ -211,6 +221,7 @@ class TableEntry extends Component {
                                         id="demo-simple-select-helper"
                                         defaultValue="0"
                                         onChange={this.handleChange}
+                                        style={{display:  this.state.select ? 'block' : 'none'}}
                                     >
                                         <MenuItem value="0">Priority</MenuItem>
                                         <MenuItem value="1"> 1st priority</MenuItem>
@@ -218,6 +229,9 @@ class TableEntry extends Component {
                                         <MenuItem value="3">3rd priority </MenuItem>
                                         <MenuItem value="4">4th priority </MenuItem>
                                     </Select>
+                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
+                                         {this.props.priority}</Typography>
+                                         
                                 </FormControl>
                             
                             
@@ -232,12 +246,15 @@ class TableEntry extends Component {
                                     
                                     endIcon={<PlaylistAddCheckIcon />}
                                     color={this.state.select ? "primary": "secondary"} 
+                                
                                     onClick={() => {
-                                        this.handleClick();
-                                    }}>    
+                                            this.handleClick();
+                                            this.props.action() 
+                                
+                                    }} >  
                                     {this.state.select ? "Select" : "Selected"}      
                                 </Button>
-
+                               
                             </Grid>
                         </Grid>
                         
@@ -261,15 +278,15 @@ class TableEntry extends Component {
 
                                     </Grid>
                                     <br/>
-                                    <Grid container justify="flex-start" xl={6} xs={6}>
-                                        <Grid item xs={2} xl={2}>
+                                    <Grid container justify="flex-start" xl={9} xs={9}>
+                                        <Grid item xs={3} xl={3}>
                                             <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
                                         </Grid>
-                                        <Grid item xs={2} xl={2}>
+                                        <Grid item xs={3} xl={3}>
                                             <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
                                         </Grid>
-                                        <Grid container justify="flex-end" xl={2} xs={2}>
-                                            <Grid item xs={2} xl={2}>
+                                        <Grid container justify="flex-end" xl={3} xs={3}>
+                                            <Grid item xs={3} xl={3}>
                                                 <Typography variant="subtitle2">Professor*in:&nbsp;{this.props.prof}</Typography>
                                             </Grid>
                                         </Grid>
@@ -301,4 +318,25 @@ class TableEntry extends Component {
 }
 
 
-export default (TableEntry);
+
+
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        margin: '0px',
+        padding: theme.spacing(3)
+    },
+    button:{
+        marginTop: theme.spacing(3)
+    },
+    redHeader:{
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 15
+    },
+ 
+});
+
+export default withStyles(styles)(TableEntry);
+
