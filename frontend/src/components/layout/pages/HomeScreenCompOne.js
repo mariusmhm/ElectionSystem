@@ -152,10 +152,11 @@ class HomeScreenCompTwo extends Component {
         console.log('Selected: '+ selectedProjects)
         console.log('Not Selected: '+ unselectedProjects)
 
-
+        
         return (
             <div>
                 <Grid container >
+                <Typography variant="h2">Meine Wahl</Typography>
                     {selectedProjects.length > 0 ? 
                     
                             projecttypes.map(pt => 
@@ -163,14 +164,23 @@ class HomeScreenCompTwo extends Component {
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                                 
                                     <Grid item xs={12}>
-                                        <Typography>{pt.getName()}</Typography>
+                                        <Typography color="secondary">{pt.getName()}</Typography>
                                         {
                                             selectedProjects.map(project =>
                                                 
                                                 project.projecttype_id === pt.id ?
 
                                                 <>
-                                                <Typography>{project.getID()}</Typography>
+                                                    <TableEntry
+                                                        key = {project.getID()}
+                                                        id = {project.getID()}
+                                                        name = {project.getName()}
+                                                        prof = {project.getProfessor()}
+                                                        dsc = {project.getShortDescription()}
+                                                        ects = {pt.getEcts()}
+                                                        sws = {pt.getSws()}
+                                                        participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}     
+                                                    />
                                                 </>
 
                                                 :null
@@ -189,8 +199,8 @@ class HomeScreenCompTwo extends Component {
 
                 <Grid item xs={12}>
                 <Divider/>
-                <Typography>Hier kommen nicht gewählte</Typography>
-                <Divider/>
+                <Typography variant="h2">Projektübersicht</Typography>
+                
                 </Grid>
 
                 {unselectedProjects.length > 0 ? 
@@ -200,14 +210,22 @@ class HomeScreenCompTwo extends Component {
                         unselectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                         
                             <Grid item xs={12}>
-                                <Typography>{pt.getName()}</Typography>
+                                <Typography color="secondary">{pt.getName()}</Typography>
                                 {
                                     unselectedProjects.map(project =>
                                         
                                         project.projecttype_id === pt.id ?
 
                                         <>
-                                        <Typography>{project.getID()}</Typography>
+                                        <TableEntry
+                                            key = {project.getID()}
+                                            id = {project.getID()}
+                                            name = {project.getName()}
+                                            prof = {project.getProfessor()}
+                                            dsc = {project.getShortDescription()}
+                                            ects = {pt.getEcts()}
+                                            sws = {pt.getSws()}
+                                        />
                                         </>
 
                                         :null
