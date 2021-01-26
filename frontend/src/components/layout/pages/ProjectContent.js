@@ -227,29 +227,11 @@ class ProjectContent extends Component {
                 <Grid item>
                     <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
                 </Grid>
-<<<<<<< HEAD
                 {/* <Grid item>
                     <Typography>State: { this.state.loaded ? this.state.project.getState() : null}</Typography>
                 </Grid> */}
                 <Grid item>
                     <Typography>Reason:</Typography>
-=======
-                { this.state.userRole === "administration" &&
-                <Grid container>
-                    <Grid item>
-                    <FormControl style={{minWidth: 120}} variant="outlined" className={classes.FormControl}>
-                            <InputLabel>Revalue</InputLabel>
-                            <Select name="newState" defaultValue="" label="revalue" onChange={this.handleSelectChange}>
-                                {this.state.allStates.map((state) => (
-                                        <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
-                                    ))}
-                            </Select>
-                    </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" color="primary" className={classes.button} onClick={this.updateProject}>Ok</Button>
-                    </Grid>
->>>>>>> 1250c4b5459cd49531c6114bb130d33233ea95de
                 </Grid>
                 
                 

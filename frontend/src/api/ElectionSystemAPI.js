@@ -68,13 +68,16 @@ export default class ElectionSystemAPI {
     #updateSemesterURL = (id) => `${this.#electionSystemServerBaseURL}/semester/${id}`;
 
     //Student
+    #getAllStudentsURL = () => `${this.#electionSystemServerBaseURL}/student`;
     #getStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
     #getStudentForGoogleIDURL = (googleId) => `${this.#electionSystemServerBaseURL}/student-by-google-id/${googleId}`;
     #getStudentForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/student-by-mail/${mail}`;
     #addStudentURL =() =>  `${this.#electionSystemServerBaseURL}/student`;
+    #updateStudentURL = (id) => `${this.#electionSystemServerBaseURL}/student/${id}`;
     #getStudentsByParticipationsURL =(id)=>`${this.#electionSystemServerBaseURL}/students-by-participations/${id}`;
 
     //User
+    #getAllUsersURL = () => `${this.#electionSystemServerBaseURL}/user`;
     #addUserURL = () =>  `${this.#electionSystemServerBaseURL}/user`;
     #getUserForGoogleIDURL = (googleID) =>  `${this.#electionSystemServerBaseURL}/user-by-google-id/${googleID}`;
     #getUserForMailURL = (mail) => `${this.#electionSystemServerBaseURL}/user-by-mail/${mail}`;
@@ -606,6 +609,15 @@ export default class ElectionSystemAPI {
 
     //----------Student-------------------------
 
+    getAllStudents(){
+      return this.#fetchAdvanced(this.#getAllStudentsURL()).then((responseJSON) => {
+          let studentBOs = StudentBO.fromJSON(responseJSON);
+          return new Promise(function (resolve){
+              resolve(studentBOs)
+          })
+      })
+  }
+
     getStudent(studentID){
         return this.#fetchAdvanced(this.#getStudentURL(studentID))
         .then((responseJSON) => {
@@ -652,6 +664,22 @@ export default class ElectionSystemAPI {
             })
     }
 
+    updateStudent(studentBO){
+      return this.#fetchAdvanced(this.#updateStudentURL(studentBO.getID()), {
+          method: 'PUT',
+          headers:{
+            'Accept': 'application/json, text/plain',
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(studentBO)
+          }).then((responseJSON) => {
+          let responseStudentBO = UserBO.fromJSON(responseJSON)[0];
+          return new Promise(function (resolve) {
+            resolve(responseStudentBO);
+          })
+        })
+  }
+
     getStudentByParticipations(projectID){
     return this.#fetchAdvanced(this.#getStudentsByParticipationsURL(projectID))
     .then((responseJSON) => {
@@ -664,6 +692,16 @@ export default class ElectionSystemAPI {
 }
 
     //----------User-------------------------
+
+    getAllUsers(){
+      return this.#fetchAdvanced(this.#getAllUsersURL()).then((responseJSON) => {
+          let userBOs = UserBO.fromJSON(responseJSON);
+          return new Promise(function (resolve){
+              resolve(userBOs)
+          })
+      })
+  }
+
 
     addUser(user){
       return this.#fetchAdvanced(this.#addUserURL(), {
