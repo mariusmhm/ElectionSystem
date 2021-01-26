@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer, Grid, Divider, Container } from "@material-ui/core";
+import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
+import { ElectionSystemAPI, ParticipationBO,} from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
-import HomeScreenCompTwo from '../layout/pages/HomeScreenCompTwo';
-import DateFnsUtils from "@date-io/date-fns";
-import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+
+
 import {withStyles} from '@material-ui/core';
-import HomeScreenCompOne from '../layout/pages/HomeScreenCompOne';
+
 
 
 
@@ -73,12 +70,12 @@ class TableEntry extends Component {
                     firstname: userBO.getFirstname(),
                     loaded: true,
                     error: null
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                         error: e
                     }))
-        console.log('User ausgeführt');
+        
     }
 
     toggleClass(index, e) {
@@ -177,7 +174,7 @@ class TableEntry extends Component {
     
 
     componentDidMount() {
-        ///this.getUser();
+        this.getUser();
         this.askStatus();
     }
 
@@ -188,7 +185,7 @@ class TableEntry extends Component {
         
 
         const { classes } = this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex} = this.state;
 
         
 
@@ -200,20 +197,21 @@ class TableEntry extends Component {
                    
                     <Grid container justify="flex-start" xs={12}  >
                         
-                        <Grid item xs={12} xl={6}>
+                        <Grid item xs={4} xl={6}>
                                 
                                     <Button
                                             variant="contained"
                                             color="none"
                                             onClick={this.toggleClass.bind(this, this.props.id)}
+                                            style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
                                             endIcon={this.state.activeIndex ? <ArrowDropUpIcon/> : <ArrowDropDownIcon />}
                                         >
                                             <Typography variant="h5">{this.props.name}</Typography>
                                     </Button>
                                 
                         </Grid>
-                        <Grid container xs={12} xl={6} justify="flex-end">
-                            <Grid item xs={6} xl={2}>
+                        <Grid container xs={6} xl={6} justify="flex-end" alignItems="center">
+                            <Grid item xs={3} xl={2}>
                                 <FormControl>
                                 
                                     <Select
@@ -230,21 +228,21 @@ class TableEntry extends Component {
                                         <MenuItem value="4">4th priority </MenuItem>
                                     </Select>
                                     <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
-                                         {this.props.priority}</Typography>
+                                         Priority: {this.props.priority}</Typography>
                                          
                                 </FormControl>
                             
                             
                             
                             </Grid>
-                            <Grid item xs={6} xl={2}>
+                            <Grid item xs={3} xl={2}>
                                 
                                 <Button
                                     
                                     variant="contained"
                                     color="secondary"
                                     
-                                    endIcon={<PlaylistAddCheckIcon />}
+                                    endIcon= {this.state.select ? <PlaylistAddCheckIcon /> :  <DeleteForeverIcon/>}
                                     color={this.state.select ? "primary": "secondary"} 
                                 
                                     onClick={() => {
@@ -252,7 +250,7 @@ class TableEntry extends Component {
                                             this.props.action() 
                                 
                                     }} >  
-                                    {this.state.select ? "Select" : "Selected"}      
+                                    {this.state.select ? "Select" : "Deselect"}      
                                 </Button>
                                
                             </Grid>
@@ -287,14 +285,14 @@ class TableEntry extends Component {
                                         </Grid>
                                         <Grid container justify="flex-end" xl={3} xs={3}>
                                             <Grid item xs={3} xl={3}>
-                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.props.prof}</Typography>
+                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                     <br/>
                                     
 
-                                    <Divider />
+                                    
                                 </Collapse>
                         
                     </Grid>
@@ -302,7 +300,7 @@ class TableEntry extends Component {
                 </Grid> 
 
                 
-                
+            
             </Grid>
             
 

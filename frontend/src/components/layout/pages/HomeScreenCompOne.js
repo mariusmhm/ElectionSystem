@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
+
 import Typography from '@material-ui/core/Typography'
 
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,7 @@ import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '..
 import TableEntry from '../../assets/TableEntry';
 
 
-class HomeScreenCompTwo extends Component {
+class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -32,6 +32,7 @@ class HomeScreenCompTwo extends Component {
             projectLoaded: false,
             projecttypeLoaded: false,
             loaded: true,
+            reload: true,
 
             error: null,
             priority: '',
@@ -41,6 +42,7 @@ class HomeScreenCompTwo extends Component {
         };
 
         this.baseState = this.state;
+        this.someMethod = this.someMethod.bind(this);
         
     }
 
@@ -128,15 +130,29 @@ class HomeScreenCompTwo extends Component {
 
     }
 
+    someMethod= () => {
+        // Force a render without state change...
+        this.setState({reload: false})
+    }
 
 
     componentDidMount() {
         
         this.getParticipationsForStudent(); 
         this.getAllProjecttypes(); 
-       
-        
+   
     }
+
+    componentDidUpdate(){
+        if(this.state.reload === false){
+            
+            this.setState({selectedProjects: [], unselectedProjects: []});
+            this.getParticipationsForStudent(); 
+            this.getAllProjecttypes();
+            this.setState({reload: true});
+        }
+    }
+
 
 
 
@@ -146,11 +162,6 @@ class HomeScreenCompTwo extends Component {
         const { projects, participations,projecttypes,selectedProjects, unselectedProjects } = this.state;
 
 
-        console.log('All Projects: ' + projects)
-        console.log('All Participations: ' + participations)
-        console.log('All Projecttypes: ' + projecttypes)
-        console.log('Selected: '+ selectedProjects)
-        console.log('Not Selected: '+ unselectedProjects)
 
         
         return (
@@ -179,8 +190,11 @@ class HomeScreenCompTwo extends Component {
                                                         dsc = {project.getShortDescription()}
                                                         ects = {pt.getEcts()}
                                                         sws = {pt.getSws()}
-                                                        participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}     
+                                                        participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
+                                                        priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
+                                                        action={this.someMethod}    
                                                     />
+                                                    <Divider/>
                                                 </>
 
                                                 :null
@@ -225,7 +239,9 @@ class HomeScreenCompTwo extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
+                                            action={this.someMethod}
                                         />
+                                        <Divider/>
                                         </>
 
                                         :null
@@ -300,4 +316,4 @@ const useStyles = makeStyles((theme) => ({
       },
       
 }));
-export default withStyles(styles)(HomeScreenCompTwo);
+export default withStyles(styles)(HomeScreenCompOne);
