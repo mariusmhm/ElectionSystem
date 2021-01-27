@@ -5,7 +5,7 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { ElectionSystemAPI, ParticipationBO,} from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 
 
@@ -45,6 +45,7 @@ class TableEntry extends Component {
             firstname: '',
             priority: 0,
             student: 2,
+            buttoncounter:0
             
 
 
@@ -145,18 +146,20 @@ class TableEntry extends Component {
     handleClick(){
         
         
-        if(this.state.select === true){
+        if(this.state.select === true && this.state.buttoncounter === 0){
             return(
             this.addParticipation(),
             console.log("Participation created"),
-            this.handleSelect()
+            this.handleSelect(),
+            this.setState({buttoncounter: 1})
             );
        }
-       if(this.state.select === false){
+       if(this.state.select === false && this.state.buttoncounter === 0){
            return(
             this.deleteParticipation(),
             console.log("Participation deleted"),
-            this.handleSelect()
+            this.handleSelect(),
+            this.setState({buttoncounter: 1})
             );
        }
     }
@@ -227,10 +230,12 @@ class TableEntry extends Component {
                                         <MenuItem value="3">3rd priority </MenuItem>
                                         <MenuItem value="4">4th priority </MenuItem>
                                     </Select>
-                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
-                                         Priority: {this.props.priority}</Typography>
+                                    
                                          
                                 </FormControl>
+
+                                <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
+                                         Priority: {this.state.priority}</Typography>
                             
                             
                             
@@ -242,15 +247,13 @@ class TableEntry extends Component {
                                     variant="contained"
                                     color="secondary"
                                     
-                                    endIcon= {this.state.select ? <PlaylistAddCheckIcon /> :  <DeleteForeverIcon/>}
+                                    endIcon= {this.state.select ? <PlaylistAddCheckIcon /> :  <DoneAllIcon/>}
                                     color={this.state.select ? "primary": "secondary"} 
                                 
                                     onClick={() => {
                                             this.handleClick();
-                                            this.props.action() 
-                                
                                     }} >  
-                                    {this.state.select ? "Select" : "Deselect"}      
+                                    {this.state.select ? "Select" : "Selected"}      
                                 </Button>
                                
                             </Grid>

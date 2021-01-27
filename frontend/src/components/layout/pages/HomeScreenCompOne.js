@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 
 import TableEntry from '../../assets/TableEntry';
+import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
 
 
 class HomeScreenCompOne extends Component {
@@ -42,8 +43,7 @@ class HomeScreenCompOne extends Component {
         };
 
         this.baseState = this.state;
-        this.someMethod = this.someMethod.bind(this);
-        
+       
     }
 
     getAllProjecttypes = () => {
@@ -129,12 +129,10 @@ class HomeScreenCompOne extends Component {
 
 
     }
-
-    someMethod= () => {
-        // Force a render without state change...
-        this.setState({reload: false})
+    
+    reload (){
+        window.location.reload(false)
     }
-
 
     componentDidMount() {
         
@@ -143,15 +141,6 @@ class HomeScreenCompOne extends Component {
    
     }
 
-    componentDidUpdate(){
-        if(this.state.reload === false){
-            
-            this.setState({selectedProjects: [], unselectedProjects: []});
-            this.getParticipationsForStudent(); 
-            this.getAllProjecttypes();
-            this.setState({reload: true});
-        }
-    }
 
 
 
@@ -182,7 +171,7 @@ class HomeScreenCompOne extends Component {
                                                 project.projecttype_id === pt.id ?
 
                                                 <>
-                                                    <TableEntry
+                                                    <SelectedProjectEntry
                                                         key = {project.getID()}
                                                         id = {project.getID()}
                                                         name = {project.getName()}
@@ -192,7 +181,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        action={this.someMethod}    
+                                                          
                                                     />
                                                     <Divider/>
                                                 </>
@@ -200,7 +189,9 @@ class HomeScreenCompOne extends Component {
                                                 :null
 
                                             )
+                                            
                                         }
+                                    
                                     </Grid>
                                 
                                 :null
@@ -210,6 +201,14 @@ class HomeScreenCompOne extends Component {
                         :null
                 
                     }
+                    <Button
+                    style={{marginTop: "20px", marginBottom: "50px"}}
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={this.reload}
+                    > Update choosen Projects
+                    </Button>
 
                 <Grid item xs={12}>
                 <Divider/>
@@ -239,7 +238,7 @@ class HomeScreenCompOne extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
-                                            action={this.someMethod}
+                                            
                                         />
                                         <Divider/>
                                         </>
@@ -258,6 +257,14 @@ class HomeScreenCompOne extends Component {
         
             }
                 </Grid>
+                <Button
+                    style={{marginTop: "20px"}}
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={this.reload}
+                    > Update your choice
+                    </Button>
             </div>
         );
     }

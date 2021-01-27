@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
+import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
+import { ElectionSystemAPI, ParticipationBO,} from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 
 
+import {withStyles} from '@material-ui/core';
 
-class SelectedProjectEntry extends Component {
+
+
+
+
+class TableEntry extends Component {
     constructor(props) {
         super(props)
+
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
         this.state = {
+            creationDate: date,
             tableData: [],
             projects: [],
             projecttypes: [],
             users: [],
             error: null,
-            priority: '',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -31,12 +39,16 @@ class SelectedProjectEntry extends Component {
             prof: null,
             ects: null,
             sws: null,
+            participationID: null,
             activeIndex: null,
-            select: false,
+            select: true,
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 5,
+            student: 2,
+            buttoncounter:0
+            
+
 
 
 
@@ -48,6 +60,7 @@ class SelectedProjectEntry extends Component {
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     getUser = () => {
@@ -59,12 +72,12 @@ class SelectedProjectEntry extends Component {
                     firstname: userBO.getFirstname(),
                     loaded: true,
                     error: null
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                         error: e
                     }))
-        console.log('User ausgeführt');
+        
     }
 
     toggleClass(index, e) {
@@ -90,7 +103,9 @@ class SelectedProjectEntry extends Component {
       }
 
     handleSelect(){
+        
         this.setState({select: !this.state.select})
+
     }
 
     handleChange(e) {
@@ -98,15 +113,14 @@ class SelectedProjectEntry extends Component {
       }
 
     addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.priority,null,this.state.student, this.props.id );
+        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.state.student, this.props.id);
+        newParticipation.setDate(this.state.creationDate)
+        newParticipation.setPriority(this.state.priority)
+        newParticipation.setProjectID(this.props.id)
+        newParticipation.setStudentID(this.state.student)
         ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            newParticipation.setPriority(this.state.priority)
-            newParticipation.setProjectID(this.props.id)
-            newParticipation.setStudentID(this.state.student)
-            newParticipation.setDate(this.state.date)
             console.log(newParticipation)
-            console.log("Participation created");
-            
+    
         }).catch(e =>
             
             this.setState({
@@ -114,8 +128,58 @@ class SelectedProjectEntry extends Component {
             }))
     }
 
+
+
+     // Delets the participation
+     deleteParticipation = (participation) => {
+        participation = this.props.participationID;
+        console.log(participation);
+        ElectionSystemAPI.getAPI().deleteParticipation(participation)
+        console.log(participation);
+        
+    }
+
+    reload(){
+        window.location.reload();
+    }
+
+
+    handleClick(){
+        
+        
+        if(this.state.select === true && this.state.buttoncounter === 0){
+            return(
+            this.addParticipation(),
+            console.log("Participation created"),
+            this.handleSelect(),
+            this.setState({buttoncounter: 1})
+            );
+       }
+       if(this.state.select === false && this.state.buttoncounter === 0){
+           return(
+            this.deleteParticipation(),
+            console.log("Participation deleted"),
+            this.handleSelect(),
+            this.setState({buttoncounter: 1})
+            );
+       }
+    }
+
+
+
+    askStatus(){
+        if(this.props.participationID != null){
+            return(
+                this.setState({select: false})
+            );
+        }
+    }
+
+    
+
     componentDidMount() {
         this.getUser();
+        this.askStatus();
     }
 
 
@@ -123,75 +187,114 @@ class SelectedProjectEntry extends Component {
     render() {
 
         
+
         const { classes } = this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex} = this.state;
+
+        
 
         return (
-            
-            <TableRow key={this.props.id}>
-                <TableCell position="absolute" top={0}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={this.toggleClass.bind(this, this.props.id)}
-                    >
-                        {this.moreLess(this.props.id)}
-                    </Button>
-
-
-
-                </TableCell>
-
-
-                <TableCell colSpan="3">
-                    <Typography variant="h5">
-                        {this.props.name}
-                    </Typography>
-                    
-                    <Collapse in={activeIndex === this.props.id}>
-                                {this.props.dsc}
-                    </Collapse>
-                    
-
-                    
-                </TableCell>
-                <TableCell>
-                    <Typography variant="h5">
-                        {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
-                    </Typography>
-                </TableCell>
-                <TableCell>
-                    ECTS: {this.props.ects}
-                </TableCell>
-                <TableCell>
-                    SWS:  {this.props.sws}
-                </TableCell>
-                <TableCell>
-                    Priority: {this.props.priority}
-                </TableCell>
-                    <TableCell>
-                    <Button
-                        variant="contained"
-                        color="secondary"
+  
+ 
+            <Grid container justify="flex-start" xs={12} xl={12}>
+                   
+                   
+                    <Grid container justify="flex-start" xs={12}  >
                         
-                        endIcon={<PlaylistAddCheckIcon />}
-                        color={this.state.select ? "primary": "secondary"} 
-                         
-                        onClick={() => {
-                            this.addParticipation();
-                            this.handleSelect();
-                          }}>  {this.state.select ? "Select" : "Deselect"}
-                        
-                        
-                        
+                        <Grid item xs={4} xl={6}>
                                 
-                    </Button>
-                    
-                </TableCell>
+                                    <Button
+                                            variant="contained"
+                                            color="none"
+                                            onClick={this.toggleClass.bind(this, this.props.id)}
+                                            style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
+                                            endIcon={this.state.activeIndex ? <ArrowDropDownIcon /> : <ArrowDropDownIcon />}
+                                        >
+                                            <Typography variant="h5">{this.props.name}</Typography>
+                                    </Button>
+                                
+                        </Grid>
+                        <Grid container xs={6} xl={6} justify="flex-end" alignItems="center">
+                            <Grid item xs={3} xl={2}>
+                               
+                                
+                                    
+                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
+                                         Priority: {this.props.priority}</Typography>
+                                         
+                                
+                            
+                            
+                            
+                            </Grid>
+                            <Grid item xs={3} xl={2}>
+                                
+                                <Button
+                                    
+                                    variant="contained"
+                                    color="secondary"
+                                    
+                                    endIcon= {this.state.select ? <DoneAllIcon /> :  <DeleteForeverIcon/>}
+                                    color={this.state.select ? "primary": "secondary"} 
+                                
+                                    onClick={() => {
+                                            this.handleClick();
+                                    }} >  
+                                    {this.state.select ? "Deleted" : "Deselect"}      
+                                </Button>
+                               
+                            </Grid>
+                        </Grid>
+                        
+                    </Grid>
+
+                <Divider />
                 
+                
+                
+                <Grid xs={12} container justify="flex-end" spacing={12} >
+
+                    <Grid xs={12} xl={11} container justify="flex-start"  alignItems="flex-end">
+        
+                                <Collapse in={activeIndex === this.props.id}>
+
+                                    <Grid xs={12} xl={6} item >
+
+                                        <Typography variant="h6">Kurzbeschreibung<br/></Typography>
+
+                                            {this.props.dsc}
+
+                                    </Grid>
+                                    <br/>
+                                    <Grid container justify="flex-start" xl={9} xs={9}>
+                                        <Grid item xs={3} xl={3}>
+                                            <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3} xl={3}>
+                                            <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
+                                        </Grid>
+                                        <Grid container justify="flex-end" xl={3} xs={3}>
+                                            <Grid item xs={3} xl={3}>
+                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <br/>
+                                    
+
+                                    
+                                </Collapse>
+                        
+                    </Grid>
+
+                </Grid> 
+
                 
             
-            </TableRow>
+            </Grid>
+            
+
+           
             
             
             
@@ -202,33 +305,26 @@ class SelectedProjectEntry extends Component {
 
 }
 
+
+
+
 const styles = theme => ({
-    grid: {
+    grid:{
         width: '100%',
         margin: '0px',
         padding: theme.spacing(3)
     },
-    button: {
+    button:{
         marginTop: theme.spacing(3)
     },
-    redHeader: {
+    redHeader:{
         color: theme.palette.red,
         fontFamily: 'Arial',
         fontStyle: 'bold',
-        fontSize: 20
+        fontSize: 15
     },
-
-    grayHeader: {
-        color: theme.palette.gray,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 35
-    },
-
-    formControl: {
-        minWidth: '120px',
-        fontSize: '15px'}
-
-
+ 
 });
-export default (SelectedProjectEntry);
+
+export default withStyles(styles)(TableEntry);
+
