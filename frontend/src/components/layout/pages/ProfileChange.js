@@ -1,4 +1,4 @@
-import { Typography, Grid, Container, TextField, Button, Tabs, Tab, MenuItem, Select, FormControl, InputLabel} from '@material-ui/core';
+import { Typography, Grid, Container, TextField, Button, MenuItem, Select, FormControl, InputLabel} from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import { ElectionSystemAPI } from '../../../api';
@@ -14,85 +14,36 @@ class ProfileChange extends React.Component {
         this.state = {
             error: null,
             show: true,
+            searchid: 0,
             searchtype: '',
-            value: 'students',
-            students: [],
-            users: [],
-            username: '',
-            userfname: '',
+            student: [],
+            user: [],
+            creationDate: '',
+            name: '',
+            firstname: '',
             mail: '',
+            matrikelnr: 0,
             study: '',
-            matrikelnr: null,
-            role: 0,
-            userloaded: false,
             searchButtonClicked: false,
             updateButtonClicked: false,
-            usersloaded: false,
-            studentsloaded: false
+            loaded: false
         }
+        this.baseState = this.state;
 
-    }
-
-    getAllUser = () => {
-        ElectionSystemAPI.getAPI().getAllUsers()
-        .then(userBOs => {
-            this.setState({
-                users: userBOs,
-                usersloaded: true
-            })
-        }).catch(e => {
-            this.setState({
-                users: [],
-                error: e
-            })
-        })
-    }
-
-    getAllStudent = () => {
-        ElectionSystemAPI.getAPI().getAllStudents()
-        .then(studentBOs => {
-            this.setState({
-                students: studentBOs,
-                studentsloaded: true
-            })
-        }).catch(e => {
-            this.setState({
-                students: [],
-                error: e
-            })
-        })
-    }
-
-    getUserStats = (userid) => {
-        ElectionSystemAPI.getAPI().getUser(userid)
-        .then(userBO => {
-            this.setState({
-                user: userBO,
-                username: userBO.getName(),
-                userfname: userBO.getFirstname(),
-                mail: userBO.getMail(),
-                role: userBO.getRole(),
-                userloaded: true
-            })
-        }).catch(e => {
-            this.setState({
-                user: [],
-                error: e
-            })
-        })
     }
 
     handleNavChange = (e) => {
+        if (e.target.value === "student"){
             this.setState({
-                value: e.target.value,
+                searchtype: e.target.value,
                 show: true
-            }, console.log(this.state.value))
-    }
-
-    handleSearchChange = (e) => {
-        this.setState({
-            searchtype: e.target.value
-        })
+            })
+        }else if (e.target.value !== "student"){
+            this.setState({
+                searchtype: e.target.value,
+                show: false
+            })
+        } 
     }
 
     handleChange = (e) => {
@@ -102,18 +53,55 @@ class ProfileChange extends React.Component {
     }
 
     handleSearchClick = () => {
-        this.setState({
-            searchButtonClicked: true
-        });
+        if (this.state.show === false) {
+            ElectionSystemAPI.getAPI().getUser(this.state.searchid)
+            .then(userBO => {
+                this.setState({
+                    searchButtonClicked: true,
+                    user: userBO,
+                    creationDate: userBO.getDate(),
+                    name: userBO.getName(),
+                    firstname: userBO.getFirstname(),
+                    mail: userBO.getMail(),
+                    loaded: true
+                })
+            }).catch(e => {
+                this.setState({
+                    user: [],
+                    error: e
+                })
+            })
+        }else {
+            ElectionSystemAPI.getAPI().getStudent(this.state.searchid)
+            .then(studentBO => {
+                this.setState({
+                    searchButtonCliked: true,
+                    student: studentBO,
+                    creationDate: studentBO.getDate(),
+                    name: studentBO.getName(),
+                    firstname: studentBO.getFirstname(),
+                    mail: studentBO.getMail(),
+                    matrikelnr: studentBO.getMatrikelNr(),
+                    study: studentBO.getStudy(),
+                    loaded: true
+                })
+            }).catch(e => {
+                this.setState({
+                    student: [],
+                    error: e
+                })
+            })
+        }
     }
 
-    updateCurUser = () => {
-        if (this.state.userloaded === true) {
-            let curUserBO = this.state.user;
-            curUserBO.setName(this.state.username);
-            curUserBO.setFirstname(this.state.userfname);
-            curUserBO.setMail(this.state.mail);
 
+    updateCurUser = () => {
+        if (this.state.loaded === true) {
+            let curUserBO = this.state.user;
+            curUserBO.setName(this.state.name);
+            curUserBO.setFirstname(this.state.firstname);
+            curUserBO.setMail(this.state.mail);
+            curUserBO.setDate(this.state.creationDate);
 
             ElectionSystemAPI.getAPI().updateUser(curUserBO)
             .then(this.setState({
@@ -126,62 +114,72 @@ class ProfileChange extends React.Component {
         }
     }
 
-componentDidMount(){
-    this.getAllUser();
-    this.getAllStudent();
-}
 
     render(){
         return(
             <div>
                 <Container maxWidth="md">
                     <Grid container spacing={2}>
-                        <Grid item xs={12} alignItems="center">
-                            <Tabs value={this.state.value} onChange={this.handleNavChange}>
-                                <Tab value="students" label="Students" />
-                                <Tab value="profadmin" label="Professor / Admins" />
-                            </Tabs>
-                        </Grid>
+                        <Grid item xs={12} />
                         <Grid item xs={2}>
-                            {console.log(this.state.studentsloaded ? this.state.students : null)}
-                            <FormControl variant="outlined" fullWidth>
-                                <InputLabel>Searchtype</InputLabel>
-                                <Select value={this.state.searchtype} onChange={this.handleSearchChange}>
-                                    <MenuItem value="getName()">Name</MenuItem>
-                                    <MenuItem value="matrikelnr">Matrikelnr</MenuItem>
-                                    <MenuItem value="mail">Mail-Adress</MenuItem>
+                            <FormControl  variant="outlined" fullWidth>
+                                <InputLabel htmlFor="searchtype">Searchtype</InputLabel>
+                                <Select id="searchtype" value={this.state.searchtype} onChange={this.handleNavChange}>
+                                    <MenuItem value="student">Student</MenuItem>
+                                    <MenuItem value="professor">Professor</MenuItem>
+                                    <MenuItem value="admin">Admin</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={8}>
-                            <Autocomplete
-                            id="search"
-                            options={this.state.show ? this.state.students : this.state.users}
-                            getOptionLabel={(option) => option.this.state.searchtype}
-                            renderInput={(params) => <TextField {...params} label="Find the right Person" variant="outlined"/>}
-                            />
+                            <TextField fullWidth id="searchid" value={this.state.searchid} onChange={this.handleChange} variant="outlined" label="Type in the ID"/>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button fullWidth variant="contained" color="secondary" size="large" onClick={this.handleSearchClick}>Submit</Button>
+                            <Button id="load" variant="contained" color="secondary" onClick={this.handleSearchClick}><b>Load {this.state.searchtype}</b></Button>
                         </Grid>
-                        <Grid item xs={6}>
-                            <TextField variant="outlined" id="username" onChange={this.handleChange} value={this.state.userloaded ? this.state.username : null} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField variant="outlined" id="userfname" onChange={this.handleChange} value={this.state.userloaded ? this.state.userfname : null} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField variant="outlined" id="mail" onChange={this.handleChange} value={this.state.userloaded ? this.state.mail : null} />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Button onClick={this.updateCurUser()} variant="outlined" label="Update" />
-                        </Grid>
-                        <Grid item xs={6}>
-                            
-                        </Grid>
-                        <Grid item xs={6}>
-                            
-                        </Grid>
+                        {this.state.searchButtonClicked ?
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    Users Creation Date:
+                                    <TextField variant="outlined" value={this.state.loaded ? this.state.creationDate : null} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    Users Unique ID:
+                                    <TextField variant="outlined" value={this.state.loaded ? this.state.searchid : null} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    Users Full Name:
+                                    <TextField variant="outlined" id="name" onChange={this.handleChange} value={this.state.loaded ? this.state.name : null} />
+                                    <TextField variant="outlined" id="firstname" onChange={this.handleChange} value={this.state.loaded ? this.state.firstname : null} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    Users Mail Adress:
+                                    <TextField variant="outlined" id="mail" onChange={this.handleChange} value={this.state.loaded ? this.state.mail : null} />
+                                </Grid>
+                                {this.state.show ? 
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            Students Matrikel Number:
+                                            <TextField variant="outlined" id="matrikelnr" onChange={this.handleChange} value={this.state.loaded ? this.state.matrikelnr : null} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            Students Study:
+                                            <TextField variant="outlined" id="study" onChange={this.handleChange} value={this.state.loaded ? this.state.study : null} />
+                                        </Grid>
+                                    </Grid>
+                                : null
+                                }
+                            </Grid>
+                        : null
+                        }
+                        <Container>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <Button onClick={this.updateCurUser()} id="update" color="primary"  variant="outlined" label="Update">Update</Button>
+                                </Grid>
+                            </Grid>
+                        </Container>
+                        
                     </Grid>
                 </Container>
             </div>

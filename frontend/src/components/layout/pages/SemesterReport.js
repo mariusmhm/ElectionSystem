@@ -2,7 +2,7 @@ import React from 'react';
 import { ElectionSystemAPI } from '../../../api';
 import { Container, TableCell, Table, TableHead, TableRow, TableBody, Grid, Typography } from '@material-ui/core';
 
-let studentid = 1;
+let studentid = 2;
 
 class SemesterReport extends React.Component {
 
@@ -44,7 +44,6 @@ class SemesterReport extends React.Component {
 
 
     getParticipationProject = () => {
-        if (this.state.participations)
     }
 
     getParticipations = () => {
@@ -76,9 +75,9 @@ class SemesterReport extends React.Component {
         }))
     }
 
-    /* getProjectStats = () =>  {
+    getProjectStats = (projectid) =>  {
         if (this.state.loaded === true) {
-            ElectionSystemAPI.getAPI().getProject(this.state.participations.getProjectID())
+            ElectionSystemAPI.getAPI().getProject(projectid)
             .then(projectBO => {
                 this.setState({
                     project: projectBO,
@@ -94,7 +93,7 @@ class SemesterReport extends React.Component {
                 error: e
             }))
         }
-    } */
+    }
 
     getStudentStats = () => {
         ElectionSystemAPI.getAPI().getStudent(studentid)
@@ -165,7 +164,6 @@ class SemesterReport extends React.Component {
 
 componentDidMount(){
     this.getParticipations();
-    this.getProjects();
     this.getStudentStats();
     /* this.getProfessorStats();
     this.getProjecttypeStats();
@@ -198,7 +196,10 @@ componentDidMount(){
                                 </TableHead>
                                 <TableBody>
                                     {this.state.participations.map(participationBO => 
+                                        
                                         <TableCell>
+                                            {this.state.loaded ? this.getProjectStats(participationBO.getProjectID()) : null}
+                                            {this.state.projectloaded ? this.state.projectname : null}
                                         </TableCell>
                                         )}
                                 </TableBody>
