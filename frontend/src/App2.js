@@ -47,8 +47,9 @@ class App extends Component {
         return (
 
             <div>
+                <ThemeProvider theme={theme}>
                 <HomeScreenStudent/>
-                    
+                </ThemeProvider>
 		    </div>
 		);
 	}

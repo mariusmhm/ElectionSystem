@@ -49,7 +49,10 @@ class TableEntry extends Component {
             priority: 0,
             student: 2,
             buttoncounter:0,
-            grade: false
+            grading: 2,
+            grade: [],
+            open: false,
+            gradeLoaded: false,
             
 
 
@@ -84,6 +87,8 @@ class TableEntry extends Component {
                     }))
         
     }
+
+
 
     toggleClass(index, e) {
         this.setState({
@@ -120,17 +125,40 @@ class TableEntry extends Component {
     
 
     handleClickOpen = () => {
-        this.setState({grade: true})
+        this.setState({open: true})
       }
 
     handleClose = () => {
-        this.setState({grade: false})
+        this.setState({open: false})
         
       };
+
+    getGradingByGradingID = () => {
+        ElectionSystemAPI.getAPI().getGrade(this.props.grading)
+        .then(gradingBO =>
+            this.setState({
+                grade: gradingBO,
+                gradeLoaded: true,
+                error: null
+            }))
+            
+        
+        
+        
+        .catch(e => 
+
+                this.setState({
+                    participationLoaded: [],
+                    error: e
+
+                }))
+        
+    }
 
 
     componentDidMount() {
         this.getUser();
+        this.getGradingByGradingID();
         
     }
 
@@ -143,7 +171,7 @@ class TableEntry extends Component {
         const { classes } = this.props;
         const {activeIndex} = this.state;
 
-        
+        console.log('Grade '+this.state.grade)
 
         
 
@@ -172,23 +200,21 @@ class TableEntry extends Component {
                         <Grid container xs={6} xl={6} justify="flex-end" spacing={3}>
                             
                             <Grid item xs={4} xl={3}>
-                                <Button variant="contained" fullWidth onClick={this.handleClickOpen}>
-                                    Grade
-                                </Button>
+                            <Typography variant="subtitle2">
+                                         Grade: {this.state.gradeLoaded ? this.state.grade.getGrade():null}</Typography>
                             </Grid>
                             
-                            <Grid item xs={4} xl={3}>
-                                <Button variant="contained" fullWidth>
-                                    ø
-                                </Button>
-                            </Grid>
                             
                             <Grid item xs={4} xl={3}>
-                                <Button variant="contained" fullWidth>
+                                <Button 
+                                variant="contained" 
+                                color="primary" 
+                                fullWidth
+                                onClick={this.handleClickOpen}
+                                >
                                     Report
                                 </Button>
                             </Grid>
-
                         </Grid>
                         
                     </Grid>
@@ -234,7 +260,7 @@ class TableEntry extends Component {
 
                 </Grid> 
 
-                {this.state.grade ? <GradingEditingDialog open={this.state.grade} close ={this.handleClose} key={this.state.participationID}/>: null}
+                {this.state.open ? <GradingEditingDialog open={this.state.open} close ={this.handleClose} key={this.state.participationID}/>: null}
             
             </Grid>
             

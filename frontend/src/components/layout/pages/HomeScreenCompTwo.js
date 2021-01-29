@@ -25,6 +25,7 @@ class HomeScreenCompOne extends Component {
             projects: [],
             projecttypes: [],
             participations: [],
+            gradings: [],
             selectedProjects: [],
             unselectedProjects: [],
 
@@ -36,6 +37,7 @@ class HomeScreenCompOne extends Component {
 
             error: null,
             priority: '',
+            grading: '',
             updatingError: null,
             deletingError: null,
 
@@ -123,6 +125,27 @@ class HomeScreenCompOne extends Component {
 
 
     }
+
+    getAllGrades = () => {
+        ElectionSystemAPI.getAPI().getAllGrades()
+            .then(gradingBO =>
+
+                
+                this.setState({
+                    gradings: gradingBO,
+                    error: null
+                }))
+
+              
+                      
+
+            .catch(e =>
+                this.setState({
+                    gradings: [],
+                    error: e
+                }))
+                console.log('Gradings ausgeführt');
+            }
     
     reload (){
         window.location.reload(false)
@@ -132,10 +155,9 @@ class HomeScreenCompOne extends Component {
         
         this.getParticipationsForStudent(); 
         this.getAllProjecttypes(); 
+        this.getAllGrades();
    
     }
-
-
 
 
 
@@ -152,7 +174,8 @@ class HomeScreenCompOne extends Component {
                 {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
                 <Grid container >
                 
-                <Typography variant="h2">Meine Wahl</Typography>
+                <Typography variant="h2">My selected projects</Typography>
+                
                 
                     {selectedProjects.length > 0 ? 
                     
@@ -179,8 +202,11 @@ class HomeScreenCompOne extends Component {
                                                         ects = {pt.getEcts()}
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
-                                                        priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority} 
+                                                        priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
+                                                        grading = {participations.find(ptpID => ptpID.project_id === project.getID()).grading_id}
+                                                        
                                                     />
+                                                    
                                                     <Divider/>
                                                 </>
 
@@ -189,7 +215,17 @@ class HomeScreenCompOne extends Component {
                                             )
                                             
                                         }
-                                    
+
+                                
+                                <Button 
+                                variant="contained" 
+                                color="primary" 
+                                fullWidth
+                                style={{marginTop: "25px"}}
+                                onClick={this.handleClickOpen}
+                                >
+                                        Show Fullreport
+                                </Button>
                                     </Grid>
                                 
                                 :null
