@@ -85,40 +85,33 @@ constructor(props) {
         return (
             <div>
                 <Container maxWidth="md">
+                    <Grid container  justify="flex-start" xs={12} xl={12} className={classes.grid}>
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary" className={classes.redHeader}>THIS SEMESTER</Typography>
+
+                    <Grid item align="flex-start" xs={12} xl={12} className={classes.grid}>
+                    <Typography variant='h4' color="secondary" className={classes.redHeader} >THIS SEMESTER</Typography>
                     <br/>
+                    </Grid>
+                    <Grid item align="flex-start" xs={12} xl={12}>
                     <Typography variant='h6' color="gray">Approved Projects</Typography>
                     <br/>
-                    <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>
+                    </Grid>
+                                 <Grid item xs={3} xl={12} >
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 project
                                             </Typography>
-                                        </TableCell>
-                                        <TableCell>
+                                 </Grid>
+                                 <Grid item xs={3} xl={12}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 professor
                                             </Typography>
-                                        </TableCell>
-                                        <TableCell>
+                                 </Grid>
+                                 <Grid item xs={3} xl={12}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 projecttype
                                             </Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                            <TableBody>
+                                 </Grid>
+                                 <Grid item xs={12} xl={12} className={classes.grid}>
                                 {this.state.projects.map(project => (
                                             <TableEntryAdmin
                                                 name = {project.getName()}
@@ -127,11 +120,8 @@ constructor(props) {
                                             />
                                 )
                                 )}
-
-                            </TableBody>
-                            </Table>
-                        </TableContainer>
-                     </Grid>
+                        </Grid>
+                    </Grid>
 
 				</Container>
 		    </div>

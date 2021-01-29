@@ -91,12 +91,7 @@ class AdminButtonBar extends Component {
 
               <Container maxWidth="MD" align ="center">
 
-              < Semester
-                    AdminButtonBar ={AdminButtonBar}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
+
               < GradingEditingDialog
                     AdminButtonBar ={AdminButtonBar}
                     openg={this.state.openg}
