@@ -13,7 +13,7 @@ import { ElectionSystemAPI } from '../../../api';
 import ProjectEntry from '../../assets/ProjectEntry';
 
 
-class HomeScreenCompOne extends Component {
+class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -298,4 +298,4 @@ const useStyles = makeStyles((theme) => ({
       },
       
 }));
-export default withStyles(styles)(HomeScreenCompOne);
+export default withStyles(styles)(HomeScreenCompTwo);
