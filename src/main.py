@@ -43,12 +43,6 @@ would require additional configuration work in the app.yaml file."""
 
 
 
-
-
-
-
-
-
 """Instantiate Flask. Flask is 'started', at the end of this file """
 
 app = Flask(__name__)
@@ -182,7 +176,7 @@ class StudentListOperations(Resource):
         to forgive. * The corrected object will eventually be returned. *"""
         adm = ElectionSystemAdministration()
         prpl = Student.to_dict(api.payload)
-            """Check the references for valid values before using them."""
+        """Check the references for valid values before using them."""
         if prpl is not None:
             """We only use the attributes of student of the proposal for generation
             of a student object. The object created by the server is authoritative and
@@ -191,7 +185,7 @@ class StudentListOperations(Resource):
 
             return s, 200
         else:
-           """When it comes down to it, we don't give anything back and throw a server error."""
+            """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
 
@@ -199,9 +193,9 @@ class StudentListOperations(Resource):
 @electionSystem.response(500, 'when server has problems')
 class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
-     """reading out a specific student object.
-     The object to be read is determined by the '' id '' in the URI."""
     def get(self, id):
+        """reading out a specific student object.
+           The object to be read is determined by the '' id '' in the URI."""
         adm = ElectionSystemAdministration()
         single_student = adm.get_student_by_id(id)
         return single_student
@@ -209,7 +203,7 @@ class StudentOperations(Resource):
     @electionSystem.marshal_with(student)
     @electionSystem.expect(student, validate=True)  # We expect a student object from the client side.
     def put(self, id):
-    """ Update of a specific student object.
+        """ Update of a specific student object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         student object."""
@@ -223,7 +217,7 @@ class StudentOperations(Resource):
             adm.update_student(s)
             return '', 200
         else:
-             """When it comes down to it, we don't give anything back and throw a server error."""
+            """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
     def delete(self, id):
@@ -238,10 +232,10 @@ class StudentOperations(Resource):
 @electionSystem.route('/student/<string:name>')
 @electionSystem.response(500, 'when server has problems')
 class StudentsNameOperations(Resource):
-            """Reading out student objects that are determined by the lastname.
-            The objects to be read out are determined by '' name '' in the URI."""
     @electionSystem.marshal_with(student)
     def get(self, name):
+        """Reading out student objects that are determined by the lastname.
+        The objects to be read out are determined by '' name '' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_name(name)
         return students
@@ -252,8 +246,8 @@ class StudentsNameOperations(Resource):
 class StudentMailOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, mail):
-             """Reading out student objects that are determined by the E-Mail.
-            The objects to be read out are determined by '' mail '' in the URI."""
+        """Reading out student objects that are determined by the E-Mail.
+        The objects to be read out are determined by '' mail '' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_mail(mail)
         return students
@@ -263,8 +257,8 @@ class StudentMailOperations(Resource):
 class StudentGoogleOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, id):
-            """Reading out student objects that are determined by the google id.
-            The objects to be read out are determined by '' google_id '' in the URI."""
+        """Reading out student objects that are determined by the google id.
+        The objects to be read out are determined by '' google_id '' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_google_id(id)
         return students
@@ -274,7 +268,7 @@ class StudentGoogleOperations(Resource):
 class StudentMatrikelNrOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, matrikel_nr):
-         """Reading out student objects that are determined by the matrikle number
+        """Reading out student objects that are determined by the matrikle number
         The objects to be read out are determined by 'matrikel_nr' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_matrikel_nr(matrikel_nr)
@@ -298,8 +292,8 @@ class StudentsStudyOperations(Resource):
 class StudentParticipationOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, project_id):
-     """Reading out student from the participation objects that are determined by the project id.
-     The objects to be read out are determined by 'project_id' in the URI."""
+        """Reading out student from the participation objects that are determined by the project id.
+        The objects to be read out are determined by 'project_id' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_all_students_of_participation(project_id)
         return students
@@ -330,14 +324,14 @@ class UserListOperations(Resource):
         prpl = User.to_dict(api.payload)
 
         if prpl is not None:
-         """We only use the attributes of user of the proposal for generation
+            """We only use the attributes of user of the proposal for generation
             of a user object. The object created by the server is authoritative and
             is also returned to the client."""
             u = adm.create_user(prpl.get_name(), prpl.get_date(), prpl.get_google_user_id(), prpl.get_firstname(), prpl.get_mail(), prpl.get_role_id())
 
             return u, 200
         else:
-              """When it comes down to it, we don't give anything back and throw a server error."""
+            """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
 
@@ -363,11 +357,11 @@ class UserOperations(Resource):
         u = User.to_dict(api.payload)
 
         if u is not None:
-          """This sets the id of the user object to be overwritten (see update)."""        
+            """This sets the id of the user object to be overwritten (see update)."""
             u.set_id(id)
             adm.update_user(u)
             return '', 200
-        else: 
+        else:
             """When it comes down to it, we don't give anything back and throw a server error."""
             return '', 500
 
@@ -383,7 +377,7 @@ class UserOperations(Resource):
 @electionSystem.route('/user/<string:name>')
 @electionSystem.response(500, 'when server has problems')
 class UserNameOperations(Resource):
-     """Reading out user objects that are determined by the lastname.
+    """Reading out user objects that are determined by the lastname.
     The objects to be read out are determined by '' name '' in the URI."""
     @electionSystem.marshal_with(user)
     def get(self, name):
@@ -397,8 +391,8 @@ class UserNameOperations(Resource):
 class UserMailOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, mail):
-         """Reading out user objects that are determined by the E-mail.
-            The objects to be read out are determined by '' mail '' in the URI."""
+        """Reading out user objects that are determined by the E-mail.
+        The objects to be read out are determined by '' mail '' in the URI."""
         adm = ElectionSystemAdministration()
         user = adm.get_user_by_mail(mail)
         return user
@@ -408,8 +402,8 @@ class UserMailOperations(Resource):
 class UserGoogleOperations(Resource):
     @electionSystem.marshal_with(user)
     def get(self, id):
-         """Reading out user objects that are determined by the google id.
-            The objects to be read out are determined by '' id '' in the URI."""
+        """Reading out user objects that are determined by the google id.
+        The objects to be read out are determined by '' id '' in the URI."""
         adm = ElectionSystemAdministration()
         user = adm.get_user_by_google_id(id)
         return user
@@ -484,7 +478,7 @@ class SemesterOperations(Resource):
     @electionSystem.marshal_with(semester)
     @electionSystem.expect(semester, validate=True) # We expect a user object from the client side
     def put(self, id):
-      """ Update of a specific semester object.
+        """ Update of a specific semester object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         semester object."""
@@ -556,7 +550,7 @@ class ParticipationOperations(Resource):
             return '', 500
 
     def delete(self, id):
-         """Deleting a specific participation object.
+        """Deleting a specific participation object.
         The object to be deleted is determined by the '' id '' in the URI."""
         adm = ElectionSystemAdministration()
         pp = adm.get_by_participation_id(id)
@@ -568,7 +562,7 @@ class ParticipationOperations(Resource):
 class ParticipationsProjectListOperations(Resource):
     @electionSystem.marshal_list_with(participation)
     def get(self, project_id):
-         """Reading out a specific paricipation by the project object.
+        """Reading out a specific paricipation by the project object.
         The object to be read is determined by the '' project_id '' in the URI."""
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_project_id(project_id)
@@ -579,7 +573,7 @@ class ParticipationsProjectListOperations(Resource):
 class ParticipationsStudentListOperations(Resource):
     @electionSystem.marshal_list_with(participation)
     def get(self, student_id):
-          """Reading out a specific paricipation by the student object.
+        """Reading out a specific paricipation by the student object.
         The object to be read is determined by the '' student_id '' in the URI."""
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_student_id(student_id)
@@ -590,7 +584,7 @@ class ParticipationsStudentListOperations(Resource):
 class ParticipationsGradingListOperations(Resource):
     @electionSystem.marshal_list_with(participation)
     def get(self, grading_id):
-         """Reading out a specific paricipation by the grading object.
+        """Reading out a specific paricipation by the grading object.
         The object to be read is determined by the parameter '' grading_id '' in the URI."""
         adm = ElectionSystemAdministration()
         pp = adm.get_all_by_grading_id(grading_id)
@@ -632,7 +626,7 @@ class GradingListOperations(Resource):
         proposal = Grading.from_dict(api.payload)
 
         if proposal is not None:
-             """We only use the attributes of grading of the proposal for generation
+            """We only use the attributes of grading of the proposal for generation
             of a grading object. The object created by the server is authoritative and
             is also returned to the client."""
             g = adm.create_grading(proposal.get_date(), proposal.get_grade())
@@ -706,7 +700,7 @@ class ProjecttypeListOperations(Resource):
         prpl = Projecttype.to_dict(api.payload)
 
         if prpl is not None:
-             """We only use the attributes of projecttype of the proposal for generation
+            """We only use the attributes of projecttype of the proposal for generation
             of a object. The object created by the server is authoritative and
             is also returned to the client."""
             p = adm.create_projecttype(prpl.get_name(), prpl.get_date(), prpl.get_ect(), prpl.get_sws())
@@ -747,7 +741,7 @@ class ProjecttypeOperations(Resource):
         p = Projecttype.to_dict(api.payload)
 
         if p is not None:
-             """This sets the id of the projecttype object to be overwritten""" 
+            """This sets the id of the projecttype object to be overwritten"""
             p.set_id(id)
             adm.update_projecttype(p)
             return '', 200
@@ -759,7 +753,7 @@ class ProjecttypeOperations(Resource):
 class ProjecttypeNameOperations(Resource):
     @electionSystem.marshal_with(projecttype)
     def get(self, name):
-         """Reading out a specific projecttype object.
+        """Reading out a specific projecttype object.
         The object to be read is determined by the parameter '' name '' in the URI."""
         adm = ElectionSystemAdministration()
         all_pt = adm.get_projecttype_by_name(name)
@@ -788,7 +782,7 @@ class ModuleListOperations(Resource):
 
         proposal = Module.to_dict(api.payload)
         if proposal is not None:
-             """We only use the attributes of moduleof the proposal for generation
+            """We only use the attributes of moduleof the proposal for generation
             of a object. The object created by the server is authoritative and
             is also returned to the client."""
             m = adm.create_module(proposal.get_date(), proposal.get_edv_number(), proposal.get_name())
@@ -990,7 +984,7 @@ class ProjectStateOperations(Resource):
 class ProjectModuleOperations(Resource):
     @electionSystem.marshal_with(project)
     def get(self, id):
-         """Reads out the a specific project object by module
+        """Reads out the a specific project object by module
         The realization of reading out the object is by ''id'' in the URI.""" 
         adm = ElectionSystemAdministration()
         p = adm.get_project_by_module(id)
@@ -1003,7 +997,7 @@ class ProjectModuleOperations(Resource):
 class StateListOperations(Resource):
     @electionSystem.marshal_list_with(state)
     def get(self):
-         """Readout of all state-objects that exist in database.
+        """Readout of all state-objects that exist in database.
         If there are no state-objects, you will get an empty sequenz."""             
         adm = ElectionSystemAdministration()
         states = adm.get_all_states()
@@ -1038,7 +1032,7 @@ class StateListOperations(Resource):
 class StateOperations(Resource):
     @electionSystem.marshal_with(state)
     def get(self, id):
-         """Reads out the a specific state-object by id.
+        """Reads out the a specific state-object by id.
         The realization of reading out the object is by ''id'' in the URI.
         """              
         adm = ElectionSystemAdministration()
@@ -1048,7 +1042,7 @@ class StateOperations(Resource):
     @electionSystem.marshal_with(state)
     @electionSystem.expect(state, validate=True)
     def put(self, id):
-     """Update of a specific state object.
+        """Update of a specific state object.
         The relevant id is the id provided by the URI and thus as a method parameter
         is used. This parameter overwrites the ID attribute of the transmitted in the payload of the request
         state object."""
@@ -1064,7 +1058,7 @@ class StateOperations(Resource):
             return '', 500
 
     def delete(self, id):
-         """Delete a specific state object.
+        """Delete a specific state object.
         The object to be deleted is determined by the ''id'' in the URI.
         """              
         adm = ElectionSystemAdministration()
@@ -1079,8 +1073,8 @@ class StateOperations(Resource):
 class RoleListOperations(Resource):
     @electionSystem.marshal_list_with(role)
     def get(self):
-         """Reading out all role objects.
-         If no role objects are available, an empty sequence is returned."""
+        """Reading out all role objects.
+        If no role objects are available, an empty sequence is returned."""
         adm = ElectionSystemAdministration()
         roles = adm.get_all_roles()
         return roles
@@ -1088,7 +1082,7 @@ class RoleListOperations(Resource):
     @electionSystem.marshal_with(role, code=200)
     @electionSystem.expect(role)
     def post(self):
-         """Sets a new role-Object.
+        """Sets a new role-Object.
         We take the data sent by the client as a suggestion.
         For example, the assignment of the ID is not the task of the client.
         Even if the client should assign an ID in the proposal, it is
@@ -1100,7 +1094,7 @@ class RoleListOperations(Resource):
         proposal = Role.from_dict(api.payload)
 
         if proposal is not None:
-             """We only use the attributes of role of the proposal for generation
+            """We only use the attributes of role of the proposal for generation
             of a object. The object created by the server is authoritative and
             is also returned to the client."""     
             r = adm.create_role(proposal.get_name())
@@ -1140,7 +1134,7 @@ class RoleOperations(Resource):
             return '', 500
 
     def delete(self, id):
-          """Delete a specific role object.
+        """Delete a specific role object.
         The object to be deleted is determined by the ''id'' in the URI.
         """   
         adm = ElectionSystemAdministration()
