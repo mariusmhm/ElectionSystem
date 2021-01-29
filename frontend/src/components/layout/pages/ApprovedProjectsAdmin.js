@@ -85,43 +85,42 @@ constructor(props) {
         return (
             <div>
                 <Container maxWidth="md">
-                    <Grid container  justify="flex-start" xs={12} xl={12} className={classes.grid}>
-                    <CssBaseline />
-
-                    <Grid item align="flex-start" xs={12} xl={12} className={classes.grid}>
-                    <Typography variant='h4' color="secondary" className={classes.redHeader} >THIS SEMESTER</Typography>
-                    <br/>
+                    <Grid container  justify="flex-start" xs={12} className={classes.grid}>
+                    <Grid item align="flex-start" xs={12}>
+                    <Typography variant='h5' color="secondary" className={classes.redHeader} >THIS SEMESTER</Typography>
                     </Grid>
-                    <Grid item align="flex-start" xs={12} xl={12}>
+                    <Grid item align="flex-start" xs={12} spacing={2}>
                     <Typography variant='h6' color="gray">Approved Projects</Typography>
-                    <br/>
                     </Grid>
-                                 <Grid item xs={3} xl={12} >
+                    <Grid container justify="flex-start" xs={12} spacing={2} className={classes.grid}>
+                                 <Grid item xs={3} md={3} >
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 project
                                             </Typography>
                                  </Grid>
-                                 <Grid item xs={3} xl={12}>
+                                 <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 professor
                                             </Typography>
                                  </Grid>
-                                 <Grid item xs={3} xl={12}>
+                                 <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
-                                                projecttype
+                                                type
                                             </Typography>
                                  </Grid>
-                                 <Grid item xs={12} xl={12} className={classes.grid}>
+                                 <Grid item xs={12} spacing={2}>
                                 {this.state.projects.map(project => (
                                             <TableEntryAdmin
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
+                                                duringSemester = {this.props.duringSemester}
                                             />
                                 )
                                 )}
                         </Grid>
                     </Grid>
+                </Grid>
 
 				</Container>
 		    </div>
@@ -132,7 +131,7 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        paddingTop: theme.spacing(3)
     },
     button:{
         marginTop: theme.spacing(3)
