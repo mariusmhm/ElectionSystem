@@ -1,6 +1,4 @@
-                                                import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React, { Component } from 'react';import Grid from '@material-ui/core/Grid';import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
@@ -109,7 +107,13 @@ constructor(props) {
             <div>
                 <Container maxWidth="md">
                     <CssBaseline />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
+
                      <Grid item container
                             direction="column"
                             xs={12}

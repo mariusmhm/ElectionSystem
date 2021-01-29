@@ -7,6 +7,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
+import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
+
+
 
 
 
@@ -26,7 +29,9 @@ constructor(props){
     error: null,
     grade: '',
     name: '',
+    firstname:'',
     study:'',
+    id: null,
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
@@ -51,7 +56,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(1)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
@@ -71,11 +76,14 @@ getStudentByParticipations = () => {
         this.getStudentByParticipations();
     }
 
-updateGrade= () => {
-//soon
 
-}
+    removeStudent(studentid){
+        console.log('remove student');
+        this.setState({
+            students: this.state.students.filter(student => student.getID() !== studentid)
+        });
 
+    }
 
  render(){
      const { classes } = this.props;
@@ -86,7 +94,7 @@ updateGrade= () => {
                     <Grid container
                         direction="column"
                         justify="space-around"
-                        className={classes.grid}>
+                        className={classes.pagecontent}>
                             <Typography variant="h4" > Project </Typography>
                             <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
                     </Grid>
@@ -100,34 +108,52 @@ updateGrade= () => {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>NAME</TableCell>
-                                            <TableCell>MARTRICULATION NUMBER</TableCell>
-                                            <TableCell>COURSE OF STUDY</TableCell>
-                                            <TableCell>GRADE</TableCell>
+                                        <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    Delete
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    NAME
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    FIRSTNAME
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    MRT
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    STUDY
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="h6" className={classes.tableRow}>
+                                                    GRADE
+                                                </Typography>
+                                            </TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {this.state.students.map(student => (
-                                            <TableRow key={student.getID()} student={student}>
-                                                <TableCell > {student.getName()} </TableCell>
-                                                <TableCell >{student.getMatrikelNr()} </TableCell>
-                                                <TableCell > {student.getStudy()}</TableCell>
-                                                <TableCell>
-                                                    <FormControl>
-                                                        <InputLabel >GRADE </InputLabel>
-                                                            <Select labelId="grading">
-                                                                {this.state.gradings.map((grading, index) => (
-                                                                    <MenuItem key={index} value={index}>
-                                                                        {grading.getGrade()}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                                <TableCell>
-                                                <Button  variant="contained" color="secondary" >save</Button> </TableCell>
-                                            </TableRow>
-                                                 ))}
+                                {this.state.students.map(student => (
+                                            <TableListEntryTeilnehmer
+                                                name = {student.getName()}
+                                                firstname = {student.getFirstname()}
+                                                mrtnr = {student.getMatrikelNr()}
+                                                course = {student.getStudy()}
+                                                student ={student}
+                                                id={student.getID()}
+                                                removeStudent={this.removeStudent}
+
+                                            />
+                                )
+                                )}
                                     </TableBody>
                                 </Table>
                         </TableContainer>
@@ -168,6 +194,16 @@ const styles = theme => ({
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 15
+    },
+
+    tableRow:{
+    color:'lightGray',
+    fontFamily:'Arial'
+    },
+
+    pagecontent:{
+        width: '100%',
+        marginTop: theme.spacing(10)
     }
 });
 

@@ -132,7 +132,7 @@ class CreateKeyCompetence extends Component {
         let newProject = new ProjectBO();
         newProject.setDate(this.state.creationDate);
         newProject.setName(this.state.projectname);
-        newProject.setModule(this.state.moSelected);
+        newProject.setModule(7); /*sets the module id to 7 "KeyCompetence" module selected muss raus? */
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
         newProject.setAddProfessor(this.state.additionalProf);

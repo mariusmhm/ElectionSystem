@@ -32,8 +32,8 @@ class ModuleForm extends Component {
         modules: [],   
         name: '',
         mNumber: null,
-        open:null,
-        deletingError: null   
+        openm:null,
+        deletingError: null
 
       };
 
@@ -60,7 +60,7 @@ class ModuleForm extends Component {
         newModule.setName(this.state.name);
         ElectionSystemAPI.getAPI().addModule(newModule).then(m => {
             this.setState(this.baseState);
-            
+
         }).catch(e =>
             this.setState({
                 updatingError: e
@@ -76,7 +76,7 @@ class ModuleForm extends Component {
     handleChangeNum = (e) =>{
         this.setState({
             [e.target.id]: parseInt(e.target.value, 10)
-        })      
+        })
     }
 
     componentDidMount(){
@@ -87,7 +87,7 @@ class ModuleForm extends Component {
         ElectionSystemAPI.getAPI().deleteModule(m.getID()).then(m => {
           console.log(m);
         }).catch(e =>
-          this.setState({ 
+          this.setState({
             deletingError: e
           })
         );
@@ -97,20 +97,20 @@ class ModuleForm extends Component {
         })
     }
 
-    
-    
+
+
  render(){
-    const { classes } = this.props; 
+    const { classes } = this.props;
 
     return(
-        
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} maxWidth='xs' fullWidth>
+
+        <Dialog open={this.props.openm} onClose={this.props.closeModule} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader} >EDIT MODULE</DialogTitle>
             <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid} >
                 <Grid items>
                     <Typography className={classes.redHeader}>Modules</Typography>
                 </Grid>
-                
+
                 <Grid item>
                     <TableContainer>
                         <Table>
@@ -121,7 +121,7 @@ class ModuleForm extends Component {
                                         <TableCell>{m.getEdvNumber()}</TableCell>
                                         <TableCell>
                                             <Button aria-label="delete"  variant="outlined" onClick={() => this.deleteHandler(m)}>
-                                                <DeleteIcon fontSize="small"/> 
+                                                <DeleteIcon fontSize="small"/>
                                             </Button>
                                         </TableCell>
                                     </TableRow>
@@ -146,15 +146,16 @@ class ModuleForm extends Component {
                     <Button variant="contained" color="primary" onClick={this.addModule}>Add</Button>
                 </Grid>
 
-                
-                
-                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}> 
+
+
+                <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}>
                     <Grid item>
                         <Button variant="outlined" color="primary" onClick={this.props.closeDialog}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeDialog}>OKAY</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeModule}>OKAY</Button>
                     </Grid>
+
                 </Grid>
                 
             </Grid>

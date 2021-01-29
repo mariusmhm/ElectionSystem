@@ -32,6 +32,7 @@ class CreateProject extends Component {
         creationDate: date,
         projectname:'',
         modules: [],
+        openpr:null,
         moduleSelected: null,
         edvNumber: null,
         projecttypes: [],
@@ -51,18 +52,18 @@ class CreateProject extends Component {
         dateDuringLecture: null,
         numBlockdaysInExam: null,
         error: null,
-        spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 
+        spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
             15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
             28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
       }
-        
+
 
       this.baseState = this.state;
 
-        
-    } 
 
-    
+    }
+
+
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
         .then(projecttypesBOs =>
@@ -103,15 +104,15 @@ class CreateProject extends Component {
                     error: e
                 }))
     }
-    
-    
+
+
     componentDidMount(){
         this.getAllProjecttypes();
         this.getAllModules();
         this.getUsersForRole()
     }
 
-    // Add a new Project 
+    // Add a new Project
      addProject = () => {
         let newProject = new ProjectBO();
         newProject.setDate(this.state.creationDate);
@@ -138,12 +139,12 @@ class CreateProject extends Component {
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
-            
-        }).catch(e =>
+
+        }).then(newProject => {this.props.closeProject()}).catch(e =>
             this.setState({
                 error: e
             }))
-         
+
     }
 
     selectHandleChangeProjecttype = (e) =>{
@@ -163,7 +164,7 @@ class CreateProject extends Component {
     handleChangeNum = (e) =>{
         this.setState({
             [e.target.id]: parseInt(e.target.value, 10)
-        });               
+        });
     }
 
     handleSelectChange = (e) =>{
@@ -196,19 +197,19 @@ class CreateProject extends Component {
         this.setState({
           open: false
         });
-    } 
+    }
 
-    
-    
+
+
  render(){
-    const { classes } = this.props; 
+    const { classes } = this.props;
 
     return(
-      
-        <Dialog open={true} fullWidth maxWidth='md'>
+
+        <Dialog open={this.props.openpr} onClose={this.props.closeProject} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>SUBMIT PROJECT</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
-                
+
                 <Grid container item direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
                         <TextField fullWidth required variant="outlined" id="projectname" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
@@ -359,15 +360,15 @@ class CreateProject extends Component {
                     </Grid>
 
                 </Grid>
-                
-                
-                <Grid item> 
-                    <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
+
+
+                <Grid item>
+                    <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
-                <Grid item> 
+                <Grid item>
                     <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
-                
+
             </Grid>
 
         </Dialog>

@@ -28,7 +28,7 @@ class GradingEditingDialog extends Component {
             gradings: [],
             error: null,
             grade: '',
-            open:null,
+            openg:null,
             updatingError: null,
             deletingError: null,
 
@@ -59,7 +59,7 @@ class GradingEditingDialog extends Component {
         let newGrade = new GradingBO(this.state.grade);
         ElectionSystemAPI.getAPI().addGrade(newGrade).then(grade => {
             this.setState(this.baseState);
-            
+
         }).catch(e =>
             this.setState({
                 updatingError: e
@@ -79,7 +79,7 @@ class GradingEditingDialog extends Component {
         ElectionSystemAPI.getAPI().deleteGrade(grading.getID()).then(grading => {
           console.log(grading);
         }).catch(e =>
-          this.setState({ 
+          this.setState({
             deletingError: e
           })
         );
@@ -93,16 +93,16 @@ class GradingEditingDialog extends Component {
     const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
-        <Dialog open={this.props.open} onClose={this.props.closeDialog} maxWidth='xs' fullWidth>
+        <Dialog open={this.props.openg} onClose={this.props.closeGrading} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
             <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
                 <Grid item xs={12}>
                     <Typography align="center" color="secondary">Add Grade</Typography>
                 </Grid>
                 <Grid item xs={3} align="center">
-                    <TextField fullWidth 
+                    <TextField fullWidth
                         variant="outlined"
-                        id="grade" 
+                        id="grade"
                         label="Grade"
                         size="small"
                         onChange={this.handleTextFieldChange}
@@ -125,7 +125,7 @@ class GradingEditingDialog extends Component {
                                    <TableCell> {grading.getGrade()}</TableCell>
                                    <TableCell>
                                         <Button aria-label="delete"  variant="outlined" onClick={() => this.deleteGradeHandler(grading)}>
-                                            <DeleteIcon fontSize="small"/>   
+                                            <DeleteIcon fontSize="small"/>
                                         </Button>
                                    </TableCell>
                                 </TableRow>
@@ -134,12 +134,12 @@ class GradingEditingDialog extends Component {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}> 
+                <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}>
                     <Grid item>
-                        <Button variant="outlined" color="secondary" onClick={this.props.closeDialog}>Cancel</Button>
+                        <Button variant="outlined" color="secondary" onClick={this.props.closeGrading}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeDialog}>Okay</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeGrading}>Okay</Button>
                     </Grid>
                 </Grid>
                 

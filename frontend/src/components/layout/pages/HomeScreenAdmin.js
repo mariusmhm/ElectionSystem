@@ -12,11 +12,15 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './RejectedProjectsAdmin';
-import GradingEditingDialog from '../../dialogs/GradingEditingDialog'
-import EditProjecttype from '../../dialogs/EditProjecttype'
-import Semester from '../../dialogs/Semester'
-import ModuleForm from '../../dialogs/ModuleForm'
-
+import GradingEditingDialog from '../../dialogs/GradingEditingDialog';
+import EditProjecttype from '../../dialogs/EditProjecttype';
+import Semester from '../../dialogs/Semester';
+import ModuleForm from '../../dialogs/ModuleForm';
+import AddIcon from '@material-ui/icons/Add';
+import CreateProject from '../../dialogs/CreateProject';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import AdminButtonBar from './AdminButtonBar';
 
 
 class HomeScreenAdmin extends Component {
@@ -25,7 +29,6 @@ class HomeScreenAdmin extends Component {
 
         // Init the state
         this.state = {
-            open: false,
             googleID: null,
             redirect: false,
             error: null,
@@ -34,14 +37,7 @@ class HomeScreenAdmin extends Component {
     }
 
 
-    closeDialog = () => {
-        this.setState({
-            open: false})
-    }
 
-    openDialog() {
-        this.setState({ open: true });
-    }
 
 
   render() {
@@ -51,67 +47,15 @@ class HomeScreenAdmin extends Component {
         return (
 
               <Container maxWidth="MD" align ="center">
-              < Semester
-                    HomeScreenAdmin ={HomeScreenAdmin}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
-              < GradingEditingDialog
-                    HomeScreenAdmin ={HomeScreenAdmin}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
-              < ModuleForm
-                    HomeScreenAdmin ={HomeScreenAdmin}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
-              < EditProjecttype
-                    HomeScreenAdmin ={HomeScreenAdmin}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
-
                       <ListEntryNewProjectsAdmin/ >
                   <Divider/>
                       <ApprovedProjectsAdmin/ >
                       <RejectedProjectsAdmin/>
                   <Divider/>
                       <ArchivedProjectsAdmin/>
-
                   <Divider/>
-                       <Grid container row={true} justify="center" alignItems="center" align ="center" spacing={2} className={classes.button}>
-                            <Grid item >
-                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
-                                <EditIcon />  projecttypes
-                                </Fab>
-                            </Grid>
-                            <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
-                                <EditIcon />  modules
-                                </Fab>
-                            </Grid>
-                            <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={this.openDialog.bind(this)}>
-                                <EditIcon />  grading
-                                </Fab>
-                            </Grid>
-                            <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit">
-                                <EditIcon />  key competences
-                                </Fab>
-                            </Grid>
-                            <Grid item>
-                            <Fab color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openDialog()}>
-                                <EditIcon />  semester period
-                                </Fab>
-                            </Grid>
-                       </Grid>
 
+                  <AdminButtonBar/>
 
 				  </Container>
 		);
@@ -126,7 +70,25 @@ const styles = theme => ({
     },
     button:{
         marginTop: theme.spacing(3)
-    }
+    },
+
+     appBar: {
+      top: 'auto',
+      bottom: 0,
+      align:'center'
+    },
+    grow: {
+      flexGrow: 1,
+      },
+    fabButton: {
+
+      margin: '0 auto',
+      zIndex: 1,
+      top: -30,
+      left: 0,
+      right: 0,
+
+    },
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -138,6 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     extendedIcon: {
       marginRight: theme.spacing(2),
+
     },
   }),
 );

@@ -33,6 +33,7 @@ class EditProjecttype extends Component {
     this.state= {
         creationDate: date,
         projecttypename:'',
+        openp:null,
         ect:null,
         sws:null,
         projecttypes: [],
@@ -111,11 +112,7 @@ class EditProjecttype extends Component {
         });
     }
 
-    handleClose = () => {
-        this.setState({
-          open: false
-        });
-    }
+
 
 
 
@@ -124,7 +121,7 @@ class EditProjecttype extends Component {
 
   return (
 
-      <Dialog open={open} fullWidth maxWidth='md'>
+      <Dialog open={this.props.openp} onClose={this.props.closeProjecttype} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT PROJECTTYPE</DialogTitle>
             <br/>
             <br/>
@@ -171,7 +168,7 @@ class EditProjecttype extends Component {
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
-                        <Button variant="outlined" color="secondary" onClick={this.handleClose}>
+                        <Button variant="outlined" color="secondary" onClick={this.props.closeProjecttype}>
                             Close
                         </Button>
                     </Grid>
