@@ -7,9 +7,9 @@ class UserMapper(Mapper):
     def __init__(self):
         super().__init__()
         """Mapper class, that maps the user objects on relational
-        Database. To do this, a number of methods are available
-        with the help of which Objects can be searched, created, modified and
-        deleted. The mapping is bidirectional. Objects
+        Database. To do this, a number of methods are available, which
+        help to search, create, modify and
+        delete objects. The mapping is bidirectional. Objects
         can be converted into DB structures and DB structures into objects."""
 
 
@@ -41,8 +41,10 @@ class UserMapper(Mapper):
 
 
     def find_by_id(self, id):
-        """Read out all users.
-        :return A collection of user objects that all users represent."""
+        """Reads out one user by id.
+        :param id Unique id of the user
+        :return A user object, which has the required id.
+        """
 
         res = None
         crs = self._connection.cursor()
@@ -67,8 +69,10 @@ class UserMapper(Mapper):
         return res
 
     def find_by_google_id(self, id):
-        """Read out all users.
-        :return A collection of user objects that all users represent."""
+        """Reads out the user by google id.
+        :param google id Unique google id of the user
+        :return A user object, which has the required google id.
+        """
 
         res = None
         crs = self._connection.cursor()
@@ -94,8 +98,10 @@ class UserMapper(Mapper):
 
 
     def find_by_name(self, name):
-        """Read out all users.
-        :return A collection of user objects that all users represent."""
+        """Reads out users by name.
+        :param name of the user
+        :return All user objects, which has the required name.
+        """
 
         res = []
         crs = self._connection.cursor()
@@ -121,8 +127,10 @@ class UserMapper(Mapper):
 
 
     def find_by_mail(self, mail):
-        """Read out all users.
-        :return A collection of user objects that all users represent."""
+        """Reads out the user by e-mail.
+        :param mail of the user
+        :return A user object, which has the required mail.
+        """
 
         res = []
         crs = self._connection.cursor()
@@ -148,8 +156,10 @@ class UserMapper(Mapper):
 
 
     def find_by_role(self, role):
-        """Read out all users.
-        :return A collection of user objects that all users represent."""
+        """Reads out users by role.
+        :param role of the user
+        :return All user objects, which has the required role.
+        """
 
         res = []
         crs = self._connection.cursor()
@@ -175,6 +185,11 @@ class UserMapper(Mapper):
 
 
     def insert (self, user):
+        """Adds a user object into the database.
+        The primary key of the object gets checked and if neccessary adjusted.
+        :param user object which will be saved
+        :return user object with the changed id
+        """
 
         crs = self._connection.cursor()
 
@@ -198,6 +213,9 @@ class UserMapper(Mapper):
 
 
     def update(self, user):
+        """Updates a user object in the database.
+        :param user object which will be updated
+        """
 
         crs = self._connection.cursor()
 
@@ -212,6 +230,9 @@ class UserMapper(Mapper):
 
 
     def delete(self, user):
+        """Deletes a user object from the database.
+        :param user object which will be deleted
+        """
 
         crs = self._connection.cursor()
 

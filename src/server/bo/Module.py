@@ -2,6 +2,8 @@ from server.bo.NamedBusinessObject import NamedBusinessObject
 
 
 class Module(NamedBusinessObject):
+    """The implementation of a exemplary module class.
+    """
 
     def __init__self(self):
         super().__init__()
@@ -12,7 +14,7 @@ class Module(NamedBusinessObject):
         self._edv_number = edv_number
 
     def get_edv_number(self):
-        """Read out the edv number"""
+        """Reads out the edv number"""
         return self._edv_number
 
     def __str__(self):
@@ -25,7 +27,7 @@ class Module(NamedBusinessObject):
 
     @staticmethod
     def to_dict(dicti=dict()):
-        """Convert a Python dict() in a Module)."""
+        """Converts a Python dict() into a Module)."""
         module = Module()
         module.set_id(dicti["id"])
         module.set_date(dicti["creation_date"])

@@ -2,6 +2,8 @@ from server.bo import BusinessObject as bo
 
 
 class Grading(bo.BusinessObject):
+    """The implementation of a exemplary grading class.
+    """
     def __init__(self):
         super().__init__()
         self._grade = 0.0
@@ -18,7 +20,7 @@ class Grading(bo.BusinessObject):
     @staticmethod
     def from_dict(dicti=dict()):
 
-        """"Convert  a Python dict() in a Grading()."""
+        """"Converts a Python dict() into a Grading()."""
         grading = Grading()
         grading.set_grade(dicti["grade"])
         return grading
