@@ -119,21 +119,7 @@ class TableEntryButtonAdmin extends Component {
 
 
     }
-   // Delets the project
-      deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
-
-        this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
-        })
-    }
+   
 
 
 
@@ -147,34 +133,32 @@ class TableEntryButtonAdmin extends Component {
 
             <Grid container justify="flex-start"  xs={12} xl={12} >
                  <Grid container justify="flex-start"  xs={12}>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                     {this.props.name}
-                        <Collapse in={activeIndex === this.props.id}>
-                    {this.props.dsc}
-                        </Collapse>
                     </Grid>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
                     </Grid>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.projecttypeName: null}
                     </Grid>
-                     <Grid item xs={3} xl={12}>
-                     <IconButton aria-label="delete" ><DeleteIcon /> </IconButton>
-                     </Grid>
-                     </Grid>
-                     </Grid>
-
-
-
+                    <Grid item xs={3} md={3}>
+                        <Button aria-label="delete"  variant="outlined">
+                          <DeleteIcon fontSize="small" onClick={() => this.props.deleteProject(this.props.project)}/>
+                        </Button>
+                    </Grid>
+                    </Grid>
+                    </Grid>
         )
     }
 }
+
+
 const styles = theme => ({
     grid: {
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(1)
+        paddingTop: theme.spacing(1)
     },
     button: {
         marginTop: theme.spacing(3)
@@ -185,7 +169,6 @@ const styles = theme => ({
         fontStyle: 'bold',
         fontSize: 20
     },
-
     grayHeader: {
         color: theme.palette.gray,
         fontFamily: 'Arial',

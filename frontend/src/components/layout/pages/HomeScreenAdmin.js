@@ -5,22 +5,12 @@ import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
 import ApprovedProjectsAdmin from './ApprovedProjectsAdmin';
 import ListEntryNewProjectsAdmin from './ListEntryNewProjectsAdmin';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './RejectedProjectsAdmin';
-import GradingEditingDialog from '../../dialogs/GradingEditingDialog';
-import EditProjecttype from '../../dialogs/EditProjecttype';
-import Semester from '../../dialogs/Semester';
-import ModuleForm from '../../dialogs/ModuleForm';
-import AddIcon from '@material-ui/icons/Add';
-import CreateProject from '../../dialogs/CreateProject';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import AdminButtonBar from './AdminButtonBar';
+import { ElectionSystemAPI } from '../../../api';
 
 
 class HomeScreenAdmin extends Component {
@@ -32,9 +22,30 @@ class HomeScreenAdmin extends Component {
             googleID: null,
             redirect: false,
             error: null,
-            openDialog: false
+            openDialog: false,
+            duringSemester: false,
         };
     }
+
+    /** Gives back the semester */
+    getAllSemester = () => {
+      ElectionSystemAPI.getAPI().getAllSemester()
+      .then(semesterBO =>{
+          console.log(semesterBO.getGrading())
+          if(semesterBO.getGrading() === false && semesterBO.getSubmitProjects() === false && semesterBO.getElection() === false ){
+              this.setState({
+                  duringSemester: true
+              });
+          }
+      }).catch(e =>
+              this.setState({
+                  error: e
+              }))
+  }
+
+  componentDidMount(){
+    this.getAllSemester();
+  }
 
 
 
@@ -46,14 +57,22 @@ class HomeScreenAdmin extends Component {
 
         return (
 
-              <Container maxWidth="MD" align ="center">
-                      <ListEntryNewProjectsAdmin/ >
-                  <Divider/>
-                      <ApprovedProjectsAdmin/ >
+              <Container maxWidth="MD" align ="center" className={classes.grid}>
+                      {this.state.duringSemester ? null
+                      :
+                      <div>
+                      <ListEntryNewProjectsAdmin
+                      duringSemester={this.state.duringSemester}
+                      />
+                      <Divider/>
+                      </div>
+                      }
+                      <ApprovedProjectsAdmin
+                      duringSemester={this.state.duringSemester}
+                      />
                       <RejectedProjectsAdmin/>
                   <Divider/>
                       <ArchivedProjectsAdmin/>
-                  <Divider/>
 
                   <AdminButtonBar/>
 
@@ -65,8 +84,8 @@ class HomeScreenAdmin extends Component {
 const styles = theme => ({
     grid:{
         width: '100%',
-        margin: '0px',
-        padding: theme.spacing(3)
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(12)
     },
     button:{
         marginTop: theme.spacing(3)
@@ -90,20 +109,6 @@ const styles = theme => ({
 
     },
 });
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(2),
-
-    },
-  }),
-);
 
 
 

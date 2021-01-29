@@ -79,22 +79,6 @@ constructor(props) {
 
     }
 
-    deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
-
-        this.setState({
-          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != project.getID())
-        })
-    }
-
-
   render() {
 
      const {projects} = this.state;
@@ -104,48 +88,38 @@ constructor(props) {
             <div>
                 <Container maxWidth="md">
 
-                <Grid container justify="flex-start" xs={12} xl={12} className={classes.grid}>
-                    <CssBaseline />
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <Grid item xs={12} xl={12}>
-                    <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
+                <Grid container justify="flex-start" xs={12} className={classes.grid}>
+                    <Grid item xs={12}>
+                    <Typography variant='h5' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
                      </Grid>
 
-                                <Grid container justify="flex-start" xs={12} className={classes.grid}>
-                                    <Grid item  xs={3} xl={12}>
+                                <Grid container justify="flex-start" xs={12} spacing={2} className={classes.grid}>
+                                    <Grid item  xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 project
                                             </Typography>
                                     </Grid>
-                                    <Grid item xs={3} xl={12}>
+                                    <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 professor
                                             </Typography>
                                     </Grid>
-                                    <Grid item xs={3} xl={12}>
+                                    <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
-                                                projecttype
-                                            </Typography>
-                                    </Grid>
-                                    <Grid item xs={3} xl={12}>
-                                            <Typography variant="h6" className={classes.tableRow}>
-                                                action
+                                                type
                                             </Typography>
                                     </Grid>
 
-                                    <Grid item xs={12} xl={12} className={classes.grid}>
-                                {this.state.projects.map(project => (
+                                    <Grid item xs={12} spacing={2}>
+                                    {this.state.projects.map(project => (
                                             <TableEntryButtonTwo
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
+                                                duringSemester = {this.props.duringSemester}
                                             />
-                                )
-                                )}
+                                    )
+                                    )}
                                 </Grid>
 
                                 </Grid>
@@ -162,7 +136,7 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        paddingTop: theme.spacing(3)
     },
     button:{
         marginTop: theme.spacing(3)
