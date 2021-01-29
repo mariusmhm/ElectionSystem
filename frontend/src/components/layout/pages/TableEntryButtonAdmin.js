@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import {  Grid, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
 
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
+import {withStyles} from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
@@ -144,35 +144,37 @@ class TableEntryButtonAdmin extends Component {
         const {activeIndex, buttonText} = this.state;
 
         return (
-            <TableRow key={this.props.id}>
 
-                <TableCell>
-                        {this.props.name}
-                    <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
-                    </Collapse>
-                </TableCell>
-
-                <TableCell>
+            <Grid container justify="flex-start"  xs={12} xl={12} >
+                 <Grid container justify="flex-start"  xs={12}>
+                    <Grid item xs={3} xl={12}>
+                    {this.props.name}
+                        <Collapse in={activeIndex === this.props.id}>
+                    {this.props.dsc}
+                        </Collapse>
+                    </Grid>
+                    <Grid item xs={3} xl={12}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
-                </TableCell>
-                <TableCell>
+                    </Grid>
+                    <Grid item xs={3} xl={12}>
                         {this.state.loaded ? this.state.projecttypeName: null}
-                </TableCell>
-                <TableCell>
+                    </Grid>
+                     <Grid item xs={3} xl={12}>
                      <IconButton aria-label="delete" ><DeleteIcon /> </IconButton>
-                </TableCell>
+                     </Grid>
+                     </Grid>
+                     </Grid>
 
-            </TableRow>
+
+
         )
     }
 }
-
 const styles = theme => ({
     grid: {
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(1)
     },
     button: {
         marginTop: theme.spacing(3)
@@ -192,6 +194,5 @@ const styles = theme => ({
     },
 
 
-
 });
-export default (TableEntryButtonAdmin);
+export default withStyles(styles) (TableEntryButtonAdmin);
