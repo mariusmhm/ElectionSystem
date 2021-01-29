@@ -1,191 +1,141 @@
-import { Typography, Grid, Container, TextField, Button, MenuItem, Select, FormControl, InputLabel} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
-import { ElectionSystemAPI } from '../../../api';
-
-
+import { ElectionSystemAPI } from '../../../api';
+import { Container, Typography, Grid, Paper } from '@material-ui/core';
+import UserDetailsEntry from '../../assets/UserDetailsEntry';
+import StudentDetailsEntry from '../../assets/StudentDetailsEntry';
 
 class ProfileChange extends React.Component {
-    
 
     constructor(props){
         super(props);
 
-        this.state = {
+        this.state = ({
             error: null,
-            show: true,
-            searchid: 0,
-            searchtype: '',
-            student: [],
-            user: [],
-            creationDate: '',
-            name: '',
-            firstname: '',
-            mail: '',
-            matrikelnr: 0,
-            study: '',
-            searchButtonClicked: false,
-            updateButtonClicked: false,
-            loaded: false
-        }
-        this.baseState = this.state;
-
-    }
-
-    handleNavChange = (e) => {
-        if (e.target.value === "student"){
-            this.setState({
-                searchtype: e.target.value,
-                show: true
-            })
-        }else if (e.target.value !== "student"){
-            this.setState({
-                searchtype: e.target.value,
-                show: false
-            })
-        } 
-    }
-
-    handleChange = (e) => {
-        this.setState({
-            [e.target.id]: e.target.value
+            users: [],
+            students: [],
+            userLoaded: false,
+            studentLoaded: false,
+            filter: ''
         })
     }
 
-    handleSearchClick = () => {
-        if (this.state.show === false) {
-            ElectionSystemAPI.getAPI().getUser(this.state.searchid)
-            .then(userBO => {
-                this.setState({
-                    searchButtonClicked: true,
-                    user: userBO,
-                    creationDate: userBO.getDate(),
-                    name: userBO.getName(),
-                    firstname: userBO.getFirstname(),
-                    mail: userBO.getMail(),
-                    loaded: true
-                })
-            }).catch(e => {
-                this.setState({
-                    user: [],
-                    error: e
-                })
+    getAllUsers = () => {
+        ElectionSystemAPI.getAPI().getAllUsers()
+        .then(userBOs => {
+            this.setState({
+                users: userBOs,
+                userLoaded: true
             })
-        }else {
-            ElectionSystemAPI.getAPI().getStudent(this.state.searchid)
-            .then(studentBO => {
-                this.setState({
-                    searchButtonCliked: true,
-                    student: studentBO,
-                    creationDate: studentBO.getDate(),
-                    name: studentBO.getName(),
-                    firstname: studentBO.getFirstname(),
-                    mail: studentBO.getMail(),
-                    matrikelnr: studentBO.getMatrikelNr(),
-                    study: studentBO.getStudy(),
-                    loaded: true
-                })
-            }).catch(e => {
-                this.setState({
-                    student: [],
-                    error: e
-                })
+        }).catch(e => {
+            this.setState({
+                users: [],
+                error: e
             })
-        }
+        })
     }
 
-
-    updateCurUser = () => {
-        if (this.state.loaded === true) {
-            let curUserBO = this.state.user;
-            curUserBO.setName(this.state.name);
-            curUserBO.setFirstname(this.state.firstname);
-            curUserBO.setMail(this.state.mail);
-            curUserBO.setDate(this.state.creationDate);
-
-            ElectionSystemAPI.getAPI().updateUser(curUserBO)
-            .then(this.setState({
-                updated: true
-            })).catch(e => {
-                this.setState({
-                    error: e
-                })
+    getAllStudents = () => {
+        ElectionSystemAPI.getAPI().getAllStudents()
+        .then(studentBOs => {
+            this.setState({
+                students: studentBOs,
+                studentLoaded: true
             })
-        }
+        }).catch(e => {
+            this.setState({
+                students: [],
+                error: e
+            })
+        })
     }
 
+    componentDidMount() {
+        this.getAllUsers();
+        this.getAllStudents();
+    }
 
-    render(){
+    render() {
         return(
             <div>
                 <Container maxWidth="md">
-                    <Grid container spacing={2}>
+                    <Paper>
+                    <Grid container maxWidth="md">
                         <Grid item xs={12} />
-                        <Grid item xs={2}>
-                            <FormControl  variant="outlined" fullWidth>
-                                <InputLabel htmlFor="searchtype">Searchtype</InputLabel>
-                                <Select id="searchtype" value={this.state.searchtype} onChange={this.handleNavChange}>
-                                    <MenuItem value="student">Student</MenuItem>
-                                    <MenuItem value="professor">Professor</MenuItem>
-                                    <MenuItem value="admin">Admin</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <TextField fullWidth id="searchid" value={this.state.searchid} onChange={this.handleChange} variant="outlined" label="Type in the ID"/>
+                        <Grid item xs={1}>
+                            <Typography fullWidth align="right" id="id" color="primary"><b>ID</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button id="load" variant="contained" color="secondary" onClick={this.handleSearchClick}><b>Load {this.state.searchtype}</b></Button>
+                            <Typography fullWidth align="center" id="firstname" color="primary"><b>Firstname</b></Typography>
                         </Grid>
-                        {this.state.searchButtonClicked ?
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    Users Creation Date:
-                                    <TextField variant="outlined" value={this.state.loaded ? this.state.creationDate : null} />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    Users Unique ID:
-                                    <TextField variant="outlined" value={this.state.loaded ? this.state.searchid : null} />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    Users Full Name:
-                                    <TextField variant="outlined" id="name" onChange={this.handleChange} value={this.state.loaded ? this.state.name : null} />
-                                    <TextField variant="outlined" id="firstname" onChange={this.handleChange} value={this.state.loaded ? this.state.firstname : null} />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    Users Mail Adress:
-                                    <TextField variant="outlined" id="mail" onChange={this.handleChange} value={this.state.loaded ? this.state.mail : null} />
-                                </Grid>
-                                {this.state.show ? 
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={6}>
-                                            Students Matrikel Number:
-                                            <TextField variant="outlined" id="matrikelnr" onChange={this.handleChange} value={this.state.loaded ? this.state.matrikelnr : null} />
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            Students Study:
-                                            <TextField variant="outlined" id="study" onChange={this.handleChange} value={this.state.loaded ? this.state.study : null} />
-                                        </Grid>
-                                    </Grid>
-                                : null
-                                }
-                            </Grid>
-                        : null
-                        }
-                        <Container>
-                            <Grid container>
-                                <Grid item xs={6}>
-                                    <Button onClick={this.updateCurUser()} id="update" color="primary"  variant="outlined" label="Update">Update</Button>
-                                </Grid>
-                            </Grid>
-                        </Container>
-                        
+                        <Grid item xs={2}>
+                            <Typography fullWidth align="center" id="name" color="primary"><b>Name</b></Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography fullWidth align="center" id="mail" color="primary"><b>Mail Adress</b></Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography fullWidth align="left" id="role" color="primary"><b>Role</b></Typography>
+                        </Grid>
+                        <Grid item xs={1} />
                     </Grid>
+                    {this.state.users.map(userBO => (
+                        <ul>
+                            <Paper>
+                            <UserDetailsEntry 
+                                id={userBO.getID()}
+                                gid={userBO.getGoogleID()}
+                                date={userBO.getDate()}
+                                firstname={userBO.getFirstname()}
+                                name={userBO.getName()}
+                                mail={userBO.getMail()}
+                                role={userBO.getRoleID() === 1 ? "Admin" : "Professor"} 
+                            />
+                            </Paper>
+                        </ul>
+                    ))}
+                    </Paper>
+                    <Grid item xs={12} />
+                    <Grid item xs={12} />
+                    <Paper>
+                    <Grid container maxWidth="md">
+                        <Grid item xs={1}>
+                            <Typography fullWidth align="right" id="matrikelnr" color="primary"><b>Matrikelnr</b></Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography fullWidth align="center" id="firstname" color="primary"><b>Firstname</b></Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography fullWidth align="center" id="name" color="primary"><b>Name</b></Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography fullWidth align="center" id="mail" color="primary"><b>Mail Adress</b></Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography fullWidth align="left" id="study" color="primary"><b>Study</b></Typography>
+                        </Grid>
+                        <Grid item xs={1} />
+                    </Grid>
+                    {this.state.students.map(studentBO => (
+                        <ul>
+                            <Paper>
+                            <StudentDetailsEntry 
+                                id={studentBO.getID()}
+                                gid={studentBO.getGoogleID()}
+                                date={studentBO.getDate()}
+                                firstname={studentBO.getFirstname()}
+                                name={studentBO.getName()}
+                                mail={studentBO.getMail()}
+                                role={studentBO.getRoleID() === 2 ? "Student" : null}
+                                matrikelnr={studentBO.getMatrikelNr()}
+                                study={studentBO.getStudy()} 
+                            />
+                            </Paper>
+                        </ul>
+                    ))}
+                    </Paper>
                 </Container>
             </div>
         )
     }
-
 }
-
 export default ProfileChange;

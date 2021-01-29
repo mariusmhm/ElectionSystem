@@ -3,7 +3,7 @@ import {ElectionSystemAPI} from '../../../api';
 import { Button, Grid, Typography, Container } from '@material-ui/core';
 
 
-let participationid = 13;
+let participationid = 3;
 
 class ProjectReport extends React.Component {
 
@@ -197,7 +197,7 @@ componentDidMount(){
                     <Grid container spacing={2}>
                         <Grid item xs={12} align="center">
                             <Typography>
-                                <h2>Projekt: {this.state.loaded ? this.state.projectname : null}</h2>
+                                <h2>Project: {this.state.loaded ? this.state.projectname : null}</h2>
                                 <b>Semester Report for</b> 
                                 <br></br><b>{this.state.sloaded ? this.state.studentfname : null} {this.state.sloaded ? this.state.studentname : null}</b>
                                 <br></br>Studentnr.: {this.state.sloaded ? this.state.studentnr : null}

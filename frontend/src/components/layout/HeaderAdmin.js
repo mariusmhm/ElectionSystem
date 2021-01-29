@@ -77,7 +77,6 @@ class HeaderAdmin extends Component {
               onClick={this.handleMenu}
               color="inherit"
             >
-              <AccountCircle/>
             </IconButton>
             <Menu
               id="profil-menu"
