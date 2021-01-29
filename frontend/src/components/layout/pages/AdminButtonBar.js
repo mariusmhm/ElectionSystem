@@ -203,6 +203,4 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
-
 export default withStyles(styles) (AdminButtonBar);
