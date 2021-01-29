@@ -200,7 +200,7 @@ class TableEntry extends Component {
                    
                     <Grid container justify="flex-start" xs={12}  >
                         
-                        <Grid item xs={4} xl={6}>
+                        <Grid item xs={6} xl={6}>
                                 
                                     <Button
                                             variant="contained"
