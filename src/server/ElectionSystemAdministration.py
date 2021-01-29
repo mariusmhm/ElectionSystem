@@ -363,13 +363,6 @@ class ElectionSystemAdministration (object):
         with ProjectMapper() as mapper:
             return mapper.find_project_by_state(state)
 
-    
-    def get_project_by_module(self, module_id):
-        with ProjectMapper() as mapper:
-            return mapper.get_project_by_module(module_id)
-
-    # --- Project SPECIFIC OPERATIONS ---
-
     def create_project(self, creation_date, name, short_description, special_room, room_desired, num_blockdays_prior_lecture, date_blockdays_during_lecture, num_blockdays_during_lecture, num_blockdays_in_exam, weekly, num_spots, language, external_partner, edv_number, projecttype_id, module_id, professor_id, add_professor_id, current_state_id):
         #create project
 
@@ -516,6 +509,11 @@ class ElectionSystemAdministration (object):
     # --- Election Priority Logic ---
 
     def finish_election(self, project_id):
+        # old_pp is getting all participations for one project with the project id sorted by priority
+        # new_pp is saving all participations who got a spot
+        # highest_prio is the highest number of priority
+        # min_pp is the minimum of participations for a project
+        # participation_num gets the maximum of available project spots
         adm = ElectionSystemAdministration()
         project_by_id = adm.get_project_by_id(project_id)
         old_pp = adm.get_by_project(project_id)
@@ -524,27 +522,31 @@ class ElectionSystemAdministration (object):
         min_pp = 5
         participation_num = project_by_id.get_num_spots()
 
+        # Checking if the available spots are fitting to the participations
+        # if not, we check that there are still spots and if the priority is at the moment the highest
         if len(old_pp) > participation_num:
             for pp in old_pp:
                 if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
                     new_pp.append(pp)
-                    print("first row", pp.get_priority())
                 elif 0 < highest_prio and len(new_pp) < participation_num:
                     new_pp.append(pp)
                     highest_prio = highest_prio - 1
-                    print("sec row", pp.get_priority())
             
+        # if there are enough spots for all participations
+        # we check if the minium of participations is reached
         elif len(old_pp) >= min_pp:
             new_pp = old_pp
-            print("third row")
         else:
             print("There are not enough Participations for this Project")
 
+        # now we remove the participations who got the spot
+        # from the list with all participations and updating
+        # the participation database table with the new participations
         for new in new_pp:
             old_pp.remove(new)
             adm.save_participation(new)
-            print("add row", new.get_priority())
 
+        # at least we're removing the participations
+        # who haven't got a spot for the project
         for old in old_pp:
             adm.delete_participation(old)
-            print("del row", old.get_priority())

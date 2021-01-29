@@ -1,6 +1,6 @@
 import React from 'react';
 import { ElectionSystemAPI } from '../../../api';
-import { Container, Typography, Grid, Paper } from '@material-ui/core';
+import { Container, Typography, Grid, Paper, withStyles } from '@material-ui/core';
 import UserDetailsEntry from '../../assets/UserDetailsEntry';
 import StudentDetailsEntry from '../../assets/StudentDetailsEntry';
 
@@ -9,6 +9,7 @@ class ProfileChange extends React.Component {
     constructor(props){
         super(props);
 
+        // Init the state
         this.state = ({
             error: null,
             users: [],
@@ -19,6 +20,7 @@ class ProfileChange extends React.Component {
         })
     }
 
+    // get all users from api
     getAllUsers = () => {
         ElectionSystemAPI.getAPI().getAllUsers()
         .then(userBOs => {
@@ -34,6 +36,8 @@ class ProfileChange extends React.Component {
         })
     }
 
+
+    // get all students from api
     getAllStudents = () => {
         ElectionSystemAPI.getAPI().getAllStudents()
         .then(studentBOs => {
@@ -59,19 +63,22 @@ class ProfileChange extends React.Component {
             <div>
                 <Container maxWidth="md">
                     <Paper>
-                    <Grid container maxWidth="md">
-                        <Grid item xs={12} />
+                    <Grid container maxWidth="md" spacing={2} className={this.props.classes.grid}>
+                        <Grid item xs={12}>
+                            <h2>Professors and Admins</h2>
+                            <h4><i>You have to click "OK" when the Pop-Up comes up to update!</i></h4>
+                        </Grid>
                         <Grid item xs={1}>
-                            <Typography fullWidth align="right" id="id" color="primary"><b>ID</b></Typography>
+                            <Typography fullWidth align="center" id="id" color="primary"><b>ID</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Typography fullWidth align="center" id="firstname" color="primary"><b>Firstname</b></Typography>
+                            <Typography fullWidth align="left" id="firstname" color="primary"><b>Firstname</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Typography fullWidth align="center" id="name" color="primary"><b>Name</b></Typography>
+                            <Typography fullWidth align="left" id="name" color="primary"><b>Name</b></Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography fullWidth align="center" id="mail" color="primary"><b>Mail Adress</b></Typography>
+                            <Typography fullWidth align="left" id="mail" color="primary"><b>Mail Adress</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
                             <Typography fullWidth align="left" id="role" color="primary"><b>Role</b></Typography>
@@ -94,21 +101,23 @@ class ProfileChange extends React.Component {
                         </ul>
                     ))}
                     </Paper>
-                    <Grid item xs={12} />
-                    <Grid item xs={12} />
                     <Paper>
-                    <Grid container maxWidth="md">
+                    <Grid container maxWidth="md" spacing={2} className={this.props.classes.grid}>
+                        <Grid item xs={12}>
+                            <h2>Students</h2>
+                            <h4><i>You have to click "OK" when the Pop-Up comes up to update!</i></h4>
+                        </Grid>
                         <Grid item xs={1}>
-                            <Typography fullWidth align="right" id="matrikelnr" color="primary"><b>Matrikelnr</b></Typography>
+                            <Typography fullWidth align="center" id="id" color="primary"><b>ID</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Typography fullWidth align="center" id="firstname" color="primary"><b>Firstname</b></Typography>
+                            <Typography fullWidth align="left" id="firstname" color="primary"><b>Firstname</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Typography fullWidth align="center" id="name" color="primary"><b>Name</b></Typography>
+                            <Typography fullWidth align="left" id="name" color="primary"><b>Name</b></Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography fullWidth align="center" id="mail" color="primary"><b>Mail Adress</b></Typography>
+                            <Typography fullWidth align="left" id="mail" color="primary"><b>Mail Adress</b></Typography>
                         </Grid>
                         <Grid item xs={2}>
                             <Typography fullWidth align="left" id="study" color="primary"><b>Study</b></Typography>
@@ -138,4 +147,13 @@ class ProfileChange extends React.Component {
         )
     }
 }
-export default ProfileChange;
+
+const styles = theme => ({
+    grid:{
+        width: '100%',
+        marginTop: theme.spacing(10),
+        margin: theme.spacing(3)
+    }
+})
+
+export default withStyles(styles) (ProfileChange);
