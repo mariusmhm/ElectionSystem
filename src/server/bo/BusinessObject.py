@@ -1,24 +1,30 @@
 from abc import ABC, abstractmethod
-from datetime import date
 
 class BusinessObject(ABC):
+    """Collective base class for the implementation of all relevant classes 
+    within this project.
+    
+    A central attribut of all business objects is the id, which is the primary key
+    in a relational database.
+    Another attribute of all business objects is the creation date. 
+    """
 
     def __init__(self):
-        self._id = 0
+        self._id = 0 #unique id of a business object
         self._creation_date = ''
 
     def get_id(self):
-        # get id of an business Object
+        """reads out the id."""
         return self._id
 
     def set_id(self, val):
-        # set id of an business Object
+        """Sets the id."""
         self._id = val
 
     def get_date(self):
-        # get date of an business Object
+        """Reads out of the creation date."""
         return self._creation_date
 
     def set_date(self, creation_date):
-        # set the creation date of an business Object
+        """Sets the creation date."""
         self._creation_date = creation_date

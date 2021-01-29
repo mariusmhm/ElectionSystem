@@ -4,9 +4,9 @@ from server.db.Mapper import Mapper
 
 class StudentMapper(Mapper):
     """Mapper class, that maps the student objects on relational
-    Database. To do this, a number of methods are available
-    with the help of which Objects can be searched, created, modified and
-    deleted. The mapping is bidirectional. Objects
+    Database. To do this, a number of methods are available, which
+    help to search, create, modify and delete obejcts. 
+    The mapping is bidirectional. Objects
     can be converted into DB structures and DB structures into objects."""
     def __init__(self):
         super().__init__()
@@ -42,6 +42,10 @@ class StudentMapper(Mapper):
 
 
     def find_by_id(self, id):
+        """Reads out one student by id.
+        :param id Unique id of the student
+        :return A student object, which has the required id.
+        """
         
         res = None
         crs = self._connection.cursor()
@@ -68,6 +72,10 @@ class StudentMapper(Mapper):
         return res
 
     def find_by_google_id(self, id):
+        """Reads out the student by google id.
+        :param google id Unique google id of the student
+        :return A student object, which has the required google id.
+        """
         
         res = None
         crs = self._connection.cursor()
@@ -95,6 +103,10 @@ class StudentMapper(Mapper):
 
 
     def find_by_name(self, name):
+        """Reads out students by name.
+        :param name of the student
+        :return All student objects, which has the required name.
+        """
         
         res = []
         crs = self._connection.cursor()
@@ -122,6 +134,10 @@ class StudentMapper(Mapper):
 
 
     def find_by_mail(self, mail):
+        """Reads out the student by e-mail.
+        :param mail of the student
+        :return A student object, which has the required mail.
+        """
         
         res = None
         crs = self._connection.cursor()
@@ -149,6 +165,10 @@ class StudentMapper(Mapper):
 
 
     def find_by_matrikel_nr(self, matrikel_nr):
+        """Reads out student by matrikel number.
+        :param matrikel number of the student
+        :return Student object, which has the required matrikel number.
+        """
         
         res = []
         crs = self._connection.cursor()
@@ -176,6 +196,10 @@ class StudentMapper(Mapper):
 
 
     def find_by_study(self, study):
+        """Reads out all students by study.
+        :param study of the student
+        :return All student objects, which has the required study.
+        """
         
         res = []
         crs = self._connection.cursor()
@@ -203,6 +227,11 @@ class StudentMapper(Mapper):
 
 
     def insert (self, student):
+        """Adds a student object into the database.
+        The primary key of the object gets checked and if neccessary adjusted.
+        :param student object which will be saved
+        :return student object with the changed id
+        """
 
         crs = self._connection.cursor()
 
@@ -226,6 +255,9 @@ class StudentMapper(Mapper):
 
 
     def update(self, student):
+        """Updates a student object in the database.
+        :param student object which will be updated
+        """
 
         crs = self._connection.cursor()
 
@@ -240,6 +272,9 @@ class StudentMapper(Mapper):
 
 
     def delete(self, student):
+        """Deletes a student object from the database.
+        :param student object which will be deleted
+        """
 
         crs = self._connection.cursor()
 

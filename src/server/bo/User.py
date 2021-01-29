@@ -3,8 +3,9 @@ from server.Role import Role
 
 
 class User(NamedBusinessObject):
-
-    # Realization of an User Class
+    """The implementation of a exemplary user class.
+    """
+    
     def __init__(self):
         super().__init__()
         self._google_user_id = ""
@@ -13,41 +14,41 @@ class User(NamedBusinessObject):
         self.role_id = 0
 
     def set_google_user_id(self, google_user_id):
-        #set the google id of an user
+        """set the google id of an user"""
         self._google_user_id = google_user_id
 
 
     def get_google_user_id(self):
-        #set the google id of an user
+        """set the google id of an user"""
         return self._google_user_id
 
 
     def set_firstname(self, firstname):
-        #Set the first name of an User
+        """Set the first name of an User"""
         self._firstname = firstname
 
 
     def get_firstname(self):
-        #Get the first name of an User
+        """Get the first name of an User"""
         return self._firstname
 
 
     def set_mail(self, mail):
-        #Set the email name of an User
+        """Set the email name of an User"""
         self._mail = mail
 
 
     def get_mail(self):
-        #Get the email of an User
+        """Get the email of an User"""
         return self._mail
 
     def set_role_id(self, role):
-        #Set the role of an User
+        """Set the role of an User"""
         self._role_id = role
 
 
     def get_role_id(self):
-        #Get the role of an User
+        """Get the role of an User"""
         return self._role_id
 
 
@@ -55,7 +56,7 @@ class User(NamedBusinessObject):
     @staticmethod
     def to_dict(dicti=dict()):
 
-        """Convert a Python dict() in a User()."""
+        """Converts a Python dict() into a User()."""
 
         user = User()
         user.set_id(dicti["id"])

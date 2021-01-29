@@ -8,13 +8,14 @@ class ModuleMapper (Mapper):
         super().__init__()
         """Mapper class, that maps the module objects on relational
         Database. To do this, a number of methods are available
-        with the help of which Objects can be searched, created, modified and
-        deleted. The mapping is bidirectional. Objects
+        which help to search, create, modify and
+        delete objects. The mapping is bidirectional. Objects
         can be converted into DB structures and DB structures into objects."""
 
     def find_all(self):
          """Reads out all modules.
-              :return A collection of module objects that represent all modules."""
+        :return A collection of module objects that represent all modules.
+        """
 
          res = []
          crs = self._connection.cursor()
@@ -36,7 +37,7 @@ class ModuleMapper (Mapper):
          return res
 
     def find_by_id(self, id):
-        """Read out the module based on their id.
+        """Reads out the module based on their id.
         : param module_id of the associated module.
         : return a module object with the id number."""
 
@@ -67,8 +68,8 @@ class ModuleMapper (Mapper):
 
 
     def find_by_name(self, name):
-        """Read out all modules based on their name.
-        : param module_name of the associated module.
+        """Reads out all modules based on their name.
+        : param name of the associated module.
         : return A collection of modules objects
             with the desired name."""
         result = []
@@ -91,10 +92,9 @@ class ModuleMapper (Mapper):
         return result
 
     def find_by_edv_number(self,edv_number):
-        """Read out all modules based on the assigned edv numbers.
-        : param (edv_number) edv number of the associated module.
-        : return the module object that contain
-            the desired edv number."""
+        """Reads out all modules based on the assigned edv numbers.
+        : param edv_number of the associated module.
+        : return the module object that contain the desired edv number."""
 
         result = None
         cursor = self._connection.cursor()
@@ -137,13 +137,8 @@ class ModuleMapper (Mapper):
 
         for (maxid) in tuples:
             if maxid[0] is not None:
-                """
-                If we determine a central ID we use this
-                by 1 and assign this value as the ID to the semester object. """
                 module.set_id(maxid[0] + 1)
             else:
-                """If we CAN'T find a maximum ID, let's
-                assume that the table is empty and that we can start with ID 1. """
                 module.set_id(1)
 
         command = "INSERT INTO Module (id, creation_date, name, edv_number) VALUES (%s, %s, %s, %s)"
@@ -166,8 +161,8 @@ class ModuleMapper (Mapper):
 
 
     def update(self, module):
-        """Repeated writing of an object to the database.
-        : param semester the object that is to be written to the DB"""
+        """Updates an module object in the database.
+        : param module the object that is to be written to the DB"""
         cursor = self._connection.cursor()
         cmd = "SET (id=%s, creation_date=%s, name=%, edv_number=%s) WHERE id=%s"
         data = (module.get_id(), module.get_date(), module.get_name(), module.get_edv_number())
