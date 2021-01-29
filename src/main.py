@@ -273,9 +273,9 @@ class StudentGoogleOperations(Resource):
 @electionSystem.response(500, 'when server has problems')
 class StudentMatrikelNrOperations(Resource):
     @electionSystem.marshal_with(student)
-    """Reading out student objects that are determined by the matrikle number.
-     The objects to be read out are determined by '' matrikel_nr'' in the URI."""
     def get(self, matrikel_nr):
+         """Reading out student objects that are determined by the matrikle number
+        The objects to be read out are determined by 'matrikel_nr' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_matrikel_nr(matrikel_nr)
         return students
@@ -285,9 +285,9 @@ class StudentMatrikelNrOperations(Resource):
 @electionSystem.response(500, 'when server has problems')
 class StudentsStudyOperations(Resource):
     @electionSystem.marshal_with(student)
-      """Reading out student objects that are determined by the study field.
-     The objects to be read out are determined by '' study '' in the URI."""
     def get(self, study):
+        """Reading out student objects that are determined by the study field.
+          The objects to be read out are determined by 'study' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_student_by_study(study)
         return students
@@ -298,8 +298,8 @@ class StudentsStudyOperations(Resource):
 class StudentParticipationOperations(Resource):
     @electionSystem.marshal_with(student)
     def get(self, project_id):
-     """Reading out student from the participation objects that are determined by the project id .
-     The objects to be read out are determined by '' project_id '' in the URI."""
+     """Reading out student from the participation objects that are determined by the project id.
+     The objects to be read out are determined by 'project_id' in the URI."""
         adm = ElectionSystemAdministration()
         students = adm.get_all_students_of_participation(project_id)
         return students
@@ -312,8 +312,8 @@ class StudentParticipationOperations(Resource):
 class UserListOperations(Resource):
     @electionSystem.marshal_list_with(user)
     def get(self):
-         """Reading out all user objects.
-         If no user objects are available, an empty sequence is returned."""
+        """Reading out all user objects.
+        If no user objects are available, an empty sequence is returned."""
         adm = ElectionSystemAdministration()
         users = adm.get_all_users()
         return users
