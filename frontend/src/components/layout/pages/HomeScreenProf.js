@@ -11,7 +11,8 @@ class HomeScreenProf extends Component {
             loaded: false,
             user: 1,
             projects: [],
-            profProjects: []
+            profProjects: [],
+            
 
         };
     
@@ -70,6 +71,8 @@ class HomeScreenProf extends Component {
     }
 
 
+
+
     componentDidMount(){
         this.getAllProjects();
         this.getAllProjecttypes();
@@ -107,6 +110,8 @@ class HomeScreenProf extends Component {
 
                     </Grid>
                     )}
+
+                    
                 </Grid>
    
 

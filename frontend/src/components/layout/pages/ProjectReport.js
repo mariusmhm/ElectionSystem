@@ -11,7 +11,7 @@ class ProjectReport extends React.Component {
         super(props);
 
         this.state = {
-            participation: [],
+            participation: null,
             error: null,
             project: [],
             student: [],
@@ -50,7 +50,7 @@ class ProjectReport extends React.Component {
     
 
     getForeignKeys = () => {
-        ElectionSystemAPI.getAPI().getParticipation(participationid)
+        ElectionSystemAPI.getAPI().getParticipation(this.props.participationid)
         .then(participationBO => {
             this.setState({
                 participation: participationBO,
@@ -194,6 +194,7 @@ componentDidMount(){
         return (
             <div>
                 <Container maxWidth="sm">
+                    <Typography>Hello World</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12} align="center">
                             <Typography>

@@ -21,6 +21,7 @@ import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
+import ProjectReport from './components/layout/pages/ProjectReport';
 
 
 
@@ -132,6 +133,7 @@ class App extends Component {
 
 					<Switch>
         				<Route exact path="/project-content" component={EntryListAdmin} />
+						<Route exact path="/project-report" component={ProjectReport} />
     				</Switch>
 					<HomeScreen/>
                 </Router>

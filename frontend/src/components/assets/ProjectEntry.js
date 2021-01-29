@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-
+import { Redirect, Route } from 'react-router'
 import { ElectionSystemAPI, ParticipationBO,} from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -13,6 +13,8 @@ import GradingEditingDialog from '../dialogs/GradingEditingDialog'
 
 
 import {withStyles} from '@material-ui/core';
+import ProjectReport from '../layout/pages/ProjectReport';
+import { Link } from 'react-router-dom';
 
 
 
@@ -125,8 +127,8 @@ class TableEntry extends Component {
     
 
     handleClickOpen = () => {
-        this.setState({open: true})
-      }
+        
+      };
 
     handleClose = () => {
         this.setState({open: false})
@@ -184,7 +186,7 @@ class TableEntry extends Component {
                     <Grid container justify="flex-start" xs={12}>
                         
                         <Grid item xs={6} xl={6}>
-                                
+                                <Link to = {{pathname:"/project-report", state:{participationid: 2}}}>
                                     <Button
                                             variant="contained"
                                             color="none"
@@ -194,7 +196,7 @@ class TableEntry extends Component {
                                         >
                                             <Typography variant="h5">{this.props.name}</Typography>
                                     </Button>
-                                
+                                </Link>
                         </Grid>
 
                         <Grid container xs={6} xl={6} justify="flex-end" spacing={3}>
@@ -206,6 +208,7 @@ class TableEntry extends Component {
                             
                             
                             <Grid item xs={4} xl={3}>
+                            
                                 <Button 
                                 variant="contained" 
                                 color="primary" 
@@ -214,6 +217,7 @@ class TableEntry extends Component {
                                 >
                                     Report
                                 </Button>
+                                
                             </Grid>
                         </Grid>
                         
@@ -260,7 +264,10 @@ class TableEntry extends Component {
 
                 </Grid> 
 
-                {this.state.open ? <GradingEditingDialog open={this.state.open} close ={this.handleClose} key={this.state.participationID}/>: null}
+                
+            
+            
+             
             
             </Grid>
             
