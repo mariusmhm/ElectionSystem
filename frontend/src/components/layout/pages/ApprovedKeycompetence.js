@@ -3,15 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryButtonKeycompetence from './TableEntryButtonKeycompetence';
@@ -27,7 +19,6 @@ constructor(props) {
             projects: [],
             projecttypes: [],
             error: null,
-            priority: '',
             updatingError: null,
             deletingError: null,
             loaded: null,
@@ -43,10 +34,7 @@ constructor(props) {
     }
 
 
-        this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
-        })
-    }
+
 
        getProjectForModule= () =>{
         ElectionSystemAPI.getAPI().getProjectForModule(7) /*get the module id where module is Keycompetence*/
@@ -83,60 +71,43 @@ constructor(props) {
         return (
             <div>
                 <Container maxWidth="md">
+                    <Grid container  justify="flex-start" xs={12} md={12} className={classes.grid}>
                     <CssBaseline />
-                    <Typography variant='h4' color="secondary" className={classes.redHeader}>THIS SEMESTER</Typography>
-                    <br/>
+                    <Grid item align="flex-start" xs={12} md={12} className={classes.grid}>
                     <Typography variant='h6' color="gray">Keycompetence</Typography>
-                    <br/>
-                    <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
-                        <TableContainer>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography variant="h6" className={classes.tableRow}>
-                                                project
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
+                    </Grid>
+                     <Grid item xs={3} md={3} >
+                                    <Typography variant="h6" className={classes.tableRow}>
+                                         project
+                                    </Typography>
+                                 </Grid>
+                                 <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 professor
                                             </Typography>
-                                        </TableCell>
-                                        <TableCell>
+                                 </Grid>
+                                 <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 projecttype
                                             </Typography>
-                                        </TableCell>
-                                           <TableCell>
+                                 </Grid>
+                                    <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
-                                                module
-                                            </Typography>
-                                        </TableCell>
-                                            <TableCell>
-                                             <Typography variant="h6" className={classes.tableRow}>
                                                 participator
                                             </Typography>
-                                        </TableCell>
-                                    </TableRow>
-                               </TableHead>
-                                        <TableBody>
-                                            {this.state.projects.map(project => (
-                                                    <TableEntryButtonKeycompetence
+                                 </Grid>
+                                 <Grid item xs={12} md={12} className={classes.grid}>
+                                {this.state.projects.map(project => (
+                                            <TableEntryButtonKeycompetence
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
-                                                module= {project.getModule()}
-                                            />))}
-                                        </TableBody>
-                          </Table>
-                        </TableContainer>
+                                                id = {project.getID()}
+
+                                            />
+                                )
+                                )}
+                        </Grid>
                      </Grid>
 
 				</Container>
