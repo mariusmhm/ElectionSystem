@@ -11,11 +11,18 @@ import HomeScreenCompTwo from './pages/HomeScreenCompTwo';
 
 
 
-class HomeScreen extends Component {
+class HomeScreenStudent extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            phase: true
+        }}
+
 
 
   render() {
 
+    const { phase } = this.state;
 
         return (
 
@@ -23,20 +30,13 @@ class HomeScreen extends Component {
 
                  <CssBaseline />
 
-                  <Container maxWidth="MD">
-                      <HomeScreenCompOne />
-                      <Divider/>
-                      <br/>
-                      <br/>
+                  <Container xl={12} xs={12}>
+
+                      {phase ? <HomeScreenCompOne /> : <HomeScreenCompTwo />}
                       
-                      <Divider/>
-                      <div>
-                      
-                      <Divider/>
-                      </div>
 				  </Container>
 		    </div>
 		);
 	}
 }
-export default HomeScreen;
+export default HomeScreenStudent;

@@ -5,12 +5,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography'
 
 import Button from '@material-ui/core/Button';
-import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper, Box, Divider, ButtonBase, TableSortLabel } from '@material-ui/core';
+import { withStyles,  Divider, LinearProgress } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI } from '../../../api';
 
-import TableEntry from '../../assets/TableEntry';
+import NotSelectedProjectEntry from '../../assets/NotSelectedProjectEntry';
 import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
 
 
@@ -32,7 +32,7 @@ class HomeScreenCompOne extends Component {
             participationLoaded: false,
             projectLoaded: false,
             projecttypeLoaded: false,
-            loaded: true,
+            loaded: false,
             reload: true,
 
             error: null,
@@ -95,7 +95,7 @@ class HomeScreenCompOne extends Component {
                     error: null
                 }))
 
-            .then(this.sortProjects)
+            .then(this.sortProjects).then(this.setState({loaded: true}))
                       
 
             .catch(e =>
@@ -148,13 +148,14 @@ class HomeScreenCompOne extends Component {
 
 
     render() {
-        const { projects, participations,projecttypes,selectedProjects, unselectedProjects } = this.state;
+        const { projects, participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
 
 
 
         
         return (
             <div>
+                {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
                 <Grid container >
                 <Typography variant="h2">Meine Wahl</Typography>
                     {selectedProjects.length > 0 ? 
@@ -230,7 +231,7 @@ class HomeScreenCompOne extends Component {
                                         project.projecttype_id === pt.id ?
 
                                         <>
-                                        <TableEntry
+                                        <NotSelectedProjectEntry
                                             key = {project.getID()}
                                             id = {project.getID()}
                                             name = {project.getName()}
