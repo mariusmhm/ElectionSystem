@@ -14,6 +14,11 @@ import {Dialog,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 
+/**
+* Dialog for Participation List provides a query for deleting a student
+*/
+
+
 
 let open= true;
 

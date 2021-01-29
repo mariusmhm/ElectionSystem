@@ -34,55 +34,55 @@ class AdminButtonBar extends Component {
         };
     }
 
-
+    // close the dialog
     closeDialog = () => {
         this.setState({
             open: false})
     }
-
+    // opens the dialog
     openDialog() {
         this.setState({ open: true });
     }
-
+    // close the grading
     closeGrading= ()  =>{
         this.setState({
             openg:false })
     }
-
+    // opens the grading
     openGrading() {
         this.setState({ openg: true });
     }
-
+    // close the module
     closeModule =()  =>{
         this.setState({
             openm:false })
     }
-
+    // opens the module
     openModule() {
         this.setState({ openm: true });
     }
-
+    // close the projettype
     closeProjecttype =()  =>{
         this.setState({
             openp:false })
     }
-
+    // opens the projecttype
     openProjecttype() {
         this.setState({ openp: true });
     }
-
+    // opens project
     openProject(){
         this.setState({
             openpr: true });
 
     }
-
+    // close project
     closeProject = () => {
         this.setState({openpr:false})
 
     }
 
-
+    // renders the component
   render() {
     const {classes}= this.props;
 
@@ -91,12 +91,7 @@ class AdminButtonBar extends Component {
 
               <Container maxWidth="MD" align ="center">
 
-              < Semester
-                    AdminButtonBar ={AdminButtonBar}
-                    open={this.state.open}
-                    openDialog={this.openDialog}
-                    closeDialog={this.closeDialog}
-              />
+
               < GradingEditingDialog
                     AdminButtonBar ={AdminButtonBar}
                     openg={this.state.openg}
@@ -164,7 +159,7 @@ class AdminButtonBar extends Component {
 		);
 	}
 }
-
+// component specific styles
 const styles = theme => ({
     grid:{
         width: '100%',

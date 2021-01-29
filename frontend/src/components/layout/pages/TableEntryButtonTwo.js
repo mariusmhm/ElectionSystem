@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import {  Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
-
+import Grid from '@material-ui/core/Grid';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
+import {withStyles} from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
@@ -162,26 +162,26 @@ class TableEntryButtonTwo extends Component {
         const {activeIndex, buttonText} = this.state;
 
         return (
-            <TableRow key={this.props.id}>
-
-                <TableCell>
+           <Grid container  justify="flex-start"  xs={12} xl={12} className={classes.grid}>
+                 <Grid container justify="flex-start" xs={12} className={classes.grid}>
+                    <Grid item xs={3} xl={12}>
                         {this.props.name}
-                    <Collapse in={activeIndex === this.props.id}>
+                            <Collapse in={activeIndex === this.props.id}>
                         {this.props.dsc}
-                    </Collapse>
-                </TableCell>
-
-                <TableCell>
+                            </Collapse>
+                    </Grid>
+                    <Grid item xs={3} xl={12}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
-                </TableCell>
-                <TableCell>
+                    </Grid>
+                     <Grid item xs={3} xl={12}>
                         {this.state.loaded ? this.state.projecttypeName: null}
-                </TableCell>
-                <TableCell>
-                     <Button variant ="outlined" > Bewerten </Button>
-                </TableCell>
+                     </Grid>
+                    <Grid item xs={3} xl={12}>
+                        <Button variant ="outlined" > Bewerten </Button>
+                    </Grid>
+                 </Grid>
+              </Grid>
 
-            </TableRow>
         )
     }
 }
@@ -190,7 +190,7 @@ const styles = theme => ({
     grid: {
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(1)
     },
     button: {
         marginTop: theme.spacing(3)
@@ -212,4 +212,4 @@ const styles = theme => ({
 
 
 });
-export default (TableEntryButtonTwo);
+export default withStyles(styles) (TableEntryButtonTwo);
