@@ -29,59 +29,59 @@ class Project(Automat, NamedBusinessObject):
 
 
     def set_short_description(self, description):
-        """Sets  the short description of the project."""
+        """Sets the short description of the project."""
         self._short_description = description 
     
     def get_short_description(self):
-        """Read out the short description of the project."""
+        """Reads out the short description of the project."""
         return self._short_description
 
     def set_special_room(self, specialRoom):
-        """Set if special room."""
+        """Sets a special room if needed."""
         self._special_room = specialRoom
 
     def get_special_room(self):
-        """Read out the special room."""
+        """Reads out the special room."""
         return self._special_room 
     
     def set_room_desired(self, room):
-        """Set the room desired."""
+        """Sets the room if desired."""
         self._room_desired = room
 
     def get_room_desired(self):
-        """Read out the room desired."""
+        """Reads out the room desired."""
         return self._room_desired
 
     def set_num_blockdays_prior_lecture(self, numBdPriorLecture):
-        """Set the number of blockdays pre lecture."""
+        """Sets the number of blockdays per lecture."""
         self._num_blockdays_prior_lecture = numBdPriorLecture
 
     def get_num_blockdays_prior_lecture(self):
-        """Read out the number of blickdays pre lecture."""
+        """Reads out the number of blockdays per lecture."""
         return self._num_blockdays_prior_lecture
 
     def set_date_blockdays_during_lecture(self, dateBdDuringLecture):
-        """Set if there will be blockdays during lecture ."""
+        """Sets if there will be blockdays during lecture ."""
         self._date_blockdays_during_lecture = dateBdDuringLecture
 
     def get_date_blockdays_during_lecture(self):
-        """Read out if there will be blockdays during lecture ."""
+        """Reads out if there will be blockdays during lecture ."""
         return self._date_blockdays_during_lecture
 
     def set_num_blockdays_during_lecture(self, numBdDuringLecture):
-        """Set how much blockdays there will be during lecture."""
+        """Sets how many blockdays will be during lecture."""
         self._num_blockdays_during_lecture = numBdDuringLecture
 
     def get_num_blockdays_during_lecture(self):
-        """Read out how much blockdays there will during lecture."""
+        """Reads out how many blockdays will be during lecture."""
         return self._num_blockdays_during_lecture
     
     def set_num_blockdays_in_exam(self, num):
-        """Set the average grade ."""
+        """Sets the number of blockdays for exams."""
         self._num_blockdays_in_exam = num
 
     def get_num_blockdays_in_exam(self):
-        """Read out the average grade."""
+        """Read out the number of blockdays for exams."""
         return self._num_blockdays_in_exam
 
     def set_weekly(self, weeklyLecture):
@@ -89,35 +89,39 @@ class Project(Automat, NamedBusinessObject):
         self._weekly = weeklyLecture
 
     def get_weekly(self):
-        """Read out if there will be a weekly lecture."""
+        """Reads out if there will be a weekly lecture."""
         return self._weekly
 
     def set_num_spots(self, numSpots):
-        """Set the amount of spots."""
+        """Sets the amount of spots."""
         self._num_spots = numSpots
 
     def get_num_spots(self):
-        """Read out the amount of spots."""
+        """Reads out the amount of spots."""
         return self._num_spots
 
     def set_language(self, language):
-        """Sets  the language of the project."""
+        """Sets the language of the project."""
         self._language = language
 
     def get_language(self):
-        """Read out out the language of the project."""
+        """Reads out the language of the project."""
         return self._language
 
     def set_external_partner(self, externalPartner):
+        """Sets if an external partner. """
         self._external_partner = externalPartner
 
     def get_external_partner(self):
+        """Reads out if an external partner. """
         return self._external_partner
 
     def set_edv_number(self, edv):
+        """Sets an edv number for a project"""
         self._edv_number = edv
 
     def get_edv_number(self):
+        """Reads out an edv number for a project"""
         return self._edv_number
 
     #--- foreign keys ----
@@ -135,6 +139,7 @@ class Project(Automat, NamedBusinessObject):
         self._module_id = moduleId
 
     def get_module_id(self):
+        """Reads out the module id of an project"""
         return self._module_id
 
     def set_professor_id(self, profId):
@@ -150,7 +155,7 @@ class Project(Automat, NamedBusinessObject):
         self._add_professor_id = addProfId
 
     def get_add_professor_id(self):
-        """Readsout the additional professor"""
+        """Reads out the additional professor"""
         return self._add_professor_id
 
 
