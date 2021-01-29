@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TextField, Button, Grid, Typography, TableContainer, Input, Table, TableBody, TableCell, TableHead, TableRow, Container} from'@material-ui/core';
+import { TextField, Button, Grid, Typography, TableContainer, Input, Table, TableBody, TableCell, Divider,  TableHead, TableRow, Container} from'@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {withStyles} from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -56,7 +56,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(1)
+        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
@@ -90,74 +90,63 @@ getStudentByParticipations = () => {
      const { gradings, error, students} = this.state;
 
     return(
-            <Container maxWidth="md">
+            <Container maxWidth="xl">
+                <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
+                    <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
+                </Grid>
+                 <Grid container justify="Center" maxwidth="xl" className={classes.grid} >
+                     <Typography variant="h6" color="secondary" className={classes.greyHeader}>of project participants</Typography>
+                 </Grid>
                     <Grid container
-                        direction="column"
-                        justify="space-around"
-                        className={classes.pagecontent}>
-                            <Typography variant="h4" > Project </Typography>
-                            <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
-                    </Grid>
-                    <Grid container
-                        direction="row"
-                        justify="space-around"
-                        alignItems="center"
+                        justify="flex-start"
+                        xs={12} md={12}
                         className={classes.grid}>
-                        <Grid item>
-                            <TableContainer>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                        <TableCell>
+                            <Grid container justify="flex-start" xs={12} md={12} className={classes.grid}>
+                                    <Grid item  xs={1} md={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     Delete
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                    </Grid>
+                                    <Grid item xs={1} md={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     NAME
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                    </Grid>
+                                    <Grid item xs={1} md={1}>
                                                 <Typography variant="h6" className={classes.tableRow}>
-                                                    FIRSTNAME
+                                                    FIRSTN.
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                    </Grid>
+                                    <Grid item xs={1} md={1}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     MRT
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                    </Grid>
+                                    <Grid item xs={1} md={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     STUDY
                                                 </Typography>
-                                            </TableCell>
-                                            <TableCell>
+                                    </Grid>
+                                    <Grid item xs={1} xl={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     GRADE
                                                 </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                {this.state.students.map(student => (
-                                            <TableListEntryTeilnehmer
-                                                name = {student.getName()}
-                                                firstname = {student.getFirstname()}
-                                                mrtnr = {student.getMatrikelNr()}
-                                                course = {student.getStudy()}
-                                                student ={student}
-                                                id={student.getID()}
-                                                removeStudent={this.removeStudent}
-
-                                            />
-                                )
-                                )}
-                                    </TableBody>
-                                </Table>
-                        </TableContainer>
-                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12} xl={12}>
+                                            {this.state.students.map(student => (
+                                                <TableListEntryTeilnehmer
+                                                    name = {student.getName()}
+                                                    firstname = {student.getFirstname()}
+                                                    mrtnr = {student.getMatrikelNr()}
+                                                    course = {student.getStudy()}
+                                                    student ={student}
+                                                    id={student.getID()}
+                                                    removeStudent={this.removeStudent}
+                                                />
+                                            )
+                                            )}
+                                    </Grid>
+                                    <Divider/>
                         <Grid item container
                             direction="column"
                             xs={12}
@@ -174,6 +163,7 @@ getStudentByParticipations = () => {
                                 </Button>
                         </Grid>
                     </Grid>
+                    </Grid>
                 </Container>
 
     );
@@ -184,7 +174,11 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+
+    },
+    margin:{
+        marginTop: theme.spacing(10)
     },
     button:{
         marginTop: theme.spacing(3)
@@ -193,7 +187,13 @@ const styles = theme => ({
         color: theme.palette.red,
         fontFamily: 'Arial',
         fontStyle: 'bold',
-        fontSize: 15
+        fontSize: 40
+    },
+    greyHeader:{
+        color: 'grey',
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 27
     },
 
     tableRow:{

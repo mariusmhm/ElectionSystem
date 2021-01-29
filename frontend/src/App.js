@@ -20,6 +20,7 @@ import ProjectContent from './components/layout/pages/ProjectContent';
 import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
+import EntryListAdmin from './components/layout/pages/EntryListAdmin';
 
 
 
@@ -130,8 +131,9 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={HomeScreenAdmin} />
+        				<Route exact path="/project-content" component={EntryListAdmin} />
     				</Switch>
+					<HomeScreen/>
                 </Router>
 			</ThemeProvider>
 		    </div>
