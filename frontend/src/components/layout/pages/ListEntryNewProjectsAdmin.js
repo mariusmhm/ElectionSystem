@@ -106,11 +106,7 @@ constructor(props) {
 
                 <Grid container justify="flex-start" xs={12} xl={12} className={classes.grid}>
                     <CssBaseline />
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+
                     <Grid item xs={12} xl={12}>
                     <Typography variant='h4' color="secondary" className={classes.redHeader}>NEW PROJECTs</Typography>
                      </Grid>
@@ -162,8 +158,10 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+        marginTop: theme.spacing(10)
     },
+
     button:{
         marginTop: theme.spacing(3)
     },

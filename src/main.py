@@ -1125,7 +1125,7 @@ class RoleOperations(Resource):
         adm = ElectionSystemAdministration()
         r = Role.from_dict(api.payload)
 
-        if s is not None:
+        if r is not None:
             """This sets the id of the state object to be overwritten"""                 
             r.set_id(id)
             adm.save_role(r)

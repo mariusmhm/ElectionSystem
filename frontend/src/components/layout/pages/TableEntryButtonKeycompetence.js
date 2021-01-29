@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
-
+import { Button, Collapse} from "@material-ui/core";
+import Grid from '@material-ui/core/Grid';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, ModuleBO } from '../../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-
 
 
 
@@ -26,7 +18,6 @@ class TableEntryButtonKeycompetence extends Component {
             projecttypeName: '',
             moduleName: '',
             error: null,
-            priority: '',
             updatingError: null,
             deletingError: null,
             loaded: false,
@@ -41,7 +32,6 @@ class TableEntryButtonKeycompetence extends Component {
             lastname: '',
             firstname: '',
             project:'',
-            priority: 0
 
 
         };
@@ -149,36 +139,37 @@ class TableEntryButtonKeycompetence extends Component {
         const {activeIndex, buttonText} = this.state;
 
         return (
-            <TableRow key={this.props.id}>
 
-                <TableCell>
-                        {this.props.name}
-                    <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
-                    </Collapse>
-                </TableCell>
-
-                <TableCell>
+            <Grid container justify="flex-start"  xs={12} md={12} >
+                 <Grid item container justify="flex-start"  xs={12}>
+                    <Grid item xs={3} md={3}>
+                    {this.props.name}
+                        <Collapse in={activeIndex === this.props.id}>
+                    {this.props.dsc}
+                        </Collapse>
+                    </Grid>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
-                </TableCell>
-                <TableCell>
+                    </Grid>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.projecttypeName: null}
-                </TableCell>
-                        {this.state.loaded ? this.state.moduleName: null}
-                <TableCell>
-                     <Button variant ="outlined">Participator</Button>
-                </TableCell>
+                    </Grid>
+                     <Grid item xs={3} md={3}>
+                     <Button variant ="outlined">Participations</Button>
+                     </Grid>
+                     </Grid>
+                     </Grid>
 
-            </TableRow>
+
+
         )
     }
 }
-
 const styles = theme => ({
     grid: {
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        padding: theme.spacing(1)
     },
     button: {
         marginTop: theme.spacing(3)
@@ -196,7 +187,6 @@ const styles = theme => ({
         fontStyle: 'bold',
         fontSize: 35
     },
-
 
 
 });
