@@ -25,6 +25,9 @@ class HomeScreen extends Component {
 
                   <Container maxWidth="MD">
                       <HomeScreenProf/>
+                      <HomeScreenCompOne/>
+                      <HomeScreenCompTwo/>
+                      
 				  </Container>
 		    </div>
 		);
