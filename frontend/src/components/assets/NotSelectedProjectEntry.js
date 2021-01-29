@@ -5,7 +5,6 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { ElectionSystemAPI, ParticipationBO,} from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 
@@ -208,7 +207,7 @@ class TableEntry extends Component {
                                             color="none"
                                             onClick={this.toggleClass.bind(this, this.props.id)}
                                             style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
-                                            endIcon={this.state.activeIndex ? <ArrowDropDownIcon /> : <ArrowDropDownIcon />}
+                                            endIcon={this.state.activeIndex ? <ArrowDropUpIcon/> : <ArrowDropDownIcon />}
                                         >
                                             <Typography variant="h5">{this.props.name}</Typography>
                                     </Button>
@@ -216,13 +215,27 @@ class TableEntry extends Component {
                         </Grid>
                         <Grid container xs={6} xl={6} justify="flex-end" alignItems="center">
                             <Grid item xs={3} xl={2}>
-                               
+                                <FormControl>
                                 
+                                    <Select
+                                        labelId="demo-simple-select-helper-label"
+                                        id="demo-simple-select-helper"
+                                        defaultValue="0"
+                                        onChange={this.handleChange}
+                                        style={{display:  this.state.select ? 'block' : 'none'}}
+                                    >
+                                        <MenuItem value="0">Priority</MenuItem>
+                                        <MenuItem value="1"> 1st priority</MenuItem>
+                                        <MenuItem value="2">2nd priority </MenuItem>
+                                        <MenuItem value="3">3rd priority </MenuItem>
+                                        <MenuItem value="4">4th priority </MenuItem>
+                                    </Select>
                                     
-                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
-                                         Priority: {this.props.priority}</Typography>
                                          
-                                
+                                </FormControl>
+
+                                <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
+                                         Priority: {this.state.priority}</Typography>
                             
                             
                             
@@ -234,13 +247,13 @@ class TableEntry extends Component {
                                     variant="contained"
                                     color="secondary"
                                     
-                                    endIcon= {this.state.select ? <DoneAllIcon /> :  <DeleteForeverIcon/>}
+                                    endIcon= {this.state.select ? <PlaylistAddCheckIcon /> :  <DoneAllIcon/>}
                                     color={this.state.select ? "primary": "secondary"} 
                                 
                                     onClick={() => {
                                             this.handleClick();
                                     }} >  
-                                    {this.state.select ? "Deleted" : "Deselect"}      
+                                    {this.state.select ? "Select" : "Selected"}      
                                 </Button>
                                
                             </Grid>
