@@ -10,11 +10,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container} from '@material-ui/core';
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Main from './Main'
+import Main from './Main';
 
-import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
-import HomeScreenProf from './components/layout/HomeScreen';
+import HomeScreenProf from './components/layout/pages/HomeScreenProf';
 import HomeScreenCompOne from './components/layout/pages/HomeScreenCompOne';
 import HomeScreenCompTwo from './components/layout/pages/HomeScreenCompTwo';
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
@@ -22,7 +21,7 @@ import ProjectReport from './components/layout/pages/ProjectReport';
 import Header from './components/layout/Header';
 import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
-import ProfilChange from './components/layout/pages/ProfileChange'
+import ProfileChange from './components/layout/pages/ProfileChange';
 
 
 
@@ -164,7 +163,7 @@ class App extends Component {
 						path={"/student"}
 						render={props =>(
 							<>
-							<Header/>
+							<Header {...props}/>
 							<HomeScreenCompOne {...props} />
 							<HomeScreenCompTwo {...props} />
 							</>
@@ -175,7 +174,7 @@ class App extends Component {
 						path={"/admin"}
 						render={props =>(
 							<>
-							<HeaderAdmin/>
+							<HeaderAdmin {...props}/>
 							<HomeScreenAdmin {...props} />
 							</>
 						)}
@@ -185,7 +184,7 @@ class App extends Component {
 						path={"/professor"}
 						render={props =>(
 							<>
-							<HeaderProf/>
+							<HeaderProf {...props}/>
 							<HomeScreenProf {...props} />
 							</>
 						)}
@@ -194,12 +193,11 @@ class App extends Component {
 						exact
 						path={"/admin/profile"}
 						render={props =>(
-							<ProfilChange {...props} />
+							<ProfileChange {...props} />
 						)}
 						/>
 						
     				</Switch>
-					<HomeScreen/>
                 </Router>
 			</ThemeProvider>
 		    </div>
