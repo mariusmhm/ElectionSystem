@@ -11,7 +11,7 @@ class ProjectReport extends React.Component {
         super(props);
 
         this.state = {
-            participation: [],
+            participation: null,
             error: null,
             project: [],
             student: [],
@@ -50,7 +50,7 @@ class ProjectReport extends React.Component {
     
 
     getForeignKeys = () => {
-        ElectionSystemAPI.getAPI().getParticipation(participationid)
+        ElectionSystemAPI.getAPI().getParticipation(this.props.participationid)
         .then(participationBO => {
             this.setState({
                 participation: participationBO,
@@ -194,10 +194,11 @@ componentDidMount(){
         return (
             <div>
                 <Container maxWidth="sm">
+                    <Typography>Hello World</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12} align="center">
                             <Typography>
-                                <h2>Projekt: {this.state.loaded ? this.state.projectname : null}</h2>
+                                <h2>Project: {this.state.loaded ? this.state.projectname : null}</h2>
                                 <b>Semester Report for</b> 
                                 <br></br><b>{this.state.sloaded ? this.state.studentfname : null} {this.state.sloaded ? this.state.studentname : null}</b>
                                 <br></br>Studentnr.: {this.state.sloaded ? this.state.studentnr : null}

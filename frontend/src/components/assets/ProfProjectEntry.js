@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
+import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider, Paper } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
@@ -8,15 +8,18 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
+import GradingEditingDialog from '../dialogs/GradingEditingDialog'
+
 
 
 import {withStyles} from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
 
 
 
 
 
-class TableEntry extends Component {
+class ProfProjectEntry extends Component {
     constructor(props) {
         super(props)
 
@@ -46,21 +49,19 @@ class TableEntry extends Component {
             firstname: '',
             priority: 0,
             student: 2,
-            buttoncounter:0
-            
-
-
-
-
-
-
+            buttoncounter:0,
+            state: null,
+            currentState: [],
+            grade: false
 
         };
         this.baseState = this.state;
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        
     }
 
     getUser = () => {
@@ -78,6 +79,22 @@ class TableEntry extends Component {
                         error: e
                     }))
         
+    }
+
+    getState = () => {
+        ElectionSystemAPI.getAPI().getState(this.props.state)
+        .then(stateBO =>
+            this.setState({
+                currentState: stateBO.getName(),
+                error: null
+            })
+            )
+        .catch(e =>
+            this.setState({
+                state: [],
+                error: e
+            })
+            )
     }
 
     toggleClass(index, e) {
@@ -112,74 +129,21 @@ class TableEntry extends Component {
         this.setState({ priority: e.target.value });
       }
 
-    addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.state.student, this.props.id);
-        newParticipation.setDate(this.state.creationDate)
-        newParticipation.setPriority(this.state.priority)
-        newParticipation.setProjectID(this.props.id)
-        newParticipation.setStudentID(this.state.student)
-        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            console.log(newParticipation)
     
-        }).catch(e =>
-            
-            this.setState({
-                updatingError: e
-            }))
-    }
 
+    handleClickOpen = () => {
+        this.setState({grade: true})
+      }
 
-
-     // Delets the participation
-     deleteParticipation = (participation) => {
-        participation = this.props.participationID;
-        console.log(participation);
-        ElectionSystemAPI.getAPI().deleteParticipation(participation)
-        console.log(participation);
+    handleClose = () => {
+        this.setState({grade: false})
         
-    }
+      };
 
-    reload(){
-        window.location.reload();
-    }
-
-
-    handleClick(){
-        
-        
-        if(this.state.select === true && this.state.buttoncounter === 0){
-            return(
-            this.addParticipation(),
-            console.log("Participation created"),
-            this.handleSelect(),
-            this.setState({buttoncounter: 1})
-            );
-       }
-       if(this.state.select === false && this.state.buttoncounter === 0){
-           return(
-            this.deleteParticipation(),
-            console.log("Participation deleted"),
-            this.handleSelect(),
-            this.setState({buttoncounter: 1})
-            );
-       }
-    }
-
-
-
-    askStatus(){
-        if(this.props.participationID != null){
-            return(
-                this.setState({select: false})
-            );
-        }
-    }
-
-    
 
     componentDidMount() {
         this.getUser();
-        this.askStatus();
+        this.getState();        
     }
 
 
@@ -191,6 +155,8 @@ class TableEntry extends Component {
         const { classes } = this.props;
         const {activeIndex} = this.state;
 
+        console.log(this.state.currentState)
+
         
 
         return (
@@ -199,9 +165,9 @@ class TableEntry extends Component {
             <Grid container justify="flex-start" xs={12} xl={12}>
                    
                    
-                    <Grid container justify="flex-start" xs={12}  >
+                    <Grid container justify="flex-start" xs={12}>
                         
-                        <Grid item xs={6} xl={6}>
+                        <Grid item xs={12} xl={6}>
                                 
                                     <Button
                                             variant="contained"
@@ -214,36 +180,28 @@ class TableEntry extends Component {
                                     </Button>
                                 
                         </Grid>
-                        <Grid container xs={6} xl={6} justify="flex-end" alignItems="center">
-                            <Grid item xs={3} xl={2}>
-                               
-                                
-                                    
-                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
-                                         Priority: {this.props.priority}</Typography>
-                                         
-                                
+
+                        <Grid container xs={12} xl={6} justify="flex-end" spacing={3}>
                             
-                            
-                            
-                            </Grid>
-                            <Grid item xs={3} xl={2}>
+                            <Grid item xs={12} xl={3}>
+                                <Button variant="contained" 
+                                color="primary"
+                                fullWidth 
+                                onClick={this.handleClickOpen}
                                 
-                                <Button
-                                    
-                                    variant="contained"
-                                    color="secondary"
-                                    
-                                    endIcon= {this.state.select ? <DoneAllIcon /> :  <DeleteForeverIcon/>}
-                                    color={this.state.select ? "primary": "secondary"} 
-                                
-                                    onClick={() => {
-                                            this.handleClick();
-                                    }} >  
-                                    {this.state.select ? "Deleted" : "Deselect"}      
+                                >
+                                    Teilnehmer: 15
                                 </Button>
-                               
                             </Grid>
+                            
+                            <Grid item xs={12} xl={3}>
+                                <Button variant="contained" disabled fullWidth>
+                                <Typography align="center" variant="subtitle1" color= {this.state.currentState === "approved" ?  'secondary' : 'primary'}>
+                                    {this.state.currentState}
+                                </Typography>
+                                </Button>
+                            </Grid>
+
                         </Grid>
                         
                     </Grid>
@@ -258,7 +216,7 @@ class TableEntry extends Component {
         
                                 <Collapse in={activeIndex === this.props.id}>
 
-                                    <Grid xs={12} xl={6} item >
+                                    <Grid xs={12} xl={11} item >
 
                                         <Typography variant="h6">Kurzbeschreibung<br/></Typography>
 
@@ -289,7 +247,7 @@ class TableEntry extends Component {
 
                 </Grid> 
 
-                
+                {this.state.grade ? <GradingEditingDialog open={this.state.grade} close ={this.handleClose} key={this.state.participationID}/>: null}
             
             </Grid>
             
@@ -326,4 +284,4 @@ const styles = theme => ({
  
 });
 
-export default withStyles(styles)(TableEntry);
+export default withStyles(styles)(ProfProjectEntry);
