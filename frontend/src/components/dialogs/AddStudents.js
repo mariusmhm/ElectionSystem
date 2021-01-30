@@ -14,13 +14,13 @@ import {Dialog,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import {ElectionSystemAPI, StudentBO} from '../../api';
 
 let open= true;
 
 class AddStudents extends Component {
 
-    // Gets all Students
+    // Reads out all Students
     getAllStudents = () => {
         ElectionSystemAPI.getAPI().getAllStudents()
         .then(StudentBOs)

@@ -111,9 +111,11 @@ constructor(props) {
                                  <Grid item xs={12} spacing={2}>
                                 {this.state.projects.map(project => (
                                             <TableEntryAdmin
+                                                {...this.props}
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
+                                                pd = {project.getID()}
                                                 duringSemester = {this.props.duringSemester}
                                             />
                                 )
@@ -143,8 +145,8 @@ const styles = theme => ({
         fontSize: 30
     },
     tableRow:{
-    color:'lightGray',
-    fontFamily:'Arial'
+        color:'lightGray',
+        fontFamily:'Arial'
     }
 });
 export default withStyles(styles) (ApprovedProjectsAdmin);

@@ -130,7 +130,7 @@ class AdminButtonBar extends Component {
               />
                     <AppBar  position="fixed" color="white" className={classes.appBar}>
                         <Toolbar>
-                            <Box display={{xs:"none", sm:"none", md:"block"}}>
+                            <Box display={{xs:"none", sm:"none", md:"block"}} className={classes.buttonBox}>
                             <Fab className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openProjecttype()}>
                                 <EditIcon />  projecttypes
                             </Fab>
@@ -187,31 +187,18 @@ class AdminButtonBar extends Component {
 }
 // component specific styles
 const styles = theme => ({
-    grid:{
-        width: '100%',
-        margin: '0px',
-        padding: theme.spacing(3)
-    },
-    button:{
-        marginTop: theme.spacing(3)
-    },
-
-     appBar: {
+    appBar: {
       top: 'auto',
       bottom: 0,
-      align:'center'
+      align:'center',
     },
-    grow: {
-      flexGrow: 1,
-      },
     fabButton: {
+      margin: theme.spacing(2)
 
-      margin: '0 auto',
-      zIndex: 1,
-      top: -30,
-      left: 0,
-      right: 0,
-
+    },
+    buttonBox:{
+        align:'center',
+        marginLeft: theme.spacing(12)
     }
 });
 

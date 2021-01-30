@@ -32,52 +32,11 @@ class Registration extends Component {
             googleID: null,
             matrikelnumber: null,
             study:'',
-            redirect: false,
+            registered: false,
             error: null,
             value: ''
         };
         
-        if (firebase.auth().currentUser != null) {
-            //this.state.name = firebase.auth().currentUser.displayName;
-            this.state.mail = firebase.auth().currentUser.email;
-            this.state.googleID = firebase.auth().currentUser.uid;
-              
-        }
-
-        
-
-    }
-
-
-    getUserbyGoogleId = () => {
-        ElectionSystemAPI.getAPI().getUserForGoogleID(this.state.googleID).then(user => {
-            if(user.getGoogleID() != null){
-                this.setState({
-                    redirect: true,
-                })
-            }
-        }).catch(e =>
-                this.setState({
-                    error: e,
-                }))
-    }
-
-    getStudentbyGoogleId = () => {
-        ElectionSystemAPI.getAPI().getStudentForGoogleID(this.state.googleID).then(student => {
-            if(student.getGoogleID() != null){
-                this.setState({
-                    redirect: true,
-                })
-            }
-        }).catch(e =>
-                this.setState({
-                    error: e,
-                }))
-    }
-
-    componentDidMount(){
-        this.getStudentbyGoogleId();
-        this.getUserbyGoogleId()
     }
 
     handleRadioChange = (e) => {
@@ -118,14 +77,13 @@ class Registration extends Component {
             
             ElectionSystemAPI.getAPI().addStudent(newStudent).then(student => {
                 this.setState({
-                    redirect: true
+                    registered: true
                 });
             }).catch(e => 
                 this.setState({
                     updatingError: e
                 }))
         }else{
-            console.log('addUser');
             let newUser = new UserBO();
             newUser.setDate(this.state.creationDate);
             newUser.setFirstname(this.state.firstname);
@@ -135,7 +93,7 @@ class Registration extends Component {
             newUser.setGoogleID(this.state.googleID);
             ElectionSystemAPI.getAPI().addUser(newUser).then(user => {
                 this.setState({
-                    redirect: true
+                    registered: true
                 })
             }).catch(e => 
                 this.setState({
@@ -154,8 +112,13 @@ class Registration extends Component {
     render(){
         const { classes } = this.props; 
         
-        if (this.state.redirect === true){
-            return <Redirect to='/project-content'/>;
+        if (this.state.registered === true){
+            this.props.history.push({
+                pathname: '/',
+                state:{
+                    registered: this.state.registered
+                }
+            })
         }
         return (
             <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid} >

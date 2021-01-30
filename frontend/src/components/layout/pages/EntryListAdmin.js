@@ -52,7 +52,6 @@ getAllGrades = () => {
                     gradings:[],
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
 getStudentByParticipations = () => {
@@ -67,7 +66,6 @@ getStudentByParticipations = () => {
                     students:[],
                     error: e
                 }))
-        console.log('ausgeführt');
 
     }
 
@@ -160,6 +158,23 @@ getStudentByParticipations = () => {
                                     className={classes.button}
                                     onClick={this.updateGrade}>
                                         ADD STUDENT
+                                </Button>
+                        </Grid>
+
+                        <Grid item container
+                            direction="column"
+                            xs={12}
+                            md={12}
+                            spacing={2}
+                            align="center"
+                            className={classes.grid}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    color="gray"
+                                    size="large"
+                                    onClick={this.updateGrade}>
+                                        GRADING COMPLETED
                                 </Button>
                         </Grid>
                     </Grid>

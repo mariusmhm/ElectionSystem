@@ -73,7 +73,12 @@ class TableEntryAdmin extends Component {
     }
 
     handleClick = () =>{
-        return <Redirect to='/project-content'/>;
+       this.props.history.push({
+           pathname: '/particpations',
+           state:{
+               projectID: this.props.pd
+           }
+       })
 
     }
 
@@ -96,7 +101,7 @@ class TableEntryAdmin extends Component {
 
             <Grid container justify="flex-start" xs={12}>
                 <Grid container justify="flex-start" xs={12} spacing={2}>
-                     <Grid item xs={3} md={3}>
+                    <Grid item xs={3} md={3}>
                         {this.props.name}
                     </Grid>
                     <Grid item xs={3} md={3}>
