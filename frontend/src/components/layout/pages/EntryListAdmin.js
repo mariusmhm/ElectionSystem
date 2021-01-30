@@ -52,7 +52,6 @@ getAllGrades = () => {
                     gradings:[],
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
 getStudentByParticipations = () => {
@@ -67,7 +66,6 @@ getStudentByParticipations = () => {
                     students:[],
                     error: e
                 }))
-        console.log('ausgeführt');
 
     }
 

@@ -10,6 +10,7 @@ import { Avatar,
   MenuItem, 
   Box} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import logo from '../../hdmLogo.jpg'
 
 
@@ -23,16 +24,10 @@ class HeaderAdmin extends Component {
     }
     
   }
-  
-  handleMenu = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    })
-  }
-  
-  handleClose = () => {
-    this.setState({
-      anchorEl: null
+
+  navigateProfile = () => {
+    this.props.history.push({
+      pathname: '/admin/profile',
     })
   }
 
@@ -70,25 +65,12 @@ class HeaderAdmin extends Component {
             <Button color="inherit" >
               Archieved Projects
             </Button>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="profil-menu"
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit"
-            >
-              <AccountCircle/>
-            </IconButton>
-            <Menu
-              id="profil-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.handleClose}>My Profil</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>
+            <Button color="inherit" onClick={this.navigateProfile()} >
+              Profile
+            </Button>
+            <Button color="inherit" >
+              Logout
+            </Button>
             </Box> 
             <Box display={{xs:"block", sm:"block", md:"none"}}>
             <IconButton
@@ -122,7 +104,7 @@ class HeaderAdmin extends Component {
 
 const styles = theme => ({
   root:{
-      flexGrow: 1,
+    flexGrow: 1,
   },
   logo:{
     marginRight: theme.spacing(2)

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Header from './components/layout/Header';
-//import Grid from '@material-ui/core/Grid';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Signin from './components/layout/pages/Signin';
@@ -10,18 +8,21 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container} from '@material-ui/core';
-import Registration from './components/layout/pages/Registration'
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
+import Main from './Main'
 
-//import { Button, Icon, Container, TextField, Typography, withStyles } from '@material-ui/core';
-import CreateProject from './components/dialogs/CreateProject';
-import ProjectContent from './components/layout/pages/ProjectContent';
-import Semester from './components/dialogs/Semester';
 import HomeScreen from './components/layout/HomeScreen';
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
+import HomeScreenProf from './components/layout/HomeScreen';
+import HomeScreenCompOne from './components/layout/pages/HomeScreenCompOne';
+import HomeScreenCompTwo from './components/layout/pages/HomeScreenCompTwo';
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
 import ProjectReport from './components/layout/pages/ProjectReport';
+import Header from './components/layout/Header';
+import HeaderAdmin from './components/layout/HeaderAdmin';
+import HeaderProf from './components/layout/HeaderProf';
+import ProfilChange from './components/layout/pages/ProfileChange'
 
 
 
@@ -110,18 +111,16 @@ class App extends Component {
 			    <CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
                     <Container maxWidth='md'>
-                        <Header user={currentUser} />
                         {
                         // Is a user signed in?
 						currentUser ?
 							<>
-							<Redirect to='/Registration'/>
-							<Route path='/Registration'><Registration /></Route>
+							<Redirect to='/'/>
                             </>
 							:
 							// else show the sign in page
 							<>
-							<Redirect to='/Signin'/>
+							<Redirect to='/signin'/>
 							<Signin handleSignIn={this.handleSignIn} />
 							</>
 					}
@@ -132,8 +131,73 @@ class App extends Component {
                     </Container>
 
 					<Switch>
-        				<Route exact path="/project-content" component={EntryListAdmin} />
-						<Route exact path="/project-report" component={ProjectReport} />
+						<Route 
+						exact 
+						path={'/'}
+						render={props => (
+							<Main {...props}/>
+						)}
+						/>
+						<Route 
+						exact 
+						path={"/project-content"}
+						render={props => (
+							<HomeScreenAdmin {...props} />
+						)}
+						/>
+						<Route 
+						exact 
+						path={"/project-report"} 
+						render={props => (
+							<ProjectReport {...props} />
+						)}
+						/>
+						<Route 
+						exact 
+						path={"/particpations"} 
+						render={props => (
+							<EntryListAdmin {...props} />
+						)}
+						/>
+						<Route
+						exact
+						path={"/student"}
+						render={props =>(
+							<>
+							<Header/>
+							<HomeScreenCompOne {...props} />
+							<HomeScreenCompTwo {...props} />
+							</>
+						)}
+						/>
+						<Route
+						exact
+						path={"/admin"}
+						render={props =>(
+							<>
+							<HeaderAdmin/>
+							<HomeScreenAdmin {...props} />
+							</>
+						)}
+						/>
+						<Route
+						exact
+						path={"/professor"}
+						render={props =>(
+							<>
+							<HeaderProf/>
+							<HomeScreenProf {...props} />
+							</>
+						)}
+						/>
+						<Route
+						exact
+						path={"/admin/profile"}
+						render={props =>(
+							<ProfilChange {...props} />
+						)}
+						/>
+						
     				</Switch>
 					<HomeScreen/>
                 </Router>

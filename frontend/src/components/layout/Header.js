@@ -25,18 +25,6 @@ class Header extends Component {
     
   }
 
-  handleMenu = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    })
-  }
-
-  handleClose = () => {
-    this.setState({
-      anchorEl: null
-    })
-  }
-
   handleMobileMenu = (event) => {
     this.setState({
       mobileAnchorEl: event.currentTarget,
@@ -69,25 +57,9 @@ class Header extends Component {
             <Button color="inherit" >
               Projects Overview
             </Button>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="profil-menu"
-              aria-haspopup="true"
-              onClick={this.handleMenu}
-              color="inherit"
-            >
-              <AccountCircle/>
-            </IconButton>
-            <Menu
-              id="profil-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem onClick={this.handleClose}>My Profil</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>
+            <Button color="inherit" >
+              Log out
+            </Button>
             </Box> 
             <Box display={{xs:"block", sm:"block", md:"none"}}>
             <IconButton
@@ -108,7 +80,6 @@ class Header extends Component {
             >
               <MenuItem onClick={this.handleMobileClose}>My Election</MenuItem>
               <MenuItem onClick={this.handleMobileClose}>Projects Overview</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>My Profil</MenuItem>
               <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
             </Menu>
             </Box>

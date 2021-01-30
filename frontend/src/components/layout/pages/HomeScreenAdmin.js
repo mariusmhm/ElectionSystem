@@ -61,13 +61,15 @@ class HomeScreenAdmin extends Component {
                       {this.state.duringSemester ? null
                       :
                       <div>
-                      <ListEntryNewProjectsAdmin
+                      <ListEntryNewProjectsAdmin 
+                      {...this.props}
                       duringSemester={this.state.duringSemester}
                       />
                       <Divider/>
                       </div>
                       }
                       <ApprovedProjectsAdmin
+                      {...this.props}
                       duringSemester={this.state.duringSemester}
                       />
                       <RejectedProjectsAdmin/>

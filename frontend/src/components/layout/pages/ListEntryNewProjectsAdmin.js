@@ -113,6 +113,7 @@ constructor(props) {
                                     <Grid item xs={12} spacing={2}>
                                     {this.state.projects.map(project => (
                                             <TableEntryButtonTwo
+                                                {...this.props}
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
