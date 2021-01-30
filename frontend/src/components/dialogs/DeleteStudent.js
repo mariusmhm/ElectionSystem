@@ -13,6 +13,7 @@ import {Dialog,
     Grid,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
+import {ElectionSystemAPI, StudentBO} from '../../api';
 
 /**
 * Dialog for Participation List provides a query for deleting a student
@@ -45,7 +46,7 @@ class DeleteStudent extends Component {
             deletingError: e
           })
         );
-
+    }
  /** Handles the cancel button click event */
     handleClose = () => {
         this.setState({
@@ -54,7 +55,7 @@ class DeleteStudent extends Component {
     }
 
 
-
+/** Renders the component */
  render(){
     const { classes } = this.props;
 
@@ -97,8 +98,8 @@ class DeleteStudent extends Component {
     );
  }
 
-
 }
+
 
 const styles = theme => ({
     grid:{
