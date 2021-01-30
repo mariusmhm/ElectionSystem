@@ -107,7 +107,7 @@ class ModuleForm extends Component {
         <Dialog open={this.props.openm} onClose={this.props.closeModule} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader} >EDIT MODULE</DialogTitle>
             <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid} >
-                <Grid items>
+                <Grid item>
                     <Typography className={classes.redHeader}>Modules</Typography>
                 </Grid>
 

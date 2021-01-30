@@ -117,7 +117,6 @@ class Main extends Component {
 
     render(){
 
-
         return(
             <div>
                 <Router basename={process.env.PUBLIC_URL}>

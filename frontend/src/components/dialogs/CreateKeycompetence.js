@@ -13,8 +13,6 @@ import {withStyles} from '@material-ui/core';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjectBO from '../../api/ProjectBO';
 
-let open = true;
-
 class CreateKeyCompetence extends Component {
  constructor(props) {
       super(props);
@@ -154,7 +152,8 @@ class CreateKeyCompetence extends Component {
             this.showETCS = false;
             this.setState(this.baseState);
 
-        }).catch(e =>
+        }, this.propscloseKeyCom
+        ).catch(e =>
             this.setState({
                 error: e
             }))
@@ -168,7 +167,7 @@ class CreateKeyCompetence extends Component {
     const { classes } = this.props;
     return(
 
-        <Dialog open={open} fullWidth maxWidth='md'>
+        <Dialog open={this.props.openk} onClose={this.props.closeKeyCom} fullWidth maxWidth='md'>
             <DialogTitle fontcolor='primary'className={classes.dialogHeader}>CREATE KEY COMPETENCE</DialogTitle>
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
 
@@ -243,7 +242,7 @@ class CreateKeyCompetence extends Component {
                     </Grid>
                 <Grid container item direction="row" justify="center" alignItems="center" spacing={3}>
                     <Grid item>
-                        <Button variant="outlined" onClick={this.handleClose}>Cancel</Button>
+                        <Button variant="outlined" onClick={this.props.closeKeyCom}>Cancel</Button>
                     </Grid>               
                     <Grid item>
                     <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>

@@ -26,9 +26,9 @@ class HeaderAdmin extends Component {
   }
 
   navigateProfile = () => {
-    this.props.history.push({
-      pathname: '/admin/profile',
-    })
+    //this.props.history.push({
+    //  pathname: '/admin/profile',
+    //})
   }
 
   handleMobileMenu = (event) => {

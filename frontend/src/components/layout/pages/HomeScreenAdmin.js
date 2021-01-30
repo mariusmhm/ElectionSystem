@@ -56,8 +56,8 @@ class HomeScreenAdmin extends Component {
 
 
         return (
-
-              <Container maxWidth="MD" align ="center" className={classes.grid}>
+            <div className={classes.headGrid}>
+              <Container maxWidth="MD" align ="center" >
                       {this.state.duringSemester ? null
                       :
                       <div>
@@ -72,20 +72,22 @@ class HomeScreenAdmin extends Component {
                       {...this.props}
                       duringSemester={this.state.duringSemester}
                       />
-                      <RejectedProjectsAdmin/>
-                  <Divider/>
-                      <ArchivedProjectsAdmin/>
+                      <RejectedProjectsAdmin
+                      {...this.props}/>
+                    <Divider/>
+                      <ArchivedProjectsAdmin
+                      {...this.props}/>
 
-                  <AdminButtonBar/>
+                  <AdminButtonBar {...this.props}/>
 
 				  </Container>
+          </div>
 		);
 	}
 }
 
 const styles = theme => ({
-    grid:{
-        width: '100%',
+    headGrid:{
         marginTop: theme.spacing(10),
         marginBottom: theme.spacing(12)
     },

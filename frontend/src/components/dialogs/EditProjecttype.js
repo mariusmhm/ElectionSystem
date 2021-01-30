@@ -10,7 +10,8 @@ import {Dialog,
     TableCell,
     TableBody,
     TableContainer,
-    TableRow
+    TableRow,
+    Typography
     } from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -121,11 +122,15 @@ class EditProjecttype extends Component {
 
   return (
 
-      <Dialog open={this.props.openp} onClose={this.props.closeProjecttype} fullWidth maxWidth='md'>
+      <Dialog open={this.props.openp} onClose={this.props.closeProjecttype} fullWidth maxWidth='sm'>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT PROJECTTYPE</DialogTitle>
-            <br/>
-            <br/>
-            <TableContainer>
+            <Grid container spacing={2}  direction="column" justify="center" alignItems="center" className={classes.grid}>
+            <Grid item>
+                <Typography className={classes.redHeader}>Project Types</Typography>
+            </Grid>
+            
+            <Grid item>
+            <TableContainer className={classes.tb}>
                  <Table>
                       <TableHead>
                            <TableRow>
@@ -148,11 +153,13 @@ class EditProjecttype extends Component {
                         </TableBody>
                  </Table>
             </TableContainer>
-            <br/>
-             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>Add Projecttype</DialogTitle>
-             <br/>
+            </Grid>
+            </Grid>
             <FormControl fullWidth onSubmit={this.handleSubmit}  className={classes.FormControl}>
                 <Grid container spacing={2} justify="center" align="center" >
+                    <Grid item xs={12}>
+                        <Typography className={classes.redHeader}>Add Project Type</Typography>
+                    </Grid>
                     <Grid item xs={6}>
                         <TextField fullWidth variant="outlined" id="projecttypename"
                          label="Name:" onChange={this.handleChange} value={this.state.projecttypename}/>
@@ -190,11 +197,20 @@ class EditProjecttype extends Component {
 const styles = theme => ({
     grid:{
         width: '100%',
-        margin: '0px',
-        padding: '20px'
+        padding: theme.spacing(2)
     },
     dialogHeader:{
         textAlign: "center"
+    },
+    tb:{
+        marginLeft: theme.spacing(3),
+        marginRight: theme.spacing(4)
+    },
+    redHeader:{
+        color: theme.palette.red,
+        fontFamily: 'Arial',
+        fontStyle: 'bold',
+        fontSize: 15
     }
 });
 
