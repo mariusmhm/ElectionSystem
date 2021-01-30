@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { TableRow, Grid,TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
+import { Grid, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import {withStyles} from '@material-ui/core';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import { Redirect } from 'react-router'
 import { makeStyles } from '@material-ui/core/styles';
+import GroupIcon from '@material-ui/icons/Group';
 
 
 
@@ -41,9 +39,7 @@ class TableEntryAdmin extends Component {
 
         };
         this.baseState = this.state;
-        this.toggleClass = this.toggleClass.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        
     }
 
     getUser = () => {
@@ -60,7 +56,6 @@ class TableEntryAdmin extends Component {
                         users: [],
                         error: e
                     }))
-        console.log('User ausgeführt');
     }
 
     getProjectType = () => {
@@ -77,41 +72,14 @@ class TableEntryAdmin extends Component {
             }))
     }
 
-    toggleClass(index, e) {
-        this.setState({
-          activeIndex: this.state.activeIndex === index ? null : index
-        });
-      }
-
-    moreLess(index) {
-        if (this.state.activeIndex === index) {
-          return (
-            <span>
-              <i className="fas fa-angle-up" /> Hide Description
-            </span>
-          );
-        } else {
-          return (
-            <span>
-              <i className="fas fa-angle-down" /> Show Description
-            </span>
-          );
-        }
-      }
-
-    handleSelect(){
-        this.setState({select: !this.state.select})
+    handleClick = () =>{
+        return <Redirect to='/project-content'/>;
 
     }
 
-    handleChange(e) {
-        console.log("Fruit Selected!!");
-        this.setState({ priority: e.target.value });
-      }
-
     componentDidMount() {
         this.getUser();
-         this.getProjectType();
+        this.getProjectType();
 
 
     }
@@ -126,21 +94,25 @@ class TableEntryAdmin extends Component {
 
         return (
 
-            <Grid container justify="flex-start" xs={12} xl={12}className={classes.grid} >
-                 <Grid container justify="flex-start" xs={12} className={classes.grid}>
-                     <Grid item xs={3} xl={12}>
+            <Grid container justify="flex-start" xs={12}>
+                <Grid container justify="flex-start" xs={12} spacing={2}>
+                     <Grid item xs={3} md={3}>
                         {this.props.name}
-                    <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
-                    </Collapse>
                     </Grid>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
                     </Grid>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.projecttypeName: null}
                     </Grid>
-            </Grid>
+                    <Grid item xs={3} md={1}>
+                        <Button variant ="outlined" onClick={() => this.handleClick()}><GroupIcon/></Button>
+                    </Grid>
+                    <Grid item xs={3} md={2}>
+                        <Button variant ="outlined">Info</Button>
+                    </Grid>
+                    
+                    </Grid>
             </Grid>
 
         )
@@ -152,7 +124,7 @@ const styles = theme => ({
     grid: {
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(1)
+        paddingTop: theme.spacing(1)
     },
     button: {
         marginTop: theme.spacing(3)

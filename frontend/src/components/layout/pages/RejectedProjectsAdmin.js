@@ -44,14 +44,6 @@ constructor(props) {
 
       /**Delets the project  **/
       deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
 
         this.setState({
           projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
@@ -83,40 +75,39 @@ constructor(props) {
         return (
             <div>
                 <Container maxWidth="md">
-                    <Grid container  justify="flex-start" xs={12} xl={12} className={classes.grid} >
-                    <CssBaseline />
-                     <Grid item align="flex-start" xs={12} xl={12}>
-                    <Typography variant='h6' color="gray">Rejected Projects</Typography>
-                    </Grid>
-                    <br/>
-                            <Grid container justify="flex-start" xs={12} className={classes.grid}>
-                                    <Grid item align="flex-start" xs={3} xl={12} className={classes.grid}>
+                    <Grid container  justify="flex-start" xs={12} className={classes.grid} >
+                        <Grid item align="flex-start" xs={12}>
+                            <Typography variant='h6' color="gray">Rejected Projects</Typography>
+                        </Grid>
+                        <Grid container justify="flex-start" xs={12} className={classes.grid} spacing={2}> 
+                                    <Grid item xs={3} md={3}>
 
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 project
                                             </Typography>
                                     </Grid>
-                                    <Grid item xs={3} xl={12}>
+                                    <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
                                                 professor
                                             </Typography>
                                     </Grid>
-                                    <Grid item xs={3} xl={12}>
+                                    <Grid item xs={3} md={3}>
                                             <Typography variant="h6" className={classes.tableRow}>
-                                                projecttype
+                                                type
                                             </Typography>
                                     </Grid>
-                                <Grid item xs={12} xl={12} className={classes.grid}>
+                                <Grid item xs={12} spacing={2}>
                                 {this.state.projects.map(project => (
                                             <TableEntryButtonAdmin
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
+                                                project ={project}
+                                                deleteProject={this.deleteProjectHandler}
                                             />
-                                )
-                                )}
+                                ))}
                                 </Grid>
-                    </Grid>>
+                        </Grid>
                     </Grid>
 				</Container>
 		    </div>
@@ -127,7 +118,7 @@ const styles = theme => ({
     grid:{
         width: '100%',
         margin: '0px',
-        padding: theme.spacing(3)
+        paddingTop: theme.spacing(3)
     },
     button:{
         marginTop: theme.spacing(3)

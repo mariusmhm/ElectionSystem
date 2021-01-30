@@ -5,6 +5,7 @@ import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
 import HomeScreenCompOne from './pages/HomeScreenCompOne';
 import HomeScreenCompTwo from './pages/HomeScreenCompTwo';
+import HomeScreenProf from './pages/HomeScreenProf';
 
 
 
@@ -23,16 +24,10 @@ class HomeScreen extends Component {
                  <CssBaseline />
 
                   <Container maxWidth="MD">
-                      <HomeScreenCompOne />
-                      <Divider/>
-                      <br/>
-                      <br/>
-                      <HomeScreenCompTwo />
-                      <Divider/>
-                      <div>
-
-                      <Divider/>
-                      </div>
+                      <HomeScreenProf/>
+                      <HomeScreenCompOne/>
+                      <HomeScreenCompTwo/>
+                      
 				  </Container>
 		    </div>
 		);

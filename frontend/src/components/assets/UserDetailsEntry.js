@@ -6,6 +6,7 @@ class UserDetailsEntry extends React.Component {
     constructor(props){
         super(props);
 
+        // init the sate
         this.state = ({
             user: [],
             id: this.props.id,
@@ -19,12 +20,14 @@ class UserDetailsEntry extends React.Component {
         })
     }
 
+    // handles textfield change
     handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
 
+    // handles button click
     handleClick = () => {
         this.setState({
             clicked: true
@@ -32,6 +35,7 @@ class UserDetailsEntry extends React.Component {
         this.updateUser();
     }
 
+    // updates user with api
     updateUser = () => {
         if (this.state.clicked === true) {
             let userBO = new UserBO();

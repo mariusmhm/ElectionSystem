@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Container} from '@material-ui/core';
+import {Container, MenuItem, Menu, IconButton, Box} from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CreateProject from '../../dialogs/CreateProject';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
 class AdminButtonBar extends Component {
@@ -82,6 +83,18 @@ class AdminButtonBar extends Component {
 
     }
 
+    handleMobileMenu = (event) => {
+        this.setState({
+          mobileAnchorEl: event.currentTarget,
+        })
+      }
+    
+      handleMobileClose = () => {
+        this.setState({
+          mobileAnchorEl: null
+        })
+      }
+
     // renders the component
   render() {
     const {classes}= this.props;
@@ -89,9 +102,7 @@ class AdminButtonBar extends Component {
 
         return (
 
-              <Container maxWidth="MD" align ="center">
-
-
+              <Container maxWidth="md" align ="center">
               < GradingEditingDialog
                     AdminButtonBar ={AdminButtonBar}
                     openg={this.state.openg}
@@ -119,37 +130,52 @@ class AdminButtonBar extends Component {
               />
                     <AppBar  position="fixed" color="white" className={classes.appBar}>
                         <Toolbar>
-
+                            <Box display={{xs:"none", sm:"none", md:"block"}}>
                             <Fab className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openProjecttype()}>
                                 <EditIcon />  projecttypes
-                                </Fab>
-
-
+                            </Fab>
                             <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openModule()}>
                                 <EditIcon />  modules
-                                </Fab>
-
-
+                            </Fab>
                             <Fab  className={classes.fabButton}color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openGrading()}>
                                 <EditIcon />  grading
-                                </Fab>
-
-
+                            </Fab>
                             <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit">
                                 <EditIcon />  key competences
-                                </Fab>
-
-
+                            </Fab>
                             <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openDialog()}>
                                 <EditIcon />  semester period
-                                </Fab>
-
-
+                                
+                            </Fab>
                             <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="add" onClick={() => this.openProject()}>
                                 <AddIcon /> new project
-                                </Fab>
-
-
+                            </Fab>
+                            </Box>
+                            <Box display={{xs:"block", sm:"block", md:"none"}}> 
+                                <Button
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={this.handleMobileMenu}
+                                    color="secondary"
+                                >
+                                    <MoreVertIcon />
+                                </Button>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={this.state.mobileAnchorEl}
+                                    keepMounted
+                                    open={Boolean(this.state.mobileAnchorEl)}
+                                    onClose={this.handleMobileClose}
+                                >
+                                    <MenuItem onClick={() => this.openProjecttype()}>Edit project types</MenuItem>
+                                    <MenuItem onClick={() => this.openModule()}>Edit modules</MenuItem>
+                                    <MenuItem onClick={() => this.openGrading()}>Edit Grades</MenuItem>
+                                    <MenuItem onClick={() => this.handleMobileClose()}>Add key competence</MenuItem>
+                                    <MenuItem onClick={() => this.openDialog()}>Edit semester</MenuItem>
+                                    <MenuItem onClick={() => this.openProject()}>Add project</MenuItem>
+                                </Menu>
+                            </Box>
                         </Toolbar>
                     </AppBar>
 
@@ -186,21 +212,8 @@ const styles = theme => ({
       left: 0,
       right: 0,
 
-    },
+    }
 });
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(2),
-
-    },
-  }),
-);
 
 export default withStyles(styles) (AdminButtonBar);

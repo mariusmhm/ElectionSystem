@@ -1,85 +1,57 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
+
 import Typography from '@material-ui/core/Typography'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+
 import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import { AppBar, Tabs, Tab, withStyles, Collapse, Card, Paper, Box } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
+import { withStyles,  Divider, LinearProgress } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import { id, ja } from 'date-fns/locale';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import TableEntry from '../../assets/TableEntry';
+import { ElectionSystemAPI } from '../../../api';
+
+import NotSelectedProjectEntry from '../../assets/NotSelectedProjectEntry';
 import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
 
 
-
-class HomeScreenCompTwo extends Component {
+class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tableData: [],
+            currentUser: 2,
+            number: 4,
+            participationID: 1,
+            activeIndex: null,
+
             projects: [],
             projecttypes: [],
+            participations: [],
+            selectedProjects: [],
+            unselectedProjects: [],
+
+            participationLoaded: false,
+            projectLoaded: false,
+            projecttypeLoaded: false,
+            loaded: false,
+            reload: true,
+
             error: null,
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: null,
-            activeIndex: null,
-
-
 
         };
+
         this.baseState = this.state;
-        
-        
-        
+       
     }
 
-
-    
-
-    /** Gives back the project */
-    getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
-            .then(projectBO =>
-                this.setState({
-                    projects: projectBO,
-                    loaded: true,
-                    error: null
-                })).catch(e =>
-                    this.setState({
-                        projects: [],
-                        error: e
-                    }))
-        console.log('Project ausgeführt');
-    }
-
-    /** Gives back the projecttype */
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
             .then(ProjecttypeBO =>
                 this.setState({
                     projecttypes: ProjecttypeBO,
-                    loaded: true,
+                    projecttypeLoaded: true,
                     error: null
                 })).catch(e =>
                     this.setState({
@@ -89,118 +61,219 @@ class HomeScreenCompTwo extends Component {
         console.log('Projecttype ausgeführt');
     }
 
-    componentDidMount() {
-        this.getAllProjects();
-        this.getAllProjecttypes();
+
+    getParticipationsForStudent = () => {
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.currentUser)
+        .then(ParticipationBO =>
+            this.setState({
+                participations: ParticipationBO,
+                participationLoaded: true,
+                error: null
+            }))
+            
+        .then(this.getAllProjects)
+        
+        
+        .catch(e => 
+
+                this.setState({
+                    participationLoaded: [],
+                    error: e
+
+                }))
+        
+    }
+
+    getAllProjects = () => {
+        ElectionSystemAPI.getAPI().getAllProjects()
+            .then(projectBO =>
+
+                
+                this.setState({
+                    projects: projectBO,
+                    projectLoaded: true,
+                    error: null
+                }))
+
+            .then(this.sortProjects).then(this.setState({loaded: true}))
+                      
+
+            .catch(e =>
+                this.setState({
+                    projects: [],
+                    error: e
+                }))
+        
+    }
+
+    sortProjects = () =>{
+        
+        this.state.projects.forEach(project=> {
+
+            if(this.state.participations.filter(part => part.project_id === project.id).length > 0 ){
+                
+                this.setState(prev => ({
+                    selectedProjects: [...prev.selectedProjects, project]
+                }))
+                
+            }
+
+            else{
+                
+                this.setState(prev => ({
+                    unselectedProjects: [...prev.unselectedProjects, project]
+                }))               
+            }
+
+        }).then(console.log('Ready'))
+
 
     }
+    
+    reload (){
+        window.location.reload(false)
+    }
+
+    componentDidMount() {
+        
+        this.getParticipationsForStudent(); 
+        this.getAllProjecttypes(); 
+   
+    }
+
+
+
 
 
 
 
     render() {
-        const { classes } = this.props;
-        const { projects } = this.state;
-        const {activeIndex} = this.state;
- 
+        const { projects, participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
 
+
+
+        
         return (
             <div>
-                <Container maxWidth="xl">
-                    <CssBaseline />
-                    <Box padding={5} marginTop={5} marginBottom={5} style={{ backgroundColor: '#e31134', color: 'white' }}>
-                    <Typography variant="h2" align="center" >My selected Projects</Typography>
-                    </Box>
-                    <Paper>
-                    <Table>
+                {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
+                <Grid container >
+                <Typography variant="h2">Meine Wahl</Typography>
+                    {selectedProjects.length > 0 ? 
+                    
+                            projecttypes.map(pt => 
 
-                        <TableHead>
-
-                            <TableRow align="right">
+                                selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                                 
-                                <TableCell />
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Project
-                                    </Typography>
-                                </TableCell>
-                                <TableCell />
-                                <TableCell />
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Professor
-                                    </Typography>
-                                </TableCell>
-                                
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        ECTS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        SWS
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                        Priority
-                                    </Typography>
-                                </TableCell>
-                                <TableCell >
-                                    <Typography variant="h2">
-                                  
-                                    </Typography>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
+                                    <Grid item xs={12}>
+                                        <Typography color="secondary">{pt.getName()}</Typography>
+                                        {
+                                            selectedProjects.map(project =>
+                                                
+                                                project.projecttype_id === pt.id ?
 
+                                                <>
+                                                    <SelectedProjectEntry
+                                                        key = {project.getID()}
+                                                        id = {project.getID()}
+                                                        name = {project.getName()}
+                                                        prof = {project.getProfessor()}
+                                                        dsc = {project.getShortDescription()}
+                                                        ects = {pt.getEcts()}
+                                                        sws = {pt.getSws()}
+                                                        participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
+                                                        priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
+                                                          
+                                                    />
+                                                    <Divider/>
+                                                </>
 
-                        {this.state.projecttypes.map(projecttype => (
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan="10" style={{ backgroundColor: 'grey', color: 'white' }}>
-                                        <Typography variant="h3">
-                                            {projecttype.getName()}
-                                            {projecttype.getID()}
+                                                :null
+
+                                            )
                                             
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
+                                        }
+                                    
+                                    </Grid>
+                                
+                                :null
+                                    
+                            )     
+                        
+                        :null
+                
+                    }
+                    <Button
+                    style={{marginTop: "20px", marginBottom: "50px"}}
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={this.reload}
+                    > Update choosen Projects
+                    </Button>
 
+                <Grid item xs={12}>
+                <Divider/>
+                <Typography variant="h2">Projektübersicht</Typography>
+                
+                </Grid>
 
-                                {this.state.projects.map(project => {
-                                    if (project.getProjectType() === projecttype.getID()) {
-                                        return (
-                                            <SelectedProjectEntry
-                                                id = {project.getID()}
-                                                name = {project.getName()}
-                                                prof = {project.getProfessor()}
-                                                dsc = {project.getShortDescription()}
-                                                ects = {projecttype.getEcts()}
-                                                sws = {projecttype.getSws()}
-                                            />
+                {unselectedProjects.length > 0 ? 
+                    
+                    projecttypes.map(pt => 
+
+                        unselectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
+                        
+                            <Grid item xs={12}>
+                                <Typography color="secondary">{pt.getName()}</Typography>
+                                {
+                                    unselectedProjects.map(project =>
+                                        
+                                        project.projecttype_id === pt.id ?
+
+                                        <>
+                                        <NotSelectedProjectEntry
+                                            key = {project.getID()}
+                                            id = {project.getID()}
+                                            name = {project.getName()}
+                                            prof = {project.getProfessor()}
+                                            dsc = {project.getShortDescription()}
+                                            ects = {pt.getEcts()}
+                                            sws = {pt.getSws()}
                                             
-                                        )
-                                    }
+                                        />
+                                        <Divider/>
+                                        </>
+
+                                        :null
+
+                                    )
                                 }
-
-                                )}
-
-
-                            </TableBody>
-
-                        ))}
-
-                    </Table>
-                    </Paper>
-                </Container>
-
+                            </Grid>
+                        
+                        :null
+                            
+                    )     
+                
+                :null
+        
+            }
+                </Grid>
+                <Button
+                    style={{marginTop: "20px"}}
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={this.reload}
+                    > Update your choice
+                    </Button>
             </div>
         );
     }
 }
+
+
+
+
 const styles = theme => ({
     grid: {
         width: '100%',
@@ -251,4 +324,4 @@ const useStyles = makeStyles((theme) => ({
       },
       
 }));
-export default withStyles(styles)(HomeScreenCompTwo);
+export default withStyles(styles)(HomeScreenCompOne);
