@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import {  Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
+import {  Button, Collapse } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
+import { Redirect } from 'react-router'
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import {withStyles} from '@material-ui/core';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 
 
@@ -42,14 +38,14 @@ class TableEntryButtonTwo extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
+            buttonname: 'edit',
+            duringSemester: false,
 
-
-
+            
         };
         this.baseState = this.state;
-        this.toggleClass = this.toggleClass.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        
+
     }
 
     getUser = () => {
@@ -66,7 +62,6 @@ class TableEntryButtonTwo extends Component {
                         users: [],
                         error: e
                     }))
-        console.log('User ausgeführt');
     }
 
     getProjectType = () => {
@@ -83,44 +78,15 @@ class TableEntryButtonTwo extends Component {
             }))
     }
 
-    toggleClass(index, e) {
-        this.setState({
-          activeIndex: this.state.activeIndex === index ? null : index
-        });
-      }
-
-    moreLess(index) {
-        if (this.state.activeIndex === index) {
-          return (
-            <span>
-              <i className="fas fa-angle-up" /> Hide Description
-            </span>
-          );
-        } else {
-          return (
-            <span>
-              <i className="fas fa-angle-down" /> Show Description
-            </span>
-          );
-        }
-      }
-
-    handleSelect(){
-        this.setState({select: !this.state.select})
+    handleClick = () => {
+        return <Redirect to='/project-content'/>;
 
     }
-
-    handleChange(e) {
-        console.log("Fruit Selected!!");
-        this.setState({ priority: e.target.value });
-      }
 
     componentDidMount() {
         this.getUser();
         this.getProjectType();
         this.getAllProjects();
-
-
     }
 
      /** Gives back the projects */
@@ -136,22 +102,6 @@ class TableEntryButtonTwo extends Component {
                         projects: [],
                         error: e
                     }))
-        console.log('Projects ausgeführt');
-    }
-
-    deleteProjectHandler = (project) => {
-        console.log(project);
-        ElectionSystemAPI.getAPI().deleteProject(this.props.id).then(project => {
-          console.log(project);
-        }).catch(e =>
-          this.setState({
-            deletingError: e
-          })
-        );
-
-        this.setState({
-            projects: this.state.projects.filter(projFromState => projFromState.getID() != project.getID())
-        })
     }
 
 
@@ -159,26 +109,24 @@ class TableEntryButtonTwo extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex} = this.state;
 
         return (
            <Grid container  justify="flex-start"  xs={12} xl={12} className={classes.grid}>
                  <Grid container justify="flex-start" xs={12} className={classes.grid}>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.props.name}
-                            <Collapse in={activeIndex === this.props.id}>
-                        {this.props.dsc}
-                            </Collapse>
                     </Grid>
-                    <Grid item xs={3} xl={12}>
+                    <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
                     </Grid>
-                     <Grid item xs={3} xl={12}>
+                     <Grid item xs={3} md={2}>
                         {this.state.loaded ? this.state.projecttypeName: null}
                      </Grid>
-                    <Grid item xs={3} xl={12}>
-                        <Button variant ="outlined" > Bewerten </Button>
+                    <Grid item xs={3} md={4}>
+                            <Button variant ="outlined" onClick={this.handleClick()} > {this.state.buttonname} </Button>
                     </Grid>
+                          
                  </Grid>
               </Grid>
 
