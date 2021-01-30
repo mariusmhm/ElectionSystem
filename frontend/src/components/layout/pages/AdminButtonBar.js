@@ -7,6 +7,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import RejectedProjectsAdmin from './RejectedProjectsAdmin';
 import GradingEditingDialog from '../../dialogs/GradingEditingDialog';
+import CreateKeycompetence from '../../dialogs/CreateKeycompetence';
 import EditProjecttype from '../../dialogs/EditProjecttype';
 import Semester from '../../dialogs/Semester';
 import ModuleForm from '../../dialogs/ModuleForm';
@@ -27,6 +28,7 @@ class AdminButtonBar extends Component {
             openg: false,
             openm:false,
             openp:false,
+            openk:false,
             openpr:false,
             googleID: null,
             redirect: false,
@@ -82,6 +84,17 @@ class AdminButtonBar extends Component {
         this.setState({openpr:false})
 
     }
+    // open Key competence dialog
+    openKeyCom(){
+        this.setState({
+            openk: true });
+
+    }
+    // close Key competence dialog
+    closeKeyCom = () => {
+        this.setState({openk:false})
+
+    }
 
     handleMobileMenu = (event) => {
         this.setState({
@@ -121,7 +134,12 @@ class AdminButtonBar extends Component {
                     openProjecttype={this.openProjecttype}
                     closeProjecttype={this.closeProjecttype}
               />
-
+              <CreateKeycompetence
+                    AdminButtonBar ={AdminButtonBar}
+                    openk={this.state.openk}
+                    openKeyCom={this.openKeyCom}
+                    closeKeyCom={this.closeKeyCom}
+              />
               < CreateProject
                     AdminButtonBar ={AdminButtonBar}
                     openpr={this.state.openpr}
@@ -140,7 +158,7 @@ class AdminButtonBar extends Component {
                             <Fab  className={classes.fabButton}color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openGrading()}>
                                 <EditIcon />  grading
                             </Fab>
-                            <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit">
+                            <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openKeyCom()}>
                                 <EditIcon />  key competences
                             </Fab>
                             <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="edit" onClick={() => this.openDialog()}>
@@ -171,7 +189,7 @@ class AdminButtonBar extends Component {
                                     <MenuItem onClick={() => this.openProjecttype()}>Edit project types</MenuItem>
                                     <MenuItem onClick={() => this.openModule()}>Edit modules</MenuItem>
                                     <MenuItem onClick={() => this.openGrading()}>Edit Grades</MenuItem>
-                                    <MenuItem onClick={() => this.handleMobileClose()}>Add key competence</MenuItem>
+                                    <MenuItem onClick={() => this.openKeyCom()}>Add key competence</MenuItem>
                                     <MenuItem onClick={() => this.openDialog()}>Edit semester</MenuItem>
                                     <MenuItem onClick={() => this.openProject()}>Add project</MenuItem>
                                 </Menu>
@@ -188,17 +206,15 @@ class AdminButtonBar extends Component {
 // component specific styles
 const styles = theme => ({
     appBar: {
-      top: 'auto',
-      bottom: 0,
       align:'center',
     },
     fabButton: {
-      margin: theme.spacing(2)
-
+      margin: theme.spacing(2),
+      top: 0
     },
     buttonBox:{
         align:'center',
-        marginLeft: theme.spacing(12)
+        marginLeft: theme.spacing(15)
     }
 });
 

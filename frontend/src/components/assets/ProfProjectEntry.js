@@ -52,7 +52,7 @@ class ProfProjectEntry extends Component {
             buttoncounter:0,
             state: null,
             currentState: [],
-            grade: false
+            open: false
 
         };
         this.baseState = this.state;
@@ -60,7 +60,7 @@ class ProfProjectEntry extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleClickOpen = this.handleClickOpen.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleClose = this.closeGrading.bind(this);
         
     }
 
@@ -132,13 +132,19 @@ class ProfProjectEntry extends Component {
     
 
     handleClickOpen = () => {
-        this.setState({grade: true})
+        this.props.history.push({
+            pathname: '/particpations',
+            state:{
+                projectID: this.props.id
+            }
+        })
+ 
       }
 
-    handleClose = () => {
-        this.setState({grade: false})
+    closeGrading = () => {
+        this.setState({open: false})
         
-      };
+      }
 
 
     componentDidMount() {
@@ -190,7 +196,7 @@ class ProfProjectEntry extends Component {
                                 onClick={this.handleClickOpen}
                                 
                                 >
-                                    Teilnehmer: 15
+                                    Teilnehmer
                                 </Button>
                             </Grid>
                             
@@ -247,7 +253,7 @@ class ProfProjectEntry extends Component {
 
                 </Grid> 
 
-                {this.state.grade ? <GradingEditingDialog open={this.state.grade} close ={this.handleClose} key={this.state.participationID}/>: null}
+                 {this.state.open ? <GradingEditingDialog open={this.state.open} closeGrading = {this.closeGrading} /> : null}
             
             </Grid>
             
