@@ -63,7 +63,6 @@ class TableListEntryTeilnehmer extends Component {
                     gradings:[],
                     error: e
                 }))
-        console.log('ausgeführt');
 
     }
 
@@ -72,7 +71,6 @@ class TableListEntryTeilnehmer extends Component {
         // clone original participation, in case the backend call fails
         let updatedParticipation = new ParticipationBO();
         // set the new attributes from our dialog
-        console.log('gradingid' + this.state.gradingIdForSelect);
         updatedParticipation = this.state.participations;
         updatedParticipation.setGradingID(this.state.gradingIdForSelect);
         console.log(JSON.stringify(updatedParticipation));
@@ -123,11 +121,10 @@ class TableListEntryTeilnehmer extends Component {
                     participations:[],
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
     getParticipationForStudentAndProjectTwo =() =>{
-        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,2)
+        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.history.location.state.pdID)
         .then(participationBO =>{
             this.setState({
                 participationForGrading: participationBO,
@@ -148,14 +145,12 @@ class TableListEntryTeilnehmer extends Component {
                     participations:[],
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
 
 
     handleSelectChangeGrade = (e) =>{
         console.log(e.target.value);
-        console.log("New Grade Selected!")
         this.setState({
             gradingIdForSelect: e.target.value
 
@@ -176,7 +171,7 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     handleClick = (student) =>{
-        this.getParticipationForStudentAndProject(student.getID(),2)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.history.location.state.pdID)
 
 
     }
@@ -198,7 +193,7 @@ class TableListEntryTeilnehmer extends Component {
             del: true
 
         })
-        this.getParticipationForStudentAndProject(student.getID(),2)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.history.location.state.pdID)
 
     }
 

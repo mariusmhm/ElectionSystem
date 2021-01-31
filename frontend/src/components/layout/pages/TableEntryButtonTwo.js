@@ -79,7 +79,7 @@ class TableEntryButtonTwo extends Component {
     }
 
     handleClick = () => {
-        return <Redirect to='/project-content'/>;
+       
 
     }
 

@@ -112,6 +112,7 @@ constructor(props) {
                                 {this.state.projects.map(project => (
                                             <TableEntryAdmin
                                                 {...this.props}
+                                                project = {project}
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
