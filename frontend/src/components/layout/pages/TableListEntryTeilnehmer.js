@@ -124,7 +124,7 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     getParticipationForStudentAndProjectTwo =() =>{
-        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.history.location.state.pdID)
+        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.pdID)
         .then(participationBO =>{
             this.setState({
                 participationForGrading: participationBO,
@@ -171,7 +171,7 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     handleClick = (student) =>{
-        this.getParticipationForStudentAndProject(student.getID(),this.props.history.location.state.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
 
 
     }
@@ -193,7 +193,7 @@ class TableListEntryTeilnehmer extends Component {
             del: true
 
         })
-        this.getParticipationForStudentAndProject(student.getID(),this.props.history.location.state.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
 
     }
 

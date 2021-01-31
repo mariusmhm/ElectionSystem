@@ -11,7 +11,6 @@ import {Dialog,
     TableContainer,
     TableRow
     } from'@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, GradingBO} from '../../api';
@@ -24,6 +23,10 @@ class GradingEditingDialog extends Component {
 
     constructor(props){
         super(props)
+
+        let today = new Date(),
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
         this.state= {
             gradings: [],
             error: null,
@@ -31,6 +34,7 @@ class GradingEditingDialog extends Component {
             openg:null,
             updatingError: null,
             deletingError: null,
+            creationDate: date,
 
 
         };
@@ -56,7 +60,9 @@ class GradingEditingDialog extends Component {
     }
 
     addGrade = () =>{
-        let newGrade = new GradingBO(this.state.grade);
+        let newGrade = new GradingBO();
+        newGrade.setDate(this.state.creationDate);
+        newGrade.setGrade(this.state.grade);
         ElectionSystemAPI.getAPI().addGrade(newGrade).then(grade => {
             this.setState(this.baseState);
 
@@ -93,7 +99,7 @@ class GradingEditingDialog extends Component {
     const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
-        <Dialog open={this.props.open} onClose={this.props.closeGrading} maxWidth='xs' fullWidth>
+        <Dialog open={this.props.openg} onClose={this.props.closeGrading} maxWidth='xs' fullWidth>
             <DialogTitle fontcolor='primary' className={classes.dialogHeader}>EDIT GRADES</DialogTitle>
             <Grid container spacing={2}  justify="center" alignItems="center" className={classes.grid}>
                 <Grid item xs={12}>

@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
 import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
+import AddStudents from '../../dialogs/AddStudents';
 
 
 
@@ -35,7 +36,8 @@ constructor(props){
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
-    projectID: this.props.projectID
+    projectID: this.props.projectID,
+    open: false
     };
     this.baseState = this.state;
 
@@ -70,6 +72,18 @@ getStudentByParticipations = () => {
 
     }
 
+    openAddStudentDialog = () => {
+        this.setState({
+            open: true 
+        });
+    }
+
+    closeAddStudentDialog = () =>{
+        this.setState({
+            open: false 
+        });
+    }
+
     componentDidMount(){
         this.getAllGrades();
         this.getStudentByParticipations();
@@ -91,6 +105,12 @@ getStudentByParticipations = () => {
 
     return(
             <Container maxWidth="xl">
+                <AddStudents
+                    open={this.state.open}
+                    openAddStudentDialog={this.openAddStudentDialog}
+                    closeAddStudentDialog={this.closeAddStudentDialog}
+                    projectID ={this.props.history.location.state.projectID}
+              />
                 <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
                     <Typography variant="h6" color="secondary" className={classes.redHeader}> Participants </Typography>
                 </Grid>
@@ -160,7 +180,7 @@ getStudentByParticipations = () => {
                                     variant="contained"
                                     color="secondary"
                                     className={classes.button}
-                                    onClick={this.updateGrade}>
+                                    onClick={() => this.openAddStudentDialog()}>
                                         ADD STUDENT
                                 </Button>
                         </Grid>

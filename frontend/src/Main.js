@@ -1,15 +1,5 @@
 import React, { Component } from 'react';
-import Header from './components/layout/Header';
-import HeaderAdmin from './components/layout/HeaderAdmin';
-import HeaderProf from './components/layout/HeaderProf';
-
-import Signin from './components/layout/pages/Signin';
-import LoadingProgress from './components/dialogs/LoadingProgress';
-import firebaseConfig from './firebaseConfig';
-import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { Container} from '@material-ui/core';
 import Registration from './components/layout/pages/Registration'
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -82,8 +72,8 @@ class Main extends Component {
     }
 
     componentDidMount(){
-    this.getStudentbyGoogleId();
-    this.getUserbyGoogleId()
+        this.getStudentbyGoogleId();
+        this.getUserbyGoogleId()
     }
 
     mainComponent(){

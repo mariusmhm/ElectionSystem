@@ -67,7 +67,7 @@ export default class ElectionSystemAPI {
     #addParticipationURL = () => `${this.#electionSystemServerBaseURL}/participation`;
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
-    #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/get-participation-by-student-project?student_id=`+ student_id +`project_id=`+ project_id;
+    #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/participation-by-student-project/`+ student_id + project_id;
 
     //Semester related
     #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
