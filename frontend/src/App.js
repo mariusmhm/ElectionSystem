@@ -22,6 +22,7 @@ import Header from './components/layout/Header';
 import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
 import ProfileChange from './components/layout/pages/ProfileChange';
+import ProjectContent from './components/layout/pages/ProjectContent';
 
 
 
@@ -146,6 +147,16 @@ class App extends Component {
 						/>
 						<Route 
 						exact 
+						path={"/admin/project-content"}
+						render={props => (
+							<>
+							<HeaderAdmin {...props}/>
+							<ProjectContent {...props} />
+							</>
+						)}
+						/>
+						<Route 
+						exact 
 						path={"/project-report"} 
 						render={props => (
 							<ProjectReport {...props} />
@@ -153,9 +164,22 @@ class App extends Component {
 						/>
 						<Route 
 						exact 
-						path={"/particpations"} 
+						path={"/professor/particpations"} 
 						render={props => (
+							<>
+							<HeaderProf {...props}/>
 							<EntryListAdmin {...props} />
+							</>
+						)}
+						/>
+						<Route 
+						exact 
+						path={"/admin/particpations"} 
+						render={props => (
+							<>
+							<HeaderAdmin {...props}/>
+							<EntryListAdmin {...props} />
+							</>
 						)}
 						/>
 						<Route

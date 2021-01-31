@@ -37,12 +37,12 @@ class AdminButtonBar extends Component {
         };
     }
 
-    // close the dialog
+    // close the semester
     closeDialog = () => {
         this.setState({
             open: false})
     }
-    // opens the dialog
+    // opens the semester
     openDialog() {
         this.setState({ open: true });
     }
@@ -146,6 +146,12 @@ class AdminButtonBar extends Component {
                     openProject={this.openProject}
                     closeProject={this.closeProject}
               />
+              <Semester
+                    AdminButtonBar ={AdminButtonBar}
+                    open={this.state.open}
+                    openDialog={this.openDialog}
+                    closeDialog={this.closeDialog}
+              />
                     <AppBar  position="fixed" color="white" className={classes.appBar}>
                         <Toolbar>
                             <Box display={{xs:"none", sm:"none", md:"block"}} className={classes.buttonBox}>
@@ -205,18 +211,19 @@ class AdminButtonBar extends Component {
 }
 // component specific styles
 const styles = theme => ({
-    appBar: {
-      align:'center',
-    },
     fabButton: {
-      margin: theme.spacing(2),
-      top: 0
-    },
+        margin: theme.spacing(2),
+        top: 0
+      },
     buttonBox:{
         align:'center',
         marginLeft: theme.spacing(15)
+    },
+    appBar: {
+      align:'center',
     }
+    
 });
 
 
-export default withStyles(styles) (AdminButtonBar);
+export default withStyles(styles)(AdminButtonBar);

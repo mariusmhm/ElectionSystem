@@ -74,13 +74,25 @@ class TableEntryAdmin extends Component {
 
     handleClick = () =>{
        this.props.history.push({
-           pathname: '/particpations',
+           pathname: '/admin/particpations',
            state:{
-               projectID: this.props.pd
+               projectID: this.props.pd,
+               projectName: this.props.name
            }
        })
 
     }
+
+    pcHandleClick = () =>{
+        console.log('click');
+        this.props.history.push({
+            pathname: '/admin/project-content',
+            state:{
+                projectID: this.props.pd,
+            }
+        })
+ 
+     }
 
     componentDidMount() {
         this.getUser();
@@ -114,7 +126,7 @@ class TableEntryAdmin extends Component {
                         <Button variant ="outlined" onClick={() => this.handleClick()}><GroupIcon/></Button>
                     </Grid>
                     <Grid item xs={3} md={2}>
-                        <Button variant ="outlined">Info</Button>
+                        <Button variant ="outlined" onClick={() => this.pcHandleClick()}>Info</Button>
                     </Grid>
                     
                     </Grid>

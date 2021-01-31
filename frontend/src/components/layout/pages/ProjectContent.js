@@ -62,7 +62,7 @@ class ProjectContent extends Component {
     }
 
     getProject = () => {
-    ElectionSystemAPI.getAPI().getProject(8)
+    ElectionSystemAPI.getAPI().getProject(this.props.history.location.state.projectID)
     .then(projectBO => {
         this.setState({
             project: projectBO,
@@ -110,7 +110,7 @@ class ProjectContent extends Component {
     }
 
     getModule = () => {
-        ElectionSystemAPI.getAPI().getModule(this.state.project.getProjecttype())
+        ElectionSystemAPI.getAPI().getModule(this.state.project.getModule())
         .then(moduleBO => {
             this.setState({
                 module: moduleBO,
@@ -145,6 +145,13 @@ class ProjectContent extends Component {
         });
     }
 
+    handleClick = () =>{
+        this.props.history.push({
+            pathname: '/admin'
+        })
+ 
+     }
+
     componentDidMount(){
         this.getProject();
     }
@@ -162,7 +169,7 @@ class ProjectContent extends Component {
             
             <Grid container spacing={2} justify="center" className={classes.grid}>
                 <Grid item xs={1} style={{ alignItems: 'center'}}>
-                    <IconButton className={classes.arrowButton}>
+                    <IconButton className={classes.arrowButton} onClick={()=>this.handleClick()}>
                         <ArrowBackIosIcon color="secondary"/> 
                     </IconButton>
                 </Grid>

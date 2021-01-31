@@ -94,7 +94,7 @@ class Semester extends Component {
  render(){
  const { classes } = this.props;
     return(
-        <Dialog open={true} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
+        <Dialog open={this.props.open} onClose={this.props.closeDialog} fullWidth maxWidth='xs'>
         <DialogTitle
             fontcolor='primary'
             className={classes.dialogHeader}>

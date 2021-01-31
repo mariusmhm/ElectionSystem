@@ -8,6 +8,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
 import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
+import AddStudents from '../../dialogs/AddStudents';
 
 
 
@@ -35,6 +36,8 @@ constructor(props){
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
+    projectID: this.props.projectID,
+    open: false
     };
     this.baseState = this.state;
 
@@ -55,7 +58,7 @@ getAllGrades = () => {
     }
 
 getStudentByParticipations = () => {
-        ElectionSystemAPI.getAPI().getStudentByParticipations(2)
+        ElectionSystemAPI.getAPI().getStudentByParticipations( this.props.history.location.state.projectID)
         .then(studentBOs =>
             this.setState({
                 students: studentBOs,
@@ -69,6 +72,18 @@ getStudentByParticipations = () => {
 
     }
 
+    openAddStudentDialog = () => {
+        this.setState({
+            open: true 
+        });
+    }
+
+    closeAddStudentDialog = () =>{
+        this.setState({
+            open: false 
+        });
+    }
+
     componentDidMount(){
         this.getAllGrades();
         this.getStudentByParticipations();
@@ -76,6 +91,7 @@ getStudentByParticipations = () => {
 
 
     removeStudent(studentid){
+        //delete methode hinzufügen weil beim neu laden muss das projekt ja weg sein
         console.log('remove student');
         this.setState({
             students: this.state.students.filter(student => student.getID() !== studentid)
@@ -89,11 +105,17 @@ getStudentByParticipations = () => {
 
     return(
             <Container maxWidth="xl">
+                <AddStudents
+                    open={this.state.open}
+                    openAddStudentDialog={this.openAddStudentDialog}
+                    closeAddStudentDialog={this.closeAddStudentDialog}
+                    projectID ={this.props.history.location.state.projectID}
+              />
                 <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
-                    <Typography variant="h6" color="secondary" className={classes.redHeader}> entry list </Typography>
+                    <Typography variant="h6" color="secondary" className={classes.redHeader}> Participants </Typography>
                 </Grid>
                  <Grid container justify="Center" maxwidth="xl" className={classes.grid} >
-                     <Typography variant="h6" color="secondary" className={classes.greyHeader}>of project participants</Typography>
+                     <Typography variant="h6" color="secondary" className={classes.greyHeader}>of project  {this.props.history.location.state.projectName}</Typography>
                  </Grid>
                     <Grid container
                         justify="flex-start"
@@ -102,7 +124,7 @@ getStudentByParticipations = () => {
                             <Grid container justify="flex-start" xs={12} md={12} className={classes.grid}>
                                     <Grid item  xs={1} md={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
-                                                    Delete
+                                                    DELETE
                                                 </Typography>
                                     </Grid>
                                     <Grid item xs={1} md={2}>
@@ -133,6 +155,7 @@ getStudentByParticipations = () => {
                                     <Grid item xs={12} xl={12}>
                                             {this.state.students.map(student => (
                                                 <TableListEntryTeilnehmer
+                                                    {...this.props}
                                                     name = {student.getName()}
                                                     firstname = {student.getFirstname()}
                                                     mrtnr = {student.getMatrikelNr()}
@@ -140,6 +163,7 @@ getStudentByParticipations = () => {
                                                     student ={student}
                                                     id={student.getID()}
                                                     removeStudent={this.removeStudent}
+                                                    pdID ={this.props.history.location.state.projectID}
                                                 />
                                             )
                                             )}
@@ -156,7 +180,7 @@ getStudentByParticipations = () => {
                                     variant="contained"
                                     color="secondary"
                                     className={classes.button}
-                                    onClick={this.updateGrade}>
+                                    onClick={() => this.openAddStudentDialog()}>
                                         ADD STUDENT
                                 </Button>
                         </Grid>
