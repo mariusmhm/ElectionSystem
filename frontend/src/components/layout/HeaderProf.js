@@ -54,6 +54,13 @@ class HeaderProf extends Component {
     firebase.auth().signOut();
   }
 
+  onClickAbout = () => {
+      this.props.history.push({
+            pathname:'/professor/about'
+        })
+  }
+
+
   render() {
     const { classes } = this.props;
     
@@ -75,6 +82,9 @@ class HeaderProf extends Component {
             </Button>
             <Button color="inherit">
               Profile
+            </Button>
+            <Button color="inherit" onClick={this.onClickAbout}>
+              About
             </Button>
             <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
               Log out

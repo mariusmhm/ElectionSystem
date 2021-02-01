@@ -11,7 +11,7 @@ import { Avatar,
   Box} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import logo from '../../hdmLogo.jpg'
+import logo from '../../hdmLogo.jpg';
 import firebase from 'firebase/app';
 
 class HeaderAdmin extends Component {

@@ -23,8 +23,10 @@ import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
 import ProfileChange from './components/layout/pages/ProfileChange';
 import ProjectContent from './components/layout/pages/ProjectContent';
+import About from './components/layout/pages/About';
 
 
+firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
 
@@ -94,7 +96,7 @@ class App extends Component {
    //Lifecycle method, which is called when the component gets inserted into the browsers DOM.
    //Initializes the firebase SDK.
    componentDidMount() {
-		firebase.initializeApp(firebaseConfig);
+
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
    }
@@ -172,9 +174,19 @@ class App extends Component {
 							</>
 						)}
 						/>
+						<Route
+						exact
+						path={"/professor/about"}
+						render={props => (
+							<>
+							<HeaderProf {...props}/>
+							<About {...props} />
+							</>
+						)}
+						/>
 						<Route 
 						exact 
-						path={"/admin/particpations"} 
+						path={"/admin/particpations"}
 						render={props => (
 							<>
 							<HeaderAdmin {...props}/>
