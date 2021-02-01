@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TextField, Button, Grid, Typography, TableContainer, Input, Table, TableBody, TableCell, Divider,  TableHead, TableRow, Container} from'@material-ui/core';
+import { TextField, Button, Grid, Typography, TableContainer, Input, Table, TableBody, TableCell,  TableHead, TableRow, Container} from'@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {withStyles} from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
 import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
 import AddStudents from '../../dialogs/AddStudents';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 
 
@@ -112,6 +113,7 @@ getStudentByParticipations = () => {
                     projectID ={this.props.history.location.state.projectID}
               />
                 <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
+                <Button> <ArrowBack /> </Button>
                     <Typography variant="h6" color="secondary" className={classes.redHeader}> Participants </Typography>
                 </Grid>
                  <Grid container justify="Center" maxwidth="xl" className={classes.grid} >
