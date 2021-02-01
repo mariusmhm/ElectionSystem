@@ -41,7 +41,11 @@ class Main extends Component {
                 exists: true,
                 cUser: user,
                 uRole: user.getRoleID()
-            }, this.mainComponent()
+            }, function(){
+		this.mainComponent();
+		console.log(this.state.uRole)
+		    
+	    }
             )
         }
     }).catch(e =>
