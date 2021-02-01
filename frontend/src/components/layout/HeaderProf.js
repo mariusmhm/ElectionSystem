@@ -11,8 +11,8 @@ import { Avatar,
   Box} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import logo from '../../hdmLogo.jpg'
-
+import logo from '../../hdmLogo.jpg';
+import firebase from 'firebase/app';
 
 class HeaderProf extends Component {
   constructor(props){
@@ -50,6 +50,9 @@ class HeaderProf extends Component {
     })
   }
 
+  handleSignOutButtonClicked = () => {
+    firebase.auth().signOut();
+  }
 
   render() {
     const { classes } = this.props;
@@ -73,7 +76,7 @@ class HeaderProf extends Component {
             <Button color="inherit">
               Profile
             </Button>
-            <Button color="inherit">
+            <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
               Log out
             </Button>
             </Box> 

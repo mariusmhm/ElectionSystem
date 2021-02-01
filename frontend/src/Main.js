@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import Registration from './components/layout/pages/Registration'
+import Registration from './components/layout/pages/Registration';
 import theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import {ElectionSystemAPI} from './api';
@@ -42,8 +42,8 @@ class Main extends Component {
                 cUser: user,
                 uRole: user.getRoleID()
             }, function(){
-		this.mainComponent();
-		console.log(this.state.uRole)
+		        this.mainComponent();
+		        console.log(this.state.uRole)
 		    
 	    }
             )

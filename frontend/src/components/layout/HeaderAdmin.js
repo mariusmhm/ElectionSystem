@@ -12,7 +12,7 @@ import { Avatar,
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import logo from '../../hdmLogo.jpg'
-
+import firebase from 'firebase/app';
 
 class HeaderAdmin extends Component {
   constructor(props){
@@ -43,6 +43,9 @@ class HeaderAdmin extends Component {
     })
   }
 
+  handleSignOutButtonClicked = () => {
+    firebase.auth().signOut();
+  }
 
   render() {
     const { classes } = this.props;
@@ -68,7 +71,7 @@ class HeaderAdmin extends Component {
             <Button color="inherit" onClick={this.navigateProfile()} >
               Profile
             </Button>
-            <Button color="inherit" >
+            <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
               Logout
             </Button>
             </Box> 
