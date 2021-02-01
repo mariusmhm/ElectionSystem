@@ -159,6 +159,16 @@ class App extends Component {
 						/>
 						<Route 
 						exact 
+						path={"/admin/project-edit"}
+						render={props => (
+							<>
+							<HeaderAdmin {...props}/>
+							<ProjectUpdateAdmin {...props} />
+							</>
+						)}
+						/>
+						<Route 
+						exact 
 						path={"/project-report"} 
 						render={props => (
 							<ProjectReport {...props} />
