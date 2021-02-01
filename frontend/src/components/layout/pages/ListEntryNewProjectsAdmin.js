@@ -117,6 +117,7 @@ constructor(props) {
                                                 name = {project.getName()}
                                                 prof = {project.getProfessor()}
                                                 type = {project.getProjecttype()}
+                                                project = {project}
                                                 duringSemester = {this.props.duringSemester}
                                             />
                                     )

@@ -38,7 +38,6 @@ class TableEntryButtonTwo extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            buttonname: 'edit',
             duringSemester: false,
 
             
@@ -79,7 +78,13 @@ class TableEntryButtonTwo extends Component {
     }
 
     handleClick = () => {
-       
+        console.log('openProjectUpdateAdmin')
+        this.props.history.push({
+            pathname: '/admin/project-edit',
+            state:{
+                project: this.props.project,
+            }
+        })
 
     }
 
@@ -124,7 +129,7 @@ class TableEntryButtonTwo extends Component {
                         {this.state.loaded ? this.state.projecttypeName: null}
                      </Grid>
                     <Grid item xs={3} md={4}>
-                            <Button variant ="outlined" onClick={this.handleClick()} > {this.state.buttonname} </Button>
+                            <Button variant ="outlined" onClick={this.handleClick} >Edit </Button>
                     </Grid>
                           
                  </Grid>
