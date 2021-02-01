@@ -11,30 +11,30 @@ import {Dialog,
     Radio, 
     Button,
     Grid,
+    Box,
     Typography} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import DateFnsUtils from "@date-io/date-fns";
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
-import {ElectionSystemAPI, ProjectBO} from '../../api';
+import {ElectionSystemAPI, ProjectBO} from '../../../api';
 
 
-class CreateProject extends Component {
+class ProjectUpdateAdmin extends Component {
 
 
     constructor(props) {
       super(props);
 
-        
-        let today = new Date(),
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 
       this.state = {
-        creationDate: date,
-        projectname:'',
+        allStates:[],
+        project: this.props.history.location.state.project,
+        projectname: this.props.history.location.state.project.name,
         modules: [],
-        openpr:null,
         moduleSelected: null,
-        edvNumber: null,
+        edvNumber: this.props.history.location.state.project.edv_number,
         projecttypes: [],
         projecttype: {},
         ptSelected: null,
@@ -44,9 +44,9 @@ class CreateProject extends Component {
         weekly: false,
         specialRoom: false,
         desiredRoom: null,
-        shortDescription: '',
-        language: '',
-        externalPartner: null,
+        shortDescription: this.props.history.location.state.project.short_decription,
+        language: this.props.history.location.state.project.language,
+        externalPartner: this.props.history.location.state.project.external_partner,
         numBlockdaysPriorLecture: null,
         numBlockdaysDuringLecture: null,
         dateDuringLecture: null,
@@ -63,7 +63,6 @@ class CreateProject extends Component {
 
     }
 
-
     getAllProjecttypes = () => {
         ElectionSystemAPI.getAPI().getAllProjecttypes()
         .then(projecttypesBOs =>
@@ -76,6 +75,18 @@ class CreateProject extends Component {
                     error: e
                 }))
     }
+
+    getStates = () => {
+        ElectionSystemAPI.getAPI().getAllStates()
+        .then(states => 
+            this.setState({
+                allStates: states,
+            })).catch(e =>
+                this.setState({
+                    allStates:[],
+                    error: e
+                }))
+    } 
 
     getAllModules = () => {
         ElectionSystemAPI.getAPI().getAllModules()
@@ -91,60 +102,10 @@ class CreateProject extends Component {
                 }))
     }
 
-    getUsersForRole = () => {
-        ElectionSystemAPI.getAPI().getUserForRole(3)
-        .then(userBOs =>{
-            this.setState({
-                professors: userBOs,
-                error: null
-            });
-        }).catch(e =>
-                this.setState({
-                    professors:[],
-                    error: e
-                }))
-    }
-
-
     componentDidMount(){
         this.getAllProjecttypes();
         this.getAllModules();
-        this.getUsersForRole()
-    }
-
-    // Add a new Project
-     addProject = () => {
-        let newProject = new ProjectBO();
-        newProject.setDate(this.state.creationDate);
-        newProject.setName(this.state.projectname);
-        newProject.setModule(this.state.moduleSelected);
-        newProject.setProjecttype(this.state.ptSelected);
-        newProject.setNumSpots(this.state.numSpots);
-        newProject.setAddProfessor(this.state.additionalProf);
-        newProject.setEdvNumber(this.state.edvNumber);
-        newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState(1);
-        newProject.setLanguage(this.state.language);
-        newProject.setProfessor(2); //prof id vom current user hier einsetzen
-        newProject.setExternalPartner(this.state.externalPartner);
-        newProject.setWeekly(this.state.weekly);
-        newProject.setSpecialRoom(this.state.specialRoom);
-        newProject.setRoomDesired(this.state.desiredRoom);
-        newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
-        newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
-        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
-        newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
-        console.log(JSON.stringify(newProject));
-        console.log(this.state.numBlockdaysDuringLecture);
-        ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
-            this.showETCS = false;
-            this.setState(this.baseState);
-
-        }).then(newProject => {this.props.closeProject()}).catch(e =>
-            this.setState({
-                error: e
-            }))
-
+        this.getStates();
     }
 
     selectHandleChangeProjecttype = (e) =>{
@@ -191,27 +152,54 @@ class CreateProject extends Component {
         this.setState({
             dateDuringLecture: nD
         })
+
     }
 
+    handleClick = () =>{
+        this.props.history.push({
+            pathname: '/admin'
+        })
+ 
+    }
 
-
- render(){
-    const { classes } = this.props;
-
-    return(
-
-        <Dialog open={this.props.openpr} onClose={this.props.closeProject} fullWidth maxWidth='md'>
-            <DialogTitle fontcolor='primary' className={classes.dialogHeader}>SUBMIT PROJECT</DialogTitle>
-            <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
-
-                <Grid container item direction="column" xs={12} md={6} spacing={2}>
-                    <Grid item>
-                        <TextField fullWidth required variant="outlined" id="projectname" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
+     render(){
+        const { classes } = this.props; 
+        
+        
+    
+        return (
+            <div className={classes.pageContent}>
+                
+                <Grid container spacing={2} justify="center" className={classes.grid}>
+                    <Grid item xs={1} style={{ alignItems: 'center'}}>
+                        <IconButton className={classes.arrowButton} onClick={()=>this.handleClick()}>
+                            <ArrowBackIosIcon color="secondary"/> 
+                        </IconButton>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={11} md={11} style={{ alignItems: 'center'}}>
+                        <Typography className={classes.header}>Edit Project: {this.state.projectname} </Typography>
+                    </Grid>
+                    <Grid item xs={11} md={6}>
+                            <TextField id="projectname" fullWidth variant="outlined" label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
+                    </Grid>
+                    <Grid item xs={9} md={4}>
                         <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
+                            <InputLabel>Revalue</InputLabel>
+                            <Select name="newState" defaultValue="" label="revalue" onChange={this.handleSelectChange}>
+                                {this.state.allStates.map((state) => (
+                                        <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                   
+    
+                <Grid container item direction="column" spacing={2} xs={12} md={4}>
+                    
+                    <Grid item>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select name="moduleSelected" defaultValue="" label="Module" onChange={this.handleSelectChange}>
+                            <Select name="moduleSelected" defaultValue="moduleSelected" label="Module" onChange={this.handleSelectChange}>
                                 {this.state.modules.map((module) => (
                                         <MenuItem key={module.getID()} value={module.getID()}>{module.getName()}</MenuItem>
                                     ))}
@@ -219,10 +207,10 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth required variant="outlined" id="edvNumber" label="EDV-number:" onChange={this.handleChangeNum} value={this.state.edvNumber || ''}/>
+                    <TextField fullWidth variant="outlined" id="edvNumber" label="EDV-number:" onChange={this.handleChangeNum} value={this.state.edvNumber}/>
                     </Grid>
                     <Grid item>
-                            <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
                                 <Select label="Projecttype" defaultValue="" onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
@@ -240,7 +228,7 @@ class CreateProject extends Component {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of spots</InputLabel>
                             <Select name="numSpots" defaultValue="" label="Number of spots" onChange={this.handleSelectChange}>
                             {this.state.spots.map((number, index) => (
@@ -250,7 +238,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>
                             <Select name="additionalProf" defaultValue="" label="Additional professors" onChange={this.handleSelectChange}>
                                 {this.state.professors.map((prof) => (
@@ -260,7 +248,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
                             <Select name="language" defaultValue="" label="language" onChange={this.handleSelectChange}>
                                 <MenuItem value="german">german</MenuItem>
@@ -269,7 +257,7 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" id="externalPartner" onChange={this.handleChange}/>
+                        <TextField fullWidth variant="outlined" label="External co-orperation partner:" id="externalPartner" onChange={this.handleChange} value={this.state.externalPartner}/>
                     </Grid>
                     <Grid item>
                         <Typography>Particular room necessary:</Typography>
@@ -286,10 +274,9 @@ class CreateProject extends Component {
                     </Grid>
                     : null}
                 </Grid>
-
-                <Grid container item direction="column" xs={12} md={6} spacing={2}>
+                <Grid container item direction="column" spacing={2} xs={12} md={6}>
                     <Grid item>
-                        <TextField fullWidth required variant="outlined" multiline rows={12} label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
+                        <TextField fullWidth variant="outlined" multiline rows={12} label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
                     </Grid>
                     <Grid item>
                         <Typography>Weekly lecture:</Typography>
@@ -353,35 +340,51 @@ class CreateProject extends Component {
                         </FormControl>
                     </Grid>
 
+                    
+                    <Grid item>
+                        <Button variant="contained" color="primary" >Submit</Button>
+                    </Grid>
+                   
+                    
+                    
                 </Grid>
-
-
-                <Grid item>
-                    <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
+                
                 </Grid>
-                <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
-                </Grid>
-
-            </Grid>
-
-        </Dialog>
-    );
- }
-
-
-}
-
-const styles = theme => ({
-    grid:{
-        width: '100%',
-        margin: '0px',
-        padding: '20px'
-    },
-    dialogHeader:{
-        textAlign: "center"
+            </div>
+    
+    
+    
+        ) 
+     }
     }
-});
-
-
-export default withStyles(styles)(CreateProject);
+    
+    const styles = theme => ({
+        grid:{
+            width: '100%',
+            marginTop: theme.spacing(10),
+            margin: theme.spacing(3),
+            paddingLeft: theme.spacing(2)
+            
+        },
+        pageContent:{
+            margin: theme.spacing(1)
+        },
+        header: {
+            fontSize: '1.5rem',
+            paddingTop: theme.spacing(1),
+            paddingLeft: theme.spacing(1),
+            fontWeight: 'bold'
+        },
+        state:{
+            paddingTop: theme.spacing(2),
+            paddingLeft: theme.spacing(2)
+        },
+        button:{
+            marginTop: theme.spacing(1),
+            marginLeft: theme.spacing(2)
+        }
+    });
+    
+    export default withStyles(styles)(ProjectUpdateAdmin);
+    
+    

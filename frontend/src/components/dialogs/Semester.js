@@ -67,7 +67,10 @@ class Semester extends Component {
         updatedSemester.setGrading(this.state.grading);
         updatedSemester.setElection(this.state.election);        
         console.log(JSON.stringify(updatedSemester));
-        ElectionSystemAPI.getAPI().updateSemester(updatedSemester).then(semester => {this.props.closeDialog()}).catch(e => console.log(e));
+        ElectionSystemAPI.getAPI().updateSemester(updatedSemester)
+        .then(semester => {
+            this.props.closeDialog()
+        }).catch(e => console.log(e));
 
     } 
 
