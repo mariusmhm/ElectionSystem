@@ -103,7 +103,7 @@ class Main extends Component {
             this.props.history.push({
                 pathname: '/professor',
                 state:{
-                    cUser: this.state.cUser
+                    cUser: this.state.cUser.getID() 
                 }
             })
         }

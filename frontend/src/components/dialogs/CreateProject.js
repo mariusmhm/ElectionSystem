@@ -40,6 +40,7 @@ class CreateProject extends Component {
         ptSelected: null,
         numSpots: null,
         professors: [],
+        cUser: null,
         additionalProf: null,
         weekly: false,
         specialRoom: false,
@@ -59,6 +60,7 @@ class CreateProject extends Component {
 
 
       this.baseState = this.state;
+      
 
 
     }
@@ -125,7 +127,7 @@ class CreateProject extends Component {
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        newProject.setProfessor(2); //prof id vom current user hier einsetzen
+        newProject.setProfessor(this.props.cUser); //prof id vom current user hier einsetzen
         newProject.setExternalPartner(this.state.externalPartner);
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
@@ -134,8 +136,7 @@ class CreateProject extends Component {
         newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
         newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
         newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
-        console.log(JSON.stringify(newProject));
-        console.log(this.state.numBlockdaysDuringLecture);
+
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
@@ -197,6 +198,7 @@ class CreateProject extends Component {
 
  render(){
     const { classes } = this.props;
+    
 
     return(
 
@@ -355,13 +357,16 @@ class CreateProject extends Component {
 
                 </Grid>
 
-
+                {this.props.cUser != null ?
+                <>
                 <Grid item>
                     <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
                 <Grid item>
                     <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
+                </>
+                :null }
 
             </Grid>
 

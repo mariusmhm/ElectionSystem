@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider, Paper } from "@material-ui/core";
+import {Button, Collapse,Typography, Grid, Divider} from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
-import { ElectionSystemAPI, ParticipationBO,} from '../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+
+import { ElectionSystemAPI} from '../../api';
+
 
 import GradingEditingDialog from '../dialogs/GradingEditingDialog'
 
 
 
 import {withStyles} from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+
 
 
 
@@ -162,7 +160,7 @@ class ProfProjectEntry extends Component {
         const { classes } = this.props;
         const {activeIndex} = this.state;
 
-        console.log(this.state.currentState)
+        
 
         
 
@@ -231,16 +229,16 @@ class ProfProjectEntry extends Component {
 
                                     </Grid>
                                     <br/>
-                                    <Grid container justify="flex-start" md={9} xs={9}>
+                                    <Grid container justify="flex-start" md={9} xs={9} spacing={10}>
                                         <Grid item xs={3} md={3}>
-                                            <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
+                                            <Typography variant="subtitle2">Ects:&nbsp;{this.props.ects}</Typography>
                                         </Grid>
                                         <Grid item xs={3} md={3}>
-                                            <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
+                                            <Typography variant="subtitle2">SWS:&nbsp;{this.props.sws}</Typography>
                                         </Grid>
                                         <Grid container justify="flex-end" md={3} xs={3}>
                                             <Grid item xs={3} md={3}>
-                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
+                                                <Typography variant="subtitle2">Professor:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>

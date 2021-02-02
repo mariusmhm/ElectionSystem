@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { ElectionSystemAPI } from '../../../api';
-import {Grid, Typography, withStyles, LinearProgress, Container, AppBar, Toolbar, Fab, Box} from '@material-ui/core';
+import {Grid, Typography, withStyles, LinearProgress, Container, AppBar, Toolbar, Fab} from '@material-ui/core';
 import ProfProjectEntry from '../../assets/ProfProjectEntry';
 import CreateProject from '../../dialogs/CreateProject';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,9 +11,10 @@ class HomeScreenProf extends Component {
         super(props)
         this.state = {
             loaded: false,
-            cUser: null,
-            projects: [],
+            cUser: this.props.history.location.state.cUser,
+            
             profProjects: [],
+            projecttypes: [],
             deliverDate: null,
             semesterLoaded: false,
             openpr:false,
@@ -37,16 +38,16 @@ class HomeScreenProf extends Component {
                         projecttypes: [],
                         error: e
                     }))
-        console.log('Projecttype ausgeführt');
+        
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+        ElectionSystemAPI.getAPI().getProjectForProfessor(this.state.cUser)
             .then(projectBO =>
 
                 
                 this.setState({
-                    projects: projectBO,
+                    profProjects: projectBO,
                     projectLoaded: true,
                     error: null
                 }))
@@ -56,23 +57,10 @@ class HomeScreenProf extends Component {
 
             .catch(e =>
                 this.setState({
-                    projects: [],
+                    profProjects: [],
                     error: e
                 }))
         
-    }
-    sortProjects = () =>{
-        
-        this.state.projects.forEach(project=> {
-
-            if(project.getProfessor() === this.props.cUser){
-                
-                this.setState(prev => ({
-                    profProjects: [...prev.profProjects, project]
-                }))
-                
-            }
-        })
     }
 
     getAllSemester = () => {
@@ -112,11 +100,9 @@ class HomeScreenProf extends Component {
 
 
     render () {
-        const { projects, profProjects,loaded } = this.state;
+        const { profProjects,loaded, cUser,projecttypes } = this.state;
         const {classes}= this.props;
-        console.log('All Projects : '+ projects)
-        console.log('All Projects by this Prof: '+ profProjects)
-        console.log(loaded)
+
         
         
         return(
@@ -127,25 +113,53 @@ class HomeScreenProf extends Component {
                     <Grid item xs={6}>
                     <Typography variant="h1">My Projects</Typography>
                     </Grid>
-                    <Grid item xs={5}>
-                        <Typography variant="subtitle2" align="right">Deliver Projects until</Typography>
+                    
 
-                    </Grid>
-                    {profProjects.map(project => 
-                    <Grid item xs={12}>
-                        
-                        <ProfProjectEntry
-                            key = {project.getID()}
-                            id = {project.getID()}
-                            name = {project.getName()}
-                            prof = {project.getProfessor()}
-                            dsc = {project.getShortDescription()}
-                            state = {project.getState()}
-                            {...this.props}
-                        />
+                    {profProjects.length > 0 ? 
+                                        
+                                        projecttypes.map(pt => 
 
-                    </Grid>
-                    )}
+                                            profProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
+                                            
+                                                <Grid item xs={12}>
+                                                    <Typography color="secondary">{pt.getName()}</Typography>
+                                                    {
+                                                        profProjects.map(project =>
+                                                            
+                                                            project.projecttype_id === pt.id ?
+
+                                                            <>
+                                                                <ProfProjectEntry
+                                                                    key = {project.getID()}
+                                                                    id = {project.getID()}
+                                                                    name = {project.getName()}
+                                                                    prof = {project.getProfessor()}
+                                                                    dsc = {project.getShortDescription()}
+                                                                    ects = {pt.getEcts()}
+                                                                    sws = {pt.getSws()}
+                                                                    state = {project.getState()}
+
+                                                                    
+                                                                />
+
+                                                                
+                                                            </>
+
+                                                            :null
+
+                                                        )
+                                                        
+                                                    }
+                                                
+                                                </Grid>
+                                            
+                                            :null
+                                                
+                                        )     
+                                    
+                                    :null
+                            
+                                }
 
                     
                 </Grid>
@@ -153,17 +167,20 @@ class HomeScreenProf extends Component {
                 <AppBar position="fixed" color="white" className={classes.appBar}>
                     <Toolbar>
                         
-                            <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-lable="add" onClick={() => this.openProject()}>
+                            <Fab  className={classes.fabButton} color="secondary" variant="extended" aria-label="add" onClick={() => this.openProject()}>
                                 <AddIcon /> new project
                             </Fab>
                         
                     </Toolbar>
                 </AppBar>
-                < CreateProject
-                    openpr={this.state.openpr}
-                    openProject={this.openProject}
-                    closeProject={this.closeProject}
-              />
+                {cUser != null ? 
+                    < CreateProject
+                        openpr={this.state.openpr}
+                        openProject={this.openProject}
+                        closeProject={this.closeProject}
+                        cUser = {cUser}
+                    />
+                : null}
 
                 
    
@@ -180,16 +197,15 @@ class HomeScreenProf extends Component {
 const styles = theme => ({
     headGrid:{
         marginTop: theme.spacing(10),
-        marginBottom: theme.spacing(12)
+        marginBottom: theme.spacing(10)
     },
     fabButton: {
-        margin: theme.spacing(2),
         top: 0,
         margin: '0 auto',
       },
     buttonBox:{
         align:'center',
-        marginLeft: theme.spacing(15)
+        marginLeft: theme.spacing(10)
     },
     appBar: {
       align:'center',
