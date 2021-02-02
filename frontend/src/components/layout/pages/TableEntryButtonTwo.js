@@ -5,7 +5,7 @@ import { Redirect } from 'react-router'
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import {withStyles} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -39,6 +39,7 @@ class TableEntryButtonTwo extends Component {
             firstname: '',
             priority: 0,
             duringSemester: false,
+            loadingInProgress: false
 
             
         };
@@ -54,27 +55,39 @@ class TableEntryButtonTwo extends Component {
                     users: userBO,
                     lastname: userBO.getName(),
                     firstname: userBO.getFirstname(),
-                    loaded: true,
-                    error: null
+                    loadingInProgress: false,
+                    error: null,
                 }),console.log(this.state.users)).catch(e =>
                     this.setState({
                         users: [],
+                        loadingInProgress: false,
                         error: e
                     }))
+                this.setState({
+                     loadingInProgress: true,
+                     error: null
+                    });
+
     }
+
 
     getProjectType = () => {
         ElectionSystemAPI.getAPI().getProjecttype(this.props.type)
         .then(projecttypeBO =>
             this.setState({
             projecttypeName: projecttypeBO.getName(),
-            loaded:true,
+            loadingInProgress: false,
             error: null
             })). catch(e =>
             this.setState({
                 projecttypeName: [],
+                loadingInProgress: false,
                 error: e
             }))
+            this.setState({
+                 loadingInProgress: true,
+                 error: null
+                 });
     }
 
     handleClick = () => {
@@ -100,13 +113,18 @@ class TableEntryButtonTwo extends Component {
             .then(ProjectsBO =>
                 this.setState({
                     projects: ProjectsBO,
-                    loaded: true,
+                    loadingInProgress: false,
                     error: null
                 })).catch(e =>
                     this.setState({
                         projects: [],
+                        loadingInProgress: false,
                         error: e
                     }))
+                 this.setState({
+                    loadingInProgress: true,
+                    error: null
+                 });
     }
 
 
@@ -114,7 +132,7 @@ class TableEntryButtonTwo extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex} = this.state;
+        const {activeIndex, loadingInProgress} = this.state;
 
         return (
            <Grid container  justify="flex-start"  xs={12} xl={12}>
@@ -131,9 +149,9 @@ class TableEntryButtonTwo extends Component {
                     <Grid item xs={3} md={3}>
                             <Button variant ="outlined" onClick={this.handleClick} >Edit </Button>
                     </Grid>
-                          
                  </Grid>
-              </Grid>
+                   <LoadingProgress show={loadingInProgress}/>
+             </Grid>
 
         )
     }

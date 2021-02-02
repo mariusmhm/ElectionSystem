@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryButtonKeycompetence from './TableEntryButtonKeycompetence';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -23,6 +23,7 @@ constructor(props) {
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            loadingInProgress: false
 
         };
         this.baseState = this.state;
@@ -40,13 +41,18 @@ constructor(props) {
         ElectionSystemAPI.getAPI().getProjectForModule(7) /*get the module id where module is Keycompetence*/
         .then(projectBO => {this.setState({
             projects: projectBO,
-            loaded: true,
+            loadingInProgress: false,
             error: null
         })}).catch(e =>
             this.setState({
                 projects:[],
+                loadingInProgress: false,
                 error: e
-        }))
+        }));
+        this.setState({
+                loadingInProgress: true,
+                error: null
+        });
     }
 
 
@@ -54,19 +60,24 @@ constructor(props) {
         ElectionSystemAPI.getAPI().getProjectForState(2) /*get the approved Keycompetence */
         .then(projectBO => { this.setState({
             projects: projectBO,
-            loaded: true,
+            loadingInProgress: false,
             error: null
         })}).catch(e =>
             this.setState({
                 projects:[],
+                loadingInProgress: false,
                 error: e
-        }))
+        }));
+        this.setState({
+                loadingInProgress: true,
+                error: null
+        });
     }
 
 
   render() {
 
-    const {projects} = this.state;
+    const {projects, loadingInProgress} = this.state;
      const {classes}= this.props;
         return (
             <div>
@@ -109,7 +120,7 @@ constructor(props) {
                                 )}
                         </Grid>
                      </Grid>
-
+                    <LoadingProgress show={loadingInProgress} />
 				</Container>
 		    </div>
 		);

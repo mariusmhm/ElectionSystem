@@ -13,7 +13,7 @@ import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryAdmin from './TableEntryAdmin';
 import TableEntryButtonTwo from './TableEntryButtonTwo';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 /**
  * Renders a Project object within a ListEntry and provides a decline, delete, approve button. Links projects
  * to a list of projects. This is done by routing the link to /ProjekteGenehmigen and passing the ProjectBO and
@@ -34,8 +34,7 @@ constructor(props) {
             deletingError: null,
             loaded: null,
             activeIndex: null,
-
-
+            loadingInProgress: false
 
         };
         this.baseState = this.state;
@@ -52,14 +51,18 @@ constructor(props) {
             .then(ProjecttypeBO =>
                 this.setState({
                     projecttypes: ProjecttypeBO,
-                    loaded: true,
-                    error: null
+                    error: null,
+                    loadingInProgress: false
                 })).catch(e =>
                     this.setState({
                         projecttypes: [],
+                        loadingInProgress: false,
                         error: e
-                    }))
-        console.log('Projecttype ausgeführt');
+                    }));
+                     this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
     }
 
 
@@ -69,19 +72,24 @@ constructor(props) {
         ElectionSystemAPI.getAPI().getProjectForState(1)
         .then(projectBO => { this.setState({
             projects: projectBO,
-            loaded: true,
+            loadingInProgress: false,
             error: null
         })}).catch(e =>
             this.setState({
                 projects:[],
+                loadingInProgress: false,
                 error: e
-        }))
+        }));
+          this.setState({
+        loadingInProgress: true,
+        error: null
+    });
+  }
 
-    }
 
   render() {
 
-     const {projects} = this.state;
+     const {projects,loadingInProgress} = this.state;
      const {classes}= this.props;
 
         return (
@@ -126,6 +134,7 @@ constructor(props) {
 
                                 </Grid>
                      </Grid>
+                     <LoadingProgress show={loadingInProgress} />
 				</Container>
 		    </div>
 		);

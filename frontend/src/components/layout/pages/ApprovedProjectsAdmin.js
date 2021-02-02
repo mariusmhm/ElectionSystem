@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryAdmin from './TableEntryAdmin';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -32,6 +32,8 @@ constructor(props) {
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            deletingInProgress: false,
+            loadingInProgress: false
 
         };
         this.baseState = this.state;
@@ -49,27 +51,39 @@ constructor(props) {
           console.log(project);
         }).catch(e =>
           this.setState({
+            deletingInProgress: false,
             deletingError: e
           })
         );
 
         this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
-        })
-    }
+          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID()),
+          deletingInProgress: false
+        });
+          this.setState({
+                deletingInProgress: true,                 // show loading indicator
+                deletingError: null                       // disable error message
+    });
+  }
+
 
     //Gives back the projects by state "approved"
     getProjectForStateOne = () =>{
         ElectionSystemAPI.getAPI().getProjectForState(2)
         .then(projectBO => { this.setState({
             projects: projectBO,
-            loaded: true,
+             loadingInProgress: false,
             error: null
         })}).catch(e =>
             this.setState({
                 projects:[],
+                loadingInProgress: false,
                 error: e
-        }))
+        }));
+           this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
 
     }
 
@@ -80,7 +94,7 @@ constructor(props) {
 
   render() {
 
-    const {projects} = this.state;
+    const {projects, deletingInProgress, loadingInProgress} = this.state;
      const {classes}= this.props;
         return (
             <div>
@@ -124,7 +138,8 @@ constructor(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-
+                <LoadingProgress show={deletingInProgress} />
+                <LoadingProgress show={loadingInProgress} />
 				</Container>
 		    </div>
 		);

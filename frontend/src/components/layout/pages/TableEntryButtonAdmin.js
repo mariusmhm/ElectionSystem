@@ -9,7 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -40,7 +40,8 @@ class TableEntryButtonAdmin extends Component {
             lastname: '',
             firstname: '',
             project:'',
-            priority: 0
+            priority: 0,
+            loadingInProgress: false
 
 
         };
@@ -57,14 +58,19 @@ class TableEntryButtonAdmin extends Component {
                     users: userBO,
                     lastname: userBO.getName(),
                     firstname: userBO.getFirstname(),
-                    loaded: true,
+                    loadingInProgress: false,
                     error: null
                 }),console.log(this.state.users)).catch(e =>
                     this.setState({
                         users: [],
+                        loadingInProgress: false,
                         error: e
-                    }))
-        console.log('User ausgeführt');
+                    }));
+                this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
+
     }
 
     getProjectType = () => {
@@ -72,13 +78,18 @@ class TableEntryButtonAdmin extends Component {
         .then(projecttypeBO =>
             this.setState({
             projecttypeName: projecttypeBO.getName(),
-            loaded:true,
+            loadingInProgress: false,
             error: null
             })). catch(e =>
             this.setState({
                 projecttypeName: [],
+                loadingInProgress: false,
                 error: e
-            }))
+            }));
+             this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
     }
 
     toggleClass(index, e) {
@@ -127,7 +138,7 @@ class TableEntryButtonAdmin extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex, buttonText, loadingInProgress} = this.state;
 
         return (
 
@@ -148,6 +159,7 @@ class TableEntryButtonAdmin extends Component {
                         </Button>
                     </Grid>
                     </Grid>
+                    <LoadingProgress show={loadingInProgress} />
                     </Grid>
         )
     }

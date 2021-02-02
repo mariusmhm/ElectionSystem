@@ -5,7 +5,7 @@ import {withStyles} from '@material-ui/core';
 import { Redirect } from 'react-router'
 import { makeStyles } from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -34,7 +34,8 @@ class TableEntryAdmin extends Component {
             select: true,
             lastname: '',
             firstname: '',
-            priority: 0
+            priority: 0,
+            loadingInProgress: false
 
 
         };
@@ -49,13 +50,18 @@ class TableEntryAdmin extends Component {
                     users: userBO,
                     lastname: userBO.getName(),
                     firstname: userBO.getFirstname(),
-                    loaded: true,
+                    loadingInProgress: false,
                     error: null
                 }),console.log(this.state.users)).catch(e =>
                     this.setState({
                         users: [],
+                         loadingInProgress: false,
                         error: e
-                    }))
+                    }));
+                this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
     }
 
     getProjectType = () => {
@@ -63,13 +69,18 @@ class TableEntryAdmin extends Component {
         .then(projecttypeBO =>
             this.setState({
             projecttypeName: projecttypeBO.getName(),
-            loaded:true,
+            loadingInProgress: false,
             error: null
             })). catch(e =>
             this.setState({
                 projecttypeName: [],
+                loadingInProgress: false,
                 error: e
-            }))
+            }));
+        this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
     }
 
     handleClick = () =>{
@@ -107,7 +118,7 @@ class TableEntryAdmin extends Component {
 
 
         const {classes}= this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex, buttonText, loadingInProgress} = this.state;
 
         return (
 
@@ -130,6 +141,7 @@ class TableEntryAdmin extends Component {
                     </Grid>
                     
                     </Grid>
+                   <LoadingProgress show={loadingInProgress} />
             </Grid>
 
         )

@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryButtonAdmin from './TableEntryButtonAdmin';
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -31,6 +32,7 @@ constructor(props) {
             deletingError: null,
             loaded: null,
             activeIndex: null,
+            loadingInProgress: false
 
 
 
@@ -53,14 +55,18 @@ constructor(props) {
             .then(ProjecttypeBO =>
                 this.setState({
                     projecttypes: ProjecttypeBO,
-                    loaded: true,
+                    loadingInProgress: false,
                     error: null
                 })).catch(e =>
                     this.setState({
                         projecttypes: [],
+                        loadingInProgress: false,
                         error: e
-                    }))
-        console.log('Projecttype ausgeführt');
+                    }));
+         this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
     }
 
 
@@ -70,13 +76,18 @@ constructor(props) {
         ElectionSystemAPI.getAPI().getProjectForState(4)
         .then(projectBO => { this.setState({
             projects: projectBO,
-            loaded: true,
+            loadingInProgress: false,
             error: null
         })}).catch(e =>
             this.setState({
                 projects:[],
+                loadingInProgress: false,
                 error: e
-        }))
+        }));
+        this.setState({
+                        loadingInProgress: true,
+                        error: null
+                    });
 
     }
 
@@ -89,7 +100,7 @@ constructor(props) {
     }
 
   render() {
-    const {projects, project} = this.state;
+    const {projects, project, loadingInProgress} = this.state;
      const {classes}= this.props;
         return (
 
@@ -130,6 +141,7 @@ constructor(props) {
                                 </Grid>
                     </Grid>
                     </Grid>
+                    <LoadingProgress show={loadingInProgress} />
              </Container>
 		    </div>
 		);

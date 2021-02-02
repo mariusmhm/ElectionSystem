@@ -11,7 +11,7 @@ import { Redirect } from 'react-router';
 import RejectedProjectsAdmin from './RejectedProjectsAdmin';
 import AdminButtonBar from './AdminButtonBar';
 import { ElectionSystemAPI } from '../../../api';
-
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 class HomeScreenAdmin extends Component {
     constructor(props) {
@@ -24,6 +24,7 @@ class HomeScreenAdmin extends Component {
             error: null,
             openDialog: false,
             duringSemester: false,
+            loadingInProgress: false
         };
     }
 
@@ -34,13 +35,20 @@ class HomeScreenAdmin extends Component {
           console.log(semesterBO.getGrading())
           if(semesterBO.getGrading() === false && semesterBO.getSubmitProjects() === false && semesterBO.getElection() === false ){
               this.setState({
+                  loadingInProgress: false,
                   duringSemester: true
               });
           }
       }).catch(e =>
               this.setState({
+                  loadingInProgress: false,
                   error: e
-              }))
+
+              }));
+      this.setState({
+        loadingInProgress: true,
+        error: null
+    });
   }
 
   componentDidMount(){
@@ -53,7 +61,7 @@ class HomeScreenAdmin extends Component {
 
   render() {
     const {classes}= this.props;
-
+    const {loadingInProgress, error} = this.state;
 
         return (
             <div className={classes.headGrid}>
@@ -61,7 +69,7 @@ class HomeScreenAdmin extends Component {
                       {this.state.duringSemester ? null
                       :
                       <div>
-                      <ListEntryNewProjectsAdmin 
+                      <ListEntryNewProjectsAdmin
                       {...this.props}
                       duringSemester={this.state.duringSemester}
                       />
@@ -79,11 +87,10 @@ class HomeScreenAdmin extends Component {
                       {...this.props}/>
 
                   <AdminButtonBar {...this.props}/>
-
-				  </Container>
+              </Container>
           </div>
-		);
-	}
+      );
+   }
 }
 
 const styles = theme => ({

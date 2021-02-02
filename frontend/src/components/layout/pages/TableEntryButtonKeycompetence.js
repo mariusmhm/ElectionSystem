@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Collapse} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, ModuleBO } from '../../../api';
+import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
@@ -32,6 +33,7 @@ class TableEntryButtonKeycompetence extends Component {
             lastname: '',
             firstname: '',
             project:'',
+            loadingInProgress: false
 
 
         };
@@ -48,14 +50,19 @@ class TableEntryButtonKeycompetence extends Component {
                     users: userBO,
                     lastname: userBO.getName(),
                     firstname: userBO.getFirstname(),
-                    loaded: true,
+                    loadingInProgress: false,
                     error: null
                 }),console.log(this.state.users)).catch(e =>
                     this.setState({
                         users: [],
-                        error: e
-                    }))
-        console.log('User ausgeführt');
+                        error: e,
+                        loadingInProgress: false
+                    }));
+                 this.setState({
+                loadingInProgress: true,
+                error: null
+        });
+
     }
 
     getProjectType = () => {
@@ -63,13 +70,18 @@ class TableEntryButtonKeycompetence extends Component {
         .then(projecttypeBO =>
             this.setState({
             projecttypeName: projecttypeBO.getName(),
-            loaded:true,
+            loadingInProgress: false,
             error: null
             })). catch(e =>
             this.setState({
                 projecttypeName: [],
+                loadingInProgress: false,
                 error: e
-            }))
+            }));
+            this.setState({
+                loadingInProgress: true,
+                error: null
+        });
     }
 
 
@@ -77,15 +89,20 @@ class TableEntryButtonKeycompetence extends Component {
         ElectionSystemAPI.getAPI().getModule(this.props.module)
                 .then(moduleBO =>
                         this.setState({
-                        moduleName: moduleBO.getName(),
-                        loaded:true,
-                        error: null
+                            moduleName: moduleBO.getName(),
+                            loadingInProgress: false,
+                            error: null
                         })). catch(e =>
-                        this.setState({
-                            moduleName: [],
-                            error: e
-                        }))
-                }
+                            this.setState({
+                                moduleName: [],
+                                error: e,
+                                loadingInProgress: false,
+                        }));
+                      this.setState({
+                        loadingInProgress: true,
+                        error: null
+        });
+     }
 
 
 
@@ -136,7 +153,7 @@ class TableEntryButtonKeycompetence extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex, buttonText} = this.state;
+        const {activeIndex, buttonText, loadingInProgress} = this.state;
 
         return (
 
@@ -158,6 +175,7 @@ class TableEntryButtonKeycompetence extends Component {
                      <Button variant ="outlined">Participations</Button>
                      </Grid>
                      </Grid>
+                     <LoadingProgress show={loadingInProgress} />
                      </Grid>
 
 
