@@ -133,9 +133,10 @@ class ProfProjectEntry extends Component {
 
     handleClickOpen = () => {
         this.props.history.push({
-            pathname: '/particpations',
+            pathname: '/professor/particpations',
             state:{
-                projectID: this.props.id
+                projectID: this.props.id,
+                projectName: this.props.name
             }
         })
  
@@ -168,12 +169,12 @@ class ProfProjectEntry extends Component {
         return (
   
  
-            <Grid container justify="flex-start" xs={12} xl={12}>
+            <Grid container justify="flex-start" xs={12} md={12}>
                    
                    
                     <Grid container justify="flex-start" xs={12}>
                         
-                        <Grid item xs={12} xl={6}>
+                        <Grid item xs={12} md={6}>
                                 
                                     <Button
                                             variant="contained"
@@ -187,9 +188,9 @@ class ProfProjectEntry extends Component {
                                 
                         </Grid>
 
-                        <Grid container xs={12} xl={6} justify="flex-end" spacing={3}>
+                        <Grid container xs={12} md={6} justify="flex-end" spacing={3}>
                             
-                            <Grid item xs={12} xl={3}>
+                            <Grid item xs={12} md={3}>
                                 <Button variant="contained" 
                                 color="primary"
                                 fullWidth 
@@ -200,7 +201,7 @@ class ProfProjectEntry extends Component {
                                 </Button>
                             </Grid>
                             
-                            <Grid item xs={12} xl={3}>
+                            <Grid item xs={12} md={3}>
                                 <Button variant="contained" disabled fullWidth>
                                 <Typography align="center" variant="subtitle1" color= {this.state.currentState === "approved" ?  'secondary' : 'primary'}>
                                     {this.state.currentState}
@@ -218,11 +219,11 @@ class ProfProjectEntry extends Component {
                 
                 <Grid xs={12} container justify="flex-end" spacing={12} >
 
-                    <Grid xs={12} xl={11} container justify="flex-start"  alignItems="flex-end">
+                    <Grid xs={12} md={11} container justify="flex-start"  alignItems="flex-end">
         
                                 <Collapse in={activeIndex === this.props.id}>
 
-                                    <Grid xs={12} xl={11} item >
+                                    <Grid xs={12} md={11} item >
 
                                         <Typography variant="h6">Kurzbeschreibung<br/></Typography>
 
@@ -230,15 +231,15 @@ class ProfProjectEntry extends Component {
 
                                     </Grid>
                                     <br/>
-                                    <Grid container justify="flex-start" xl={9} xs={9}>
-                                        <Grid item xs={3} xl={3}>
+                                    <Grid container justify="flex-start" md={9} xs={9}>
+                                        <Grid item xs={3} md={3}>
                                             <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
                                         </Grid>
-                                        <Grid item xs={3} xl={3}>
+                                        <Grid item xs={3} md={3}>
                                             <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
                                         </Grid>
-                                        <Grid container justify="flex-end" xl={3} xs={3}>
-                                            <Grid item xs={3} xl={3}>
+                                        <Grid container justify="flex-end" md={3} xs={3}>
+                                            <Grid item xs={3} md={3}>
                                                 <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
                                             </Grid>
                                         </Grid>

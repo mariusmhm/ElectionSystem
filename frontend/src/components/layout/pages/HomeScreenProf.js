@@ -106,6 +106,7 @@ class HomeScreenProf extends Component {
                             prof = {project.getProfessor()}
                             dsc = {project.getShortDescription()}
                             state = {project.getState()}
+                            {...this.props}
                         />
 
                     </Grid>

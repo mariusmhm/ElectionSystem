@@ -3,7 +3,7 @@ import {ElectionSystemAPI} from '../../../api';
 import { Button, Grid, Typography, Container } from '@material-ui/core';
 
 
-let participationid = 13;
+
 
 class ProjectReport extends React.Component {
 
@@ -12,6 +12,7 @@ class ProjectReport extends React.Component {
 
         this.state = {
             participation: null,
+            participationid: this.props.participationid,
             error: null,
             project: [],
             student: [],
@@ -50,7 +51,7 @@ class ProjectReport extends React.Component {
     
 
     getForeignKeys = () => {
-        ElectionSystemAPI.getAPI().getParticipation(this.props.participationid)
+        ElectionSystemAPI.getAPI().getParticipation(3)
         .then(participationBO => {
             this.setState({
                 participation: participationBO,
@@ -62,6 +63,7 @@ class ProjectReport extends React.Component {
             this.getProjectStats();
             this.getStudentStats();
             this.getGrade();
+            console.log('ParticipationID: '+this.props.participationid);
         }).catch(e => this.setState({
             participation: [],
             error: e
@@ -194,7 +196,7 @@ componentDidMount(){
         return (
             <div>
                 <Container maxWidth="sm">
-                    <Typography>Hello World</Typography>
+                    
                     <Grid container spacing={2}>
                         <Grid item xs={12} align="center">
                             <Typography>

@@ -43,7 +43,7 @@ class TableEntry extends Component {
             prof: null,
             ects: null,
             sws: null,
-            participationID: null,
+            participationID: this.props.participationID,
             activeIndex: null,
             select: true,
             lastname: '',
@@ -127,8 +127,13 @@ class TableEntry extends Component {
     
 
     handleClickOpen = () => {
-        
-      };
+        this.props.history.push({
+            pathname: '/project-report',
+            state:{
+                participationid: this.state.participationID
+            }
+        })
+      }
 
     handleClose = () => {
         this.setState({open: false})
