@@ -14,8 +14,8 @@ import Main from './Main';
 
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
 import HomeScreenProf from './components/layout/pages/HomeScreenProf';
-import HomeScreenCompOne from './components/layout/pages/HomeScreenCompOne';
-import HomeScreenCompTwo from './components/layout/pages/HomeScreenCompTwo';
+import HomeScreenStudent from './components/layout/pages/HomeScreenStudent';
+
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
 import ProjectReport from './components/layout/pages/ProjectReport';
 import Header from './components/layout/Header';
@@ -211,8 +211,8 @@ class App extends Component {
 						render={props =>(
 							<>
 							<Header {...props}/>
-							<HomeScreenCompOne {...props} />
-							<HomeScreenCompTwo {...props} />
+							<HomeScreenStudent {...props} />
+							
 							</>
 						)}
 						/>
