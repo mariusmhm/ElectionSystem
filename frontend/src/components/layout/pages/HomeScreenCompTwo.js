@@ -204,7 +204,7 @@ class HomeScreenCompTwo extends Component {
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
                                                         grading = {participations.find(ptpID => ptpID.project_id === project.getID()).grading_id}
-                                                        cUser = {this.state.cUser}
+                                                        cUser = {this.props.cUser}
                                                         {...this.props}
                                                     />
                                                     

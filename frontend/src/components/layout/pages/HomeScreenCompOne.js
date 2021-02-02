@@ -191,7 +191,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        cUser = {this.state.cUser}
+                                                        cUser = {this.props.cUser}
                                                           
                                                     />
                                                     <Divider/>
@@ -249,7 +249,7 @@ class HomeScreenCompOne extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
-                                            cUser = {this.state.cUser}
+                                            cUser = {this.props.cUser}
                                             
                                         />
                                         <Divider/>
