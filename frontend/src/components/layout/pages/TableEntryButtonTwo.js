@@ -117,18 +117,18 @@ class TableEntryButtonTwo extends Component {
         const {activeIndex} = this.state;
 
         return (
-           <Grid container  justify="flex-start"  xs={12} xl={12} className={classes.grid}>
-                 <Grid container justify="flex-start" xs={12} className={classes.grid}>
+           <Grid container  justify="flex-start"  xs={12} xl={12}>
+                 <Grid container justify="flex-start" xs={12}>
                     <Grid item xs={3} md={3}>
                         {this.props.name}
                     </Grid>
                     <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.lastname: null}, {this.state.loaded ? this.state.firstname: null}
                     </Grid>
-                     <Grid item xs={3} md={2}>
+                     <Grid item xs={3} md={3}>
                         {this.state.loaded ? this.state.projecttypeName: null}
                      </Grid>
-                    <Grid item xs={3} md={4}>
+                    <Grid item xs={3} md={3}>
                             <Button variant ="outlined" onClick={this.handleClick} >Edit </Button>
                     </Grid>
                           

@@ -36,6 +36,12 @@ class Registration extends Component {
             error: null,
             value: ''
         };
+        if (firebase.auth().currentUser != null) {
+            //this.state.name = firebase.auth().currentUser.displayName;
+            this.state.mail = firebase.auth().currentUser.email;
+            this.state.googleID = firebase.auth().currentUser.uid;
+              
+        }
         
     }
 

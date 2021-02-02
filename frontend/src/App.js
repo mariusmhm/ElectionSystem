@@ -23,7 +23,8 @@ import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
 import ProfileChange from './components/layout/pages/ProfileChange';
 import ProjectContent from './components/layout/pages/ProjectContent';
-import About from './components/layout/pages/About';
+import About from './components/About';
+import ProjectUpdateAdmin from './components/layout/pages/ProjectUpdateAdmin';
 
 
 firebase.initializeApp(firebaseConfig);

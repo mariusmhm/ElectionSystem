@@ -1,29 +1,20 @@
-import React from 'react'
-import { makeStyles, Paper, Typography, Link } from '@material-ui/core';
+import React, {Component} from 'react'
+import { withStyles, Paper, Typography, Link } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
-  },
-  content: {
-    margin: theme.spacing(1),
-  }
-}));
 
 /**
  * Shows the about page with the impressum, authors and other information.
  *
 
  */
-function About() {
+class About extends Component{
 
-  const classes = useStyles();
+  render(){
+
+  const { classes} = this.props;
 
   return (
-    <Paper variant="outlined" square />
+    <Paper variant="outlined" square >
       <div>
         <Typography variant='h6'>
           HDM ElectionSystem by group 8
@@ -47,4 +38,18 @@ function About() {
   )
 }
 
-export default About;
+}
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(1)
+  },
+  content: {
+    margin: theme.spacing(1),
+  }
+});
+
+export default withStyles(styles)(About);
