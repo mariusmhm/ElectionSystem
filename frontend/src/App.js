@@ -14,8 +14,8 @@ import Main from './Main';
 
 import HomeScreenAdmin from './components/layout/pages/HomeScreenAdmin';
 import HomeScreenProf from './components/layout/pages/HomeScreenProf';
-import HomeScreenCompOne from './components/layout/pages/HomeScreenCompOne';
-import HomeScreenCompTwo from './components/layout/pages/HomeScreenCompTwo';
+import HomeScreenStudent from './components/layout/pages/HomeScreenStudent';
+
 import EntryListAdmin from './components/layout/pages/EntryListAdmin';
 import ProjectReport from './components/layout/pages/ProjectReport';
 import Header from './components/layout/Header';
@@ -23,7 +23,7 @@ import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
 import ProfileChange from './components/layout/pages/ProfileChange';
 import ProjectContent from './components/layout/pages/ProjectContent';
-import About from './components/About';
+import About from './components/layout/pages/About';
 import ProjectUpdateAdmin from './components/layout/pages/ProjectUpdateAdmin';
 
 
@@ -207,12 +207,32 @@ class App extends Component {
 						/>
 						<Route
 						exact
+						path={"/admin/about"}
+						render={props => (
+							<>
+							<HeaderAdmin {...props}/>
+							<About {...props} />
+							</>
+						)}
+						/>
+						<Route
+						exact
 						path={"/student"}
 						render={props =>(
 							<>
 							<Header {...props}/>
-							<HomeScreenCompOne {...props} />
-							<HomeScreenCompTwo {...props} />
+							<HomeScreenStudent {...props} />
+							
+							</>
+						)}
+						/>
+						<Route
+						exact
+						path={"/studnet/about"}
+						render={props => (
+							<>
+							<Header {...props}/>
+							<About {...props} />
 							</>
 						)}
 						/>
