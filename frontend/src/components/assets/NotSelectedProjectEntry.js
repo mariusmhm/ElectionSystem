@@ -44,7 +44,7 @@ class TableEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 2,
+            cUser: null,
             buttoncounter:0
             
 
@@ -112,11 +112,11 @@ class TableEntry extends Component {
       }
 
     addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.state.student, this.props.id);
+        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.props.cUser, this.props.id);
         newParticipation.setDate(this.state.creationDate)
         newParticipation.setPriority(this.state.priority)
         newParticipation.setProjectID(this.props.id)
-        newParticipation.setStudentID(this.state.student)
+        newParticipation.setStudentID(this.props.cUser)
         ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
             console.log(newParticipation)
     

@@ -14,11 +14,12 @@ import NotSelectedProjectEntry from '../../assets/NotSelectedProjectEntry';
 import SelectedProjectEntry from '../../assets/SelectedProjectEntry';
 
 
+
 class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentUser: 2,
+            cUser: this.props.history.location.state.cUser,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -43,7 +44,7 @@ class HomeScreenCompOne extends Component {
         };
 
         this.baseState = this.state;
-       
+        
     }
 
     getAllProjecttypes = () => {
@@ -53,7 +54,8 @@ class HomeScreenCompOne extends Component {
                     projecttypes: ProjecttypeBO,
                     projecttypeLoaded: true,
                     error: null
-                })).catch(e =>
+                }))
+                .catch(e =>
                     this.setState({
                         projecttypes: [],
                         error: e
@@ -63,7 +65,7 @@ class HomeScreenCompOne extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.currentUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -129,15 +131,24 @@ class HomeScreenCompOne extends Component {
 
 
     }
+
+    getUser(){
+        this.setState({currentUser: this.props.history.location.state.cUser}) 
+    }
+
+    
     
     reload (){
         window.location.reload(false)
     }
 
     componentDidMount() {
-        
+        ///this.getUser();
         this.getParticipationsForStudent(); 
         this.getAllProjecttypes(); 
+        
+       
+        
    
     }
 
@@ -149,6 +160,8 @@ class HomeScreenCompOne extends Component {
 
     render() {
         const { projects, participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
+        console.log("USER FOUND: " +  this.props.history.location.state.cUser)
+        console.log("cUser in Home: " + this.state.cUser)
 
 
 
@@ -182,6 +195,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
+                                                        cUser = {this.state.cUser}
                                                           
                                                     />
                                                     <Divider/>
@@ -239,6 +253,7 @@ class HomeScreenCompOne extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
+                                            cUser = {this.state.cUser}
                                             
                                         />
                                         <Divider/>

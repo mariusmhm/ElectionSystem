@@ -95,7 +95,7 @@ class Main extends Component {
             this.props.history.push({
                 pathname: '/student',
                 state:{
-                    cUser: this.state.cUser
+                    cUser: this.state.cUser.getID()
                 }
             })
 
@@ -110,7 +110,7 @@ class Main extends Component {
     }
 
     render(){
-
+        
         return(
             <div>
                 <Router basename={process.env.PUBLIC_URL}>
