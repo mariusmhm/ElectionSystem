@@ -55,7 +55,8 @@ class HomeScreen extends Component {
                  <CssBaseline />
 
                   <Container maxWidth="MD">
-                      {election ? <HomeScreenCompOne/> : <HomeScreenCompTwo/>}
+                      {election ? <HomeScreenCompOne cUser = {this.props.history.location.state.cUser} />  
+                      : <HomeScreenCompTwo cUser = {this.props.history.location.state.cUser}/>}
                       
                       
                       

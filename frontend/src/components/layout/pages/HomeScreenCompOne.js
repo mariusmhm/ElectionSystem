@@ -19,7 +19,7 @@ class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cUser: this.props.history.location.state.cUser,
+            cUser: null,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -65,7 +65,7 @@ class HomeScreenCompOne extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.props.cUser)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -160,8 +160,7 @@ class HomeScreenCompOne extends Component {
 
     render() {
         const { projects, participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
-        console.log("USER FOUND: " +  this.props.history.location.state.cUser)
-        console.log("cUser in Home: " + this.state.cUser)
+     
 
 
 
