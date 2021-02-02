@@ -42,6 +42,12 @@ class Header extends Component {
     firebase.auth().signOut();
   }
 
+  onClickAbout = () => {
+      this.props.history.push({
+            pathname:"/admin/about"
+        })
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -61,6 +67,9 @@ class Header extends Component {
             </Button>
             <Button color="inherit" >
               Projects Overview
+            </Button>
+            <Button color="inherit" onClick={this.onClickAbout}>
+              About
             </Button>
             <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
               Log out

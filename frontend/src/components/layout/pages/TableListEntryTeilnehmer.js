@@ -8,6 +8,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LoadingProgress from '../../dialogs/LoadingProgress';
+
 
 
 
@@ -19,7 +21,7 @@ class TableListEntryTeilnehmer extends Component {
             priority: '',
             updatingError: null,
             deletingError: null,
-            loaded: false,
+            loaded: null,
             id: null,
             del: false,
             firstname:null,
@@ -31,6 +33,7 @@ class TableListEntryTeilnehmer extends Component {
             select: true,
             lastname: '',
             gradingIdForSelect:null,
+            loadingInProgress: false,
             priority:'',
             gradingPeriod:null,
             semester:{},
@@ -56,12 +59,13 @@ class TableListEntryTeilnehmer extends Component {
         .then(gradingBOs =>
             this.setState({
                 gradings: gradingBOs,
-                loaded: true,
+                loadingInProgress: false,
                 error: null
             })).catch(e =>
                 this.setState({
                     gradings:[],
-                    error: e
+                    error: e,
+                    loadingInProgress: false,
                 }))
 
     }
@@ -210,6 +214,7 @@ class TableListEntryTeilnehmer extends Component {
         const { classes } = this.props;
         const {activeIndex, buttonText} = this.state;
         const { gradings, error, students} = this.state;
+        const {projects, loadingInProgress} = this.state;
 
 
 
@@ -258,6 +263,7 @@ class TableListEntryTeilnehmer extends Component {
                     </Grid>
                     <Grid/>
                 </Grid>
+                 <LoadingProgress show={loadingInProgress} />
             </Container>
         )
     }

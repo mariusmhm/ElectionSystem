@@ -23,7 +23,7 @@ import HeaderAdmin from './components/layout/HeaderAdmin';
 import HeaderProf from './components/layout/HeaderProf';
 import ProfileChange from './components/layout/pages/ProfileChange';
 import ProjectContent from './components/layout/pages/ProjectContent';
-import About from './components/About';
+import About from './components/layout/pages/About';
 import ProjectUpdateAdmin from './components/layout/pages/ProjectUpdateAdmin';
 
 
@@ -207,12 +207,32 @@ class App extends Component {
 						/>
 						<Route
 						exact
+						path={"/admin/about"}
+						render={props => (
+							<>
+							<HeaderAdmin {...props}/>
+							<About {...props} />
+							</>
+						)}
+						/>
+						<Route
+						exact
 						path={"/student"}
 						render={props =>(
 							<>
 							<Header {...props}/>
 							<HomeScreenStudent {...props} />
 							
+							</>
+						)}
+						/>
+						<Route
+						exact
+						path={"/studnet/about"}
+						render={props => (
+							<>
+							<Header {...props}/>
+							<About {...props} />
 							</>
 						)}
 						/>
