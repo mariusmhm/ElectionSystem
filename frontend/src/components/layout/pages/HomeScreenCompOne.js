@@ -132,9 +132,7 @@ class HomeScreenCompOne extends Component {
 
     }
 
-    getUser(){
-        this.setState({currentUser: this.props.history.location.state.cUser}) 
-    }
+    
 
     
     
@@ -143,7 +141,6 @@ class HomeScreenCompOne extends Component {
     }
 
     componentDidMount() {
-        ///this.getUser();
         this.getParticipationsForStudent(); 
         this.getAllProjecttypes(); 
         

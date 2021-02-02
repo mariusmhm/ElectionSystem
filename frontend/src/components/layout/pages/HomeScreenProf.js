@@ -11,7 +11,7 @@ class HomeScreenProf extends Component {
         super(props)
         this.state = {
             loaded: false,
-            user: 1,
+            cUser: null,
             projects: [],
             profProjects: [],
             deliverDate: null,
@@ -65,7 +65,7 @@ class HomeScreenProf extends Component {
         
         this.state.projects.forEach(project=> {
 
-            if(project.getProfessor() === this.state.user){
+            if(project.getProfessor() === this.props.cUser){
                 
                 this.setState(prev => ({
                     profProjects: [...prev.profProjects, project]
