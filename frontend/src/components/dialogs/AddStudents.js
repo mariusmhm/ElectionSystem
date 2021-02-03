@@ -117,7 +117,7 @@ class AddStudents extends Component {
                 <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}>
                 
                 <Grid item>
-                    <Button variant="outlined" color="secondary" onClick={this.props.closeAddStudentDialog}>Cancel</Button>
+                    <Button variant="outlined" color="primary" onClick={this.props.closeAddStudentDialog}>Cancel</Button>
                 
                 </Grid>
                 <Grid item>

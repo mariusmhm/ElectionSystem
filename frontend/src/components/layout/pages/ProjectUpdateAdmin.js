@@ -30,17 +30,19 @@ class ProjectUpdateAdmin extends Component {
 
       this.state = {
         allStates:[],
+        stateSelected: this.props.history.location.state.project.current_state_id,
         project: this.props.history.location.state.project,
         projectname: this.props.history.location.state.project.name,
         modules: [],
-        moduleSelected: null,
+        moduleSelected: this.props.history.location.state.project.module_id,
         edvNumber: this.props.history.location.state.project.edv_number,
         projecttypes: [],
-        projecttype: {},
-        ptSelected: null,
+        projecttype: this.props.history.location.state.ptype,
+        ptSelected: this.props.history.location.state.project.projecttype_id,
         numSpots: this.props.history.location.state.project.num_spots,
         professors: [],
-        additionalProf: null,
+        professor: this.props.history.location.state.project.professor_id,
+        additionalProf: this.props.history.location.state.project.add_professor_id,
         weekly: this.props.history.location.state.project.weekly,
         specialRoom: this.props.history.location.state.project.special_room,
         desiredRoom: this.props.history.location.state.project.room_desired,
@@ -52,6 +54,7 @@ class ProjectUpdateAdmin extends Component {
         dateDuringLecture: this.props.history.location.state.project.date_blockdays_during_lecture,
         numBlockdaysInExam: this.props.history.location.state.project.num_blockdays_in_exam,
         error: null,
+        showETCS: true,
         spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
             15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
             28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
@@ -102,10 +105,25 @@ class ProjectUpdateAdmin extends Component {
                 }))
     }
 
+    getUsersForRole = () => {
+        ElectionSystemAPI.getAPI().getUserForRole(3)
+        .then(userBOs =>{
+            this.setState({
+                professors: userBOs,
+                error: null
+            });
+        }).catch(e =>
+                this.setState({
+                    professors:[],
+                    error: e
+                }))
+    }
+
     componentDidMount(){
         this.getAllProjecttypes();
         this.getAllModules();
         this.getStates();
+        this.getUsersForRole();
     }
 
     selectHandleChangeProjecttype = (e) =>{
@@ -162,6 +180,44 @@ class ProjectUpdateAdmin extends Component {
  
     }
 
+    // Add a new Project
+    updateProject = () => {
+        let newProject = this.state.project;
+        newProject.setName(this.state.projectname);
+        newProject.setModule(this.state.moduleSelected);
+        newProject.setProjecttype(this.state.ptSelected);
+        newProject.setNumSpots(this.state.numSpots);
+        newProject.setAddProfessor(this.state.additionalProf);
+        newProject.setEdvNumber(this.state.edvNumber);
+        newProject.setShortDescription(this.state.shortDescription);
+        newProject.setState(this.state.stateSelected);
+        newProject.setLanguage(this.state.language);
+        newProject.setProfessor(this.state.professor);
+        newProject.setExternalPartner(this.state.externalPartner);
+        newProject.setWeekly(this.state.weekly);
+        newProject.setSpecialRoom(this.state.specialRoom);
+        if(this.state.desiredRoom===null){
+            newProject.setRoomDesired("");
+        }else{
+            newProject.setRoomDesired(this.state.desiredRoom);
+        }
+        if(this.state.numBlockdaysInExam === null){
+            newProject.setNumBlockDaysInExam(0);
+        }else{
+            newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
+        }
+        newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
+        newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
+        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
+        console.log(JSON.stringify(newProject));
+
+        ElectionSystemAPI.getAPI().updateProject(newProject).then(projectBO => {
+            this.showETCS = false;
+            this.setState(this.baseState);
+
+        }).catch(e => console.log(e))
+    }
+
      render(){
         const { classes } = this.props; 
         
@@ -185,7 +241,7 @@ class ProjectUpdateAdmin extends Component {
                     <Grid item xs={9} md={4}>
                         <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                             <InputLabel>Revalue</InputLabel>
-                            <Select name="newState" defaultValue="" label="revalue" onChange={this.handleSelectChange}>
+                            <Select name="stateSelected" defaultValue={this.state.stateSelected} label="revalue" onChange={this.handleSelectChange}>
                                 {this.state.allStates.map((state) => (
                                         <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
                                     ))}
@@ -199,7 +255,7 @@ class ProjectUpdateAdmin extends Component {
                     <Grid item>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
-                            <Select name="moduleSelected" defaultValue="moduleSelected" label="Module" onChange={this.handleSelectChange}>
+                            <Select name="moduleSelected" defaultValue={this.state.moduleSelected} label="Module" onChange={this.handleSelectChange}>
                                 {this.state.modules.map((module) => (
                                         <MenuItem key={module.getID()} value={module.getID()}>{module.getName()}</MenuItem>
                                     ))}
@@ -212,7 +268,7 @@ class ProjectUpdateAdmin extends Component {
                     <Grid item>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
-                                <Select label="Projecttype" defaultValue="" onChange={this.selectHandleChangeProjecttype}>
+                                <Select label="Projecttype" defaultValue={this.state.ptSelected} onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
                                         <MenuItem key={index} value={index}>{ptype.getName()}</MenuItem>
                                     ))}
@@ -221,16 +277,16 @@ class ProjectUpdateAdmin extends Component {
                     </Grid>
                     <Grid container item justify="space-between">
                         <Grid item>
-                            <Typography>ETCS: {this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
+                            <Typography>ETCS: {this.state.showETCS === true ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
-                            <Typography>SWS: {this.showETCS ? this.state.projecttype.getSws() : null}</Typography>
+                            <Typography>SWS: {this.state.showETCS === true ? this.state.projecttype.getSws() : null}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of spots</InputLabel>
-                            <Select name="numSpots" defaultValue="" label="Number of spots" onChange={this.handleSelectChange}>
+                            <Select name="numSpots" defaultValue={this.state.numSpots} label="Number of spots" onChange={this.handleSelectChange}>
                             {this.state.spots.map((number, index) => (
                                         <MenuItem key={index} value={number}>{number}</MenuItem>
                                     ))}
@@ -239,18 +295,30 @@ class ProjectUpdateAdmin extends Component {
                     </Grid>
                     <Grid item>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
-                        <InputLabel>Additional professors</InputLabel>
-                            <Select name="additionalProf" defaultValue="" label="Additional professors" onChange={this.handleSelectChange}>
+                        <InputLabel>Professor</InputLabel>
+                            <Select name="professor" defaultValue={this.state.professor} label="Professor" onChange={this.handleSelectChange}>
                                 {this.state.professors.map((prof) => (
                                         <MenuItem key={prof.getID()} value={prof.getID()}>{prof.getFirstname()} {prof.getName()}</MenuItem>
                                     ))}
                             </Select>
                         </FormControl>
                     </Grid>
+                    { this.state.additionalProf !== null ? 
+                    <Grid item>
+                    <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Additional professors</InputLabel>
+                            <Select name="additionalProf" defaultValue={this.state.additionalProf} label="Additional professors" onChange={this.handleSelectChange}>
+                                {this.state.professors.map((prof) => (
+                                        <MenuItem key={prof.getID()} value={prof.getID()}>{prof.getFirstname()} {prof.getName()}</MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    : null}
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
-                            <Select name="language" defaultValue="" label="language" onChange={this.handleSelectChange}>
+                            <Select name="language" defaultValue={this.state.language} label="language" onChange={this.handleSelectChange}>
                                 <MenuItem value="german">german</MenuItem>
                                 <MenuItem value="english">english</MenuItem>
                             </Select>
@@ -291,7 +359,7 @@ class ProjectUpdateAdmin extends Component {
                         <Typography>Blockdays prior to semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of blockdays</InputLabel>
-                            <Select name="numBlockdaysPriorLecture" defaultValue="" label="Number of blockdays" onChange={this.handleSelectChange}>
+                            <Select name="numBlockdaysPriorLecture" defaultValue={this.state.numBlockdaysPriorLecture} label="Number of blockdays" onChange={this.handleSelectChange}>
                                 <MenuItem value={null}>none</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
@@ -303,7 +371,7 @@ class ProjectUpdateAdmin extends Component {
                         <Typography>Blockdays during the semester:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of blockdays</InputLabel>
-                            <Select name="numBlockdaysDuringLecture" defaultValue="" label="Number of blockdays" onChange={this.handleSelectChange}>
+                            <Select name="numBlockdaysDuringLecture" defaultValue={this.state.numBlockdaysDuringLecture} label="Number of blockdays" onChange={this.handleSelectChange}>
                                 <MenuItem value={null}>none</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
@@ -331,7 +399,7 @@ class ProjectUpdateAdmin extends Component {
                         <Typography>Blockdays during exam week:</Typography>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of blockdays</InputLabel>
-                            <Select name="numBlockdaysInExam" defaultValue="" label="Number of blockdays" onChange={this.handleSelectChange}>
+                            <Select name="numBlockdaysInExam" defaultValue={this.state.numBlockdaysInExam} label="Number of blockdays" onChange={this.handleSelectChange}>
                                 <MenuItem value={null}>none</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
                                 <MenuItem value={2}>2</MenuItem>
@@ -342,7 +410,7 @@ class ProjectUpdateAdmin extends Component {
 
                     
                     <Grid item>
-                        <Button variant="contained" color="primary" >Submit</Button>
+                        <Button variant="contained" color="primary" onClick={this.updateProject}>Submit</Button>
                     </Grid>
                    
                     

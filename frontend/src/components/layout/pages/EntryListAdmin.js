@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { TextField, Button, Grid, Typography, Container, Divider} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
-import {ElectionSystemAPI, GradingBO, StudentBO, ParticipationBO} from '../../../api';
+import {ElectionSystemAPI, ProjectBO, StudentBO, ParticipationBO} from '../../../api';
 import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
 import AddStudents from '../../dialogs/AddStudents';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -85,6 +85,23 @@ getStudentByParticipations = () => {
         this.getStudentByParticipations();
     }
 
+    handleClick = () =>{
+        this.props.history.push({
+            pathname: '/admin'
+        })
+ 
+     }
+
+    updateProject = () => {
+        // clone original semester, in case the backend call fails
+        let updatedProject = Object.assign(new ProjectBO(), this.props.history.location.state.project); //eventuell raus nehehmen
+        // set the new attributes from our dialog
+        updatedProject.setState(4);
+        console.log(JSON.stringify(updatedProject));
+        ElectionSystemAPI.getAPI().updateProject(updatedProject).catch(e => console.log(e));
+
+    } 
+
 
     removeStudent(studentid){
         //delete methode hinzufügen weil beim neu laden muss das projekt ja weg sein
@@ -108,7 +125,7 @@ getStudentByParticipations = () => {
                     projectID ={this.props.history.location.state.projectID}
               />
                 <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
-                <Button> <ArrowBackIosIcon /> </Button>
+                <Button onClick={this.handleClick}> <ArrowBackIosIcon /> </Button>
                     <Typography variant="h6" color="secondary" className={classes.redHeader}> Participants </Typography>
                 </Grid>
                  <Grid container justify="Center" maxwidth="xl" className={classes.grid} >
@@ -194,7 +211,7 @@ getStudentByParticipations = () => {
                                     color="secondary"
                                     color="gray"
                                     size="large"
-                                    onClick={this.updateGrade}>
+                                    onClick={this.updateProject}>
                                         GRADING COMPLETED
                                 </Button>
                         </Grid>

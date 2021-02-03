@@ -90,7 +90,8 @@ class TableEntryAdmin extends Component {
            pathname: '/admin/particpations',
            state:{
                projectID: this.props.pd,
-               projectName: this.props.name
+               projectName: this.props.name,
+               project: this.props.project
            }
        })
 

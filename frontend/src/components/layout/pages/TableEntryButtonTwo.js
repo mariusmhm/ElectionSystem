@@ -39,7 +39,8 @@ class TableEntryButtonTwo extends Component {
             firstname: '',
             priority: 0,
             duringSemester: false,
-            loadingInProgress: false
+            loadingInProgress: false,
+            ptype: {},
 
             
         };
@@ -76,6 +77,7 @@ class TableEntryButtonTwo extends Component {
         .then(projecttypeBO =>
             this.setState({
             projecttypeName: projecttypeBO.getName(),
+            ptype: projecttypeBO,
             loadingInProgress: false,
             error: null
             })). catch(e =>
@@ -97,6 +99,7 @@ class TableEntryButtonTwo extends Component {
             pathname: '/admin/project-edit',
             state:{
                 project: this.props.project,
+                ptype: this.state.ptype
             }
         })
 
