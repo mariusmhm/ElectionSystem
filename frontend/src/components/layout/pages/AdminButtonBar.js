@@ -192,12 +192,12 @@ class AdminButtonBar extends Component {
                                     open={Boolean(this.state.mobileAnchorEl)}
                                     onClose={this.handleMobileClose}
                                 >
-                                    <MenuItem onClick={() => this.openProjecttype()}>Edit project types</MenuItem>
-                                    <MenuItem onClick={() => this.openModule()}>Edit modules</MenuItem>
-                                    <MenuItem onClick={() => this.openGrading()}>Edit Grades</MenuItem>
-                                    <MenuItem onClick={() => this.openKeyCom()}>Add key competence</MenuItem>
-                                    <MenuItem onClick={() => this.openDialog()}>Edit semester</MenuItem>
-                                    <MenuItem onClick={() => this.openProject()}>Add project</MenuItem>
+                                    <MenuItem onClick={() => {this.openProjecttype(); this.handleMobileClose()}}>Edit project types</MenuItem>
+                                    <MenuItem onClick={() => {this.openModule(); this.handleMobileClose()}}>Edit modules</MenuItem>
+                                    <MenuItem onClick={() => {this.openGrading(); this.handleMobileClose()}}>Edit Grades</MenuItem>
+                                    <MenuItem onClick={() => {this.openKeyCom(); this.handleMobileClose()}}>Add key competence</MenuItem>
+                                    <MenuItem onClick={() => {this.openDialog(); this.handleMobileClose()}}>Edit semester</MenuItem>
+                                    <MenuItem onClick={() => {this.openProject(); this.handleMobileClose()}}>Add project</MenuItem>
                                 </Menu>
                             </Box>
                         </Toolbar>

@@ -105,7 +105,7 @@ class GradingEditingDialog extends Component {
                 <Grid item xs={12}>
                     <Typography align="center" color="secondary">Add Grade</Typography>
                 </Grid>
-                <Grid item xs={3} align="center">
+                <Grid item xs={4} align="center">
                     <TextField fullWidth
                         variant="outlined"
                         id="grade"
@@ -114,7 +114,7 @@ class GradingEditingDialog extends Component {
                         onChange={this.handleTextFieldChange}
                         value={this.state.grade} />
                 </Grid>
-                <Grid item>
+                <Grid item xs={2}>
                     <Button variant="contained" color="primary"  onClick={this.addGrade}>Add</Button>
                 </Grid>
             </Grid>
@@ -142,10 +142,10 @@ class GradingEditingDialog extends Component {
                 </Grid>
                 <Grid container direction="row" justify="center" alignItems="center" spacing={2} className={classes.button}>
                     <Grid item>
-                        <Button variant="outlined" color="secondary" onClick={this.props.closeGrading}>Cancel</Button>
+                        <Button variant="outlined" color="primary" onClick={this.props.closeGrading}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeGrading}>Okay</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeGrading}>Done</Button>
                     </Grid>
                 </Grid>
                 

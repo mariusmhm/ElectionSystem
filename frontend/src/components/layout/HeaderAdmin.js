@@ -26,9 +26,15 @@ class HeaderAdmin extends Component {
   }
 
   navigateProfile = () => {
-    //this.props.history.push({
-    //  pathname: '/admin/profile',
-    //})
+    this.props.history.push({
+      pathname: '/admin/profile',
+    })
+  }
+
+  navigateHome = () => {
+    this.props.history.push({
+      pathname: '/admin',
+    })
   }
 
   handleMobileMenu = (event) => {
@@ -65,16 +71,10 @@ class HeaderAdmin extends Component {
             ELECTION SYSTEM
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
-            <Button color="inherit" >
-              New Projects
+            <Button color="inherit" onClick={this.navigateHome}>
+              Home
             </Button>
-            <Button color="inherit" >
-              Current Semester
-            </Button>
-            <Button color="inherit" >
-              Archieved Projects
-            </Button>
-            <Button color="inherit" onClick={this.navigateProfile()} >
+            <Button color="inherit" onClick={this.navigateProfile} >
               Profile
             </Button>
             <Button color="inherit" onClick={this.onClickAbout}>
@@ -101,10 +101,10 @@ class HeaderAdmin extends Component {
               open={Boolean(this.state.mobileAnchorEl)}
               onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleMobileClose}>New Projects</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Current Semester</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Archieved Projects</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
+              <MenuItem onClick={() => {this.navigateHome(); this.handleMobileClose()}}>Home</MenuItem>
+              <MenuItem onClick={() => {this.navigateProfile(); this.handleMobileClose()}}>Profil</MenuItem>
+              <MenuItem onClick={() => {this.onClickAbout(); this.handleMobileClose()}}>About</MenuItem>
+              <MenuItem onClick={() => {this.handleSignOutButtonClicked(); this.handleMobileClose()}}>Logout</MenuItem>
             </Menu>
             </Box>
           </Toolbar>

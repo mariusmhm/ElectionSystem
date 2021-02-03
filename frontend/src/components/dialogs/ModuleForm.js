@@ -146,14 +146,12 @@ class ModuleForm extends Component {
                     <Button variant="contained" color="primary" onClick={this.addModule}>Add</Button>
                 </Grid>
 
-
-
                 <Grid container row={true} justify="center" alignItems="center" spacing={2} className={classes.button}>
                     <Grid item>
-                        <Button variant="outlined" color="primary" onClick={this.props.closeDialog}>Cancel</Button>
+                        <Button variant="outlined" color="primary" onClick={this.props.closeModule}>Cancel</Button>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={this.props.closeModule}>OKAY</Button>
+                        <Button variant="contained" color="primary" onClick={this.props.closeModule}>Done</Button>
                     </Grid>
 
                 </Grid>

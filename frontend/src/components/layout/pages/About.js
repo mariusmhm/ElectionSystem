@@ -108,7 +108,7 @@ class About extends Component {
 
         return (
             <div>
-                <Container maxWidth="MD" align ="center" className={classes.grid}>
+                <Container maxWidth="MD" align ="center" fullWidth className={classes.grid}>
                     <Grid className={classes.grid}>
                         <Typography className={classes.redHeader}>  HDM ElectionSystem for projects </Typography>
                     </Grid>
@@ -121,7 +121,7 @@ class About extends Component {
                     <Grid className={classes.grid}>
                         <Typography className={classes.greyText}> About the ElectionSystem </Typography>
                     </Grid>
-                    <Grid item xs={6}className={classes.backColor}>
+                    <Grid item xs={12} className={classes.backColor}>
                         <Typography variant="body1" >
                             The Elections system can be used by students, professors and administrators.
                             It simplifies the election process of projects at HDM.
@@ -156,14 +156,14 @@ class About extends Component {
                     </Typography>
                 </Grid>
 
-                <Grid container justify="flex-start" xs={6} md={6}>
+                <Grid container justify="flex-start" xs={12} >
 
-                    <Grid item xs={12} md ={12}className={classes.backColor}>
+                    <Grid item xs={12} md={12}className={classes.backColor}>
                         <Typography variant="button">
                             Frontend and Backend Authors
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} md={3}className={classes.backColor}>
+                    <Grid item xs={3} md={3} className={classes.backColor}>
                         <Typography>
                                 name
                         </Typography>
@@ -191,7 +191,7 @@ class About extends Component {
                 </Grid>
 
                 {this.state.rows.map((row) => (
-                    <Grid container justify="flex-start" xs={6} md={6} >
+                    <Grid container justify="flex-start" xs={12} >
                         <Grid item xs={3} md={3}className={classes.backColor}>
                             <Typography variant="body2">
                                 {row.name}
@@ -203,13 +203,13 @@ class About extends Component {
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={3} md={3}className={classes.backColor}>
+                    <Grid item xs={2} md={3}className={classes.backColor}>
                         <Typography variant="body2">
                             {row.mail}
                         </Typography>
                      </Grid>
 
-                    <Grid item xs={3} md={3}className={classes.backColor}>
+                    <Grid item xs={4} md={3}className={classes.backColor}>
                         <Typography variant="body2">
                             {row.git}
                         </Typography>
@@ -217,13 +217,13 @@ class About extends Component {
                 </Grid>
                 ))}
 
-                <Grid item xs={6} md ={6}className={classes.backColor}>
+                <Grid item xs={12}className={classes.backColor}>
                     <Typography variant="button">
                         GIT Hub project
                     </Typography>
                 </Grid>
 
-                <Grid item xs={6} md ={6}className={classes.backColor}>
+                <Grid item xs={12} className={classes.backColor}>
                     <Link href='https://github.com/muenstermannmarius/ElectionSystem'>For the github project click here</Link>
                 </Grid>
 

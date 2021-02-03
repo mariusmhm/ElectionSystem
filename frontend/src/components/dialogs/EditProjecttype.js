@@ -172,10 +172,17 @@ class EditProjecttype extends Component {
                         <TextField fullWidth variant ="outlined" label="SWS" id="sws" value={this.state.sws} onChange={this.handleNumChange}/>
                     </Grid>
                     </Grid>
+                    <Grid item>
+                    <Button type="submit" variant="contained" color="primary" onClick={this.addProjecttype} >
+                            Add
+                    </Button>
+                    </Grid>
+
+                
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
-                        <Button variant="outlined" color="secondary" onClick={this.props.closeProjecttype}>
+                        <Button variant="outlined" color="primary" onClick={this.props.closeProjecttype}>
                             Close
                         </Button>
                     </Grid>
@@ -183,8 +190,8 @@ class EditProjecttype extends Component {
                         <br/>
                     </Grid>
                     <Grid item>
-                        <Button type="submit" variant="outlined" onClick={this.addProjecttype} >
-                            Add
+                        <Button type="submit" variant="contained" color="primary" onClick={this.props.closeProjecttype} >
+                            Done
                         </Button>
                     </Grid>
             </Grid>

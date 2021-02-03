@@ -260,7 +260,10 @@ class App extends Component {
 						exact
 						path={"/admin/profile"}
 						render={props =>(
+							<>
+							<HeaderAdmin {...props}/>
 							<ProfileChange {...props} />
+							</>
 						)}
 						/>
 						
