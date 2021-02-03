@@ -78,7 +78,7 @@ class About extends Component {
             name: "Maire Zaluski",
             martriculation:38402,
             mail:"mw220",
-            git:"Marie-We"
+            git:"MarieZaluski"
 
             },
 
