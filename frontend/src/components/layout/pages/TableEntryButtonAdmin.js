@@ -68,6 +68,7 @@ class TableEntryButtonAdmin extends Component {
                     }));
                 this.setState({
                         loadingInProgress: true,
+                        loaded:true,
                         error: null
                     });
 
@@ -88,6 +89,7 @@ class TableEntryButtonAdmin extends Component {
             }));
              this.setState({
                         loadingInProgress: true,
+                        loaded:true,
                         error: null
                     });
     }

@@ -60,6 +60,7 @@ class TableEntryAdmin extends Component {
                     }));
                 this.setState({
                         loadingInProgress: true,
+                        loaded:true,
                         error: null
                     });
     }
@@ -78,8 +79,9 @@ class TableEntryAdmin extends Component {
                 error: e
             }));
         this.setState({
-                        loadingInProgress: true,
-                        error: null
+               loadingInProgress: true,
+               loaded:true,
+               error: null
                     });
     }
 
@@ -118,7 +120,7 @@ class TableEntryAdmin extends Component {
 
 
         const {classes}= this.props;
-        const {activeIndex, buttonText, loadingInProgress} = this.state;
+        const {activeIndex, buttonText, loadingInProgress, loaded} = this.state;
 
         return (
 
