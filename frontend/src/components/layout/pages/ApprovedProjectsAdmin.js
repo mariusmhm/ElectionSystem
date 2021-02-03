@@ -51,19 +51,13 @@ constructor(props) {
           console.log(project);
         }).catch(e =>
           this.setState({
-            deletingInProgress: false,
             deletingError: e
           })
         );
 
         this.setState({
           projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID()),
-          deletingInProgress: false
         });
-          this.setState({
-                deletingInProgress: true,                 // show loading indicator
-                deletingError: null                       // disable error message
-    });
   }
 
 

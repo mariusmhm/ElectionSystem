@@ -62,7 +62,7 @@ class TableEntryButtonTwo extends Component {
                         users: [],
                         loadingInProgress: false,
                         error: e
-                    }))
+                    }));
                 this.setState({
                      loadingInProgress: true,
                      error: null
@@ -83,8 +83,9 @@ class TableEntryButtonTwo extends Component {
                 projecttypeName: [],
                 loadingInProgress: false,
                 error: e
-            }))
+            }));
             this.setState({
+                 loaded:true,
                  loadingInProgress: true,
                  error: null
                  });
@@ -120,8 +121,8 @@ class TableEntryButtonTwo extends Component {
                         projects: [],
                         loadingInProgress: false,
                         error: e
-                    }))
-                 this.setState({
+                    }));
+                this.setState({
                     loadingInProgress: true,
                     error: null
                  });
@@ -132,7 +133,7 @@ class TableEntryButtonTwo extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex, loadingInProgress} = this.state;
+        const {activeIndex, loadingInProgress, loaded} = this.state;
 
         return (
            <Grid container  justify="flex-start"  xs={12} xl={12}>
