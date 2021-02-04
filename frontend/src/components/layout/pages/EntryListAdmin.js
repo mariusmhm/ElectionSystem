@@ -28,6 +28,7 @@ constructor(props){
     name: '',
     firstname:'',
     study:'',
+    project:this.props.history.location.state.project,
     id: null,
     martrikelNummer:'',
     updatingError: null,
@@ -178,6 +179,8 @@ getStudentByParticipations = () => {
                                                     id={student.getID()}
                                                     removeStudent={this.removeStudent}
                                                     pdID ={this.props.history.location.state.projectID}
+
+
                                                 />
                                             )
                                             )}

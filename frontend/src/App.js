@@ -228,7 +228,7 @@ class App extends Component {
 						/>
 						<Route
 						exact
-						path={"/studnet/about"}
+						path={"/student/about"}
 						render={props => (
 							<>
 							<Header {...props}/>
