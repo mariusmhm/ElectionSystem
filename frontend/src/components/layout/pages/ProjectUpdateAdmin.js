@@ -12,7 +12,8 @@ import {Dialog,
     Button,
     Grid,
     Box,
-    Typography} from'@material-ui/core';
+    Typography,
+    LinearProgress} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import DateFnsUtils from "@date-io/date-fns";
 import IconButton from '@material-ui/core/IconButton';
@@ -110,7 +111,7 @@ class ProjectUpdateAdmin extends Component {
         .then(userBOs =>{
             this.setState({
                 professors: userBOs,
-                error: null
+                error: null,
             });
         }).catch(e =>
                 this.setState({
@@ -180,7 +181,7 @@ class ProjectUpdateAdmin extends Component {
  
     }
 
-    // Add a new Project
+    // Updates a Project
     updateProject = () => {
         let newProject = this.state.project;
         newProject.setName(this.state.projectname);
@@ -225,8 +226,9 @@ class ProjectUpdateAdmin extends Component {
     
         return (
             <div className={classes.pageContent}>
-                
+                  
                 <Grid container spacing={2} justify="center" className={classes.grid}>
+
                     <Grid item xs={1} style={{ alignItems: 'center'}}>
                         <IconButton className={classes.arrowButton} onClick={()=>this.handleClick()}>
                             <ArrowBackIosIcon color="secondary"/> 

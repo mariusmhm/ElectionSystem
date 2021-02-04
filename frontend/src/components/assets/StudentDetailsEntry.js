@@ -76,7 +76,7 @@ class StudentDetailsEntry extends React.Component {
                         <TextField textAlign="right" id="study" value={this.state.study} onChange={this.handleChange}/>
                     </Grid>
                     <Grid item xs={1}>  
-                        <Button fullWidth color="secondary" onClick={this.handleClick}>Update</Button>
+                        <Button fullWidth variant="contained" color="primary" onClick={this.handleClick}>Update</Button>
                     </Grid>
                 </Grid>
             </div>

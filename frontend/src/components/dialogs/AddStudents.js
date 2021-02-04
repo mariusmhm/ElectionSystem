@@ -83,12 +83,6 @@ class AddStudents extends Component {
 
     }
 
-    onInputChangehandler = (e, value) =>{
-        this.setState({
-            studentSelected: value
-        }, console.log(this.state.studentSelected))
-    }
-
 
  render(){
     const { classes } = this.props;
@@ -103,7 +97,6 @@ class AddStudents extends Component {
                     <Autocomplete
                         value={this.state.studentSelected}
                         onChange={(e, value) => this.setState({ studentSelected: value})}
-                        onInputChange={this.onInputChangehandler}
                         id="search-student"
                         options={this.state.students}
                         getOptionLabel={(student) => (student.name + ' ' + student.firstname)}

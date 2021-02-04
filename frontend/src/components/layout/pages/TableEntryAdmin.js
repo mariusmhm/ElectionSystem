@@ -91,7 +91,8 @@ class TableEntryAdmin extends Component {
            state:{
                projectID: this.props.pd,
                projectName: this.props.name,
-               project: this.props.project
+               project: this.props.project,
+               prof: this.props.prof
            }
        })
 
@@ -121,7 +122,7 @@ class TableEntryAdmin extends Component {
 
 
         const {classes}= this.props;
-        const {activeIndex, buttonText, loadingInProgress, loaded} = this.state;
+        const {loadingInProgress} = this.state;
 
         return (
 

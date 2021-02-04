@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {Dialog,
-    FormControl,
     Button,
     Grid,
-    Typography,
     FormControlLabel,
     TextField,
     DialogTitle,
@@ -103,29 +101,29 @@ class Semester extends Component {
             className={classes.dialogHeader}>
                 EDIT THE SEMESTER PERIOD
         </DialogTitle>
-            <Grid container direction="column" xs={12} md={12} spacing={2} align="center" className={classes.grid}>
-                <Grid item>
+            <Grid container direction="column"  spacing={2} align="center" className={classes.grid}>
+                <Grid item xs={12}>
                     <TextField fullWidth variant="outlined" id="name" label="Name" onChange={this.handleTextFieldChange} value={this.state.name}/>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12}>
                     <FormControlLabel 
                     control={<Switch color="secondary" checked={this.state.subProjects} onChange={this.handleChangeSwitch} name="subProjects" />}
                     label="Submit Projects"
                     />
                 </Grid>
-                <Grid item align="center">
+                <Grid item align="center" xs={12}>
                 <FormControlLabel 
                     control={<Switch color="secondary" checked={this.state.grading} onChange={this.handleChangeSwitch} name="grading" />}
                     label="Grading"
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs={12}>
                     <FormControlLabel 
                     control={<Switch color="secondary" checked={this.state.election} onChange={this.handleChangeSwitch} name="election" />}
                     label="Election"
                     />
                 </Grid>
-                <Grid container direction="row" xs={12} md={12} align="center" className={classes.mGrid}>
+                <Grid container direction="row" align="center" className={classes.mGrid}>
                     <Grid item xs={6}>
                         <Button variant="outlined" color="primary" align="center" onClick={this.props.closeDialog}>
                             CANCEL

@@ -20,7 +20,7 @@ class Signin extends Component {
         return (
 		<Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid}>
 			<Grid item>
-                <Typography textColor='primary_red' variant='h4'> Hochschule der Medien</Typography>
+                <Typography color='secondary' variant='h4'> Hochschule der Medien</Typography>
 			</Grid>
 			<Grid item>
                 <Typography variant='h4'>Welcome to the ElectionSystem for HdM Projects.</Typography>

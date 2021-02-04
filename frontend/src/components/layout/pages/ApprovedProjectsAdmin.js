@@ -98,7 +98,7 @@ constructor(props) {
                     <Typography variant='h5' color="secondary" className={classes.redHeader} >THIS SEMESTER</Typography>
                     </Grid>
                     <Grid item align="flex-start" xs={12} spacing={2}>
-                    <Typography variant='h6' color="gray">Approved Projects</Typography>
+                    <Typography variant='h6' color="primary">Approved Projects</Typography>
                     </Grid>
                     <Grid container justify="flex-start" xs={12} spacing={2} className={classes.grid}>
                                  <Grid item xs={3} md={3} >
@@ -116,7 +116,7 @@ constructor(props) {
                                                 type
                                             </Typography>
                                  </Grid>
-                                 <Grid item xs={12} spacing={2}>
+                                 <Grid item container spacing={2}>
                                 {this.state.projects.map(project => (
                                             <TableEntryAdmin
                                                 {...this.props}

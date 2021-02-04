@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import {Container, Typography, Grid, Dvider, Link} from '@material-ui/core';
-import ArchivedProjectsAdmin from './ArchivedProjectsAdmin';
+import {Container, Typography, Grid, Link} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
-import ApprovedProjectsAdmin from './ApprovedProjectsAdmin';
-import ListEntryNewProjectsAdmin from './ListEntryNewProjectsAdmin';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
-import { Redirect } from 'react-router';
-import RejectedProjectsAdmin from './RejectedProjectsAdmin';
-import AdminButtonBar from './AdminButtonBar';
-import { ElectionSystemAPI } from '../../../api';
-
 
 
 class About extends Component {

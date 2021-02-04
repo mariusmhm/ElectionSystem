@@ -118,7 +118,7 @@ constructor(props) {
                                             </Typography>
                                     </Grid>
 
-                                    <Grid item xs={12} spacing={2}>
+                                    <Grid item container spacing={2}>
                                     {this.state.projects.map(project => (
                                             <TableEntryButtonTwo
                                                 {...this.props}

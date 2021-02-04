@@ -161,12 +161,12 @@ getStudentByParticipations = () => {
                                                     STUDY
                                                 </Typography>
                                     </Grid>
-                                    <Grid item xs={1} xl={2}>
+                                    <Grid item xs={1} md={2}>
                                                 <Typography variant="h6" className={classes.tableRow}>
                                                     GRADE
                                                 </Typography>
                                     </Grid>
-                                    <Grid item xs={12} xl={12}>
+                                    <Grid item xs={12} md={12}>
                                             {this.state.students.map(student => (
                                                 <TableListEntryTeilnehmer
                                                     {...this.props}
@@ -183,37 +183,32 @@ getStudentByParticipations = () => {
                                             )}
                                     </Grid>
                                     <Divider/>
-                        <Grid item container
-                            direction="column"
+                        <Grid item container 
+                            direction="row"
                             xs={12}
                             md={12}
                             spacing={2}
                             align="center"
                             className={classes.grid}>
+                                <Grid item xs={12} md={6}>
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    className={classes.button}
+                                    fullWidth
                                     onClick={() => this.openAddStudentDialog()}>
                                         ADD STUDENT
                                 </Button>
-                        </Grid>
-
-                        <Grid item container
-                            direction="column"
-                            xs={12}
-                            md={12}
-                            spacing={2}
-                            align="center"
-                            className={classes.grid}>
+                                </Grid>
+                    
+                            <Grid item xs={12} md={6}>
                                 <Button
                                     variant="contained"
-                                    color="secondary"
-                                    color="gray"
-                                    size="large"
+                                    color="primary"
+                                    fullWidth
                                     onClick={this.updateProject}>
                                         GRADING COMPLETED
                                 </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                     </Grid>

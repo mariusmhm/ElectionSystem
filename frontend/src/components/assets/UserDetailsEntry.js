@@ -73,7 +73,7 @@ class UserDetailsEntry extends React.Component {
                         <TextField textAlign="right" id="role" value={this.state.role} onChange={this.handleChange}/>
                     </Grid>
                     <Grid item xs={1}>  
-                        <Button fullWidth color="secondary" onClick={this.handleClick}>Update</Button>
+                        <Button fullWidth variant="contained" color="primary" onClick={this.handleClick}>Update</Button>
                     </Grid>
                 </Grid>
             </div>

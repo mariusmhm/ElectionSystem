@@ -65,7 +65,7 @@ class HomeScreenAdmin extends Component {
 
         return (
             <div className={classes.headGrid}>
-              <Container maxWidth="MD" align ="center" >
+              <Container maxWidth="md" align ="center" >
                       {this.state.duringSemester ? null
                       :
                       <div>

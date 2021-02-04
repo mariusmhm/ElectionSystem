@@ -96,7 +96,6 @@ class GradingEditingDialog extends Component {
     }
 
  render(){
-    const { gradings, error } = this.state;
     const { classes } = this.props;
     return(
         <Dialog open={this.props.openg} onClose={this.props.closeGrading} maxWidth='xs' fullWidth>

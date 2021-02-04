@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {  Button, Collapse } from "@material-ui/core";
+import {  Button } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
-import { Redirect } from 'react-router'
 import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import {withStyles} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -136,7 +135,7 @@ class TableEntryButtonTwo extends Component {
 
 
         const { classes } = this.props;
-        const {activeIndex, loadingInProgress, loaded} = this.state;
+        const { loadingInProgress, loaded} = this.state;
 
         return (
            <Grid container  justify="flex-start"  xs={12} xl={12}>

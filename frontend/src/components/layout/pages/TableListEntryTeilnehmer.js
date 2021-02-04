@@ -242,7 +242,6 @@ class TableListEntryTeilnehmer extends Component {
                     </Grid>
                     <Grid item xs={1} md={1}>
                         <FormControl
-                            style={{minWidth: 90}}
                             variant="outlined">
                                 <InputLabel > {this.state.labelname}</InputLabel>
                                     <Select
@@ -289,7 +288,7 @@ const styles = theme => ({
         fontFamily: 'Arial',
         fontStyle: 'bold',
         fontSize: 35,
-    },
+    }
 
 
 });

@@ -20,8 +20,6 @@ import ProjecttypeBO from '../../api/ProjecttypeBO';
 
 
 
-let open = true;
-
 class EditProjecttype extends Component {
 
   constructor(props){
