@@ -91,6 +91,17 @@ class Semester extends Component {
         })
     }
 
+    handleElection = e =>{
+        console.log("election is over");
+        console.log(this.election);
+        this.setState({
+            election:false,
+            grading:true
+        });
+        this.updateSemester(e)
+        console.log(this.election)
+        console.log(this.grading)
+    }
 
  render(){
  const { classes } = this.props;
@@ -122,6 +133,10 @@ class Semester extends Component {
                     control={<Switch color="secondary" checked={this.state.election} onChange={this.handleChangeSwitch} name="election" />}
                     label="Election"
                     />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Button variant="outlined" backgroundColor="red" onClick={this.handleElection}> evaluate election </Button>
                 </Grid>
                 <Grid container direction="row" align="center" className={classes.mGrid}>
                     <Grid item xs={6}>
