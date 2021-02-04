@@ -126,9 +126,9 @@ constructor(props) {
                                                 type = {project.getProjecttype()}
                                                 pd = {project.getID()}
                                                 duringSemester = {this.props.duringSemester}
-                                            />
+                                            />)
                                 )
-                                )}
+                                }
                         </Grid>
                     </Grid>
                 </Grid>

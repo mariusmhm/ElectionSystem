@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Container, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { Grid, Container, Button, FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, StudentBO, GradingBO, SemesterBO } from '../../../api';
+import { ElectionSystemAPI, ParticipationBO, StudentBO, GradingBO, SemesterBO, ProjectBO} from '../../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import {withStyles} from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -200,6 +200,8 @@ class TableListEntryTeilnehmer extends Component {
         this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
 
     }
+
+
 
 
     componentDidMount() {

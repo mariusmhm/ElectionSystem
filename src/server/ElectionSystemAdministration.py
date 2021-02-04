@@ -666,7 +666,7 @@ class ElectionSystemAdministration (object):
 
     # --- Election Priority Logic ---
 
-    def finish_election(self, project_id):
+    def finish_election(self):
         """
          This method determines the
          participation in the projects
@@ -675,34 +675,43 @@ class ElectionSystemAdministration (object):
 
         """
         adm = ElectionSystemAdministration()
-        project_by_id = adm.get_project_by_id(project_id)
-        old_pp = adm.get_by_project(project_id)
-        new_pp = []
-        highest_prio = 4
-        min_pp = 5
-        participation_num = project_by_id.get_num_spots()
+        projects = adm.get_project_by_state(2)
+        project_ids = []
 
-        if len(old_pp) > participation_num:
-            for pp in old_pp:
-                if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
-                    new_pp.append(pp)
-                    print("first row", pp.get_priority())
-                elif 0 < highest_prio and len(new_pp) < participation_num:
-                    new_pp.append(pp)
-                    highest_prio = highest_prio - 1
-                    print("sec row", pp.get_priority())
-            
-        elif len(old_pp) >= min_pp:
-            new_pp = old_pp
-            print("third row")
-        else:
-            print("There are not enough Participations for this Project")
+        for project in projects:
+            project_id = project.get_id()
+            project_ids.append(project_id)
 
-        for new in new_pp:
-            old_pp.remove(new)
-            adm.save_participation(new)
-            print("add row", new.get_priority())
+        for project_id in project_ids:
+            project_by_id = adm.get_project_by_id(project_id)
+            old_pp = adm.get_by_project(project_id)
+            new_pp = []
+            highest_prio = 4
+            min_pp = 2
+            participation_num = project_by_id.get_num_spots()
 
-        for old in old_pp:
-            adm.delete_participation(old)
-            print("del row", old.get_priority())
+            if len(old_pp) > participation_num:
+                for pp in old_pp:
+                    if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
+                        new_pp.append(pp)
+                        print("first row", pp.get_priority())
+                    elif 0 < highest_prio and len(new_pp) < participation_num:
+                        new_pp.append(pp)
+                        highest_prio = highest_prio - 1
+                        print("sec row", pp.get_priority())
+                
+            elif len(old_pp) >= min_pp:
+                new_pp = old_pp
+                print("third row", project_id)
+            else:
+                print("There are not enough Participations for this Project", project_id)
+
+            for new in new_pp:
+                old_pp.remove(new)
+                adm.save_participation(new)
+                print("add row", new.get_priority(), project_id)
+
+            for old in old_pp:
+                adm.delete_participation(old)
+                print("del row", old.get_priority(), project_id)
+

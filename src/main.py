@@ -1142,7 +1142,16 @@ class RoleOperations(Resource):
         adm.delete_role(r)
         return '', 200
 
-
+@electionSystem.route('/finish-election')
+@electionSystem.response(500, 'server error')
+class FinishElection(Resource):
+    def werwirdhoppsgenommenhier(self):
+        """Reads out the a specific role object by id.
+        The realization of reading out the object is by ''id'' in the URI.
+        """ 
+        adm = ElectionSystemAdministration()
+        adm.finish_election()
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
