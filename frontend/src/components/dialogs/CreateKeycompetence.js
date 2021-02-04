@@ -137,7 +137,7 @@ class CreateKeyCompetence extends Component {
         newProject.setAddProfessor(this.state.additionalProf);
         newProject.setEdvNumber(this.state.edvNumber);
         newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState(1);
+        newProject.setState(2);
         newProject.setLanguage(this.state.language);
         newProject.setProfessor(this.state.prof);
         newProject.setWeekly(false);
@@ -152,11 +152,13 @@ class CreateKeyCompetence extends Component {
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
+            this.props.closeKeyCom()
 
         }, this.propscloseKeyCom
         ).catch(e =>
             this.setState({
-                error: e
+                error: e,
+
             }))
 
     }

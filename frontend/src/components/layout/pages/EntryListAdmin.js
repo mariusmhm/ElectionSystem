@@ -95,10 +95,13 @@ getStudentByParticipations = () => {
 
     updateProject = () => {
         // clone original semester, in case the backend call fails
+        console.log(this.props.history.location.state.project)
         let updatedProject = Object.assign(new ProjectBO(), this.props.history.location.state.project); //eventuell raus nehehmen
-        // set the new attributes from our dialog
+        // set the new value for the state so it gets archived
         updatedProject.setState(4);
+
         console.log(JSON.stringify(updatedProject));
+
         ElectionSystemAPI.getAPI().updateProject(updatedProject).catch(e => console.log(e));
 
     } 
