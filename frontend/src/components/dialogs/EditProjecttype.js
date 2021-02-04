@@ -62,7 +62,6 @@ class EditProjecttype extends Component {
    }
 
    deleteProjecttypeHandler = (projecttype) => {
-        console.log(projecttype);
         ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype=> {
           console.log(projecttype);
         }).catch(e =>
@@ -144,8 +143,11 @@ class EditProjecttype extends Component {
                                           <TableCell >{projecttype.getName()} </TableCell>
                                           <TableCell >{projecttype.getEcts()} </TableCell>
                                           <TableCell >{projecttype.getSws()}</TableCell>
-                                           <TableCell><Button aria-label="delete"  variant="outlined" onClick={() => this.deleteProjecttypeHandler(projecttype)}>
-                                            <DeleteIcon fontSize="small"/></Button></TableCell>
+                                          <TableCell>
+                                                <Button aria-label="delete"  variant="outlined" onClick={() => this.deleteProjecttypeHandler(projecttype)}>
+                                            <DeleteIcon fontSize="small"/>
+                                                </Button>
+                                          </TableCell>
                                   </TableRow>
                                   ))}
                         </TableBody>
