@@ -17,18 +17,18 @@ class ProjectContent extends Component {
           projectname: '',
           projecttype: [],
           weekly:'',
-          module: [],
+          module: null,
           loaded: false,
           ptloaded: false,
           mloaded: false,
           addProfShow: false,
-          currentState:{},
+          currentState:'',
           sLoaded: false,
           edvNumber: null,
           language: null,
           aprof: null,
           apLoaded: false,
-          projecttype: this.props.history.location.state.pt
+          projecttype: this.props.history.location.state.pt,
       }
 
    }
@@ -45,13 +45,31 @@ class ProjectContent extends Component {
             }))
     }
 
+    getModule = () => {
+        ElectionSystemAPI.getAPI().getModule(this.state.project.module)
+        .then(moduleBO => {
+            this.setState({
+                module: moduleBO.getName(),
+                error: null,
+                mloaded: true,
+            });
+            console.log(this.state.module);
+            console.log('module');
+        }).catch(e =>
+                this.setState({
+                    module:[],
+                    error: e
+                }))
+    }
+
     getCurrentState = () => {
-    ElectionSystemAPI.getAPI().getState(this.state.project.getState())
+    console.log('cs wird aufgerufen');
+    ElectionSystemAPI.getAPI().getState(this.state.project.state)
     .then(state => 
         this.setState({
-            currentState: state,
+            currentState: state.getName(),
             sLoaded: true,
-        })).catch(e =>
+        }), console.log(this.state.currentState)).catch(e =>
             this.setState({
                 currentState:{},
                 error: e
@@ -68,7 +86,10 @@ class ProjectContent extends Component {
             language: projectBO.getLanguage(),
             loaded:true,
         });
-        console.log(JSON.Stringify(projectBO));
+        this.getProjecttype();
+        this.getModule();
+        this.getCurrentState();
+        console.log(JSON.stringify(projectBO));
         if(this.state.project.getAddProfessor() != null){
             this.setState({
                 addProfShow: true
@@ -84,9 +105,7 @@ class ProjectContent extends Component {
                 weekly: 'no'
             })
         }
-        this.getProjecttype();
-        this.getModule();
-        this.getCurrentState();
+        
         
     }).catch(e =>
             this.setState({
@@ -94,21 +113,6 @@ class ProjectContent extends Component {
                 error: e
             }))
     }   
-
-    getModule = () => {
-        ElectionSystemAPI.getAPI().getModule(this.state.project.getModule())
-        .then(moduleBO => {
-            this.setState({
-                module: moduleBO,
-                error: null,
-                mloaded: true,
-            })
-        }).catch(e =>
-                this.setState({
-                    module:[],
-                    error: e
-                }))
-    }
 
     handleClick = () =>{
         this.props.history.push({
@@ -143,14 +147,14 @@ class ProjectContent extends Component {
                         <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname: null}</Typography>
                     </Grid>
                    <Grid item>
-                        <Typography className={classes.state}>{ this.state.sLoaded ? this.state.currentState.name: null}</Typography>
+                        <Typography className={classes.state}>{ this.state.sLoaded ? this.state.currentState: null}</Typography>
                    </Grid>
                 </Grid>
 
             <Grid container item direction="column" spacing={2} xs={12} md={4}>
                 
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module.name : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module : null}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>EDV Number:</Box> { this.state.loaded ? this.state.edvNumber : null}</Typography>
