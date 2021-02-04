@@ -59,6 +59,12 @@ class HeaderProf extends Component {
         })
   }
 
+  navigateHome = () => {
+    this.props.history.push({
+      pathname:'/professor'
+    })
+  }
+
 
   render() {
     const { classes } = this.props;
@@ -73,14 +79,8 @@ class HeaderProf extends Component {
             ELECTION SYSTEM
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
-            <Button color="inherit">
-              My Projects
-            </Button>
-            <Button color="inherit">
-              Projects Overview
-            </Button>
-            <Button color="inherit">
-              Profile
+            <Button color="inherit" onClick={this.navigateHome}>
+              Home
             </Button>
             <Button color="inherit" onClick={this.onClickAbout}>
               About

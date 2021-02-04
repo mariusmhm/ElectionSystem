@@ -12,7 +12,7 @@ class ProjectReport extends React.Component {
 
         this.state = {
             participation: null,
-            participationid: this.props.participationid,
+            participationid: this.props.history.location.state.participationid,
             error: null,
             project: [],
             student: [],
@@ -51,7 +51,7 @@ class ProjectReport extends React.Component {
     
 
     getForeignKeys = () => {
-        ElectionSystemAPI.getAPI().getParticipation(3)
+        ElectionSystemAPI.getAPI().getParticipation(this.state.participationid)
         .then(participationBO => {
             this.setState({
                 participation: participationBO,

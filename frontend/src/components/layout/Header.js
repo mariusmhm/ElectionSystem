@@ -43,10 +43,15 @@ class Header extends Component {
 
   onClickAbout = () => {
       this.props.history.push({
-            pathname:"/admin/about"
+            pathname:"/student/about"
         })
   }
 
+  navigateHome = () => {
+    this.props.history.push({
+      pathname: '/student'
+    })
+  }
 
   render() {
     const { classes } = this.props;
@@ -61,11 +66,8 @@ class Header extends Component {
             ELECTION SYSTEM
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
-            <Button color="inherit" >
-              My Election
-            </Button>
-            <Button color="inherit" >
-              Projects Overview
+            <Button color="inherit" onClick={this.navigateHome}>
+              Home
             </Button>
             <Button color="inherit" onClick={this.onClickAbout}>
               About

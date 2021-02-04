@@ -177,6 +177,16 @@ class App extends Component {
 						/>
 						<Route 
 						exact 
+						path={"/professor"} 
+						render={props => (
+							<>
+							<HeaderProf {...props}/>
+							<HomeScreenProf {...props} />
+							</>
+						)}
+						/>
+						<Route 
+						exact 
 						path={"/professor/particpations"} 
 						render={props => (
 							<>
@@ -243,16 +253,6 @@ class App extends Component {
 							<>
 							<HeaderAdmin {...props}/>
 							<HomeScreenAdmin {...props} />
-							</>
-						)}
-						/>
-						<Route
-						exact
-						path={"/professor"}
-						render={props =>(
-							<>
-							<HeaderProf {...props}/>
-							<HomeScreenProf {...props} />
 							</>
 						)}
 						/>
