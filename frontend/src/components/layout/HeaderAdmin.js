@@ -27,12 +27,18 @@ class HeaderAdmin extends Component {
   navigateProfile = () => {
     this.props.history.push({
       pathname: '/admin/profile',
+      state: {
+        cUser: this.props.history.location.state.cUser
+      }
     })
   }
 
   navigateHome = () => {
     this.props.history.push({
       pathname: '/admin',
+      state: {
+        cUser: this.props.history.location.state.cUser
+      }
     })
   }
 
@@ -54,7 +60,10 @@ class HeaderAdmin extends Component {
 
   onClickAbout = () => {
       this.props.history.push({
-            pathname:"/admin/about"
+            pathname:"/admin/about",
+            state: {
+              cUser: this.props.history.location.state.cUser
+            }
         })
   }
 
