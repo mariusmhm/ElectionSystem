@@ -18,6 +18,13 @@ class ProjectContent extends Component {
           projecttype: [],
           weekly:'',
           module: null,
+          num_blockdays_during_lecture: null,
+          num_blockdays_prior_lecture:null,
+          num_blockdays_in_exam:null,
+          date_blockdays_during_lecture:null,
+          short_description:null,
+          room_desired:null,
+          external_partner: null,
           loaded: false,
           ptloaded: false,
           mloaded: false,
@@ -51,7 +58,7 @@ class ProjectContent extends Component {
             this.setState({
                 module: moduleBO.getName(),
                 error: null,
-                mloaded: true,
+                loaded: true,
             });
             console.log(this.state.module);
             console.log('module');
@@ -84,6 +91,16 @@ class ProjectContent extends Component {
             projectname: projectBO.getName(),
             edvNumber: projectBO.getEdvNumber(),
             language: projectBO.getLanguage(),
+            module: projectBO.getModule(),
+            num_blockdays_during_lecture: projectBO.getNumBlockDaysDuringLecture(),
+            external_partner: projectBO.getExternalPartner(),
+            room_desired: projectBO.getRoomDesired(),
+            weekly: projectBO.getWeekly(),
+            num_blockdays_prior_lecture:projectBO.getNumBlockDaysPriorLecture(),
+            short_description:projectBO.getShortDescription(),
+            num_blockdays_in_exam:projectBO.getNumBlockDaysInExam(),
+            date_blockdays_during_lecture:projectBO.getDateBlockDaysDuringLecture(),
+
             loaded:true,
         });
         this.getProjecttype();
@@ -154,7 +171,7 @@ class ProjectContent extends Component {
             <Grid container item direction="column" spacing={2} xs={12} md={4}>
                 
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.loaded ? this.state.module : null}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>EDV Number:</Box> { this.state.loaded ? this.state.edvNumber : null}</Typography>
@@ -181,25 +198,25 @@ class ProjectContent extends Component {
                 : null
                 }
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>External co-operation partner:</Box> { this.state.loaded ? this.state.project.external_partner : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>External co-operation partner:</Box> { this.state.loaded ? this.state.external_partner : null}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>Weekly lecture:</Box>  { this.state.loaded ? this.state.weekly : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Particular room necessary:</Box> { this.state.loaded ? this.state.project.room_desired : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Particular room necessary:</Box> { this.state.loaded ? this.state.room_desired : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays prior to semester:</Box> { this.state.loaded ? this.state.project.num_blockdays_prior_lecture : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays prior to semester:</Box> { this.state.loaded ? this.state.num_blockdays_prior_lecture : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during semester:</Box> { this.state.loaded ? this.state.project.num_blockdays_during_lecture : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during semester:</Box> { this.state.loaded ? this.state.num_blockdays_during_lecture : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays dates:</Box> { this.state.loaded ? this.state.project.date_blockdays_during_lecture : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays dates:</Box> { this.state.loaded ? this.state.date_blockdays_during_lecture : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.project.num_blockdays_in_exam : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.num_blockdays_in_exam : null}</Typography>
                 </Grid>
             </Grid>
             <Grid container item direction="column" spacing={2} xs={12} md={6}>
@@ -207,7 +224,7 @@ class ProjectContent extends Component {
                     <Typography style={{ fontWeight: 600 }}>Short description:</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>{ this.state.loaded ? this.state.project.short_description : null}</Typography>
+                    <Typography>{ this.state.loaded ? this.state.short_description : null}</Typography>
                 </Grid>
                 
             </Grid>
