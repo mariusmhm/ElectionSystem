@@ -16,7 +16,7 @@ import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
 import TableEntryAdmin from './TableEntryAdmin';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-import EntryListAdmin from './ListEntryAdmin';
+//import EntryListAdmin from './ListEntryAdmin';
 
 
 
@@ -128,7 +128,8 @@ constructor(props) {
                                                 pd = {project.getID()}
                                                 duringSemester = {this.props.duringSemester}
                                             />
-                                            <Entry
+
+
                                 )
                                 )}
                         </Grid>
