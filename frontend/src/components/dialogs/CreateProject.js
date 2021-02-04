@@ -54,6 +54,7 @@ class CreateProject extends Component {
         dateDuringLecture: null,
         numBlockdaysInExam: null,
         error: null,
+        notShowDrop: null,
         spots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
             15 , 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
             28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
@@ -61,6 +62,17 @@ class CreateProject extends Component {
 
 
       this.baseState = this.state;
+
+      if(this.props.history.location.state.cUser.role_id === 3){
+            this.setState({
+                notShowDrop: true,
+            },console.log('do not show drop down prof'));
+            
+      }else if(this.props.history.location.state.cUser.role_id === 2){
+            this.setState({
+                notShowDrop: false,
+            },console.log('show drop down prof'));
+      }
       
 
 
@@ -128,8 +140,11 @@ class CreateProject extends Component {
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        /*newProject.setProfessor(this.state.prof); hier muss noch bedingtes rendern eongefügt werden*/
-        newProject.setProfessor(this.props.cUser); //prof id vom current user hier einsetzen
+        if(this.props.history.location.state.cUser === 3){
+            newProject.setProfessor(this.props.history.location.state.cUser.id);
+        }else if(this.props.history.location.state.cUser === 2){
+            newProject.setProfessor(this.state.prof);
+        }
         newProject.setExternalPartner(this.state.externalPartner);
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
@@ -142,6 +157,8 @@ class CreateProject extends Component {
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
+            this.props.closeProject();
+            console.log('add project');
 
         }).then(newProject => {this.props.closeProject()}).catch(e =>
             this.setState({
@@ -253,6 +270,7 @@ class CreateProject extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
+                    { this.state.notShowDrop ?
                       <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Professor</InputLabel>
@@ -263,6 +281,7 @@ class CreateProject extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
+                    : null}
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>
@@ -372,7 +391,7 @@ class CreateProject extends Component {
                     <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.props.closeProject}>Submit</Button>
+                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
                 </Grid>
                 
 

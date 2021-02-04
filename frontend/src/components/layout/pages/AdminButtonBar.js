@@ -139,6 +139,7 @@ class AdminButtonBar extends Component {
                     closeKeyCom={this.closeKeyCom}
               />
               < CreateProject
+                    {...this.props}
                     AdminButtonBar ={AdminButtonBar}
                     openpr={this.state.openpr}
                     openProject={this.openProject}

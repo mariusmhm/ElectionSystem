@@ -111,7 +111,7 @@ class HomeScreenProf extends Component {
                 <Container maxWidth="MD">
                 <Grid container >
                     <Grid item xs={6}>
-                    <Typography variant="h1">My Projects</Typography>
+                    <Typography variant="h5">My Projects</Typography>
                     </Grid>
                     
 
@@ -178,7 +178,7 @@ class HomeScreenProf extends Component {
                         openpr={this.state.openpr}
                         openProject={this.openProject}
                         closeProject={this.closeProject}
-                        cUser = {cUser}
+                        {...this.props}
                     />
                 : null}
 
