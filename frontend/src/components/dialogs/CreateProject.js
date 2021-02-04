@@ -360,7 +360,7 @@ class CreateProject extends Component {
                     <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
+                    <Button variant="contained" color="primary" onClick={this.props.closeProject}>Submit</Button>
                 </Grid>
                 
 
