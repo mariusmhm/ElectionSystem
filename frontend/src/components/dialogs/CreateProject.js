@@ -42,6 +42,7 @@ class CreateProject extends Component {
         professors: [],
         cUser: null,
         additionalProf: null,
+        prof:null,
         weekly: false,
         specialRoom: false,
         desiredRoom: null,
@@ -127,6 +128,7 @@ class CreateProject extends Component {
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(1);
         newProject.setLanguage(this.state.language);
+        /*newProject.setProfessor(this.state.prof); hier muss noch bedingtes rendern eongefügt werden*/
         newProject.setProfessor(this.props.cUser); //prof id vom current user hier einsetzen
         newProject.setExternalPartner(this.state.externalPartner);
         newProject.setWeekly(this.state.weekly);
@@ -251,6 +253,16 @@ class CreateProject extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
+                      <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Professor</InputLabel>
+                            <Select name="prof" label="Professor" onChange={this.handleSelectChange}>
+                                {this.state.professors.map((prof) => (
+                                        <MenuItem key={prof.getID()} value={prof.getID()}>{prof.getFirstname()} {prof.getName()}</MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
                     <Grid item>
                         <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>
@@ -360,7 +372,7 @@ class CreateProject extends Component {
                     <Button variant="outlined" onClick={this.props.closeProject}>Cancel</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" color="primary" onClick={this.addProject}>Submit</Button>
+                    <Button variant="contained" color="primary" onClick={this.props.closeProject}>Submit</Button>
                 </Grid>
                 
 

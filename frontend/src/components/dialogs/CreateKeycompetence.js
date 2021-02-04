@@ -30,6 +30,7 @@ class CreateKeyCompetence extends Component {
         projecttype: {},
         ptSelected:null,
         numSpots: null,
+        prof: null,
         professors: [],
         additionalProf: null,
         shortDescription: '',
@@ -138,6 +139,7 @@ class CreateKeyCompetence extends Component {
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(1);
         newProject.setLanguage(this.state.language);
+        newProject.setProfessor(this.state.prof);
         newProject.setProfessor(2);
         newProject.setWeekly(false);
         newProject.setSpecialRoom(false);
@@ -213,6 +215,16 @@ class CreateKeyCompetence extends Component {
                             <Select name="numSpots" label="Number of spots" onChange={this.handleSelectChange}>
                             {this.state.spots.map((number, index) => (
                                         <MenuItem key={index} value={number}>{number}</MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item>
+                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <InputLabel>Professor</InputLabel>
+                            <Select name="prof" label="Professor" onChange={this.handleSelectChange}>
+                                {this.state.professors.map((prof) => (
+                                        <MenuItem key={prof.getID()} value={prof.getID()}>{prof.getFirstname()} {prof.getName()}</MenuItem>
                                     ))}
                             </Select>
                         </FormControl>
