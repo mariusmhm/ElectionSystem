@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import {Button, Grid, Typography, withStyles, FormControl, 
-     MenuItem, Select, InputLabel, Box} from'@material-ui/core';
+import { Grid, Typography, withStyles, Box} from'@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {ElectionSystemAPI, ProjectBO} from '../../../api';
 
-
-let projectid = 1;
 
 class ProjectContent extends Component {
 
@@ -15,38 +12,38 @@ class ProjectContent extends Component {
       
 
       this.state = {
-          userRole: 'administration', // hier den user role id nach änderung speichern und unten if ... ändern
           project: {},
           error: null,
           projectname: '',
-          projecttypeid: 1,
           projecttype: [],
           weekly:'',
-          moduleid: 1,
           module: [],
           loaded: false,
           ptloaded: false,
           mloaded: false,
           addProfShow: false,
-          allStates:[],
           currentState:{},
           sLoaded: false,
-          newState: null,
+          edvNumber: null,
+          language: null,
+          aprof: null,
+          apLoaded: false,
+          projecttype: this.props.history.location.state.pt
       }
 
    }
-    
-    getStates = () => {
-    ElectionSystemAPI.getAPI().getAllStates()
-    .then(states => 
+
+   getAddProf = () => {
+    ElectionSystemAPI.getAPI().getUser(this.state.project.add_professor_id)
+    .then(userBO =>         
         this.setState({
-            allStates: states,
+            aprof: userBO,
+            apLoaded: true,
         })).catch(e =>
             this.setState({
-                allStates:[],
-                error: e
+                error: e,
             }))
-    } 
+    }
 
     getCurrentState = () => {
     ElectionSystemAPI.getAPI().getState(this.state.project.getState())
@@ -67,12 +64,16 @@ class ProjectContent extends Component {
         this.setState({
             project: projectBO,
             projectname: projectBO.getName(),
-            loaded:true
+            edvNumber: projectBO.getEdvNumber(),
+            language: projectBO.getLanguage(),
+            loaded:true,
         });
+        console.log(JSON.Stringify(projectBO));
         if(this.state.project.getAddProfessor() != null){
             this.setState({
                 addProfShow: true
-            })
+            });
+            this.getAddProfessor();
         }
         if(this.state.project.getWeekly()){
             this.setState({
@@ -85,29 +86,14 @@ class ProjectContent extends Component {
         }
         this.getProjecttype();
         this.getModule();
-        this.getStates();
         this.getCurrentState();
+        
     }).catch(e =>
             this.setState({
                 project:{},
                 error: e
             }))
     }   
-
-    getProjecttype = () => {
-    ElectionSystemAPI.getAPI().getProjecttype(this.state.project.getProjecttype())
-    .then(projecttypeBO =>{
-        this.setState({
-            projecttype: projecttypeBO,
-            error: null,
-            ptloaded: true
-        })
-    }).catch(e =>
-            this.setState({
-                projecttypes:[],
-                error: e
-            }))
-    }
 
     getModule = () => {
         ElectionSystemAPI.getAPI().getModule(this.state.project.getModule())
@@ -122,27 +108,6 @@ class ProjectContent extends Component {
                     module:[],
                     error: e
                 }))
-    }
-
-    updateProject = () => {
-        // clone original semester, in case the backend call fails
-        let updatedProject = Object.assign(new ProjectBO(), this.state.project); //eventuell raus nehehmen
-        // set the new attributes from our dialog
-        if(updatedProject.getAddProfessor() === null){
-            updatedProject.setAddProfessor(37)
-        }else if(updatedProject.getDateBlockDaysDuringLecture() === null){
-            updatedProject.setDateBlockDaysDuringLecture('null')
-        }
-        updatedProject.setState(this.state.newState);
-        console.log(JSON.stringify(updatedProject));
-        ElectionSystemAPI.getAPI().updateProject(updatedProject).catch(e => console.log(e));
-
-    } 
-
-    handleSelectChange = (e) =>{
-        this.setState({
-            [e.target.name]: e.target.value
-        });
     }
 
     handleClick = () =>{
@@ -178,53 +143,59 @@ class ProjectContent extends Component {
                         <Typography className={classes.header}>{ this.state.loaded ? this.state.projectname: null}</Typography>
                     </Grid>
                    <Grid item>
-                        <Typography className={classes.state}>{ this.state.sLoaded ? this.state.currentState.getName(): null}</Typography>
+                        <Typography className={classes.state}>{ this.state.sLoaded ? this.state.currentState.name: null}</Typography>
                    </Grid>
                 </Grid>
 
             <Grid container item direction="column" spacing={2} xs={12} md={4}>
                 
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module.getName() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Modul:</Box> { this.state.mloaded ? this.state.module.name : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>EDV Number:</Box> { this.state.loaded ? this.state.project.getEdvNumber() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>EDV Number:</Box> { this.state.loaded ? this.state.edvNumber : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Project type:</Box> { this.state.ptloaded ? this.state.projecttype.getName() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Project type:</Box> {this.state.projecttype.name}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>ECTS:</Box> { this.state.ptloaded ? this.state.projecttype.getEcts() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>ECTS:</Box> {this.state.projecttype.ect}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>SWS:</Box> { this.state.ptloaded ? this.state.projecttype.getSws() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>SWS:</Box> {this.state.projecttype.sws}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Language:</Box> { this.state.loaded ? this.state.project.getLanguage() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Language:</Box> { this.state.loaded ? this.state.language : null}</Typography>
+                </Grid>
+                <Grid item>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Professor:</Box> {this.props.history.location.state.prof.firstname} {this.props.history.location.state.prof.name}</Typography>
                 </Grid>
                 { this.state.addProfShow ? 
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Additional Professors:</Box> { this.state.loaded ? this.state.project.getAddProfessor() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Additional Professors:</Box> { this.state.apLoaded ? this.state.aprof.firstname : null}</Typography>
                 </Grid>
                 : null
                 }
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>External co-operation partner:</Box> { this.state.loaded ? this.state.project.getExternalPartner() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>External co-operation partner:</Box> { this.state.loaded ? this.state.project.external_partner : null}</Typography>
                 </Grid>
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>Weekly lecture:</Box>  { this.state.loaded ? this.state.weekly : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Particular room necessary:</Box> { this.state.loaded ? this.state.project.getRoomDesired() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Particular room necessary:</Box> { this.state.loaded ? this.state.project.room_desired : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays prior to semester:</Box> { this.state.loaded ? this.state.project.getNumBlockDaysPriorLecture() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays prior to semester:</Box> { this.state.loaded ? this.state.project.num_blockdays_prior_lecture : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during semester:</Box> { this.state.loaded ? this.state.project.getNumBlockDaysPriorLecture() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during semester:</Box> { this.state.loaded ? this.state.project.num_blockdays_during_lecture : null}</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.project.getNumBlockDaysInExam() : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays dates:</Box> { this.state.loaded ? this.state.project.date_blockdays_during_lecture : null}</Typography>
+                </Grid>
+                <Grid item>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.project.num_blockdays_in_exam : null}</Typography>
                 </Grid>
             </Grid>
             <Grid container item direction="column" spacing={2} xs={12} md={6}>
@@ -232,25 +203,8 @@ class ProjectContent extends Component {
                     <Typography style={{ fontWeight: 600 }}>Short description:</Typography>
                 </Grid>
                 <Grid item>
-                    <Typography>{ this.state.loaded ? this.state.project.getShortDescription() : null}</Typography>
+                    <Typography>{ this.state.loaded ? this.state.project.short_description : null}</Typography>
                 </Grid>
-                { this.state.userRole === "administration" &&
-                <Grid container>
-                    <Grid item>
-                    <FormControl style={{minWidth: 120}} variant="outlined" className={classes.FormControl}>
-                            <InputLabel>Revalue</InputLabel>
-                            <Select name="newState" defaultValue="" label="revalue" onChange={this.handleSelectChange}>
-                                {this.state.allStates.map((state) => (
-                                        <MenuItem key={state.getID()} value={state.getID()}>{state.getName()}</MenuItem>
-                                    ))}
-                            </Select>
-                    </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" color="primary" className={classes.button} onClick={this.updateProject}>Ok</Button>
-                    </Grid>
-                </Grid>
-                }
                 
             </Grid>
             

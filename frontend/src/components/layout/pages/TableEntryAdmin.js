@@ -35,7 +35,8 @@ class TableEntryAdmin extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            loadingInProgress: false
+            loadingInProgress: false,
+            projecttype: null,
 
 
         };
@@ -69,6 +70,7 @@ class TableEntryAdmin extends Component {
         ElectionSystemAPI.getAPI().getProjecttype(this.props.type)
         .then(projecttypeBO =>
             this.setState({
+            projecttype: projecttypeBO,
             projecttypeName: projecttypeBO.getName(),
             loadingInProgress: false,
             error: null
@@ -104,6 +106,8 @@ class TableEntryAdmin extends Component {
             pathname: '/admin/project-content',
             state:{
                 projectID: this.props.pd,
+                prof: this.state.users,
+                pt: this.state.projecttype
             }
         })
  
