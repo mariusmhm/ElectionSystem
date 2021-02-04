@@ -65,6 +65,7 @@ class GradingEditingDialog extends Component {
         newGrade.setGrade(this.state.grade);
         ElectionSystemAPI.getAPI().addGrade(newGrade).then(grade => {
             this.setState(this.baseState);
+            this.getAllGrades();
 
         }).catch(e =>
             this.setState({

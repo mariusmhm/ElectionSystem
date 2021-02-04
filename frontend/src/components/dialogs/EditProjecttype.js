@@ -72,7 +72,7 @@ class EditProjecttype extends Component {
         );
 
         this.setState({
-          projecttype: this.state.projecttypes.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
+          projecttypes: this.state.projecttypes.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
         })
     }
 
@@ -87,6 +87,7 @@ class EditProjecttype extends Component {
         console.log(this.state.projecttypename);
         ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
             this.setState(this.baseState);
+            this.getAllProjecttypes();
 
         }).catch(e =>
             this.setState({

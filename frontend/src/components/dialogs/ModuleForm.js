@@ -59,6 +59,7 @@ class ModuleForm extends Component {
         newModule.setName(this.state.name);
         ElectionSystemAPI.getAPI().addModule(newModule).then(m => {
             this.setState(this.baseState);
+            this.getAllModules();
 
         }).catch(e =>
             this.setState({
