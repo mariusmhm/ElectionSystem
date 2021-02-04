@@ -86,7 +86,7 @@ class HomeScreenAdmin extends Component {
                       <ArchivedProjectsAdmin
                       {...this.props}/>
 
-                  <AdminButtonBar {...this.props}/>
+                      <AdminButtonBar {...this.props} />
               </Container>
           </div>
       );

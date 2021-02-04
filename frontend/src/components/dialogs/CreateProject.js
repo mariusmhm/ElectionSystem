@@ -40,7 +40,6 @@ class CreateProject extends Component {
         ptSelected: null,
         numSpots: null,
         professors: [],
-        cUser: null,
         additionalProf: null,
         prof:null,
         weekly: false,

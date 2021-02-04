@@ -68,6 +68,7 @@ export default class ElectionSystemAPI {
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/participation-by-student-project/`+ student_id + project_id;
+    #electionURL = () => `${this.#electionSystemServerBaseURL}/finish-election`;
 
     //Semester related
     #getAllSemesterURL = () => `${this.#electionSystemServerBaseURL}/semester`
@@ -281,6 +282,13 @@ export default class ElectionSystemAPI {
             })
           })
     }
+
+    //-------------------Election---------------------------------
+
+    election(){
+      return this.#fetchAdvanced(this.#electionURL());
+    }
+
 
     //----------State relevant operations-------------------------
 

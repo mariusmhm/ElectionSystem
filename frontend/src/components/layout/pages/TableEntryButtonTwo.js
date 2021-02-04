@@ -93,12 +93,12 @@ class TableEntryButtonTwo extends Component {
     }
 
     handleClick = () => {
-        console.log('openProjectUpdateAdmin')
         this.props.history.push({
             pathname: '/admin/project-edit',
             state:{
                 project: this.props.project,
-                ptype: this.state.ptype
+                ptype: this.state.ptype,
+                cUser: this.props.history.location.state.cUser
             }
         })
 
