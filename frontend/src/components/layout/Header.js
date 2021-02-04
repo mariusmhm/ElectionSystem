@@ -49,7 +49,7 @@ class Header extends Component {
 
   navigateHome = () => {
     this.props.history.push({
-      pathname:'/student'
+      pathname: '/student'
     })
   }
 
