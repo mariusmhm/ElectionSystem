@@ -12,7 +12,7 @@ class HomeScreenProf extends Component {
         this.state = {
             loaded: false,
             cUserID: this.props.history.location.state.cUserID,
-            
+            cUser: this.props.history.location.state.cUser,
             profProjects: [],
             projecttypes: [],
             deliverDate: null,
@@ -138,7 +138,7 @@ class HomeScreenProf extends Component {
                                                                     ects = {pt.getEcts()}
                                                                     sws = {pt.getSws()}
                                                                     state = {project.getState()}
-
+                                                                    {...this.props}
                                                                     
                                                                 />
 

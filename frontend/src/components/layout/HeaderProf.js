@@ -68,7 +68,7 @@ class HeaderProf extends Component {
       state: {
         cUser: this.props.history.location.state.cUser
       }
-    })
+    }, window.location.reload())
   }
 
 
