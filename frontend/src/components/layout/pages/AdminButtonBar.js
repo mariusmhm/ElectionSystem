@@ -219,7 +219,8 @@ const styles = theme => ({
         marginLeft: theme.spacing(15)
     },
     appBar: {
-      align:'center',
+      button: 0,
+      top: 'auto',
     }
     
 });

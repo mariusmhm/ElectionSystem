@@ -43,13 +43,19 @@ class Header extends Component {
 
   onClickAbout = () => {
       this.props.history.push({
-            pathname:"/student/about"
+            pathname:"/student/about",
+            state: {
+              cUser: this.props.history.location.state.cUser
+            }
         })
   }
 
   navigateHome = () => {
     this.props.history.push({
-      pathname: '/student'
+      pathname: '/student',
+      state: {
+        cUser: this.props.history.location.state.cUser
+      }
     })
   }
 

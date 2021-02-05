@@ -91,6 +91,18 @@ class Semester extends Component {
         })
     }
 
+    handleElection = () =>{
+        if(this.state.election === false){
+            ElectionSystemAPI.getAPI().election();
+            console.log('election started');
+            this.setState({
+                grading:true
+            });
+        }else{
+            alert('Close election for students');
+        }
+    }
+
 
  render(){
  const { classes } = this.props;
@@ -123,6 +135,10 @@ class Semester extends Component {
                     label="Election"
                     />
                 </Grid>
+
+                <Grid item xs={12}>
+                    <Button variant="outlined" backgroundColor="red" onClick={this.handleElection}> evaluate election </Button>
+                </Grid>
                 <Grid container direction="row" align="center" className={classes.mGrid}>
                     <Grid item xs={6}>
                         <Button variant="outlined" color="primary" align="center" onClick={this.props.closeDialog}>
@@ -130,7 +146,7 @@ class Semester extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={6}> 
-                        <Button variant="contained" color="primary" align="center" onClick={this.updateSemester} onClose={this.props.closeDialog}>
+                        <Button variant="contained" color="primary" align="center" onClick={this.updateSemester}>
                             DONE
                         </Button>
                     </Grid>

@@ -176,13 +176,18 @@ class ProjectUpdateAdmin extends Component {
 
     handleClick = () =>{
         this.props.history.push({
-            pathname: '/admin'
+            pathname: '/admin',
+            state:{
+                cUser: this.props.history.location.state.cUser
+            }
+
         })
  
     }
 
     // Updates a Project
     updateProject = () => {
+        console.log('updateProject')
         let newProject = this.state.project;
         newProject.setName(this.state.projectname);
         newProject.setModule(this.state.moduleSelected);
@@ -207,9 +212,17 @@ class ProjectUpdateAdmin extends Component {
         }else{
             newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
         }
-        newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
-        newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
-        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
+        if(this.state.numBlockdaysDuringLecture === null){
+            newProject.setNumBlockDaysDuringLecture(0);
+        }else{
+            newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
+        }
+        if(this.state.numBlockdaysPriorLecture === null){
+            newProject.setNumBlockDaysPriorLecture(0);
+        }else{
+            newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysDuringLecture);
+        }
+        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture); //darf nicht null sein muss ein String sein 0000-00-00
         console.log(JSON.stringify(newProject));
 
         ElectionSystemAPI.getAPI().updateProject(newProject).then(projectBO => {
