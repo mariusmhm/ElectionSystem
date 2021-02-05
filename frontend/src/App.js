@@ -195,14 +195,7 @@ class App extends Component {
 							</>
 						)}
 						/>
-						<Route
-						exact
-						path={"/professor/about"}
-						render={props => (
-							<>
-							<HeaderProf {...props}/>
-							<About {...props} />
-							</>
+
 						)}
 						/>
 						<Route 
