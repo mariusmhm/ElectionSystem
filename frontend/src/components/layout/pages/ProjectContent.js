@@ -16,12 +16,13 @@ class ProjectContent extends Component {
           error: null,
           projectname: '',
           projecttype: [],
-          weekly:'',
           module: null,
           num_blockdays_during_lecture: null,
           num_blockdays_prior_lecture:null,
           num_blockdays_in_exam:null,
-          date_blockdays_during_lecture:null,
+          date_blockdays_during_lecture: '',
+          weekly: null,
+          date: '',
           short_description:null,
           room_desired:null,
           external_partner: null,
@@ -45,7 +46,7 @@ class ProjectContent extends Component {
     .then(userBO =>         
         this.setState({
             aprof: userBO,
-            apLoaded: true,
+            loaded: true,
         })).catch(e =>
             this.setState({
                 error: e,
@@ -83,6 +84,8 @@ class ProjectContent extends Component {
             }))
     }
 
+
+
     getProject = () => {
     ElectionSystemAPI.getAPI().getProject(this.props.history.location.state.projectID)
     .then(projectBO => {
@@ -95,12 +98,12 @@ class ProjectContent extends Component {
             num_blockdays_during_lecture: projectBO.getNumBlockDaysDuringLecture(),
             external_partner: projectBO.getExternalPartner(),
             room_desired: projectBO.getRoomDesired(),
-            weekly: projectBO.getWeekly(),
             num_blockdays_prior_lecture:projectBO.getNumBlockDaysPriorLecture(),
             short_description:projectBO.getShortDescription(),
             num_blockdays_in_exam:projectBO.getNumBlockDaysInExam(),
             date_blockdays_during_lecture:projectBO.getDateBlockDaysDuringLecture(),
-
+            date:projectBO.getDate(),
+            weekly:JSON.stringify(projectBO.getWeekly()),
             loaded:true,
         });
         this.getProjecttype();
@@ -113,23 +116,12 @@ class ProjectContent extends Component {
             });
             this.getAddProfessor();
         }
-        if(this.state.project.getWeekly()){
-            this.setState({
-                weekly: 'yes'
-            })
-        }else{
-            this.setState({
-                weekly: 'no'
-            })
-        }
-        
-        
     }).catch(e =>
             this.setState({
                 project:{},
                 error: e
             }))
-    }   
+    }
 
     handleClick = () =>{
         this.props.history.push({
@@ -196,7 +188,7 @@ class ProjectContent extends Component {
                 </Grid>
                 { this.state.addProfShow ? 
                 <Grid item>
-                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Additional Professors:</Box> { this.state.apLoaded ? this.state.aprof.firstname : null}</Typography>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'>Additional Professors:</Box> { this.state.loaded ? this.state.aprof.firstname : null}</Typography>
                 </Grid>
                 : null
                 }
@@ -220,6 +212,9 @@ class ProjectContent extends Component {
                 </Grid>
                 <Grid item>
                     <Typography><Box fontWeight='fontWeightBold' display='inline'>Blockdays during exam week:</Box> { this.state.loaded ? this.state.num_blockdays_in_exam : null}</Typography>
+                </Grid>
+                <Grid item>
+                    <Typography><Box fontWeight='fontWeightBold' display='inline'> Creation Date:</Box> { this.state.loaded ? this.state.date : null}</Typography>
                 </Grid>
             </Grid>
             <Grid container item direction="column" spacing={2} xs={12} md={6}>
