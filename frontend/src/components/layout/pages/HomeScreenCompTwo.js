@@ -17,7 +17,7 @@ class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cUser: this.props.history.location.state.cUser,
+            cUserID: this.props.history.location.state.cUserID,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -64,7 +64,7 @@ class HomeScreenCompTwo extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUserID)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -86,7 +86,7 @@ class HomeScreenCompTwo extends Component {
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+        ElectionSystemAPI.getAPI().getProjectForState(2)
             .then(projectBO =>
 
                 
@@ -182,9 +182,11 @@ class HomeScreenCompTwo extends Component {
                             projecttypes.map(pt => 
 
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
-                                
+                                    
                                     <Grid item xs={12}>
-                                        <Typography color="secondary">{pt.getName()}</Typography>
+                                        <br/>
+                                        <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                        
                                         {
                                             selectedProjects.map(project =>
                                                 
@@ -204,7 +206,7 @@ class HomeScreenCompTwo extends Component {
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
                                                         grading = {participations.find(ptpID => ptpID.project_id === project.getID()).grading_id}
-                                                        cUser = {this.state.cUser}
+                                                        cUserID = {this.state.cUserID}
                                                         {...this.props}
                                                     />
                                                     
@@ -218,15 +220,7 @@ class HomeScreenCompTwo extends Component {
                                         }
 
                                 
-                                <Button 
-                                variant="contained" 
-                                color="primary" 
-                                fullWidth
-                                style={{marginTop: "25px"}}
-                                onClick={this.handleClickOpen}
-                                >
-                                        Show Fullreport
-                                </Button>
+                                
                                     </Grid>
                                 
                                 :null

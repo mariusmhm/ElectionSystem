@@ -19,7 +19,7 @@ class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cUser: this.props.history.location.state.cUser,
+            cUserID: this.props.history.location.state.cUserID,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -65,7 +65,7 @@ class HomeScreenCompOne extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUserID)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -87,7 +87,7 @@ class HomeScreenCompOne extends Component {
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+        ElectionSystemAPI.getAPI().getProjectForState(2)
             .then(projectBO =>
 
                 
@@ -166,15 +166,17 @@ class HomeScreenCompOne extends Component {
             <div>
                 {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
                 <Grid container >
-                <Typography variant="h2">Meine Wahl</Typography>
+                <Typography variant="h2">My selected projects</Typography>
                     {selectedProjects.length > 0 ? 
                     
                             projecttypes.map(pt => 
 
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                                 
-                                    <Grid item xs={12}>
-                                        <Typography color="secondary">{pt.getName()}</Typography>
+                                    <Grid item xs={12} md={12}>
+                                        <br/>
+                                        <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                        <br/>
                                         {
                                             selectedProjects.map(project =>
                                                 
@@ -191,7 +193,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        cUser = {this.state.cUser}
+                                                        cUserID = {this.state.cUserID}
                                                           
                                                     />
                                                     <Divider/>
@@ -223,7 +225,7 @@ class HomeScreenCompOne extends Component {
 
                 <Grid item xs={12}>
                 <Divider/>
-                <Typography variant="h2">Projektübersicht</Typography>
+                <Typography variant="h2">All projects</Typography>
                 
                 </Grid>
 
@@ -234,7 +236,9 @@ class HomeScreenCompOne extends Component {
                         unselectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                         
                             <Grid item xs={12}>
-                                <Typography color="secondary">{pt.getName()}</Typography>
+                                <br/>
+                                <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                <br/>
                                 {
                                     unselectedProjects.map(project =>
                                         
@@ -249,7 +253,7 @@ class HomeScreenCompOne extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
-                                            cUser = {this.state.cUser}
+                                            cUserID = {this.state.cUserID}
                                             
                                         />
                                         <Divider/>
