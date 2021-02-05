@@ -73,6 +73,7 @@ class TableListEntryTeilnehmer extends Component {
     //Updates the grade of the student in a participation object
     updateParticipation= () => {
         // clone original participation, in case the backend call fails
+
         let updatedParticipation = new ParticipationBO();
         // set the new attributes from our dialog
         updatedParticipation = this.state.participations;
@@ -128,23 +129,24 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     getParticipationForStudentAndProjectTwo =() =>{
+        console.log('hallo grading');
         ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.pdID)
-        .then(participationBO =>{
+        .then(participationBO =>
             this.setState({
                 participationForGrading: participationBO,
                 gradingIdForSelect: participationBO.getGradingID(),
-
                 loaded: true,
                 error: null
-            });
-            if(this.state.gradingIdForSelect !== null){
+            }, function(){
+                console.log(participationBO.getGradingID());
+                console.log('gradin id');
+                if(this.state.gradingIdForSelect !== null){
                 this.setState({
                     labelname: '',
                 })
-            }
-
-            console.log(this.state.gradingIdForSelect)
-            }).catch(e =>
+                }
+                console.log(this.state.gradingIdForSelect)
+            })).catch(e =>
                 this.setState({
                     participations:[],
                     error: e
@@ -154,6 +156,7 @@ class TableListEntryTeilnehmer extends Component {
 
 
     handleSelectChangeGrade = (e) =>{
+        console.log("New Grading Selected")
         console.log(e.target.value);
         this.setState({
             gradingIdForSelect: e.target.value
@@ -197,7 +200,8 @@ class TableListEntryTeilnehmer extends Component {
             del: true
 
         })
-        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID);
+        console.log(this.gradingIdForSelect)
 
     }
 
@@ -243,7 +247,8 @@ class TableListEntryTeilnehmer extends Component {
                         {this.props.course}
                     </Grid>
                     <Grid item xs={1} md={1}>
-                        <FormControl
+                       <FormControl
+                            style={{minWidth: 90}}
                             variant="outlined">
                                 <InputLabel > {this.state.labelname}</InputLabel>
                                     <Select

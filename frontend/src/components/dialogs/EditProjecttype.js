@@ -19,16 +19,16 @@ import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjecttypeBO from '../../api/ProjecttypeBO';
 
 
-
+/**Creates a new Projecttype as an projecttypeBO**/
 class EditProjecttype extends Component {
 
   constructor(props){
     super(props)
 
-
+    // Init an today date
     let today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
+    // Init an empty state
     this.state= {
         creationDate: date,
         projecttypename:'',
@@ -40,41 +40,44 @@ class EditProjecttype extends Component {
         deletingError: null,
         error: null,
 
-    };
+    };// save this state for canceling
         this.baseState = this.state;
   }
-
+    /*get all projecttypes */
     getAllProjecttypes = () => {
             ElectionSystemAPI.getAPI().getAllProjecttypes()
             .then(projecttypesBOs =>
-                this.setState({
+                this.setState({ // Set new state when ProjecttypeBOs have been fetched
                     projecttypes: projecttypesBOs,
                     error: null
                 })).catch(e =>
-                    this.setState({
+                    this.setState({ //Reset state with error from catch
                         projecttypes:[],
                         error: e
                     }))
         }
-
+ /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
    componentDidMount(){
         this.getAllProjecttypes();
    }
 
+  /** Deletes this projecttype */
    deleteProjecttypeHandler = (projecttype) => {
         ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype=> {
           console.log(projecttype);
         }).catch(e =>
-          this.setState({
+          this.setState({ // Reset state with error from catch
             deletingError: e
           })
         );
 
         this.setState({
           projecttypes: this.state.projecttypes.filter(projecttypeFromState => projecttypeFromState.getID() !== projecttype.getID())
+          // Set new state when projecttypeBOs have been fetched
         })
     }
 
+/** Adds the Keycompetence */
     addProjecttype = () => {
         let newProjecttype = new ProjecttypeBO();
         console.log(JSON.stringify(newProjecttype));
@@ -85,24 +88,26 @@ class EditProjecttype extends Component {
         console.log(JSON.stringify(newProjecttype));
         console.log(this.state.projecttypename);
         ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
+           // Backend call sucessfull
+         // reinit the dialogs state for a new empty keycompetence
             this.setState(this.baseState);
             this.getAllProjecttypes();
 
-        }).catch(e =>
+        }).catch(e => //Reset state with error from catch
             this.setState({
                 error: e
             }))
 
     }
 
-
+  /** Handles value changes of the forms textfields as numbers and validates them */
    handleNumChange = (e) =>{
        this.setState({
             [e.target.id]: parseInt(e.target.value, 10)
         });
 
     }
-
+ /** Handles value changes of the forms textfields and validates them */
   handleChange = (e) =>{
         console.log(e.target.value);
         console.log(e.target.id);
@@ -126,7 +131,6 @@ class EditProjecttype extends Component {
             <Grid item>
                 <Typography className={classes.redHeader}>Project Types</Typography>
             </Grid>
-            
             <Grid item>
             <TableContainer className={classes.tb}>
                  <Table>
@@ -178,8 +182,6 @@ class EditProjecttype extends Component {
                             Add
                     </Button>
                     </Grid>
-
-                
                     <Grid item xs={12} align="center">
                     </Grid>
                     <Grid item >
