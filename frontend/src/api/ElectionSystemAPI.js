@@ -738,6 +738,9 @@ export default class ElectionSystemAPI {
       return this.#fetchAdvanced(this.#getParticipationForStudentAndProjectURL(studentID, projectID))
       .then((responseJSON) => {
         let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        console.log(responseJSON)
+        console.log(studentID)
+        console.log(projectID)
         return new Promise(function (resolve) {
           resolve(responseParticipationBOs);
         })

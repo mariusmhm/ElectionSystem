@@ -57,7 +57,7 @@ class HeaderProf extends Component {
       this.props.history.push({
             pathname:'/professor/about',
             state: {
-              cUser: this.props.history.location.state.cUser
+              cUserID: this.props.history.location.state.cUserID
             }
         })
   }
@@ -66,7 +66,7 @@ class HeaderProf extends Component {
     this.props.history.push({
       pathname:'/professor',
       state: {
-        cUser: this.props.history.location.state.cUser
+        cUserID: this.props.history.location.state.cUserID
       }
     }, window.location.reload())
   }
