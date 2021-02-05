@@ -133,7 +133,7 @@ class ProfProjectEntry extends Component {
         this.props.history.push({
             pathname: '/professor/participations',
             state:{
-                projectID: this.props.pd,
+                projectID: this.props.id,
                 projectName: this.props.name,
                 project: this.props.project,
                 prof: this.props.prof,
@@ -256,7 +256,7 @@ class ProfProjectEntry extends Component {
 
                 </Grid> 
 
-                 {this.state.open ? <GradingEditingDialog open={this.state.open} closeGrading = {this.closeGrading} /> : null}
+                
             
             </Grid>
             

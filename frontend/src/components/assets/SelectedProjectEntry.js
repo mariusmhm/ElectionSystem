@@ -3,7 +3,7 @@ import {Button, Collapse, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
-import { ElectionSystemAPI, ParticipationBO,} from '../../api';
+import { ElectionSystemAPI, } from '../../api';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneAllIcon from '@material-ui/icons/DoneAll';

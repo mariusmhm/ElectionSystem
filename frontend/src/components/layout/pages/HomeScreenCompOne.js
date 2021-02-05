@@ -150,13 +150,8 @@ class HomeScreenCompOne extends Component {
     }
 
 
-
-
-
-
-
     render() {
-        const { projects, participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
+        const {  participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
      
 
 

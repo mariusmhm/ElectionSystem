@@ -111,22 +111,27 @@ class TableListEntryTeilnehmer extends Component {
                 partid: participationBO.getID(),
                 loaded: true,
                 error: null
-            });
-            console.log(this.state.del);
-            if(this.state.del){
-                this.deleteParicipation(this.state.participations);
-                console.log('delete');
-            }else if(this.state.del === false){
-                this.updateParticipation();
-                console.log('update');
-            }
+            })}).then(this.defineOp)
+            
+            
 
-            }).catch(e =>
+            .catch(e =>
                 this.setState({
                     participations:[],
                     error: e
                 }))
+            }
+            
+    defineOp = () => {
+        if(this.state.del){
+            this.deleteParicipation(this.state.participations);
+            console.log('delete');
+        }else if(this.state.del === false){
+            this.updateParticipation();
+            console.log('update');
+        }
     }
+    
 
     getParticipationForStudentAndProjectTwo =() =>{
         console.log('hallo grading');
@@ -178,7 +183,7 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     handleClick = (student) =>{
-        this.getParticipationForStudentAndProjectTwo(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
 
 
 

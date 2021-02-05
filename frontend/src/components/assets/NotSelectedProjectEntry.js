@@ -46,20 +46,15 @@ class TableEntry extends Component {
             priority: 0,
             cUserID: null,
             buttoncounter:0
-            
-
-
-
-
-
-
 
         };
+
         this.baseState = this.state;
         this.toggleClass = this.toggleClass.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        
     }
 
     getUser = () => {
