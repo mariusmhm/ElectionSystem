@@ -166,7 +166,7 @@ class HomeScreenCompOne extends Component {
             <div>
                 {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
                 <Grid container >
-                <Typography variant="h2">Meine Wahl</Typography>
+                <Typography variant="h2">My selected projects</Typography>
                     {selectedProjects.length > 0 ? 
                     
                             projecttypes.map(pt => 
@@ -174,7 +174,9 @@ class HomeScreenCompOne extends Component {
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                                 
                                     <Grid item xs={12}>
-                                        <Typography color="secondary">{pt.getName()}</Typography>
+                                        <br/>
+                                        <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                        <br/>
                                         {
                                             selectedProjects.map(project =>
                                                 
@@ -223,7 +225,7 @@ class HomeScreenCompOne extends Component {
 
                 <Grid item xs={12}>
                 <Divider/>
-                <Typography variant="h2">Projektübersicht</Typography>
+                <Typography variant="h2">All projects</Typography>
                 
                 </Grid>
 
@@ -234,7 +236,9 @@ class HomeScreenCompOne extends Component {
                         unselectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                         
                             <Grid item xs={12}>
-                                <Typography color="secondary">{pt.getName()}</Typography>
+                                <br/>
+                                <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                <br/>
                                 {
                                     unselectedProjects.map(project =>
                                         

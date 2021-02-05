@@ -182,9 +182,11 @@ class HomeScreenCompTwo extends Component {
                             projecttypes.map(pt => 
 
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
-                                
+                                    
                                     <Grid item xs={12}>
-                                        <Typography color="secondary">{pt.getName()}</Typography>
+                                        <br/>
+                                        <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
+                                        
                                         {
                                             selectedProjects.map(project =>
                                                 
@@ -218,15 +220,7 @@ class HomeScreenCompTwo extends Component {
                                         }
 
                                 
-                                <Button 
-                                variant="contained" 
-                                color="primary" 
-                                fullWidth
-                                style={{marginTop: "25px"}}
-                                onClick={this.handleClickOpen}
-                                >
-                                        Show Fullreport
-                                </Button>
+                                
                                     </Grid>
                                 
                                 :null
