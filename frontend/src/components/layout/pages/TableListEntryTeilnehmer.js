@@ -45,7 +45,7 @@ class TableListEntryTeilnehmer extends Component {
             student:null,
             gradings:[],
             students:[],
-            participations:[],
+            participations:{},
             firstname: '',
             priority: 0
 
@@ -74,16 +74,16 @@ class TableListEntryTeilnehmer extends Component {
     //Updates the grade of the student in a participation object
     updateParticipation= () => {
         // clone original participation, in case the backend call fails
-
+        if(this.state.participations != null){
+            console.log('lets go: '+ JSON.stringify(this.state.participations));
         let updatedParticipation = Object.assign(new ParticipationBO(), this.state.participations) ;
         
         // set the new attributes from our dialog
+        updatedParticipation.setStudentID(this.props.student.getID())
+        updatedParticipation.setGradingID(this.state.gradingIdForSelect);
         
-        updatedParticipation.grading_id = this.state.gradingIdForSelect;
-        console.log('Test 2: '+JSON.stringify(updatedParticipation));
-        console.log('Test 2: '+JSON.stringify(this.state.participations));
         ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
-        
+    }
     }
 
 
@@ -115,12 +115,12 @@ class TableListEntryTeilnehmer extends Component {
                 partid: participationBO.getID(),
                 partLoaded: true,
                 error: null
-        })}).then(this.defineOp())
+        })})
         
             
         .catch(e =>
             this.setState({
-                participations:[],
+                
                 error: e
         }))
     }
@@ -128,7 +128,11 @@ class TableListEntryTeilnehmer extends Component {
     defineOp = () => {
         
             console.log('defineOp started');
-            console.log('Part...:'+this.state.participations)
+            console.log('id:'+this.state.participations.id)
+            console.log('priority:'+this.state.participations.priority)
+            console.log('grading_id:'+this.state.participations.grading_id)
+            console.log('student_id:'+this.state.participations.student_id)
+            console.log('project_id:'+this.state.participations.project_id)
             if(this.state.del){
                 this.deleteParicipation(this.state.participations)
                 
@@ -173,6 +177,7 @@ class TableListEntryTeilnehmer extends Component {
         this.setState({
             gradingIdForSelect: e.target.value
         });
+        thishandleClick()
     }
 
     handleButtonStyle(){
@@ -189,7 +194,7 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     handleClick = (student) =>{
-        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProject()
 
 
 
@@ -277,7 +282,7 @@ class TableListEntryTeilnehmer extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item xs={1} md={1}>
-                        <Button variant="outlined" onClick={() => this.handleClick(this.props.student)} disabled={this.state.disabled}> SAVE </Button>
+                        <Button variant="outlined" onClick={() => this.defineOp()} disabled={this.state.disabled}> SAVE </Button>
                     </Grid>
                     <Grid/>
                 </Grid>

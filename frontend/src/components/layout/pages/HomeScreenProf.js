@@ -94,9 +94,11 @@ class HomeScreenProf extends Component {
 
     }
 
-    handleReload(){
-
-        this.getAllProjects();
+    handleReloadProf(){
+        console.log('handleReload');
+        this.setState({projects: []});
+        this.getAllProjecttypes();
+        this.getAllProjects(); 
         
       }
 
@@ -275,7 +277,7 @@ class HomeScreenProf extends Component {
                         openpr={this.state.openpr}
                         openProject={this.openProject}
                         closeProject={this.closeProject}
-                        handleReload={this.handleReload}
+                        handleReloadProf={this.handleReloadProf}
                         {...this.props}
                     />
                 : null}

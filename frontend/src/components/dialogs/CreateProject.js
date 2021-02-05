@@ -194,6 +194,7 @@ class CreateProject extends Component {
             this.setState(this.baseState);
             this.props.closeProject();
             this.props.handleReload();
+            this.props.handleReloadProf();
 
 
         }).catch(e =>
