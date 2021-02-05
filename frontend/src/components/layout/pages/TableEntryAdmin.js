@@ -89,7 +89,7 @@ class TableEntryAdmin extends Component {
 
     handleClick = () =>{
        this.props.history.push({
-           pathname: '/admin/particpations',
+           pathname: '/admin/participations',
            state:{
                projectID: this.props.pd,
                projectName: this.props.name,

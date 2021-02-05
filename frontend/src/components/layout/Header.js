@@ -45,7 +45,7 @@ class Header extends Component {
       this.props.history.push({
             pathname:"/student/about",
             state: {
-              cUser: this.props.history.location.state.cUser
+              cUserID: this.props.history.location.state.cUserID
             }
         })
   }
@@ -54,7 +54,7 @@ class Header extends Component {
     this.props.history.push({
       pathname: '/student',
       state: {
-        cUser: this.props.history.location.state.cUser
+        cUserID: this.props.history.location.state.cUserID
       }
     })
   }

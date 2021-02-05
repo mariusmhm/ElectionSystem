@@ -93,7 +93,8 @@ class Main extends Component {
             this.props.history.push({
                 pathname: '/student',
                 state:{
-                    cUser: this.state.cUser.getID()
+                    cUser: this.state.cUser,
+                    cUserID: this.state.cUser.getID()
                 }
             })
 
@@ -101,7 +102,8 @@ class Main extends Component {
             this.props.history.push({
                 pathname: '/professor',
                 state:{
-                    cUser: this.state.cUser.getID() 
+                    cUser: this.state.cUser,
+                    cUserID: this.state.cUser.getID()
                 }
             })
         }
@@ -112,11 +114,12 @@ class Main extends Component {
         return(
             <div>
                 <Router basename={process.env.PUBLIC_URL}>
-                    {this.state.exists === false || this.props.registerd &&
+                    {this.state.exists === false  ?
                     <>
 					<Redirect to='/registration'/>
 					<Route path='/registration'><Registration {...this.props}/></Route>
                     </>
+                    :null
                     }
                 </Router>
                 

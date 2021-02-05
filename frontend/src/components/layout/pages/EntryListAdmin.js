@@ -91,7 +91,7 @@ getStudentByParticipations = () => {
             pathname: '/admin',
             state: {
                 cUser: this.props.history.location.state.cUser
-              }
+            }
         })
  
      }
@@ -101,6 +101,9 @@ getStudentByParticipations = () => {
         console.log(this.props.history.location.state.project)
         let updatedProject = Object.assign(new ProjectBO(), this.props.history.location.state.project); //eventuell raus nehehmen
         // set the new value for the state so it gets archived
+        if (updatedProject.getDateBlockDaysDuringLecture() === null){
+            updatedProject.setDateBlockDaysDuringLecture("0000-00-00")
+        }
         updatedProject.setState(4);
 
         console.log(JSON.stringify(updatedProject));

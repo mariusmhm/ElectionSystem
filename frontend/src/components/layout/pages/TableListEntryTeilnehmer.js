@@ -34,6 +34,7 @@ class TableListEntryTeilnehmer extends Component {
             lastname: '',
             gradingIdForSelect:null,
             loadingInProgress: false,
+            partLoaded: false,
             priority:'',
             gradingPeriod:null,
             semester:{},
@@ -44,7 +45,7 @@ class TableListEntryTeilnehmer extends Component {
             student:null,
             gradings:[],
             students:[],
-            participations:{},
+            participations:[],
             firstname: '',
             priority: 0
 
@@ -73,12 +74,16 @@ class TableListEntryTeilnehmer extends Component {
     //Updates the grade of the student in a participation object
     updateParticipation= () => {
         // clone original participation, in case the backend call fails
-        let updatedParticipation = new ParticipationBO();
+
+        let updatedParticipation = Object.assign(new ParticipationBO(), this.state.participations) ;
+        
         // set the new attributes from our dialog
-        updatedParticipation = this.state.participations;
-        updatedParticipation.setGradingID(this.state.gradingIdForSelect);
-        console.log(JSON.stringify(updatedParticipation));
+        
+        updatedParticipation.grading_id = this.state.gradingIdForSelect;
+        console.log('Test 2: '+JSON.stringify(updatedParticipation));
+        console.log('Test 2: '+JSON.stringify(this.state.participations));
         ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
+        
     }
 
 
@@ -102,51 +107,60 @@ class TableListEntryTeilnehmer extends Component {
     }
 
 
-    getParticipationForStudentAndProject =(studentid, projectid) =>{
-        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(studentid,projectid)
+    getParticipationForStudentAndProject =() =>{
+        ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.student.getID(),this.props.pdID)
         .then(participationBO =>{
             this.setState({
                 participations: participationBO,
                 partid: participationBO.getID(),
-                loaded: true,
+                partLoaded: true,
                 error: null
-            });
-            console.log(this.state.del);
-            if(this.state.del){
-                this.deleteParicipation(this.state.participations);
-                console.log('delete');
-            }else if(this.state.del === false){
-                this.updateParticipation();
-                console.log('update');
-            }
-
-            }).catch(e =>
-                this.setState({
-                    participations:[],
-                    error: e
-                }))
+        })}).then(this.defineOp())
+        
+            
+        .catch(e =>
+            this.setState({
+                participations:[],
+                error: e
+        }))
     }
+            
+    defineOp = () => {
+        
+            console.log('defineOp started');
+            console.log('Part...:'+this.state.participations)
+            if(this.state.del){
+                this.deleteParicipation(this.state.participations)
+                
+            }else{
+                this.updateParticipation()
+                
+            }
+        
+    }
+    
 
     getParticipationForStudentAndProjectTwo =() =>{
+        console.log('hallo grading');
         ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.pdID)
-        .then(participationBO =>{
+        .then(participationBO =>
             this.setState({
                 participationForGrading: participationBO,
                 gradingIdForSelect: participationBO.getGradingID(),
-
                 loaded: true,
                 error: null
-            });
-            if(this.state.gradingIdForSelect !== null){
+            }, function(){
+                console.log(participationBO.getGradingID());
+                console.log('gradin id');
+                if(this.state.gradingIdForSelect !== null){
                 this.setState({
                     labelname: '',
                 })
-            }
-
-            console.log(this.state.gradingIdForSelect)
-            }).catch(e =>
+                }
+                console.log(this.state.gradingIdForSelect)
+            })).catch(e =>
                 this.setState({
-                    participations:[],
+                    participationForGrading:[],
                     error: e
                 }))
     }
@@ -154,10 +168,10 @@ class TableListEntryTeilnehmer extends Component {
 
 
     handleSelectChangeGrade = (e) =>{
+        console.log("New Grading Selected")
         console.log(e.target.value);
         this.setState({
             gradingIdForSelect: e.target.value
-
         });
     }
 
@@ -176,6 +190,7 @@ class TableListEntryTeilnehmer extends Component {
 
     handleClick = (student) =>{
         this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+
 
 
     }
@@ -197,7 +212,8 @@ class TableListEntryTeilnehmer extends Component {
             del: true
 
         })
-        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID);
+        console.log(this.state.gradingIdForSelect)
 
     }
 
@@ -244,6 +260,7 @@ class TableListEntryTeilnehmer extends Component {
                     </Grid>
                     <Grid item xs={1} md={1}>
                         <FormControl
+                            style={{minWidth: 90}}
                             variant="outlined">
                                 <InputLabel > {this.state.labelname}</InputLabel>
                                     <Select

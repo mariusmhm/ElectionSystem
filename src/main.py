@@ -593,7 +593,7 @@ class ParticipationsGradingListOperations(Resource):
 
 
 
-@electionSystem.route('/participation-by-student-project/<int:student_id><int:project_id>')
+@electionSystem.route('/participation-by-student-project/<int:student_id>/<int:project_id>')
 @electionSystem.response(500, 'If an server sided error occures')
 class ParticipationStudentProjectOperations(Resource):
     @electionSystem.marshal_with(participation)

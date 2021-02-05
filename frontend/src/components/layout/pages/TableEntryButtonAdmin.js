@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
-import {  Grid, Button, IconButton, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
-
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import {  Grid, Button } from "@material-ui/core";
+import { ElectionSystemAPI } from '../../../api';
 import {withStyles} from '@material-ui/core';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
@@ -157,7 +151,7 @@ class TableEntryButtonAdmin extends Component {
                     </Grid>
                     <Grid item xs={3} md={3}>
                         <Button aria-label="delete"  variant="outlined">
-                          <DeleteIcon fontSize="small" onClick={() => this.props.deleteProject(this.props.project)}/>
+                          <DeleteIcon fontSize="small" onClick={() => this.props.deleteProject(this.props.project.getID())}/>
                         </Button>
                     </Grid>
                     </Grid>

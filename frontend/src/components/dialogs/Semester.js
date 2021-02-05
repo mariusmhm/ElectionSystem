@@ -68,7 +68,7 @@ class Semester extends Component {
         ElectionSystemAPI.getAPI().updateSemester(updatedSemester)
         .then(semester => {
             this.props.closeDialog()
-        }).catch(e => console.log(e));
+        });
 
     } 
 

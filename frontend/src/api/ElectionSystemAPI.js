@@ -67,7 +67,7 @@ export default class ElectionSystemAPI {
     #addParticipationURL = () => `${this.#electionSystemServerBaseURL}/participation`;
     #updateParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
     #deleteParticipationURL = (id) => `${this.#electionSystemServerBaseURL}/participation/${id}`;
-    #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/participation-by-student-project/`+ student_id + project_id;
+    #getParticipationForStudentAndProjectURL =(student_id, project_id) => `${this.#electionSystemServerBaseURL}/participation-by-student-project/${student_id}/${project_id}`;
     #electionURL = () => `${this.#electionSystemServerBaseURL}/finish-election`;
 
     //Semester related
@@ -738,6 +738,9 @@ export default class ElectionSystemAPI {
       return this.#fetchAdvanced(this.#getParticipationForStudentAndProjectURL(studentID, projectID))
       .then((responseJSON) => {
         let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON);
+        console.log(responseJSON)
+        console.log(studentID)
+        console.log(projectID)
         return new Promise(function (resolve) {
           resolve(responseParticipationBOs);
         })

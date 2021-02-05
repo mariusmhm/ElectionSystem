@@ -343,22 +343,23 @@ class ElectionSystemAdministration (object):
         with ParticipationMapper() as mapper:
             mapper.delete_grading_id(participation)
 
-    def get_participation_by_student_and_project(self,project_id, student_id):
+    def get_participation_by_student_and_project(self, student_id, project_id):
         """Reads out participation objects by student ID and project ID."""
         print('methoden Aufruf')
         participations = self.get_all_by_project_id(project_id)
-        participation = None
+        participation = []
         print(participations)
 
-        i=0
 
         for element in participations:
             if element.get_student_id() == student_id:
-                participation = participations[i]
+                participation = element
             else:
-
-                print(participation)
+                print("Nothing")
         return participation
+
+
+
 
     #-----Grading-------
 
