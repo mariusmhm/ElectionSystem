@@ -178,7 +178,8 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     handleClick = (student) =>{
-        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProjectTwo(student.getID(),this.props.pdID)
+
 
 
     }
@@ -247,7 +248,7 @@ class TableListEntryTeilnehmer extends Component {
                         {this.props.course}
                     </Grid>
                     <Grid item xs={1} md={1}>
-                       <FormControl
+                        <FormControl
                             style={{minWidth: 90}}
                             variant="outlined">
                                 <InputLabel > {this.state.labelname}</InputLabel>

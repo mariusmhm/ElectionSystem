@@ -347,7 +347,7 @@ class ElectionSystemAdministration (object):
         """Reads out participation objects by student ID and project ID."""
         print('methoden Aufruf')
         participations = self.get_all_by_project_id(project_id)
-        participation = None
+        participation = []
         print(participations)
 
         i=0
@@ -359,6 +359,9 @@ class ElectionSystemAdministration (object):
 
                 print(participation)
         return participation
+
+
+
 
     #-----Grading-------
 
