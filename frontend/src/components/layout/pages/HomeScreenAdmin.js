@@ -24,8 +24,12 @@ class HomeScreenAdmin extends Component {
             error: null,
             openDialog: false,
             duringSemester: false,
-            loadingInProgress: false
+            loadingInProgress: false,
+            us: this.props.history.location.state.cUser,
+            projects:[],
+            loadingInPrograssP: false,
         };
+        this.handleReload = this.handleReload.bind(this)
     }
 
     /** Gives back the semester */
@@ -51,10 +55,37 @@ class HomeScreenAdmin extends Component {
     });
   }
 
-  componentDidMount(){
-    this.getAllSemester();
+  handleReload(){
+
+    this.getProjectForStateOne();
+    
   }
 
+  //Gives back the projects by state "approved"
+  getProjectForStateOne = () =>{
+      ElectionSystemAPI.getAPI().getProjectForState(2)
+      .then(projectBO => { this.setState({
+          projects: projectBO,
+          loadingInProgress: false,
+          error: null
+      })}).catch(e =>
+          this.setState({
+            projects:[],
+            loadingInProgressP: false,
+            error: e
+          })
+      );
+        this.setState({
+                    loadingInProgress: true,
+                    error: null
+        });
+  }
+
+
+  componentDidMount(){
+    this.getAllSemester();
+    this.getProjectForStateOne();
+  }
 
 
 
@@ -79,6 +110,7 @@ class HomeScreenAdmin extends Component {
                       <ApprovedProjectsAdmin
                       {...this.props}
                       duringSemester={this.state.duringSemester}
+                      projects={this.state.projects}
                       />
                       <RejectedProjectsAdmin
                       {...this.props}/>
@@ -86,7 +118,7 @@ class HomeScreenAdmin extends Component {
                       <ArchivedProjectsAdmin
                       {...this.props}/>
 
-                      <AdminButtonBar {...this.props} />
+                      <AdminButtonBar {...this.props} handleReload={this.handleReload}/>
               </Container>
           </div>
       );

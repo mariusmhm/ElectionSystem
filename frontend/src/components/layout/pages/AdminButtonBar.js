@@ -79,8 +79,7 @@ class AdminButtonBar extends Component {
     }
     // close project
     closeProject = () => {
-        this.setState({openpr:false})
-
+        this.setState({openpr:false});
     }
     // open Key competence dialog
     openKeyCom(){
@@ -140,6 +139,7 @@ class AdminButtonBar extends Component {
               />
               < CreateProject
                     {...this.props}
+                    handleReload={this.props.handleReload}
                     AdminButtonBar ={AdminButtonBar}
                     openpr={this.state.openpr}
                     openProject={this.openProject}

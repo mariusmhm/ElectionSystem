@@ -61,21 +61,24 @@ class CreateProject extends Component {
 
 
       this.baseState = this.state;
-
-      if(this.props.history.location.state.cUser.role_id === 3){
-            this.setState({
-                notShowDrop: true,
-            },console.log('do not show drop down prof'));
-            
-      }else if(this.props.history.location.state.cUser.role_id === 2){
-            this.setState({
-                notShowDrop: false,
-            },console.log('show drop down prof'));
-      }
       
 
 
     }
+
+    testRole = () =>{
+        if(this.props.history.location.state.cUser.role_id === 3){
+              this.setState({
+                  notShowDrop: false,
+              },console.log('do not show drop down prof'));
+              
+        }else if(this.props.history.location.state.cUser.role_id === 1){
+              this.setState({
+                  notShowDrop: true,
+              },console.log('show drop down prof'));
+        }
+    }
+
 
 
     getAllProjecttypes = () => {
@@ -123,7 +126,8 @@ class CreateProject extends Component {
     componentDidMount(){
         this.getAllProjecttypes();
         this.getAllModules();
-        this.getUsersForRole()
+        this.getUsersForRole();
+        this.testRole();
     }
 
     // Add a new Project
@@ -134,32 +138,65 @@ class CreateProject extends Component {
         newProject.setModule(this.state.moduleSelected);
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
-        newProject.setAddProfessor(this.state.additionalProf);
+        if(this.state.additionalProf === null){
+            newProject.setAddProfessor(1);
+        }else{
+            newProject.setAddProfessor(this.state.additionalProf);
+        }        
         newProject.setEdvNumber(this.state.edvNumber);
         newProject.setShortDescription(this.state.shortDescription);
-        newProject.setState(1);
         newProject.setLanguage(this.state.language);
-        if(this.props.history.location.state.cUser === 3){
+        if(this.props.history.location.state.cUser.role_id === 3){
             newProject.setProfessor(this.props.history.location.state.cUser.id);
-        }else if(this.props.history.location.state.cUser === 2){
+            newProject.setState(1);
+        }else if(this.props.history.location.state.cUser.role_id === 1){
             newProject.setProfessor(this.state.prof);
+            newProject.setState(2);
         }
-        newProject.setExternalPartner(this.state.externalPartner);
+        if(this.state.externalPartner === null){
+            newProject.setExternalPartner('');
+        }else{
+            newProject.setExternalPartner(this.state.externalPartner);
+        }
+       
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
-        newProject.setRoomDesired(this.state.desiredRoom);
-        newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
-        newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
-        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
-        newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
+        if(this.state.desiredRoom === null){
+            newProject.setRoomDesired('');
+        }else{
+            newProject.setRoomDesired(this.state.desiredRoom);
+        }
+        if(this.state.numBlockdaysPriorLecture === null){
+            newProject.setNumBlockDaysPriorLecture(0);
+        }else{
+            newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysPriorLecture);
+        }
+        if( this.state.numBlockdaysDuringLecture === null){
+            newProject.setNumBlockDaysDuringLecture(0);
+        }else{
+            newProject.setNumBlockDaysDuringLecture(this.state.numBlockdaysDuringLecture);
+        }
+        if(this.state.dateDuringLecture === null){
+            newProject.setDateBlockDaysDuringLecture('0000-00-00');
+        }else{
+            newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture);
+        }
+        if(this.state.numBlockdaysInExam === null){
+            newProject.setNumBlockDaysInExam(0);
+        }else{
+            newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
+        }
+        
+        console.log(JSON.stringify(newProject));
 
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
             this.props.closeProject();
-            console.log('add project');
+            this.props.handleReload();
 
-        }).then(newProject => {this.props.closeProject()}).catch(e =>
+
+        }).catch(e =>
             this.setState({
                 error: e
             }))
@@ -271,7 +308,7 @@ class CreateProject extends Component {
                     </Grid>
                     { this.state.notShowDrop ?
                       <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl fullWidth required variant="outlined" className={classes.FormControl}>
                         <InputLabel>Professor</InputLabel>
                             <Select name="prof" label="Professor" onChange={this.handleSelectChange}>
                                 {this.state.professors.map((prof) => (

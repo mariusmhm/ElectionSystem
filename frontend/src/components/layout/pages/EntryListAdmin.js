@@ -88,7 +88,10 @@ getStudentByParticipations = () => {
 
     handleClick = () =>{
         this.props.history.push({
-            pathname: '/admin'
+            pathname: '/admin',
+            state: {
+                cUser: this.props.history.location.state.cUser
+              }
         })
  
      }

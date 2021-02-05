@@ -188,18 +188,24 @@ class ProjectUpdateAdmin extends Component {
     // Updates a Project
     updateProject = () => {
         console.log('updateProject')
-        let newProject = this.state.project;
+        let newProject = Object.assign(new ProjectBO(), this.state.project);
         newProject.setName(this.state.projectname);
         newProject.setModule(this.state.moduleSelected);
         newProject.setProjecttype(this.state.ptSelected);
         newProject.setNumSpots(this.state.numSpots);
-        newProject.setAddProfessor(this.state.additionalProf);
+        if(this.state.additionalProf!==1){
+            newProject.setAddProfessor(this.state.additionalProf);
+        }
         newProject.setEdvNumber(this.state.edvNumber);
         newProject.setShortDescription(this.state.shortDescription);
         newProject.setState(this.state.stateSelected);
         newProject.setLanguage(this.state.language);
         newProject.setProfessor(this.state.professor);
-        newProject.setExternalPartner(this.state.externalPartner);
+        if(this.state.externalPartner===null){
+            newProject.setExternalPartner('');
+        }else{
+            newProject.setExternalPartner(this.state.externalPartner);
+        }
         newProject.setWeekly(this.state.weekly);
         newProject.setSpecialRoom(this.state.specialRoom);
         if(this.state.desiredRoom===null){
@@ -222,7 +228,11 @@ class ProjectUpdateAdmin extends Component {
         }else{
             newProject.setNumBlockDaysPriorLecture(this.state.numBlockdaysDuringLecture);
         }
-        newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture); //darf nicht null sein muss ein String sein 0000-00-00
+        if(this.state.dateDuringLecture === null){
+            newProject.setDateBlockDaysDuringLecture('0000-00-00');
+        }else{
+            newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture); //darf nicht null sein muss ein String sein 0000-00-00
+        }
         console.log(JSON.stringify(newProject));
 
         ElectionSystemAPI.getAPI().updateProject(newProject).then(projectBO => {
@@ -318,7 +328,7 @@ class ProjectUpdateAdmin extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
-                    { this.state.additionalProf !== null ? 
+                    { this.state.additionalProf !== 1 ? 
                     <Grid item>
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Additional professors</InputLabel>

@@ -33,19 +33,23 @@ constructor(props) {
             loaded: null,
             activeIndex: null,
             deletingInProgress: false,
-            loadingInProgress: false
+            loadingInProgress: false,
+            project: this.props.project,
 
         };
         this.baseState = this.state;
+
+
     }
+    
 
     componentDidMount(){
-        this.getProjectForStateOne();
+        
 
     }
 
-      /**Delets the project  **/
-      deleteProjectHandler = (project) => {
+    /**Delets the project  **/
+    deleteProjectHandler = (project) => {
         console.log(project);
         ElectionSystemAPI.getAPI().deleteProject(project.getID()).then(project => {
           console.log(project);
@@ -61,25 +65,7 @@ constructor(props) {
   }
 
 
-    //Gives back the projects by state "approved"
-    getProjectForStateOne = () =>{
-        ElectionSystemAPI.getAPI().getProjectForState(2)
-        .then(projectBO => { this.setState({
-            projects: projectBO,
-             loadingInProgress: false,
-            error: null
-        })}).catch(e =>
-            this.setState({
-                projects:[],
-                loadingInProgress: false,
-                error: e
-        }));
-           this.setState({
-                        loadingInProgress: true,
-                        error: null
-                    });
-
-    }
+    
 
 
 
@@ -90,6 +76,8 @@ constructor(props) {
 
     const {projects, deletingInProgress, loadingInProgress} = this.state;
      const {classes}= this.props;
+     console.log('render');
+     
         return (
             <div>
                 <Container maxWidth="md">
@@ -117,7 +105,7 @@ constructor(props) {
                                             </Typography>
                                  </Grid>
                                  <Grid item container spacing={2}>
-                                {this.state.projects.map(project => (
+                                {this.props.projects.map(project => (
                                             <TableEntryAdmin
                                                 {...this.props}
                                                 project = {project}
