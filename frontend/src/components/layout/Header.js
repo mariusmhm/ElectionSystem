@@ -75,6 +75,9 @@ class Header extends Component {
             <Button color="inherit" onClick={this.navigateHome}>
               Home
             </Button>
+            <Button color="inherit" onClick={this.onClickAbout}>
+              About
+            </Button>
             <Button color="inherit" onClick={this.handleSignOutButtonClicked}>
               Log out
             </Button>

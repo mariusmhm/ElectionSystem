@@ -195,11 +195,18 @@ class App extends Component {
 							</>
 						)}
 						/>
-
+						<Route
+						exact
+						path={"/professor/about"}
+						render={props => (
+							<>
+							<HeaderProf {...props}/>
+							<About {...props} />
+							</>
 						)}
 						/>
-						<Route 
-						exact 
+						<Route
+						exact
 						path={"/admin/participations"}
 						render={props => (
 							<>
@@ -225,10 +232,22 @@ class App extends Component {
 							<>
 							<Header {...props}/>
 							<HomeScreenStudent {...props} />
-							
+
 							</>
 						)}
 						/>
+
+						<Route
+						exact
+						path={"/student/about"}
+						render={props => (
+							<>
+							<Header {...props}/>
+							<About {...props} />
+							</>
+						)}
+						/>
+
 						<Route
 						exact
 						path={"/student/about"}
@@ -259,7 +278,7 @@ class App extends Component {
 							</>
 						)}
 						/>
-						
+
     				</Switch>
                 </Router>
 			</ThemeProvider>
@@ -267,7 +286,4 @@ class App extends Component {
 		);
 	}
 }
-export default App;
-
-
-
+export default App
