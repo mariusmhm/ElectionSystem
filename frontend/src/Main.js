@@ -114,11 +114,12 @@ class Main extends Component {
         return(
             <div>
                 <Router basename={process.env.PUBLIC_URL}>
-                    {this.state.exists === false || this.props.registerd &&
+                    {this.state.exists === false  ?
                     <>
 					<Redirect to='/registration'/>
 					<Route path='/registration'><Registration {...this.props}/></Route>
                     </>
+                    :null
                     }
                 </Router>
                 
