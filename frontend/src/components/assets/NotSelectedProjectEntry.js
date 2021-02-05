@@ -181,9 +181,9 @@ class TableEntry extends Component {
             <Grid container justify="flex-start" xs={12} md={12}>
                    
                    
-                    <Grid container justify="flex-start" xs={12}  >
+                    <Grid container justify="flex-start" xs={12} md={12} spacing={3}>
                         
-                        <Grid item xs={6} md={6}>
+                        <Grid item xs={2} md={6}>
                                 
                                     <Button
                                             variant="contained"
@@ -196,8 +196,8 @@ class TableEntry extends Component {
                                     </Button>
                                 
                         </Grid>
-                        <Grid container xs={6} md={6} justify="flex-end" alignItems="center">
-                            <Grid item xs={3} md={2}>
+                        <Grid container xs={10} md={6} justify="flex-end" alignItems="center">
+                            <Grid item xs={3} md={3}>
                                 <FormControl>
                                 
                                     <Select
@@ -219,11 +219,9 @@ class TableEntry extends Component {
 
                                 <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
                                          Priority: {this.state.priority}</Typography>
-                            
-                            
-                            
+
                             </Grid>
-                            <Grid item xs={3} md={2}>
+                            <Grid item xs={3} md={3}>
                                 
                                 <Button
                                     
@@ -236,7 +234,7 @@ class TableEntry extends Component {
                                     onClick={() => {
                                             this.handleClick();
                                     }} >  
-                                    {this.state.select ? "Select" : "Selected"}      
+                                    Select      
                                 </Button>
                                
                             </Grid>
