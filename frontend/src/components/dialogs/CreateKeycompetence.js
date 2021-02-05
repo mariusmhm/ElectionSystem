@@ -157,13 +157,14 @@ class CreateKeyCompetence extends Component {
          // reinit the dialogs state for a new empty keycompetence
             this.showETCS = false;
             this.setState(this.baseState);
-            this.props.closeKeyCom()  // call the parent with the customer object from backend
-        }, this.propscloseKeyCom
+            this.props.closeKeyCom();  // call the parent with the customer object from backend
+            this.props.handleReload();
+        }
         ).catch(e => //Reset state with error from catch
             this.setState({
                 error: e,
 
-            }), window.location.reload())
+            }))
 
     }
 
