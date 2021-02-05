@@ -69,6 +69,7 @@ Electionsystem-relevant operations under the prefix / electionsystem together.""
 electionSystem = api.namespace('electionsystem', description="electionsystems functions")
 
 
+
 """In the following, transferable structures are created analogous to our BusinessObject classes.
 BusinessObject serves as the base class on which the other structures NamedBusinsessObject, Grading and Participation are based.
 Namedbusiness serves the class on which the other structures User, Students, Semester, Projecttyp, Project and Module are based. """
@@ -1142,16 +1143,16 @@ class RoleOperations(Resource):
         adm.delete_role(r)
         return '', 200
 
-@electionSystem.route('/finish-election')
-@electionSystem.response(500, 'server error')
 class FinishElection(Resource):
-    def werwirdhoppsgenommenhier(self):
+    def get(self):
         """Reads out the a specific role object by id.
         The realization of reading out the object is by ''id'' in the URI.
         """ 
         adm = ElectionSystemAdministration()
         adm.finish_election()
-        
+        return 'election sucess'
+
+api.add_resource(FinishElection, '/electionsystem/finish-election')
 
 if __name__ == '__main__':
     app.run(debug=True)

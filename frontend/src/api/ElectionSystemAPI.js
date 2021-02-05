@@ -286,6 +286,7 @@ export default class ElectionSystemAPI {
     //-------------------Election---------------------------------
 
     election(){
+      console.log('election api call');
       return this.#fetchAdvanced(this.#electionURL());
     }
 

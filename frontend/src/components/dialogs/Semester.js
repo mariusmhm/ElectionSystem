@@ -91,17 +91,18 @@ class Semester extends Component {
         })
     }
 
-    handleElection = e =>{
-        console.log("election is over");
-        console.log(this.election);
-        this.setState({
-            election:false,
-            grading:true
-        });
-        this.updateSemester(e)
-        console.log(this.election)
-        console.log(this.grading)
+    handleElection = () =>{
+        if(this.state.election === false){
+            ElectionSystemAPI.getAPI().election();
+            console.log('election started');
+            this.setState({
+                grading:true
+            });
+        }else{
+            alert('Close election for students');
+        }
     }
+
 
  render(){
  const { classes } = this.props;
@@ -145,7 +146,7 @@ class Semester extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={6}> 
-                        <Button variant="contained" color="primary" align="center" onClick={this.updateSemester} onClose={this.props.closeDialog}>
+                        <Button variant="contained" color="primary" align="center" onClick={this.updateSemester}>
                             DONE
                         </Button>
                     </Grid>
