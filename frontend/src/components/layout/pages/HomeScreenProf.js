@@ -143,7 +143,7 @@ class HomeScreenProf extends Component {
             <div className={classes.headGrid}>
                 {loaded ?  null: <LinearProgress color="secondary"/>}
                 <Container maxWidth="MD">
-                <Grid container >
+                <Grid container md={12} xs={12} >
                     <Grid item xs={6}>
                     <Typography variant="h5">My Projects</Typography>
                     </Grid>

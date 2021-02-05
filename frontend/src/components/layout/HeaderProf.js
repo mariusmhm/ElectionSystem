@@ -53,13 +53,20 @@ class HeaderProf extends Component {
     firebase.auth().signOut();
   }
 
-
+  onClickAbout = () => {
+      this.props.history.push({
+            pathname:'/professor/about',
+            state: {
+              cUserID: this.props.history.location.state.cUserID
+            }
+        })
+  }
 
   navigateHome = () => {
     this.props.history.push({
       pathname:'/professor',
       state: {
-        cUser: this.props.history.location.state.cUser
+        cUserID: this.props.history.location.state.cUserID
       }
     }, window.location.reload())
   }

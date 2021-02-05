@@ -41,13 +41,20 @@ class Header extends Component {
     firebase.auth().signOut();
   }
 
-
+  onClickAbout = () => {
+      this.props.history.push({
+            pathname:"/student/about",
+            state: {
+              cUserID: this.props.history.location.state.cUserID
+            }
+        })
+  }
 
   navigateHome = () => {
     this.props.history.push({
       pathname: '/student',
       state: {
-        cUser: this.props.history.location.state.cUser
+        cUserID: this.props.history.location.state.cUserID
       }
     })
   }
