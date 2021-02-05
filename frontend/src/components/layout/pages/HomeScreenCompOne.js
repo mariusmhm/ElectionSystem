@@ -87,7 +87,7 @@ class HomeScreenCompOne extends Component {
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+        ElectionSystemAPI.getAPI().getProjectForState(2)
             .then(projectBO =>
 
                 
@@ -173,7 +173,7 @@ class HomeScreenCompOne extends Component {
 
                                 selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
                                 
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} md={12}>
                                         <br/>
                                         <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
                                         <br/>

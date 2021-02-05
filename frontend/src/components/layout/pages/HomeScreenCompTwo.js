@@ -86,7 +86,7 @@ class HomeScreenCompTwo extends Component {
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getAllProjects()
+        ElectionSystemAPI.getAPI().getProjectForState(2)
             .then(projectBO =>
 
                 
