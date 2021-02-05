@@ -73,6 +73,7 @@ class TableListEntryTeilnehmer extends Component {
     //Updates the grade of the student in a participation object
     updateParticipation= () => {
         // clone original participation, in case the backend call fails
+
         let updatedParticipation = new ParticipationBO();
         // set the new attributes from our dialog
         updatedParticipation = this.state.participations;
@@ -155,6 +156,7 @@ class TableListEntryTeilnehmer extends Component {
 
 
     handleSelectChangeGrade = (e) =>{
+        console.log("New Grading Selected")
         console.log(e.target.value);
         this.setState({
             gradingIdForSelect: e.target.value
@@ -245,14 +247,15 @@ class TableListEntryTeilnehmer extends Component {
                         {this.props.course}
                     </Grid>
                     <Grid item xs={1} md={1}>
-                        <FormControl
+                       <FormControl
+                            style={{minWidth: 90}}
                             variant="outlined">
                                 <InputLabel > {this.state.labelname}</InputLabel>
                                     <Select
                                         label={this.state.labelname}
-                                        defaultValue={this.state.gradingIdForSelect}
-                                        onChange={this.state.labelname}
-                                        name="gradingIdForSelect">
+                                        value={this.state.gradingIdForSelect}
+                                        onChange={this.handleSelectChangeGrade}
+                                        name="gradingid">
                                         {this.state.gradings.map((grading) => (
                                             <MenuItem key={grading.getID()} value={grading.getID()}>
                                                 {grading.getGrade()}
