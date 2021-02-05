@@ -112,21 +112,6 @@ class TableEntry extends Component {
         this.setState({ priority: e.target.value });
       }
 
-    addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.props.cUserID, this.props.id);
-        newParticipation.setDate(this.state.creationDate)
-        newParticipation.setPriority(this.state.priority)
-        newParticipation.setProjectID(this.props.id)
-        newParticipation.setStudentID(this.props.cUserID)
-        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            console.log(newParticipation)
-    
-        }).catch(e =>
-            
-            this.setState({
-                updatingError: e
-            }))
-    }
 
 
 
@@ -146,15 +131,6 @@ class TableEntry extends Component {
 
     handleClick(){
         
-        
-        if(this.state.select === true && this.state.buttoncounter === 0){
-            return(
-            this.addParticipation(),
-            console.log("Participation created"),
-            this.handleSelect(),
-            this.setState({buttoncounter: 1})
-            );
-       }
        if(this.state.select === false && this.state.buttoncounter === 0){
            return(
             this.deleteParticipation(),

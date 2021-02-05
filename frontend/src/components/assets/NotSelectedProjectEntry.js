@@ -127,16 +127,7 @@ class TableEntry extends Component {
             }))
     }
 
-
-
-     // Delets the participation
-     deleteParticipation = (participation) => {
-        participation = this.props.participationID;
-        console.log(participation);
-        ElectionSystemAPI.getAPI().deleteParticipation(participation)
-        console.log(participation);
-        
-    }
+     
 
     reload(){
         window.location.reload();
@@ -150,14 +141,6 @@ class TableEntry extends Component {
             return(
             this.addParticipation(),
             console.log("Participation created"),
-            this.handleSelect(),
-            this.setState({buttoncounter: 1})
-            );
-       }
-       if(this.state.select === false && this.state.buttoncounter === 0){
-           return(
-            this.deleteParticipation(),
-            console.log("Participation deleted"),
             this.handleSelect(),
             this.setState({buttoncounter: 1})
             );
