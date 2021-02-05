@@ -136,6 +136,7 @@ class AdminButtonBar extends Component {
                     openk={this.state.openk}
                     openKeyCom={this.openKeyCom}
                     closeKeyCom={this.closeKeyCom}
+                    handleReload={this.props.handleReload}
               />
               < CreateProject
                     {...this.props}
