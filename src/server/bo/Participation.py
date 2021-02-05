@@ -51,6 +51,7 @@ class Participation(bo.BusinessObject):
 
         """"Converts a Python dict() into a Participation()."""
         participation = Participation()
+        participation.set_date(dicti["creation_date"])
         participation.set_priority(dicti["priority"])
         participation.set_grading_id(dicti["grading_id"])
         participation.set_student_id(dicti["student_id"])

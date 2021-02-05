@@ -46,7 +46,8 @@ class ProfProjectEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 2,
+            cUserID: null,
+            cUser: [],
             buttoncounter:0,
             state: null,
             currentState: [],
@@ -127,19 +128,22 @@ class ProfProjectEntry extends Component {
         this.setState({ priority: e.target.value });
       }
 
-    
 
     handleClickOpen = () => {
         this.props.history.push({
-            pathname: '/professor/particpations',
+            pathname: '/professor/participations',
             state:{
-                projectID: this.props.id,
-                projectName: this.props.name
+                projectID: this.props.pd,
+                projectName: this.props.name,
+                project: this.props.project,
+                prof: this.props.prof,
+                cUser: this.props.history.location.state.cUser
             }
         })
  
       }
 
+      
     closeGrading = () => {
         this.setState({open: false})
         

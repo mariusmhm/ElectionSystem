@@ -163,7 +163,7 @@ class CreateKeyCompetence extends Component {
             this.setState({
                 error: e,
 
-            }))
+            }), window.location.reload())
 
     }
 

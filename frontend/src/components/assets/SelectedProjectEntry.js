@@ -45,7 +45,7 @@ class TableEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            cUser: null,
+            cUserID: null,
             buttoncounter:0
             
 
@@ -112,21 +112,6 @@ class TableEntry extends Component {
         this.setState({ priority: e.target.value });
       }
 
-    addParticipation = () =>{
-        let newParticipation = new ParticipationBO(this.state.creationDate,this.state.priority,null,this.props.cUser, this.props.id);
-        newParticipation.setDate(this.state.creationDate)
-        newParticipation.setPriority(this.state.priority)
-        newParticipation.setProjectID(this.props.id)
-        newParticipation.setStudentID(this.props.cUser)
-        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            console.log(newParticipation)
-    
-        }).catch(e =>
-            
-            this.setState({
-                updatingError: e
-            }))
-    }
 
 
 
@@ -146,15 +131,6 @@ class TableEntry extends Component {
 
     handleClick(){
         
-        
-        if(this.state.select === true && this.state.buttoncounter === 0){
-            return(
-            this.addParticipation(),
-            console.log("Participation created"),
-            this.handleSelect(),
-            this.setState({buttoncounter: 1})
-            );
-       }
        if(this.state.select === false && this.state.buttoncounter === 0){
            return(
             this.deleteParticipation(),
@@ -196,47 +172,39 @@ class TableEntry extends Component {
         return (
   
  
-            <Grid container justify="flex-start" xs={12} xl={12}>
+            <Grid container justify="flex-start" xs={12} md={12}>
                    
                    
                     <Grid container justify="flex-start" xs={12}  >
                         
-                        <Grid item xs={6} xl={6}>
+                        <Grid item xs={3} md={6}>
                                 
                                     <Button
                                             variant="contained"
                                             color="none"
                                             onClick={this.toggleClass.bind(this, this.props.id)}
-                                            style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
+                                            style={{ backgroundColor: 'transparent', boxShadow: 'none', textAlign: 'left' }}
                                             endIcon={this.state.activeIndex ? <ArrowDropDownIcon /> : <ArrowDropDownIcon />}
                                         >
                                             <Typography variant="h5">{this.props.name}</Typography>
                                     </Button>
                                 
                         </Grid>
-                        <Grid container xs={6} xl={6} justify="flex-end" alignItems="center">
-                            <Grid item xs={3} xl={2}>
-                               
-                                
-                                    
-                                    <Typography variant="subtitle2" style={{display:  this.state.select ? 'none' : 'block'}}>
-                                         Priority: {this.props.priority}</Typography>
-                                         
-                                
-                            
-                            
-                            
+                        <Grid container xs={9} md={6} justify="flex-end" alignItems="center">
+                            <Grid item xs={3} md={2}>
+
+                                    <Typography variant="subtitle2" >
+                                         Priority: {this.props.priority}
+                                    </Typography>
+
                             </Grid>
-                            <Grid item xs={3} xl={2}>
+                            <Grid item xs={3} md={2}>
                                 
                                 <Button
-                                    
                                     variant="contained"
                                     color="secondary"
-                                    
                                     endIcon= {this.state.select ? <DoneAllIcon /> :  <DeleteForeverIcon/>}
                                     color={this.state.select ? "primary": "secondary"} 
-                                
                                     onClick={() => {
                                             this.handleClick();
                                     }} >  
@@ -254,11 +222,11 @@ class TableEntry extends Component {
                 
                 <Grid xs={12} container justify="flex-end" spacing={12} >
 
-                    <Grid xs={12} xl={11} container justify="flex-start"  alignItems="flex-end">
+                    <Grid xs={12} md={11} container justify="flex-start"  alignItems="flex-end">
         
                                 <Collapse in={activeIndex === this.props.id}>
 
-                                    <Grid xs={12} xl={6} item >
+                                    <Grid xs={12} md={6} item >
 
                                         <Typography variant="h6">Kurzbeschreibung<br/></Typography>
 
@@ -266,15 +234,15 @@ class TableEntry extends Component {
 
                                     </Grid>
                                     <br/>
-                                    <Grid container justify="flex-start" xl={9} xs={9}>
-                                        <Grid item xs={3} xl={3}>
+                                    <Grid container justify="flex-start" md={9} xs={9}>
+                                        <Grid item xs={3} md={3}>
                                             <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
                                         </Grid>
-                                        <Grid item xs={3} xl={3}>
+                                        <Grid item xs={3} md={3}>
                                             <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
                                         </Grid>
-                                        <Grid container justify="flex-end" xl={3} xs={3}>
-                                            <Grid item xs={3} xl={3}>
+                                        <Grid container justify="flex-end" md={3} xs={3}>
+                                            <Grid item xs={3} md={3}>
                                                 <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
                                             </Grid>
                                         </Grid>
