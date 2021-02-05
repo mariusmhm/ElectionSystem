@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
+import {Button, Collapse, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+
 
 import { ElectionSystemAPI, ParticipationBO,} from '../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
@@ -47,13 +47,6 @@ class TableEntry extends Component {
             priority: 0,
             cUserID: null,
             buttoncounter:0
-            
-
-
-
-
-
-
 
         };
         this.baseState = this.state;
@@ -175,9 +168,9 @@ class TableEntry extends Component {
             <Grid container justify="flex-start" xs={12} md={12}>
                    
                    
-                    <Grid container justify="flex-start" xs={12}  >
+                    <Grid container justify="flex-start" xs={12}  md={12} spacing={3}>
                         
-                        <Grid item xs={3} md={6}>
+                        <Grid item xs={2} md={6}>
                                 
                                     <Button
                                             variant="contained"
@@ -190,15 +183,15 @@ class TableEntry extends Component {
                                     </Button>
                                 
                         </Grid>
-                        <Grid container xs={9} md={6} justify="flex-end" alignItems="center">
-                            <Grid item xs={3} md={2}>
+                        <Grid container xs={10} md={6} justify="flex-end" alignItems="center" >
+                            <Grid item xs={3} md={3}>
 
                                     <Typography variant="subtitle2" >
                                          Priority: {this.props.priority}
                                     </Typography>
 
                             </Grid>
-                            <Grid item xs={3} md={2}>
+                            <Grid item xs={3} md={3}>
                                 
                                 <Button
                                     variant="contained"
@@ -207,8 +200,9 @@ class TableEntry extends Component {
                                     color={this.state.select ? "primary": "secondary"} 
                                     onClick={() => {
                                             this.handleClick();
-                                    }} >  
-                                    {this.state.select ? "Deleted" : "Deselect"}      
+                                    }} >
+
+                                    Deselect
                                 </Button>
                                
                             </Grid>

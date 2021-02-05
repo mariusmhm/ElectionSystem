@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core';
-import {ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import {ElectionSystemAPI } from '../../../api';
 import TableEntryButtonAdmin from './TableEntryButtonAdmin';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
@@ -44,10 +34,10 @@ constructor(props) {
     }
 
       /**Delets the project  **/
-      deleteProjectHandler = (project) => {
-
+    deleteProjectHandler = (projectid) => {
+        ElectionSystemAPI.getAPI().deleteProject(projectid)
         this.setState({
-          projects: this.state.projects.filter(projectFromState => projectFromState.getID() != project.getID())
+          projects: this.state.projects.filter(gradeFromState => gradeFromState.getID() != projectid)
         })
     }
 
