@@ -128,23 +128,24 @@ class TableListEntryTeilnehmer extends Component {
     }
 
     getParticipationForStudentAndProjectTwo =() =>{
+        console.log('hallo grading');
         ElectionSystemAPI.getAPI().getParticipationForStudentAndProject(this.props.id,this.props.pdID)
-        .then(participationBO =>{
+        .then(participationBO =>
             this.setState({
                 participationForGrading: participationBO,
                 gradingIdForSelect: participationBO.getGradingID(),
-
                 loaded: true,
                 error: null
-            });
-            if(this.state.gradingIdForSelect !== null){
+            }, function(){
+                console.log(participationBO.getGradingID());
+                console.log('gradin id');
+                if(this.state.gradingIdForSelect !== null){
                 this.setState({
                     labelname: '',
                 })
-            }
-
-            console.log(this.state.gradingIdForSelect)
-            }).catch(e =>
+                }
+                console.log(this.state.gradingIdForSelect)
+            })).catch(e =>
                 this.setState({
                     participations:[],
                     error: e
@@ -197,7 +198,8 @@ class TableListEntryTeilnehmer extends Component {
             del: true
 
         })
-        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID)
+        this.getParticipationForStudentAndProject(student.getID(),this.props.pdID);
+        console.log(this.gradingIdForSelect)
 
     }
 
@@ -248,9 +250,9 @@ class TableListEntryTeilnehmer extends Component {
                                 <InputLabel > {this.state.labelname}</InputLabel>
                                     <Select
                                         label={this.state.labelname}
-                                        value={this.state.gradingIdForSelect}
-                                        onChange={this.handleSelectChangeGrade}
-                                        name="gradingid">
+                                        defaultValue={this.state.gradingIdForSelect}
+                                        onChange={this.state.labelname}
+                                        name="gradingIdForSelect">
                                         {this.state.gradings.map((grading) => (
                                             <MenuItem key={grading.getID()} value={grading.getID()}>
                                                 {grading.getGrade()}
