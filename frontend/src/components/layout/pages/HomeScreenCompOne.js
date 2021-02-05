@@ -19,7 +19,7 @@ class HomeScreenCompOne extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cUser: this.props.history.location.state.cUser,
+            cUserID: this.props.history.location.state.cUserID,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -65,7 +65,7 @@ class HomeScreenCompOne extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUserID)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -191,7 +191,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        cUser = {this.state.cUser}
+                                                        cUserID = {this.state.cUserID}
                                                           
                                                     />
                                                     <Divider/>
@@ -249,7 +249,7 @@ class HomeScreenCompOne extends Component {
                                             dsc = {project.getShortDescription()}
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
-                                            cUser = {this.state.cUser}
+                                            cUserID = {this.state.cUserID}
                                             
                                         />
                                         <Divider/>

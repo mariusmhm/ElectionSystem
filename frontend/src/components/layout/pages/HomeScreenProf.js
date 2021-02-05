@@ -11,7 +11,7 @@ class HomeScreenProf extends Component {
         super(props)
         this.state = {
             loaded: false,
-            cUser: this.props.history.location.state.cUser,
+            cUserID: this.props.history.location.state.cUserID,
             
             profProjects: [],
             projecttypes: [],
@@ -42,7 +42,7 @@ class HomeScreenProf extends Component {
     }
 
     getAllProjects = () => {
-        ElectionSystemAPI.getAPI().getProjectForProfessor(this.state.cUser)
+        ElectionSystemAPI.getAPI().getProjectForProfessor(this.state.cUserID)
             .then(projectBO =>
 
                 
@@ -100,7 +100,7 @@ class HomeScreenProf extends Component {
 
 
     render () {
-        const { profProjects,loaded, cUser,projecttypes } = this.state;
+        const { profProjects,loaded, cUserID,projecttypes } = this.state;
         const {classes}= this.props;
 
         
@@ -173,7 +173,7 @@ class HomeScreenProf extends Component {
                         
                     </Toolbar>
                 </AppBar>
-                {cUser != null ? 
+                {cUserID != null ? 
                     < CreateProject
                         openpr={this.state.openpr}
                         openProject={this.openProject}

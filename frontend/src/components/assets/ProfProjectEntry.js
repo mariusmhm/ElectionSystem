@@ -46,7 +46,7 @@ class ProfProjectEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            student: 2,
+            cUserID: null,
             buttoncounter:0,
             state: null,
             currentState: [],

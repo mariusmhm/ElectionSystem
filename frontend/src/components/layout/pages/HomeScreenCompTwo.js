@@ -17,7 +17,7 @@ class HomeScreenCompTwo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            cUser: this.props.history.location.state.cUser,
+            cUserID: this.props.history.location.state.cUserID,
             number: 4,
             participationID: 1,
             activeIndex: null,
@@ -64,7 +64,7 @@ class HomeScreenCompTwo extends Component {
 
 
     getParticipationsForStudent = () => {
-        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUser)
+        ElectionSystemAPI.getAPI().getParticipationsForStudent(this.state.cUserID)
         .then(ParticipationBO =>
             this.setState({
                 participations: ParticipationBO,
@@ -204,7 +204,7 @@ class HomeScreenCompTwo extends Component {
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
                                                         grading = {participations.find(ptpID => ptpID.project_id === project.getID()).grading_id}
-                                                        cUser = {this.state.cUser}
+                                                        cUserID = {this.state.cUserID}
                                                         {...this.props}
                                                     />
                                                     

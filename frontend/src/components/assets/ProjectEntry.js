@@ -49,7 +49,7 @@ class TableEntry extends Component {
             lastname: '',
             firstname: '',
             priority: 0,
-            cUser: null,
+            cUserID: null,
             buttoncounter:0,
             grading: 2,
             grade: [],
