@@ -94,7 +94,8 @@ class TableEntryAdmin extends Component {
                projectID: this.props.pd,
                projectName: this.props.name,
                project: this.props.project,
-               prof: this.props.prof
+               prof: this.props.prof,
+               cUser: this.props.history.location.state.cUser
            }
        })
 
@@ -107,7 +108,8 @@ class TableEntryAdmin extends Component {
             state:{
                 projectID: this.props.pd,
                 prof: this.state.users,
-                pt: this.state.projecttype
+                pt: this.state.projecttype,
+                cUser: this.props.history.location.state.cUser
             }
         })
  

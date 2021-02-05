@@ -55,13 +55,19 @@ class HeaderProf extends Component {
 
   onClickAbout = () => {
       this.props.history.push({
-            pathname:'/professor/about'
+            pathname:'/professor/about',
+            state: {
+              cUser: this.props.history.location.state.cUser
+            }
         })
   }
 
   navigateHome = () => {
     this.props.history.push({
-      pathname:'/professor'
+      pathname:'/professor',
+      state: {
+        cUser: this.props.history.location.state.cUser
+      }
     })
   }
 
