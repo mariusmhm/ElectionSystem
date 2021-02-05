@@ -188,7 +188,7 @@ class TableEntry extends Component {
             <Grid container justify="flex-start" xs={12} md={12}>
                    
                    
-                    <Grid container justify="flex-start" xs={12}>
+                    <Grid container justify="flex-start" xs={12} md={12}>
                         
                         <Grid item xs={6} md={6}>
                                 
