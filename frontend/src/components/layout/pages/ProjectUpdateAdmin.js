@@ -302,7 +302,7 @@ class ProjectUpdateAdmin extends Component {
                     </Grid>
                     <Grid container item justify="space-between">
                         <Grid item>
-                            <Typography>ETCS: {this.state.showETCS === true ? this.state.projecttype.getEcts() : null}</Typography>
+                            <Typography>ECTS: {this.state.showETCS === true ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
                             <Typography>SWS: {this.state.showETCS === true ? this.state.projecttype.getSws() : null}</Typography>

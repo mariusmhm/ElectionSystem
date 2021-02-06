@@ -110,7 +110,7 @@ class HeaderAdmin extends Component {
               onClose={this.handleMobileClose}
             >
               <MenuItem onClick={() => {this.navigateHome(); this.handleMobileClose()}}>Home</MenuItem>
-              <MenuItem onClick={() => {this.navigateProfile(); this.handleMobileClose()}}>Profil</MenuItem>
+              <MenuItem onClick={() => {this.navigateProfile(); this.handleMobileClose()}}>Profile</MenuItem>
               <MenuItem onClick={() => {this.onClickAbout(); this.handleMobileClose()}}>About</MenuItem>
               <MenuItem onClick={() => {this.handleSignOutButtonClicked(); this.handleMobileClose()}}>Logout</MenuItem>
             </Menu>

@@ -222,7 +222,7 @@ class TableEntry extends Component {
 
                                     <Grid xs={12} md={6} item >
 
-                                        <Typography variant="h6">Kurzbeschreibung<br/></Typography>
+                                        <Typography variant="h6">Short Description<br/></Typography>
 
                                             {this.props.dsc}
 
@@ -230,14 +230,14 @@ class TableEntry extends Component {
                                     <br/>
                                     <Grid container justify="flex-start" md={9} xs={9}>
                                         <Grid item xs={3} md={3}>
-                                            <Typography variant="subtitle2">Ects: {this.props.ects}</Typography>
+                                            <Typography variant="subtitle2">ECTS: {this.props.ects}</Typography>
                                         </Grid>
                                         <Grid item xs={3} md={3}>
                                             <Typography variant="subtitle2">SWS: {this.props.sws}</Typography>
                                         </Grid>
                                         <Grid container justify="flex-end" md={3} xs={3}>
                                             <Grid item xs={3} md={3}>
-                                                <Typography variant="subtitle2">Professor*in:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
+                                                <Typography variant="subtitle2">professor:&nbsp;{this.state.loaded ? this.state.lastname: null},&nbsp;{this.state.loaded ? this.state.firstname: null}</Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
