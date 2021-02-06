@@ -8,7 +8,6 @@ import TableEntryButtonAdmin from './TableEntryButtonAdmin';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
-
 class RejectedProjectsAdmin extends Component {
 constructor(props) {
         super(props)

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import {  Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { ElectionSystemAPI } from '../../../api';
 import {withStyles} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-
-
 
 
 class TableEntryButtonTwo extends Component {
@@ -57,7 +54,7 @@ class TableEntryButtonTwo extends Component {
                     firstname: userBO.getFirstname(),
                     loadingInProgress: false,
                     error: null,
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                         loadingInProgress: false,

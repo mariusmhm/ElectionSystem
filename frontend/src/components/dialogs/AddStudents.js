@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import {Dialog,
-    TextField,
-    Button,
-    DialogTitle,
-    Grid} from'@material-ui/core';
+import { Dialog, TextField, Button, DialogTitle, Grid } from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ElectionSystemAPI, ParticipationBO} from '../../api';
+
 
 class AddStudents extends Component {
 
@@ -37,8 +34,6 @@ class AddStudents extends Component {
             this.setState({
             students: studentBOs,
             error: null
-            }, function(){
-                console.log(this.state.students)
             })).catch(e =>
                 this.setState({
                     students: [],

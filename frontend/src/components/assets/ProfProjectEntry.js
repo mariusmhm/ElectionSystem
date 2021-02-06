@@ -2,20 +2,8 @@ import React, { Component } from 'react';
 import {Button, Collapse,Typography, Grid, Divider} from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import GroupIcon from '@material-ui/icons/Group';
-
-
 import { ElectionSystemAPI} from '../../api';
-
-
-import GradingEditingDialog from '../dialogs/GradingEditingDialog'
-
-
-
 import {withStyles} from '@material-ui/core';
-
-
-
-
 
 
 class ProfProjectEntry extends Component {

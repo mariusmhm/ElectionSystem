@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Dialog,
-    DialogTitle, 
-    MenuItem, 
+import {MenuItem, 
     Select, 
     InputLabel, 
     TextField, 
@@ -11,9 +9,7 @@ import {Dialog,
     Radio, 
     Button,
     Grid,
-    Box,
-    Typography,
-    LinearProgress} from'@material-ui/core';
+    Typography} from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import DateFnsUtils from "@date-io/date-fns";
 import IconButton from '@material-ui/core/IconButton';
@@ -23,8 +19,6 @@ import {ElectionSystemAPI, ProjectBO} from '../../../api';
 
 
 class ProjectUpdateAdmin extends Component {
-
-
     constructor(props) {
       super(props);
 
@@ -187,7 +181,6 @@ class ProjectUpdateAdmin extends Component {
 
     // Updates a Project
     updateProject = () => {
-        console.log('updateProject')
         let newProject = Object.assign(new ProjectBO(), this.state.project);
         newProject.setName(this.state.projectname);
         newProject.setModule(this.state.moduleSelected);

@@ -63,8 +63,7 @@ class Semester extends Component {
         updatedSemester.setName(this.state.name);
         updatedSemester.setSubmitProjects(this.state.subProjects);
         updatedSemester.setGrading(this.state.grading);
-        updatedSemester.setElection(this.state.election);        
-        console.log(JSON.stringify(updatedSemester));
+        updatedSemester.setElection(this.state.election);
         ElectionSystemAPI.getAPI().updateSemester(updatedSemester)
         .then(semester => {
             this.props.closeDialog()
@@ -94,7 +93,6 @@ class Semester extends Component {
     handleElection = () =>{
         if(this.state.election === false){
             ElectionSystemAPI.getAPI().election();
-            console.log('election started');
             this.setState({
                 grading:true
             });

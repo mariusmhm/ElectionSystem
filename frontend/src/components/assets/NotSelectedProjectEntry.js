@@ -2,17 +2,10 @@ import React, { Component } from 'react';
 import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-
-import { ElectionSystemAPI, ParticipationBO,} from '../../api';
+import { ElectionSystemAPI, ParticipationBO } from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-
-
-
 import {withStyles} from '@material-ui/core';
-
-
-
 
 
 class TableEntry extends Component {
@@ -112,11 +105,8 @@ class TableEntry extends Component {
         newParticipation.setPriority(this.state.priority)
         newParticipation.setProjectID(this.props.id)
         newParticipation.setStudentID(this.props.cUserID)
-        ElectionSystemAPI.getAPI().addParticipation(newParticipation).then(participation => {
-            console.log(newParticipation)
-    
-        }).catch(e =>
-            
+        ElectionSystemAPI.getAPI().addParticipation(newParticipation)
+        .catch(e =>
             this.setState({
                 updatingError: e
             }))
@@ -135,7 +125,6 @@ class TableEntry extends Component {
         if(this.state.select === true && this.state.buttoncounter === 0){
             return(
             this.addParticipation(),
-            console.log("Participation created"),
             this.handleSelect(),
             this.setState({buttoncounter: 1})
             );
@@ -202,8 +191,8 @@ class TableEntry extends Component {
                                         onChange={this.handleChange}
                                         style={{display:  this.state.select ? 'block' : 'none'}}
                                     >
-                                        <MenuItem value="0">Priority</MenuItem>
-                                        <MenuItem value="1"> 1st priority</MenuItem>
+                                        <MenuItem value="5">Priority</MenuItem>
+                                        <MenuItem value="1">1st priority</MenuItem>
                                         <MenuItem value="2">2nd priority </MenuItem>
                                         <MenuItem value="3">3rd priority </MenuItem>
                                         <MenuItem value="4">4th priority </MenuItem>

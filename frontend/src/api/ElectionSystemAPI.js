@@ -8,11 +8,11 @@ import StudentBO from './StudentBO';
 import UserBO from './UserBO';
 import State from './State';
 
+
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
  * The class is implemented as a singleton.
  */
-
 export default class ElectionSystemAPI {
 
      // Singelton instance
@@ -251,7 +251,6 @@ export default class ElectionSystemAPI {
    * @public
    */
     updateProject(project){
-      console.log('wird aufgerufen');
         return this.#fetchAdvanced(this.#updateProjectURL(project.getID()), {
             method: 'PUT',
             headers:{
@@ -286,7 +285,6 @@ export default class ElectionSystemAPI {
     //-------------------Election---------------------------------
 
     election(){
-      console.log('election api call');
       return this.#fetchAdvanced(this.#electionURL());
     }
 
@@ -534,7 +532,6 @@ export default class ElectionSystemAPI {
    * @public
    */
     getAllGrades(){
-      console.log('API aufgerufen')
       return this.#fetchAdvanced(this.#getAllGradesURL()).then((responseJSON)=> {
         let responseGradingBOs = GradingBO.fromJSON(responseJSON);
         console.info('response' + responseGradingBOs);
@@ -738,7 +735,6 @@ export default class ElectionSystemAPI {
       return this.#fetchAdvanced(this.#getParticipationForStudentAndProjectURL(studentID, projectID))
       .then((responseJSON) => {
         let responseParticipationBOs = ParticipationBO.fromJSON(responseJSON)[0];
-        console.log('response api' + JSON.stringify(responseParticipationBOs));
         return new Promise(function (resolve) {
           resolve(responseParticipationBOs);
         })
@@ -787,7 +783,6 @@ export default class ElectionSystemAPI {
    * @public
    */
     updateSemester(semester){
-        console.log("api aufruf")
         return this.#fetchAdvanced(this.#updateSemesterURL(semester.getID()), {
             method: 'PUT',
             headers:{
@@ -919,7 +914,6 @@ export default class ElectionSystemAPI {
     let responseStudentBOs = StudentBO.fromJSON(responseJSON);
     return new Promise(function (resolve) {
       resolve(responseStudentBOs);
-      console.log(responseStudentBOs);
     })
   })
 }

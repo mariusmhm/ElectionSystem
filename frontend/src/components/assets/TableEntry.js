@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography, TableContainer } from "@material-ui/core";
-import { ExpandMoreIcon } from '@material-ui/icons/ExpandMore';
-
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../api';
+import { TableRow, TableCell, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
+import { ElectionSystemAPI, ParticipationBO } from '../../api';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { makeStyles } from '@material-ui/core/styles';
-
-
 
 
 class TableEntry extends Component {
@@ -64,7 +56,6 @@ class TableEntry extends Component {
                         users: [],
                         error: e
                     }))
-        console.log('User ausgeführt');
     }
 
     toggleClass(index, e) {
@@ -105,8 +96,6 @@ class TableEntry extends Component {
             newParticipation.setProjectID(this.props.id)
             newParticipation.setStudentID(this.state.student)
             newParticipation.setDate(this.state.date)
-            console.log(newParticipation)
-            console.log("Participation created");
             
         }).catch(e =>
             
@@ -177,8 +166,8 @@ class TableEntry extends Component {
                                 defaultValue="0"
                                 onChange={this.handleChange}
                             >
-                                <MenuItem value="0">None selected</MenuItem>
-                                <MenuItem value="1"> 1st priority</MenuItem>
+                                <MenuItem value="5">None selected</MenuItem>
+                                <MenuItem value="1">1st priority</MenuItem>
                                 <MenuItem value="2">2nd priority </MenuItem>
                                 <MenuItem value="3">3rd priority </MenuItem>
                                 <MenuItem value="4">4th priority </MenuItem>

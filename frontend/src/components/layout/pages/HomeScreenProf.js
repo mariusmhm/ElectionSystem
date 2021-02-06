@@ -60,7 +60,7 @@ class HomeScreenProf extends Component {
                 this.setState({
                     projects: [],
                     error: e
-                })).then(console.log('Projects loaded'))
+                }))
 
     }
 
@@ -83,14 +83,7 @@ class HomeScreenProf extends Component {
                 }))               
             }
 
-            else{
-                console.log('Not')
-            }
-
-
-            
-
-        }).then(console.log('Ready'))
+        })
 
 
     }
@@ -215,7 +208,7 @@ class HomeScreenProf extends Component {
                 <br/>
                 <Grid container >
                     <Grid item xs={6}>
-                    <Typography variant="h5">My Projects as Add Prof</Typography>
+                    <Typography variant="h5">My Projects as an additional Prof</Typography>
                     </Grid>
                     
 

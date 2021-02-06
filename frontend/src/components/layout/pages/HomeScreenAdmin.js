@@ -13,6 +13,7 @@ import AdminButtonBar from './AdminButtonBar';
 import { ElectionSystemAPI } from '../../../api';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
+
 class HomeScreenAdmin extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +37,6 @@ class HomeScreenAdmin extends Component {
     getAllSemester = () => {
       ElectionSystemAPI.getAPI().getAllSemester()
       .then(semesterBO =>{
-          console.log(semesterBO.getGrading())
           if(semesterBO.getGrading() === false && semesterBO.getSubmitProjects() === false && semesterBO.getElection() === false ){
               this.setState({
                   loadingInProgress: false,

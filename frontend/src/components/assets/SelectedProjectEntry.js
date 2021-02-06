@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import {Button, Collapse, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-
-
 import { ElectionSystemAPI, } from '../../api';
-
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-
-
-
 import {withStyles} from '@material-ui/core';
-
-
-
 
 
 class TableEntry extends Component {
@@ -111,9 +102,7 @@ class TableEntry extends Component {
      // Delets the participation
      deleteParticipation = (participation) => {
         participation = this.props.participationID;
-        console.log(participation);
         ElectionSystemAPI.getAPI().deleteParticipation(participation)
-        console.log(participation);
         
     }
 
@@ -127,7 +116,6 @@ class TableEntry extends Component {
        if(this.state.select === false && this.state.buttoncounter === 0){
            return(
             this.deleteParticipation(),
-            console.log("Participation deleted"),
             this.handleSelect(),
             this.setState({buttoncounter: 1})
             );

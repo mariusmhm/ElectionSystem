@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { Grid, Button, Collapse, FormControl, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO } from '../../../api';
+import { Grid, Button } from "@material-ui/core";
+import { ElectionSystemAPI } from '../../../api';
 import {withStyles} from '@material-ui/core';
-import { Redirect } from 'react-router'
-import { makeStyles } from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-
 
 
 class TableEntryAdmin extends Component {
@@ -53,7 +50,7 @@ class TableEntryAdmin extends Component {
                     firstname: userBO.getFirstname(),
                     loadingInProgress: false,
                     error: null
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                          loadingInProgress: false,
@@ -102,7 +99,6 @@ class TableEntryAdmin extends Component {
     }
 
     pcHandleClick = () =>{
-        console.log('click');
         this.props.history.push({
             pathname: '/admin/project-content',
             state:{
