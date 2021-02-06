@@ -277,7 +277,7 @@ class TableListEntryTeilnehmer extends Component {
                                     </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={1} md={1}>
+                    <Grid className={classes.save} item xs={1} md={1}>
                         <Button variant="outlined" onClick={this.handleClick} disabled={this.state.disabled}> SAVE </Button>
                     </Grid>
                     <Grid/>
@@ -294,6 +294,10 @@ const styles = theme => ({
         margin: '0px',
         padding: theme.spacing(1),
 
+    },
+    
+    save: {
+        marginLeft: '20px',
     },
 
     redHeader: {
