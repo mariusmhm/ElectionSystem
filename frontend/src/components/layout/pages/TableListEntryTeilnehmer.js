@@ -127,7 +127,7 @@ class TableListEntryTeilnehmer extends Component {
         }, function(){
             console.log('after set state participation bo');
             if(this.state.del){
-                this.deleteParicipation(this.state.participation)
+                this.deleteParicipation(pb)
                 
             }else{
                 this.updateParticipation()
@@ -194,24 +194,26 @@ class TableListEntryTeilnehmer extends Component {
 
 
      deleteParicipation = (participation) => {
+        let parId = participation.getProjectID();
         ElectionSystemAPI.getAPI().deleteParticipation(participation.getID())
-        .then(participation => {
+        .then(par => {
             console.log('delete student');
+            this.props.removeStudent(parId);
         }).catch(e =>
           this.setState({
             error: e
           })
         );
-        this.props.removeStudent(participation.getStudentID());
+        
     }
 
     deleteHandler(student){
+        console.log(JSON.stringify(student));
         this.setState({
             del: true
 
         })
         this.getParticipationForStudentAndProject(student.getID(),this.props.pdID);
-        console.log(this.state.gradingIdForSelect)
 
     }
 
