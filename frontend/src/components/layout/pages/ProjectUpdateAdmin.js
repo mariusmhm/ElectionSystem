@@ -226,13 +226,12 @@ class ProjectUpdateAdmin extends Component {
         }else{
             newProject.setDateBlockDaysDuringLecture(this.state.dateDuringLecture); //darf nicht null sein muss ein String sein 0000-00-00
         }
-        console.log(JSON.stringify(newProject));
 
         ElectionSystemAPI.getAPI().updateProject(newProject).then(projectBO => {
             this.showETCS = false;
             this.setState(this.baseState);
 
-        }).catch(e => console.log(e))
+        })
     }
 
      render(){

@@ -95,6 +95,8 @@ class Semester extends Component {
             ElectionSystemAPI.getAPI().election();
             this.setState({
                 grading:true
+            }, function(){
+                window.alert("All students successfully ordered to projects!")
             });
         }else{
             alert('Close election for students');

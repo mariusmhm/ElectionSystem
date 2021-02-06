@@ -119,14 +119,12 @@ constructor(props){
  
      }
      
-    reloadStudents(){        
-        console.log('reload students');        
+    reloadStudents(){            
         this.getStudents(this.state.projectID);    
     }
 
     updateProject = () => {
         // clone original semester, in case the backend call fails
-        console.log(this.props.history.location.state.project)
         let updatedProject = Object.assign(new ProjectBO(), this.props.history.location.state.project); //eventuell raus nehehmen
         // set the new value for the state so it gets archived
         if (updatedProject.getDateBlockDaysDuringLecture() === null){
@@ -134,9 +132,7 @@ constructor(props){
         }
         updatedProject.setState(4);
 
-        console.log(JSON.stringify(updatedProject));
-
-        ElectionSystemAPI.getAPI().updateProject(updatedProject).catch(e => console.log(e));
+        ElectionSystemAPI.getAPI().updateProject(updatedProject);
 
     } 
 
