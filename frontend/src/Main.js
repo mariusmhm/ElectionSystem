@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Registration from './components/layout/pages/Registration';
 import {ElectionSystemAPI} from './api';
 import firebase from 'firebase/app';
+import { LinearProgress } from '@material-ui/core';
 
 
 class Main extends Component {
@@ -15,7 +16,7 @@ class Main extends Component {
 		cUser: null,
 		appError: null,
 		authError: null,
-        authLoading: false,
+        authLoading: true,
         exists: false,
         error: null,
         mail:'',
@@ -45,7 +46,7 @@ class Main extends Component {
 		    
 	    }
             )
-        }
+        }else(this.getStudentbyGoogleId())
     }).catch(e =>
             this.setState({
                 error: e,
@@ -66,7 +67,7 @@ class Main extends Component {
                 this.mainComponent();
                 console.log(this.state.uRole)
             }  )
-        }
+        }else(this.setState({authLoading:false}))
     }).catch(e =>
             this.setState({
                 error: e,
@@ -74,7 +75,6 @@ class Main extends Component {
     }
 
     componentDidMount(){
-        this.getStudentbyGoogleId();
         this.getUserbyGoogleId()
     }
 
@@ -106,22 +106,28 @@ class Main extends Component {
                     cUserID: this.state.cUser.getID()
                 }
             })
+        }else {
+            
         }
+        
     }
 
     render(){
         
         return(
             <div>
+                {this.state.authLoading ? <LinearProgress color="secondary" />:
                 <Router basename={process.env.PUBLIC_URL}>
-                    {this.state.exists === false  ?
+                    
                     <>
 					<Redirect to='/registration'/>
-					<Route path='/registration'><Registration {...this.props}/></Route>
+					<Route path='/registration'>
+                        <Registration {...this.props}/>
+                    </Route>
                     </>
-                    :null
-                    }
+                    
                 </Router>
+                }
                 
             </div>
 
