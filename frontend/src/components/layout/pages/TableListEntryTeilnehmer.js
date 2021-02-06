@@ -193,12 +193,12 @@ class TableListEntryTeilnehmer extends Component {
     }
 
 
-     deleteParicipation = (participation) => {
-        let parId = participation.getProjectID();
+    deleteParicipation = (participation) => {
+        let studentid = participation.getStudentID();
         ElectionSystemAPI.getAPI().deleteParticipation(participation.getID())
         .then(par => {
             console.log('delete student');
-            this.props.removeStudent(parId);
+            this.props.removeStudent(studentid);
         }).catch(e =>
           this.setState({
             error: e

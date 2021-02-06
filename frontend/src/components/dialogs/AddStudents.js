@@ -74,7 +74,7 @@ class AddStudents extends Component {
         ElectionSystemAPI.getAPI().addParticipation(newParticipation)
         .then(par => {
             this.props.closeAddStudentDialog();
-            this.props.reloadStudents();
+            this.props.reloadStudents(this.state.studentSelected);
             this.setState(this.baseState);
 
         }).catch(e =>

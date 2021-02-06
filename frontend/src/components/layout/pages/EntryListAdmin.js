@@ -21,7 +21,6 @@ constructor(props){
 
     this.state= {
     students:[],
-    participations:[],
     gradings: [],
     error: null,
     grade: '',
@@ -34,13 +33,15 @@ constructor(props){
     updatingError: null,
     deletingError: null,
     projectID: this.props.history.location.state.projectID,
-    open: false
+    open: false,
+    test: 'hallo',
     };
     this.baseState = this.state;
+    this.removeStudent = this.removeStudent.bind(this)
 
 }
 
-getAllGrades = () => {
+    getAllGrades = () => {
         ElectionSystemAPI.getAPI().getAllGrades()
         .then(gradingBOs =>
             this.setState({
@@ -54,8 +55,7 @@ getAllGrades = () => {
                 }))
     }
 
-getStudentByParticipations = (projectid) => {
-        console.log('get students')
+    getStudents = (projectid) => {
         ElectionSystemAPI.getAPI().getStudentByParticipations(projectid)
         .then(studentBOs =>
             this.setState({
@@ -64,7 +64,6 @@ getStudentByParticipations = (projectid) => {
                 error: null
             })).catch(e =>
                 this.setState({
-                    students:[],
                     error: e
                 }))
 
@@ -84,7 +83,7 @@ getStudentByParticipations = (projectid) => {
 
     componentDidMount(){
         this.getAllGrades();
-        this.getStudentByParticipations(this.props.history.location.state.projectID);
+        this.getStudents(this.state.projectID);
     }
 
     handleClick = () =>{
@@ -97,10 +96,7 @@ getStudentByParticipations = (projectid) => {
  
      }
      
-    reloadStudents(){
-        console.log('reload students');
-        this.getStudentByParticipations()
-    }
+    //reloadStudents(){        console.log('reload students');        this.getStudents()    }
 
     updateProject = () => {
         // clone original semester, in case the backend call fails
@@ -119,12 +115,11 @@ getStudentByParticipations = (projectid) => {
     } 
 
 
-    removeStudent(pid){
-        console.log('remove student');
-        console.log(pid);
-       
-        
-        this.getStudentByParticipations(pid);
+    removeStudent(studentid){
+        let filtered = this.state.students.filter(student => student.getID() !== studentid);
+        this.setState({
+            students: filtered
+        });
         
     }
 
@@ -133,7 +128,7 @@ getStudentByParticipations = (projectid) => {
      const { gradings, error, students} = this.state;
 
     return(
-            <Container maxWidth="xl">
+            <Container >
                 <AddStudents
                     open={this.state.open}
                     openAddStudentDialog={this.openAddStudentDialog}
@@ -141,11 +136,11 @@ getStudentByParticipations = (projectid) => {
                     projectID ={this.props.history.location.state.projectID}
                     reloadStudents={this.reloadStudents}
               />
-                <Grid container justify="Center" maxwidth="xl" className={classes.grid, classes.margin} >
+                <Grid container justify="Center" maxwidth="md" className={classes.grid, classes.margin} >
                 <Button onClick={this.handleClick}> <ArrowBackIosIcon /> </Button>
                     <Typography variant="h6" color="secondary" className={classes.redHeader}> Participants </Typography>
                 </Grid>
-                 <Grid container justify="Center" maxwidth="xl" className={classes.grid} >
+                 <Grid container justify="Center" maxwidth="md" className={classes.grid} >
                      <Typography variant="h6" color="secondary" className={classes.greyHeader}>of project  {this.props.history.location.state.projectName}</Typography>
                  </Grid>
                     <Grid container
