@@ -34,7 +34,7 @@ constructor(props){
     deletingError: null,
     projectID: this.props.history.location.state.projectID,
     open: false,
-    test: 'hallo',
+    cu: this.props.history.location.state.cUser.role_id,
     };
     this.baseState = this.state;
     this.removeStudent = this.removeStudent.bind(this);
@@ -88,12 +88,21 @@ constructor(props){
     }
 
     handleClick = () =>{
+        if (this.state.cu === 1){
         this.props.history.push({
             pathname: '/admin',
             state: {
                 cUser: this.props.history.location.state.cUser
             }
         })
+        }else if(this.state.cu === 3){
+            this.props.history.push({
+                pathname: '/professor',
+                state: {
+                    cUser: this.props.history.location.state.cUser
+                }
+            })
+        }
  
      }
      
