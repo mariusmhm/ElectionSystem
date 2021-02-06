@@ -101,7 +101,7 @@ constructor(props){
                 state: {
                     cUser: this.props.history.location.state.cUser
                 }
-            })
+            },window.location.reload())
         }
  
      }
