@@ -141,7 +141,6 @@ class ParticipationMapper(Mapper):
 
         self._connection.commit()
         cursor.close()
-
         return result
 
     def find_all_by_grading_id(self, grading_id):

@@ -689,8 +689,9 @@ class ElectionSystemAdministration (object):
             new_pp = []
             highest_prio = 1
             no_prio = 5
-            min_pp = 2
+            min_pp = 1
             participation_num = project_by_id.get_num_spots()
+
 
             if len(old_pp) > participation_num:
                 for pp in old_pp:
@@ -701,13 +702,18 @@ class ElectionSystemAdministration (object):
                         highest_prio = highest_prio + 1
                 
             elif len(old_pp) >= min_pp:
-                new_pp = old_pp
+                for old in old_pp:
+                    new_pp.append(old)
             else:
                 print("There are not enough Participations for this Project. Project ID:", project_id)
 
             for new in new_pp:
-                old_pp.remove(new)
+                if len(old_pp) == 1:
+                    old_pp.clear()
+                else:
+                    old_pp.remove(new)
                 adm.save_participation(new)
+                
 
             for old in old_pp:
                 adm.delete_participation(old)
