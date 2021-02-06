@@ -180,11 +180,11 @@ class CreateKeyCompetence extends Component {
             <Grid container spacing={2} justify="center" driection="row" className={classes.grid} >
                 <Grid item container direction="column" xs={12} md={6} spacing={2}>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" id="projectname"
+                        <TextField required fullWidth variant="outlined" id="projectname"
                         label="Name:" onChange={this.handleChange} value={this.state.projectname}/>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl required fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Module</InputLabel>
                             <Select id="moSelected" label="Module" onChange={this.handleSelectChange}>
                                     {this.state.modules.map(modules => (
@@ -194,10 +194,10 @@ class CreateKeyCompetence extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" label="EDV-number:" id="edvNumber" onChange= {this.handleChangeNum}/>
+                        <TextField required fullWidth variant="outlined" label="EDV-number:" id="edvNumber" onChange= {this.handleChangeNum}/>
                     </Grid>
                     <Grid item>
-                           <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                           <FormControl required fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
                                 <Select id="ptSelected" label="Projecttype" onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
@@ -208,14 +208,14 @@ class CreateKeyCompetence extends Component {
                     </Grid>
                     <Grid item container justify="space-between">
                         <Grid item>
-                            <Typography>ETCS:{this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
+                            <Typography>ECTS:{this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
                         <Typography>SWS: {this.showETCS ? this.state.projecttype.getSws() : null}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl required fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Number of spots</InputLabel>
                             <Select name="numSpots" label="Number of spots" onChange={this.handleSelectChange}>
                             {this.state.spots.map((number, index) => (
@@ -225,7 +225,7 @@ class CreateKeyCompetence extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl required fullWidth variant="outlined" className={classes.FormControl}>
                         <InputLabel>Professor</InputLabel>
                             <Select name="prof" label="Professor" onChange={this.handleSelectChange}>
                                 {this.state.professors.map((prof) => (
@@ -245,7 +245,7 @@ class CreateKeyCompetence extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <FormControl fullWidth variant="outlined" className={classes.FormControl}>
+                        <FormControl required fullWidth variant="outlined" className={classes.FormControl}>
                             <InputLabel>Language</InputLabel>
                             <Select name="language" label="language" onChange={this.handleSelectChange}>
                                 <MenuItem value="german">german</MenuItem>
@@ -254,7 +254,7 @@ class CreateKeyCompetence extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item>
-                        <TextField fullWidth variant="outlined" multiline rows={10}
+                        <TextField required fullWidth variant="outlined" multiline rows={10}
                         label="Short description:" id="shortDescription" onChange={this.handleChange} value={this.state.shortDescription}/>
                     </Grid>
                 <Grid container item direction="row" justify="center" alignItems="center" spacing={3}>

@@ -135,7 +135,7 @@ class About extends Component {
                 </Grid>
 
                 <Typography variant='caption'>
-                    © Hochschule der Medien 2020, all rights reserved.
+                    © Hochschule der Medien 2021, all rights reserved.
                 </Typography>
                 <br/>
                 <br/>

@@ -128,8 +128,8 @@ class App extends Component {
 							</>
 					}
 					<LoadingProgress show={authLoading} />
-					<ContextErrorMessage error={authError} contextErrorMsg={'Etwas ist schief gelaufen während dem Prozess'} onReload={this.handleSignIn} />
-					<ContextErrorMessage error={appError} contextErrorMsg={'Etwas ist schief geleaufen in der App. Bitte lade die Seite neu.'} />
+					<ContextErrorMessage error={authError} contextErrorMsg={'Something went wrong while running this process'} onReload={this.handleSignIn} />
+					<ContextErrorMessage error={appError} contextErrorMsg={'Something went wrong, please reload this site'} />
 
                     </Container>
 
