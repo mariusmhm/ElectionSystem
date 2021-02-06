@@ -6,8 +6,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
-
-
 class TableEntryButtonAdmin extends Component {
     constructor(props) {
         super(props)
@@ -54,7 +52,7 @@ class TableEntryButtonAdmin extends Component {
                     firstname: userBO.getFirstname(),
                     loadingInProgress: false,
                     error: null
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                         loadingInProgress: false,
@@ -116,7 +114,6 @@ class TableEntryButtonAdmin extends Component {
     }
 
     handleChange(e) {
-        console.log("Fruit Selected!!");
         this.setState({ priority: e.target.value });
       }
 

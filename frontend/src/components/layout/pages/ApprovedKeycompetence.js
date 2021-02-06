@@ -10,7 +10,6 @@ import TableEntryButtonKeycompetence from './TableEntryButtonKeycompetence';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
-
 class ApprovedKeycompetence extends Component {
 constructor(props) {
         super(props)
@@ -37,7 +36,7 @@ constructor(props) {
 
 
 
-       getProjectForModule= () =>{
+    getProjectForModule = () =>{
         ElectionSystemAPI.getAPI().getProjectForModule(7) /*get the module id where module is Keycompetence*/
         .then(projectBO => {this.setState({
             projects: projectBO,

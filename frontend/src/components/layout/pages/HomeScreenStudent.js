@@ -8,9 +8,6 @@ import HomeScreenCompTwo from './HomeScreenCompTwo';
 import { ElectionSystemAPI } from '../../../api';
 
 
-
-
-
 class HomeScreen extends Component {
     constructor(props) {
         super(props)

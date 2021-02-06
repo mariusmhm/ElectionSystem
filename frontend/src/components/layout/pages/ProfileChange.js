@@ -4,8 +4,8 @@ import { Container, Typography, Grid, Paper, withStyles } from '@material-ui/cor
 import UserDetailsEntry from '../../assets/UserDetailsEntry';
 import StudentDetailsEntry from '../../assets/StudentDetailsEntry';
 
-class ProfileChange extends React.Component {
 
+class ProfileChange extends React.Component {
     constructor(props){
         super(props);
 

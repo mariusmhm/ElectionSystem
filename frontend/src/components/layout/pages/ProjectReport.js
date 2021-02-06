@@ -3,8 +3,6 @@ import {ElectionSystemAPI} from '../../../api';
 import { Button, Grid, Typography, Container } from '@material-ui/core';
 
 
-
-
 class ProjectReport extends React.Component {
 
     constructor(props) {
@@ -63,7 +61,6 @@ class ProjectReport extends React.Component {
             this.getProjectStats();
             this.getStudentStats();
             this.getGrade();
-            console.log('ParticipationID: '+this.props.participationid);
         }).catch(e => this.setState({
             participation: [],
             error: e
@@ -91,7 +88,7 @@ class ProjectReport extends React.Component {
             }).catch(e => this.setState({
                 project: [],
                 error: e
-            }), console.log(this.state.profid))
+            }))
         }
     }
 

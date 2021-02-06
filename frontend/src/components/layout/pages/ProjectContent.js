@@ -61,8 +61,6 @@ class ProjectContent extends Component {
                 error: null,
                 loaded: true,
             });
-            console.log(this.state.module);
-            console.log('module');
         }).catch(e =>
                 this.setState({
                     module:[],
@@ -71,7 +69,6 @@ class ProjectContent extends Component {
     }
 
     getCurrentState = () => {
-    console.log('cs wird aufgerufen');
     ElectionSystemAPI.getAPI().getState(this.state.project.state)
     .then(state => 
         this.setState({
@@ -109,7 +106,6 @@ class ProjectContent extends Component {
         this.getProjecttype();
         this.getModule();
         this.getCurrentState();
-        console.log(JSON.stringify(projectBO));
         if(this.state.project.getAddProfessor() != null){
             this.setState({
                 addProfShow: true

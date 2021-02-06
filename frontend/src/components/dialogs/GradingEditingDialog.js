@@ -52,7 +52,6 @@ class GradingEditingDialog extends Component {
                     gradings:[],
                     error: e
                 }))
-        console.log('ausgeführt');
     }
 
     componentDidMount(){
@@ -82,10 +81,8 @@ class GradingEditingDialog extends Component {
 
 
     deleteGradeHandler = (grading) => {
-        console.log(grading);
-        ElectionSystemAPI.getAPI().deleteGrade(grading.getID()).then(grading => {
-          console.log(grading);
-        }).catch(e =>
+        ElectionSystemAPI.getAPI().deleteGrade(grading.getID())
+        .catch(e =>
           this.setState({
             deletingError: e
           })

@@ -687,7 +687,8 @@ class ElectionSystemAdministration (object):
             project_by_id = adm.get_project_by_id(project_id)
             old_pp = adm.get_by_project(project_id)
             new_pp = []
-            highest_prio = 4
+            highest_prio = 1
+            no_prio = 5
             min_pp = 2
             participation_num = project_by_id.get_num_spots()
 
@@ -695,24 +696,19 @@ class ElectionSystemAdministration (object):
                 for pp in old_pp:
                     if pp.get_priority() == highest_prio and len(new_pp) < participation_num:
                         new_pp.append(pp)
-                        print("first row", pp.get_priority())
-                    elif 0 < highest_prio and len(new_pp) < participation_num:
+                    elif no_prio >= highest_prio and len(new_pp) < participation_num:
                         new_pp.append(pp)
-                        highest_prio = highest_prio - 1
-                        print("sec row", pp.get_priority())
+                        highest_prio = highest_prio + 1
                 
             elif len(old_pp) >= min_pp:
                 new_pp = old_pp
-                print("third row", project_id)
             else:
-                print("There are not enough Participations for this Project", project_id)
+                print("There are not enough Participations for this Project. Project ID:", project_id)
 
             for new in new_pp:
                 old_pp.remove(new)
                 adm.save_participation(new)
-                print("add row", new.get_priority(), project_id)
 
             for old in old_pp:
                 adm.delete_participation(old)
-                print("del row", old.get_priority(), project_id)
 

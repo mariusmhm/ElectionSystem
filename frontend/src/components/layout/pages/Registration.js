@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core';
-import { Redirect } from 'react-router'
 import firebase from 'firebase/app';
 import { Button, 
         Grid, 
@@ -13,7 +12,6 @@ import { Button,
 import {ElectionSystemAPI, StudentBO, UserBO} from '../../../api';
 
 
-    
 class Registration extends Component {
     constructor(props) {
         super(props);

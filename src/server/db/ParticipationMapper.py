@@ -125,7 +125,7 @@ class ParticipationMapper(Mapper):
 
         result = []
         cursor = self._connection.cursor()
-        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={} ORDER BY priority DESC".format(project_id)
+        command = "SELECT id, creation_date, priority, grading_id, student_id, project_id FROM Participation WHERE project_id={} ORDER BY priority ASC".format(project_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

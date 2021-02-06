@@ -2,6 +2,7 @@ import React from 'react';
 import { ElectionSystemAPI, UserBO } from '../../api';
 import { TextField, Button, Grid, Typography } from '@material-ui/core';
 
+
 class UserDetailsEntry extends React.Component {
     constructor(props){
         super(props);

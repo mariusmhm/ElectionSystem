@@ -4,10 +4,10 @@ import {withStyles} from '@material-ui/core';
 import { Button, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+
 /**import {ThemeProvider} from '@material-ui/core/styles';**/
 //This will be the signin page. The user will thus be able to sign in to the ElectionSystem.
 //Users are professors, admins and students.
-
 class Signin extends Component {
 
     handleSignInButtonClicked = () => {

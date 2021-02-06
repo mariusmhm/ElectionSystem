@@ -10,11 +10,9 @@ import {Dialog,
     TableCell, 
     TableContainer, 
     TableRow} from'@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ModuleBO} from '../../api';
-
 
 
 class ModuleForm extends Component {
@@ -84,9 +82,8 @@ class ModuleForm extends Component {
     }
 
     deleteHandler = (m) => {
-        ElectionSystemAPI.getAPI().deleteModule(m.getID()).then(m => {
-          console.log(m);
-        }).catch(e =>
+        ElectionSystemAPI.getAPI().deleteModule(m.getID())
+        .catch(e =>
           this.setState({
             deletingError: e
           })

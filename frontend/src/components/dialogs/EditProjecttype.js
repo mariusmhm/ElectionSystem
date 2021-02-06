@@ -63,9 +63,8 @@ class EditProjecttype extends Component {
 
   /** Deletes this projecttype */
    deleteProjecttypeHandler = (projecttype) => {
-        ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID()).then(projecttype=> {
-          console.log(projecttype);
-        }).catch(e =>
+        ElectionSystemAPI.getAPI().deleteProjecttype(projecttype.getID())
+        .catch(e =>
           this.setState({ // Reset state with error from catch
             deletingError: e
           })
@@ -80,13 +79,10 @@ class EditProjecttype extends Component {
 /** Adds the Keycompetence */
     addProjecttype = () => {
         let newProjecttype = new ProjecttypeBO();
-        console.log(JSON.stringify(newProjecttype));
         newProjecttype.setName(this.state.projecttypename);
         newProjecttype.setDate(this.state.creationDate);
         newProjecttype.setSws(this.state.sws);
         newProjecttype.setEcts(this.state.ect);
-        console.log(JSON.stringify(newProjecttype));
-        console.log(this.state.projecttypename);
         ElectionSystemAPI.getAPI().addProjecttype(newProjecttype).then(projecttypeBO => {
            // Backend call sucessfull
          // reinit the dialogs state for a new empty keycompetence
@@ -109,8 +105,6 @@ class EditProjecttype extends Component {
     }
  /** Handles value changes of the forms textfields and validates them */
   handleChange = (e) =>{
-        console.log(e.target.value);
-        console.log(e.target.id);
         this.setState({
             [e.target.id]: e.target.value
         });

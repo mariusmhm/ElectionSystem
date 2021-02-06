@@ -70,12 +70,12 @@ class CreateProject extends Component {
         if(this.props.history.location.state.cUser.role_id === 3){
               this.setState({
                   notShowDrop: false,
-              },console.log('do not show drop down prof'));
+              });
               
         }else if(this.props.history.location.state.cUser.role_id === 1){
               this.setState({
                   notShowDrop: true,
-              },console.log('show drop down prof'));
+              });
         }
     }
 
@@ -186,8 +186,6 @@ class CreateProject extends Component {
         }else{
             newProject.setNumBlockDaysInExam(this.state.numBlockdaysInExam);
         }
-        
-        console.log(JSON.stringify(newProject));
 
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
             this.showETCS = false;
@@ -291,7 +289,7 @@ class CreateProject extends Component {
                     </Grid>
                     <Grid container item justify="space-between">
                         <Grid item>
-                            <Typography>ETCS: {this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
+                            <Typography>ECTS: {this.showETCS ? this.state.projecttype.getEcts() : null}</Typography>
                         </Grid>
                         <Grid item>
                             <Typography>SWS: {this.showETCS ? this.state.projecttype.getSws() : null}</Typography>

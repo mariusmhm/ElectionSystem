@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Collapse} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
-import { ElectionSystemAPI, ProjectBO, ParticipationBO, ProjecttypeBO, ModuleBO } from '../../../api';
+import { ElectionSystemAPI } from '../../../api';
 import LoadingProgress from '../../dialogs/LoadingProgress';
-
 
 
 class TableEntryButtonKeycompetence extends Component {
@@ -52,7 +51,7 @@ class TableEntryButtonKeycompetence extends Component {
                     firstname: userBO.getFirstname(),
                     loadingInProgress: false,
                     error: null
-                }),console.log(this.state.users)).catch(e =>
+                })).catch(e =>
                     this.setState({
                         users: [],
                         error: e,
@@ -136,7 +135,6 @@ class TableEntryButtonKeycompetence extends Component {
     }
 
     handleChange(e) {
-        console.log("Fruit Selected!!");
         this.setState({ priority: e.target.value });
       }
 

@@ -1,23 +1,8 @@
 import React, { Component } from 'react';
-import {Button, Collapse, FormControl,  MenuItem, Select, Typography, Grid, Divider } from "@material-ui/core";
+import {Button, Collapse, Typography, Grid, Divider } from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { Redirect, Route } from 'react-router'
-import { ElectionSystemAPI, ParticipationBO,} from '../../api';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-
-import GradingEditingDialog from '../dialogs/GradingEditingDialog'
-
-
-
+import { ElectionSystemAPI } from '../../api';
 import {withStyles} from '@material-ui/core';
-import ProjectReport from '../layout/pages/ProjectReport';
-import { Link } from 'react-router-dom';
-
-
-
 
 
 class TableEntry extends Component {
@@ -177,8 +162,6 @@ class TableEntry extends Component {
 
         const { classes } = this.props;
         const {activeIndex} = this.state;
-
-        console.log('Grade '+this.state.grade)
 
         
 

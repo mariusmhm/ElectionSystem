@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
-import Typography from '@material-ui/core/Typography'
-
-import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { withStyles,  Divider, LinearProgress } from '@material-ui/core';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { ElectionSystemAPI } from '../../../api';
-
 import ProjectEntry from '../../assets/ProjectEntry';
 
 
@@ -59,7 +53,6 @@ class HomeScreenCompTwo extends Component {
                         projecttypes: [],
                         error: e
                     }))
-        console.log('Projecttype ausgeführt');
     }
 
 
@@ -144,7 +137,6 @@ class HomeScreenCompTwo extends Component {
                     gradings: [],
                     error: e
                 }))
-                console.log('Gradings ausgeführt');
             }
     
     reload (){

@@ -1,20 +1,11 @@
 import React, {Component} from 'react';
-import {Dialog,
-    DialogTitle,
-    MenuItem,
-    Select,
-    InputLabel,
-    TextField,
-    FormControl,
-    Button,
-    Grid,
-    Typography} from'@material-ui/core';
+import { Dialog, DialogTitle, MenuItem, Select, InputLabel, TextField, FormControl, Button, Grid, Typography } from '@material-ui/core';
 import {withStyles} from '@material-ui/core';
 import ElectionSystemAPI from '../../api/ElectionSystemAPI';
 import ProjectBO from '../../api/ProjectBO';
 
-/**Creates a new Keycompetence as an projectBO**/
 
+/**Creates a new Keycompetence as an projectBO**/
 class CreateKeyCompetence extends Component {
  constructor(props) {
       super(props);
@@ -151,7 +142,6 @@ class CreateKeyCompetence extends Component {
         newProject.setNumBlockDaysDuringLecture(0);
         newProject.setDateBlockDaysDuringLecture(0);
         newProject.setNumBlockDaysInExam(0);
-        console.log(JSON.stringify(newProject));
         ElectionSystemAPI.getAPI().addProject(newProject).then(projectBO => {
          // Backend call sucessfull
          // reinit the dialogs state for a new empty keycompetence
