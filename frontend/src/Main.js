@@ -35,7 +35,6 @@ class Main extends Component {
     ElectionSystemAPI.getAPI().getUserForGoogleID(this.state.googleID).then(user => {
         console.log(user)
         if(user.getGoogleID() != null){
-            console.log('user exists')
             this.setState({
                 exists: true,
                 cUser: user,
@@ -57,8 +56,6 @@ class Main extends Component {
     ElectionSystemAPI.getAPI().getStudentForGoogleID(this.state.googleID).then(student => {
         console.log(student)
         if(student.getGoogleID() != null){
-            console.log('user exists')
-            
             this.setState({
                 exists: true,
                 cUser: student,
