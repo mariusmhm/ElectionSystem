@@ -37,7 +37,8 @@ constructor(props){
     test: 'hallo',
     };
     this.baseState = this.state;
-    this.removeStudent = this.removeStudent.bind(this)
+    this.removeStudent = this.removeStudent.bind(this);
+    this.reloadStudents = this.reloadStudents.bind(this)
 
 }
 
@@ -96,7 +97,10 @@ constructor(props){
  
      }
      
-    //reloadStudents(){        console.log('reload students');        this.getStudents()    }
+    reloadStudents(){        
+        console.log('reload students');        
+        this.getStudents(this.state.projectID);    
+    }
 
     updateProject = () => {
         // clone original semester, in case the backend call fails
