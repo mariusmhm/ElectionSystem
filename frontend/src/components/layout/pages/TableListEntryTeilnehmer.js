@@ -77,14 +77,13 @@ class TableListEntryTeilnehmer extends Component {
         if(this.state.participation != null){
             console.log('grading'+ this.state.gradingIdForSelect)
             console.log('lets go: '+ JSON.stringify(this.state.participation));
-            let updatedParticipation = new ParticipationBO();
-            updatedParticipation = this.state.participation;
+            let updatedParticipation = Object.assign(new ParticipationBO(), this.state.participation);
             updatedParticipation.setGradingID(this.state.gradingIdForSelect);
+            if(updatedParticipation.getPriority() === null){
+                updatedParticipation.setPriority(4);
+            }
             console.log('updatedparticiaption '+ JSON.stringify(updatedParticipation));
-            ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation)
-            .then({
-
-            }).catch(e => console.log(e));
+            ElectionSystemAPI.getAPI().updateParticipation(updatedParticipation).catch(e => console.log(e));
     }
     }
 
@@ -117,7 +116,6 @@ class TableListEntryTeilnehmer extends Component {
             this.stateHandler(participationBO);
             }).catch(e =>
             this.setState({
-                
                 error: e
         }))
     }
@@ -128,19 +126,6 @@ class TableListEntryTeilnehmer extends Component {
             participation: pb,
         }, function(){
             console.log('after set state participation bo');
-            this.updateParticipation();
-        })
-
-    }
-            
-    defineOp = () => {
-        
-            console.log('defineOp started');
-            console.log('id:'+this.state.participation.id)
-            console.log('priority:'+this.state.participation.priority)
-            console.log('grading_id:'+this.state.participation.grading_id)
-            console.log('student_id:'+this.state.participation.student_id)
-            console.log('project_id:'+this.state.participation.project_id)
             if(this.state.del){
                 this.deleteParicipation(this.state.participation)
                 
@@ -148,7 +133,8 @@ class TableListEntryTeilnehmer extends Component {
                 this.updateParticipation()
                 
             }
-        
+        })
+
     }
     
 
@@ -208,8 +194,9 @@ class TableListEntryTeilnehmer extends Component {
 
 
      deleteParicipation = (participation) => {
-        ElectionSystemAPI.getAPI().deleteParticipation(participation.getID()).then(participation => {
-
+        ElectionSystemAPI.getAPI().deleteParticipation(participation.getID())
+        .then(participation => {
+            console.log('delete student');
         }).catch(e =>
           this.setState({
             error: e
