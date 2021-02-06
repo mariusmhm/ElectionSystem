@@ -203,10 +203,10 @@ class TableEntry extends Component {
                                         style={{display:  this.state.select ? 'block' : 'none'}}
                                     >
                                         <MenuItem value="0">Priority</MenuItem>
-                                        <MenuItem value="1"> 1st priority</MenuItem>
-                                        <MenuItem value="2">2nd priority </MenuItem>
-                                        <MenuItem value="3">3rd priority </MenuItem>
-                                        <MenuItem value="4">4th priority </MenuItem>
+                                        <MenuItem value="4"> 1st priority</MenuItem>
+                                        <MenuItem value="3">2nd priority </MenuItem>
+                                        <MenuItem value="2">3rd priority </MenuItem>
+                                        <MenuItem value="1">4th priority </MenuItem>
                                     </Select>
                                     
                                          
