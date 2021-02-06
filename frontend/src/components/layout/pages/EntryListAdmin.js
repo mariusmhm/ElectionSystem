@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { TextField, Button, Grid, Typography, Container, Divider} from'@material-ui/core';
 import {withStyles} from '@material-ui/core';
-import {ElectionSystemAPI, ProjectBO, StudentBO, ParticipationBO} from '../../../api';
+import {ElectionSystemAPI, ProjectBO} from '../../../api';
 import TableListEntryTeilnehmer from './TableListEntryTeilnehmer';
 import AddStudents from '../../dialogs/AddStudents';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -27,20 +27,32 @@ constructor(props){
     name: '',
     firstname:'',
     study:'',
-    project:this.props.history.location.state.project,
     id: null,
     martrikelNummer:'',
     updatingError: null,
     deletingError: null,
-    projectID: this.props.history.location.state.projectID,
     open: false,
-    cu: this.props.history.location.state.cUser.role_id,
+    projectID: null,
+    project: null,
+    cu: null,
     };
     this.baseState = this.state;
     this.removeStudent = this.removeStudent.bind(this);
-    this.reloadStudents = this.reloadStudents.bind(this)
+    this.reloadStudents = this.reloadStudents.bind(this);
+    this.setProject = this.setProject.bind(this);
 
-}
+
+}   
+    setProject(){
+        if(this.props.history.location.state.project !== null){
+            this.setState({
+                projectID: this.props.history.location.state.projectID,
+                project:this.props.history.location.state.project,
+                cu: this.props.history.location.state.cUser.role_id,
+            }, () => this.getStudents(this.state.projectID))
+        }
+
+    }
 
     getAllGrades = () => {
         ElectionSystemAPI.getAPI().getAllGrades()
@@ -84,7 +96,7 @@ constructor(props){
 
     componentDidMount(){
         this.getAllGrades();
-        this.getStudents(this.state.projectID);
+        this.setProject();
     }
 
     handleClick = () =>{
@@ -99,9 +111,10 @@ constructor(props){
             this.props.history.push({
                 pathname: '/professor',
                 state: {
-                    cUser: this.props.history.location.state.cUser
+                    cUser: this.props.history.location.state.cUser,
+                    cUserID: this.props.history.location.state.cUserID,
                 }
-            },window.location.reload())
+            },this.forceUpdate())
         }
  
      }
@@ -146,7 +159,7 @@ constructor(props){
                     open={this.state.open}
                     openAddStudentDialog={this.openAddStudentDialog}
                     closeAddStudentDialog={this.closeAddStudentDialog}
-                    projectID ={this.props.history.location.state.projectID}
+                    projectID ={this.state.projectID}
                     reloadStudents={this.reloadStudents}
               />
                 <Grid container justify="Center" maxwidth="md" className={classes.grid, classes.margin} >
@@ -226,8 +239,8 @@ constructor(props){
                                         ADD STUDENT
                                 </Button>
                                 </Grid>
-                    
-                            <Grid item xs={12} md={6}>
+                            { this.state.cu === 1 ?
+                                <Grid item xs={12} md={6}>
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -236,6 +249,9 @@ constructor(props){
                                         GRADING COMPLETED
                                 </Button>
                             </Grid>
+                            : null
+                            }                    
+                            
                         </Grid>
                     </Grid>
                     </Grid>

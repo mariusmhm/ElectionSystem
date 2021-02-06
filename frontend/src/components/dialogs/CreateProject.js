@@ -193,8 +193,11 @@ class CreateProject extends Component {
             this.showETCS = false;
             this.setState(this.baseState);
             this.props.closeProject();
-            this.props.handleReload();
-            this.props.handleReloadProf();
+            if(this.props.history.location.state.cUser.role_id === 1){
+                this.props.handleReload();
+            }else if(this.props.history.location.state.cUser.role_id === 3){
+                this.props.handleReloadProf();
+            }           
 
 
         }).catch(e =>

@@ -25,6 +25,7 @@ class HomeScreenProf extends Component {
         };
     
     this.baseState = this.state;
+    this.handleReloadProf = this.handleReloadProf.bind(this);
     
     }
 
@@ -96,9 +97,15 @@ class HomeScreenProf extends Component {
 
     handleReloadProf(){
         console.log('handleReload');
-        this.setState({projects: []});
-        this.getAllProjecttypes();
-        this.getAllProjects(); 
+        this.setState({
+            projects:[],
+            profProjects: [],
+            addProjects: []
+        }, function(){
+            this.getAllProjecttypes();
+            this.getAllProjects(); 
+        })
+        
         
       }
 
@@ -143,8 +150,6 @@ class HomeScreenProf extends Component {
     render () {
         const { profProjects, addProjects, loaded, cUserID,projecttypes } = this.state;
         const {classes}= this.props;
-        console.log('ProfProjects: ' + profProjects);
-        console.log('AddProjects: ' + addProjects)
         
         
         return(

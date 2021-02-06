@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Collapse,Typography, Grid, Divider} from "@material-ui/core";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import GroupIcon from '@material-ui/icons/Group';
 
 
 import { ElectionSystemAPI} from '../../api';
@@ -51,7 +52,9 @@ class ProfProjectEntry extends Component {
             buttoncounter:0,
             state: null,
             currentState: [],
-            open: false
+            open: false,
+            projectName: this.props.name,
+            pid: this.props.id,
 
         };
         this.baseState = this.state;
@@ -59,7 +62,6 @@ class ProfProjectEntry extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleClickOpen = this.handleClickOpen.bind(this);
-        this.handleClose = this.closeGrading.bind(this);
         
     }
 
@@ -134,19 +136,14 @@ class ProfProjectEntry extends Component {
             pathname: '/professor/participations',
             state:{
                 projectID: this.props.id,
-                projectName: this.props.name,
+                projectName: this.state.projectName,
                 project: this.props.project,
                 prof: this.props.prof,
-                cUser: this.props.history.location.state.cUser
+                cUser: this.props.history.location.state.cUser,
+                cUserID: this.props.history.location.state.cUserID,
             }
         })
  
-      }
-
-      
-    closeGrading = () => {
-        this.setState({open: false})
-        
       }
 
 
@@ -181,11 +178,11 @@ class ProfProjectEntry extends Component {
                                     <Button
                                             variant="contained"
                                             color="none"
-                                            onClick={this.toggleClass.bind(this, this.props.id)}
+                                            onClick={this.toggleClass.bind(this, this.state.pid)}
                                             style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
                                             endIcon={this.state.activeIndex ? <ArrowDropDownIcon /> : <ArrowDropDownIcon />}
                                         >
-                                            <Typography variant="h5">{this.props.name}</Typography>
+                                            <Typography variant="h5">{this.state.projectName}</Typography>
                                     </Button>
                                 
                         </Grid>
@@ -199,7 +196,7 @@ class ProfProjectEntry extends Component {
                                 onClick={this.handleClickOpen}
                                 
                                 >
-                                    Participations
+                                    <GroupIcon/>
                                 </Button>
                             </Grid>
                             
