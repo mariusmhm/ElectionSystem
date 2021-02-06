@@ -73,21 +73,6 @@ class TableEntry extends Component {
         });
       }
 
-    moreLess(index) {
-        if (this.state.activeIndex === index) {
-          return (
-            <span>
-              <i className="fas fa-angle-up" /> Hide Description
-            </span>
-          );
-        } else {
-          return (
-            <span>
-              <i className="fas fa-angle-down" /> Show Description
-            </span>
-          );
-        }
-      }
 
     handleSelect(){
         
