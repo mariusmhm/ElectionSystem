@@ -55,7 +55,8 @@ CORS (app, resources = {r "/ electionsystem / *": {"origins": "*"}})
 However, this would then open the door to abuse, so it would be more advisable not
 to allow all "origins" but to name them explicitly. For more information, see the documentation on the flask-cors package."""
 
-CORS(app, resources=r'/electionsystem/*')
+CORS(app, support_credentials=True, resources={r'/electionSystem/*': {"origins": "*"}})
+
 
 """In the following section we build a model that describes the data structure,
 on the basis of which clients and servers exchange data. The basis for this is the flask-restx package."""
@@ -66,7 +67,7 @@ api = Api(app, version='1.0', title='Electionsystem API',
 """Create a namespace Namespaces allow us to structure APIs. In this case, this namespace includes all
 Electionsystem-relevant operations under the prefix / electionsystem together."""
 
-electionSystem = api.namespace('electionsystem', description="electionsystems functions")
+electionSystem = api.namespace('electionSystem', description="electionSystems functions")
 
 
 

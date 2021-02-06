@@ -11,12 +11,9 @@ class Mapper (AbstractContextManager, ABC):
 
     def __enter__(self):
 
-        """ if os.getenv('GAE_ENV', '').startswith('standard'):
-            self._connection = connector.connect(user='web357_35', password='XfJbuWNoVCpdnx5l', host='s217.goserver.host', database='web357_db35')
-            
-        else: """
-        #self._connection = connector.connect(user="root", password="12345678", host="127.0.0.1", database="electionsystem")
-        self._connection = connector.connect(user='web357_35', password='XfJbuWNoVCpdnx5l', host='s217.goserver.host', database='web357_db35')
+        
+        self._connection = connector.connect(user='root', password='Huwl6gpvI62kstJG', unix_socket='/cloudsql/electionsystemhdm:europe-west3:electionsystemhdm-db', database='electionsystemhdm')
+        #self._connection = connector.connect(user='web357_35', password='XfJbuWNoVCpdnx5l', host='s217.goserver.host', database='web357_db35')
         
         return self
 

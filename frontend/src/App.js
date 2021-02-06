@@ -97,7 +97,7 @@ class App extends Component {
    //Lifecycle method, which is called when the component gets inserted into the browsers DOM.
    //Initializes the firebase SDK.
    componentDidMount() {
-
+		
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
    }
@@ -123,7 +123,7 @@ class App extends Component {
 							:
 							// else show the sign in page
 							<>
-							<Redirect to='/signin'/>
+							<Redirect to='/index.html'/>
 							<Signin handleSignIn={this.handleSignIn} />
 							</>
 					}

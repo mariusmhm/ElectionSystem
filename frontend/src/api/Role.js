@@ -34,14 +34,14 @@ export default class Role {
     
             if (Array.isArray(roles)) {
                 roles.forEach((s) => {
-                    Object.setPrototypeOf(s, State.prototype);
+                    Object.setPrototypeOf(s, Role.prototype);
                     result.push(s);
                 })
             }
             // it's a single object and not an array
             else {
                 let s = roles;
-                Object.setPrototypeOf(s, State.prototype);
+                Object.setPrototypeOf(s, Role.prototype);
                 result.push(s);
             }
     

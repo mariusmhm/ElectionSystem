@@ -19,7 +19,7 @@ export default class ElectionSystemAPI {
     static #api = null;
 
     // Local Python backend
-    #electionSystemServerBaseURL ='http://localhost:5000/electionsystem';
+    #electionSystemServerBaseURL ='/electionSystem';
 
     //Project related
     #getAllProjectsURL = () => `${this.#electionSystemServerBaseURL}/project`;

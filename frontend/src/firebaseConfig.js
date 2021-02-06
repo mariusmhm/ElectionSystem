@@ -1,13 +1,12 @@
 /** The firebase config structure for the Election System as provided by the firebase admin website */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDZpuqZXiUPGy3BrofEx0zuGwXEI1EsGww",
-  authDomain: "electionsystem-44874.firebaseapp.com",
-  databaseURL: "https://electionsystem-44874.firebaseio.com",
-  projectId: "electionsystem-44874",
-  storageBucket: "electionsystem-44874.appspot.com",
-  messagingSenderId: "71536688568",
-  appId: "1:71536688568:web:362ba23556e246d555e34d"
+    apiKey: "AIzaSyC2BhSxv70ISbXS29ZBZZjPukQNHvXYmjw",
+    authDomain: "electionsystemhdm.firebaseapp.com",
+    projectId: "electionsystemhdm",
+    storageBucket: "electionsystemhdm.appspot.com",
+    messagingSenderId: "1037137898547",
+    appId: "1:1037137898547:web:4a0fbd2bd4340bacec0746"
 };
 
 export default firebaseConfig;
