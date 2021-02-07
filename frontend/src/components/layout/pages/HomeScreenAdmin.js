@@ -14,7 +14,19 @@ import { ElectionSystemAPI } from '../../../api';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
+/**
+ * Controlls  lists of new, approved, rejected and archived projects.
+ *
+ * @see See [RejectedProjectsAdmin]
+ *@see See [listEntryNewProjectsAdmin]
+ *@see See [Approved projectsAdmin]
+ *@see See [Archived ProjectsAdmin]
+ *
+ *
+ */
+
 class HomeScreenAdmin extends Component {
+/** Constructor of the component**/
     constructor(props) {
         super(props);
 

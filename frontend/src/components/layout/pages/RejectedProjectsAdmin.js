@@ -7,9 +7,16 @@ import {ElectionSystemAPI } from '../../../api';
 import TableEntryButtonAdmin from './TableEntryButtonAdmin';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
-
+/**
+ * Controlls  the list of rejected projects.
+ *
+ * @see See [TableEntry Admin]
+ *
+ * @author [Gruppe]
+ */
 class RejectedProjectsAdmin extends Component {
 constructor(props) {
+/*Constructor of the component*/
         super(props)
         this.state = {
             tableData: [],

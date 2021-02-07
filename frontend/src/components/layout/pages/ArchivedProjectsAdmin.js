@@ -9,6 +9,14 @@ import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
 
+
+/**
+ * Controlls  the list of archived projects.
+ *
+ * @see See [TableEntryButtonAdmin]
+ *
+ * @author [Gruppe]
+ */
 class ArchivedProjectsAdmin extends Component {
 constructor(props) {
         super(props)

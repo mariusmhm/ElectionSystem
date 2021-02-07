@@ -4,6 +4,11 @@ import Divider from '@material-ui/core/Divider';
 import {withStyles} from '@material-ui/core';
 
 
+
+/**
+ * Shows the about page with the impressum and  information
+ *
+ */
 class About extends Component {
     constructor(props) {
         super(props);

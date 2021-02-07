@@ -8,6 +8,14 @@ import TableEntryAdmin from './TableEntryAdmin';
 import LoadingProgress from '../../dialogs/LoadingProgress';
 
 
+/**
+ * Controlls  the list of approved projects.
+ *
+ * @see See [TableEntryAdmin]
+ *
+ * @author [Gruppe]
+ */
+
 class ApprovedProjectsAdmin extends Component {
 constructor(props) {
         super(props)

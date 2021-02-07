@@ -14,6 +14,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, ModuleBO} from '../../api';
 
+/**
+ * Controlls the modules. You can delete and create modules in here.
+ *
+ */
 
 class ModuleForm extends Component {
 
@@ -36,6 +40,7 @@ class ModuleForm extends Component {
 
     }
 
+    /*Gives back all modules*/
     getAllModules = () => {
         ElectionSystemAPI.getAPI().getAllModules()
         .then(moduleBOs =>{
@@ -50,6 +55,7 @@ class ModuleForm extends Component {
                 }))
     }
 
+    /*Adds a module*/
     addModule = () => {
         let newModule = new ModuleBO();
         newModule.setDate(this.state.creationDate);
@@ -65,6 +71,7 @@ class ModuleForm extends Component {
             }))
       }
 
+    /*Change handler*/
     handleChange = e =>{
         this.setState({
             [e.target.id]: e.target.value
@@ -81,6 +88,7 @@ class ModuleForm extends Component {
         this.getAllModules();
     }
 
+    /* Delete  a module */
     deleteHandler = (m) => {
         ElectionSystemAPI.getAPI().deleteModule(m.getID())
         .catch(e =>

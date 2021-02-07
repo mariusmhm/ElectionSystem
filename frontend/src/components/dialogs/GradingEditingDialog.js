@@ -17,7 +17,11 @@ import {ElectionSystemAPI, GradingBO} from '../../api';
 
 
 
-
+/**
+ * Controlls Gradings .
+ *
+ *
+ */
 
 class GradingEditingDialog extends Component {
 
@@ -41,6 +45,7 @@ class GradingEditingDialog extends Component {
         this.baseState = this.state;
     }
 
+    /*Gives back all grades that exist*/
     getAllGrades = () => {
         ElectionSystemAPI.getAPI().getAllGrades()
         .then(gradingBOs =>
@@ -58,6 +63,7 @@ class GradingEditingDialog extends Component {
         this.getAllGrades();
     }
 
+    /*Adds a grade */
     addGrade = () =>{
         let newGrade = new GradingBO();
         newGrade.setDate(this.state.creationDate);
@@ -79,7 +85,7 @@ class GradingEditingDialog extends Component {
         })
     }
 
-
+    /*Deletes a grade*/
     deleteGradeHandler = (grading) => {
         ElectionSystemAPI.getAPI().deleteGrade(grading.getID())
         .catch(e =>

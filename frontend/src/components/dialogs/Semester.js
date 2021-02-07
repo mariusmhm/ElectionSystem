@@ -10,7 +10,13 @@ import {Dialog,
 import {withStyles} from '@material-ui/core';
 import {ElectionSystemAPI, SemesterBO} from '../../api';
 
+/**
+ * This Dialog controlls  the semester and its time frames and the elctionsystem.
+ *
 
+ *
+ *
+ */
 class Semester extends Component {
     constructor(props){
         super(props)
@@ -55,7 +61,7 @@ class Semester extends Component {
                 }))
     }
 
-    //Updates the semester
+    /*Updates the semester*/
     updateSemester = () => {
         // clone original semester, in case the backend call fails
         let updatedSemester = Object.assign(new SemesterBO(), this.state.semester); //eventuell raus nehehmen
@@ -90,6 +96,8 @@ class Semester extends Component {
         })
     }
 
+    /*H´´tarts the ElctionSystem so the students
+    get orderd by their proiority to its participations*/
     handleElection = () =>{
         if(this.state.election === false){
             ElectionSystemAPI.getAPI().election();
