@@ -176,7 +176,7 @@ class TableEntry extends Component {
                                             this.handleClick();
                                     }} >
 
-                                    Deselect
+                                    {this.state.select ? "removed" : "deselect"}
                                 </Button>
                                
                             </Grid>

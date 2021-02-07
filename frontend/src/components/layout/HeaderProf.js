@@ -113,9 +113,9 @@ class HeaderProf extends Component {
               open={Boolean(this.state.anchorEl)}
               onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleMobileClose}>My Projects</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Projects Overview</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
+              <MenuItem onClick={() => {this.navigateHome(); this.handleMobileClose()}}>My Projects</MenuItem>
+              <MenuItem onClick={() => {this.onClickAbout(); this.handleMobileClose()}}>Projects Overview</MenuItem>
+              <MenuItem onClick={() => {this.handleSignOutButtonClicked(); this.handleMobileClose()}}>Logout</MenuItem>
             </Menu>
             </Box>
           </Toolbar>

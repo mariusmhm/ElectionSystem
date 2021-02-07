@@ -25,6 +25,7 @@ import ProfileChange from './components/layout/pages/ProfileChange';
 import ProjectContent from './components/layout/pages/ProjectContent';
 import About from './components/layout/pages/About';
 import ProjectUpdateAdmin from './components/layout/pages/ProjectUpdateAdmin';
+import StudentNotSelectedProjects from './components/layout/pages/StudentNotSelectedProjects';
 
 
 firebase.initializeApp(firebaseConfig);
@@ -239,14 +240,15 @@ class App extends Component {
 
 						<Route
 						exact
-						path={"/student/about"}
-						render={props => (
+						path={"/student/projects"}
+						render={props =>(
 							<>
 							<Header {...props}/>
-							<About {...props} />
+							<StudentNotSelectedProjects {...props} />
+
 							</>
 						)}
-						/>
+						/>	
 
 						<Route
 						exact
@@ -258,6 +260,8 @@ class App extends Component {
 							</>
 						)}
 						/>
+
+						
 						<Route
 						exact
 						path={"/admin"}

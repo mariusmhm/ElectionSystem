@@ -59,6 +59,15 @@ class Header extends Component {
     })
   }
 
+  navigateToProjects = () => {
+    this.props.history.push({
+      pathname: '/student/projects',
+      state: {
+        cUserID: this.props.history.location.state.cUserID
+      }
+    })
+  }
+
   render() {
     const { classes } = this.props;
     
@@ -73,7 +82,10 @@ class Header extends Component {
             </Typography>
             <Box display={{xs:"none", sm:"none", md:"block"}}>
             <Button color="inherit" onClick={this.navigateHome}>
-              Home
+              My projects
+            </Button>
+            <Button color="inherit" onClick={this.navigateToProjects}>
+              Projects Overview
             </Button>
             <Button color="inherit" onClick={this.onClickAbout}>
               About
@@ -99,9 +111,10 @@ class Header extends Component {
               open={Boolean(this.state.mobileAnchorEl)}
               onClose={this.handleMobileClose}
             >
-              <MenuItem onClick={this.handleMobileClose}>My Election</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Projects Overview</MenuItem>
-              <MenuItem onClick={this.handleMobileClose}>Logout</MenuItem>
+              <MenuItem onClick={() => {this.navigateHome(); this.handleMobileClose()}}>My projects</MenuItem>
+              <MenuItem onClick={() => {this.navigateToProjects(); this.handleMobileClose()}}>Projects overview</MenuItem>
+              <MenuItem onClick={() => {this.onClickAbout(); this.handleMobileClose()}}>About</MenuItem>
+              <MenuItem onClick={() => {this.handleSignOutButtonClicked(); this.handleMobileClose()}}>Logout</MenuItem>
             </Menu>
             </Box>
           </Toolbar>

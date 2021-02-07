@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { withStyles,  Divider, LinearProgress } from '@material-ui/core';
+import { withStyles,  Divider, LinearProgress, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ElectionSystemAPI } from '../../../api';
 import NotSelectedProjectEntry from '../../assets/NotSelectedProjectEntry';
@@ -153,71 +153,16 @@ class HomeScreenCompOne extends Component {
 
     render() {
         const {  participations,projecttypes,selectedProjects, unselectedProjects,loaded } = this.state;
-     
+        const {classes}= this.props;
 
 
 
         
         return (
-            <div>
-                {loaded ?  null: <><LinearProgress color="secondary" value={50}/></>}
-                <Grid container >
-                <Typography variant="h2">My selected projects</Typography>
-                    {selectedProjects.length > 0 ? 
-                    
-                            projecttypes.map(pt => 
-
-                                selectedProjects.filter(p => p.projecttype_id ===pt.id).length > 0 ?
-                                
-                                    <Grid item xs={12} md={12}>
-                                        <br/>
-                                        <Typography color="secondary" variant="h5">{pt.getName()}</Typography>
-                                        <br/>
-                                        {
-                                            selectedProjects.map(project =>
-                                                
-                                                project.projecttype_id === pt.id ?
-
-                                                <>
-                                                    <SelectedProjectEntry
-                                                        key = {project.getID()}
-                                                        id = {project.getID()}
-                                                        name = {project.getName()}
-                                                        prof = {project.getProfessor()}
-                                                        dsc = {project.getShortDescription()}
-                                                        ects = {pt.getEcts()}
-                                                        sws = {pt.getSws()}
-                                                        participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
-                                                        priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        cUserID = {this.state.cUserID} 
-                                                          
-                                                    />
-                                                    <Divider/>
-                                                </>
-
-                                                :null
-
-                                            )
-                                            
-                                        }
-                                    
-                                    </Grid>
-                                
-                                :null
-                                    
-                            )     
-                        
-                        :null
+            <div className={classes.headGrid}>
+                {loaded ?  null: <><LinearProgress color="secondary" /></>}
+                <Container maxWidth="md">
                 
-                    }
-                    <Button
-                    style={{marginTop: "20px", marginBottom: "50px"}}
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    onClick={this.reload}
-                    > Update choosen Projects
-                    </Button>
 
                 <Grid item xs={12}>
                 <Divider/>
@@ -251,7 +196,6 @@ class HomeScreenCompOne extends Component {
                                             sws = {pt.getSws()}
                                             cUserID = {this.state.cUserID}
                                             
-                                            
                                         />
                                         <Divider/>
                                         </>
@@ -267,17 +211,10 @@ class HomeScreenCompOne extends Component {
                     )     
                 
                 :null
+                
         
             }
-                </Grid>
-                <Button
-                    style={{marginTop: "20px"}}
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    onClick={this.reload}
-                    > Update your choice
-                    </Button>
+            </Container>   
             </div>
         );
     }
@@ -311,29 +248,14 @@ const styles = theme => ({
 
     Box: {
         color: 'red',
+    },
+    headGrid:{
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(12)
     }
 
 
 });
 
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-          duration: theme.transitions.duration.shortest,
-        }),
-      },
-      expandOpen: {
-        transform: 'rotate(180deg)',
-      },
-      
-}));
+
 export default withStyles(styles)(HomeScreenCompOne);

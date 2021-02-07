@@ -203,7 +203,7 @@ class TableEntry extends Component {
                                     onClick={() => {
                                             this.handleClick();
                                     }} >  
-                                    Select      
+                                    {this.state.select ? "Select" : "Selected"}
                                 </Button>
                                
                             </Grid>

@@ -3,8 +3,8 @@ import {Container} from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {withStyles} from '@material-ui/core';
-import HomeScreenCompOne from './HomeScreenCompOne';
-import HomeScreenCompTwo from './HomeScreenCompTwo';
+import StudentSelectedProjects from './StudentSelectedProjects';
+import StudentAfterElection from './StudentAfterElection';
 import { ElectionSystemAPI } from '../../../api';
 
 
@@ -60,7 +60,7 @@ class HomeScreen extends Component {
                  <CssBaseline />
 
                   <Container maxWidth="md">
-                      {election ? <HomeScreenCompOne reload ={this.reload} {...this.props}/> : <HomeScreenCompTwo reload ={this.reload}  {...this.props}/>}
+                      {election ? <StudentSelectedProjects reload ={this.reload} {...this.props}/> : <StudentAfterElection reload ={this.reload}  {...this.props}/>}
 
 				  </Container>
                 </>
