@@ -157,30 +157,7 @@ class TableEntryButtonTwo extends Component {
     }
 }
 
-const styles = theme => ({
-    grid: {
-        width: '100%',
-        margin: '0px',
-        padding: theme.spacing(1)
-    },
-    button: {
-        marginTop: theme.spacing(3)
-    },
-    redHeader: {
-        color: theme.palette.red,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 20
-    },
-
-    grayHeader: {
-        color: theme.palette.gray,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 35
-    },
 
 
 
-});
-export default withStyles(styles) (TableEntryButtonTwo);
+export default TableEntryButtonTwo;

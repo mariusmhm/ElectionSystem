@@ -38,6 +38,7 @@ class HomeScreenCompOne extends Component {
         };
 
         this.baseState = this.state;
+        this.reload = this.reload.bind(this);
         
     }
 
@@ -126,12 +127,18 @@ class HomeScreenCompOne extends Component {
     }
 
     
-
-    
-    
     reload (){
-        window.location.reload(false)
+        console.log("Clicked direct")
+        this.setState({
+            projects: [],
+            selectedProjects:[],
+            unselectedProjects: [],
+            participations: [],
+        }, () => this.getParticipationsForStudent());
+        
     }
+    
+    
 
     componentDidMount() {
         this.getParticipationsForStudent(); 
@@ -181,7 +188,7 @@ class HomeScreenCompOne extends Component {
                                                         sws = {pt.getSws()}
                                                         participationID = {participations.find(ptpID => ptpID.project_id === project.getID()).id}
                                                         priority = {participations.find(ptpID => ptpID.project_id === project.getID()).priority}
-                                                        cUserID = {this.state.cUserID}
+                                                        cUserID = {this.state.cUserID} 
                                                           
                                                     />
                                                     <Divider/>
@@ -242,6 +249,7 @@ class HomeScreenCompOne extends Component {
                                             ects = {pt.getEcts()}
                                             sws = {pt.getSws()}
                                             cUserID = {this.state.cUserID}
+                                            
                                             
                                         />
                                         <Divider/>

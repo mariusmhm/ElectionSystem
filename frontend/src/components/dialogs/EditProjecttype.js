@@ -23,11 +23,11 @@ import ProjecttypeBO from '../../api/ProjecttypeBO';
 class EditProjecttype extends Component {
 
   constructor(props){
-    super(props)
-
     // Init an today date
     let today = new Date(),
     date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    super(props)
+
     // Init an empty state
     this.state= {
         creationDate: date,

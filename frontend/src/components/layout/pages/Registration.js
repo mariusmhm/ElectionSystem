@@ -80,9 +80,9 @@ class Registration extends Component {
             newStudent.setStudy(this.state.study);
             
             ElectionSystemAPI.getAPI().addStudent(newStudent).then(student => {
-                this.setState({
-                    registered: true
-                });
+                this.props.history.push({
+                    pathname: '/',
+                }, window.location.reload())
             }).catch(e => 
                 this.setState({
                     updatingError: e
@@ -96,15 +96,23 @@ class Registration extends Component {
             newUser.setMail(this.state.mail);
             newUser.setGoogleID(this.state.googleID);
             ElectionSystemAPI.getAPI().addUser(newUser).then(user => {
-                this.setState({
-                    registered: true
-                })
+                this.props.history.push({
+                    pathname: '/',
+                }, window.location.reload())
             }).catch(e => 
                 this.setState({
                     updatingError: e
                 }))
         }
+        
     };
+
+    checkRegistration(){
+        console.log('Registration')
+            this.props.history.push({
+                pathname: '/',
+            })
+    }
 
     handleTextFieldChange = e =>{
         this.setState({
@@ -116,14 +124,7 @@ class Registration extends Component {
     render(){
         const { classes } = this.props; 
         
-        if (this.state.registered === true){
-            this.props.history.push({
-                pathname: '/',
-                state:{
-                    registered: this.state.registered
-                }
-            })
-        }
+        
         return (
             <Grid container spacing={2} direction="column" justify="center" alignItems="center" className={classes.grid} >
             

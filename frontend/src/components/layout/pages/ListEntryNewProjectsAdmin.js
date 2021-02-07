@@ -142,9 +142,7 @@ const styles = theme => ({
         paddingTop: theme.spacing(3)
     },
 
-    button:{
-        marginTop: theme.spacing(3)
-    },
+    
     redHeader:{
         color: theme.palette.red,
         fontFamily: 'Arial',

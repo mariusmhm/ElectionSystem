@@ -33,7 +33,7 @@ class ProjectUpdateAdmin extends Component {
         edvNumber: this.props.history.location.state.project.edv_number,
         projecttypes: [],
         projecttype: this.props.history.location.state.ptype,
-        ptSelected: this.props.history.location.state.project.projecttype_id,
+        ptSelected: this.props.history.location.state.ptype.id,
         numSpots: this.props.history.location.state.project.num_spots,
         professors: [],
         professor: this.props.history.location.state.project.professor_id,
@@ -287,7 +287,7 @@ class ProjectUpdateAdmin extends Component {
                                 <InputLabel>Project type</InputLabel>
                                 <Select label="Projecttype" defaultValue={this.state.ptSelected} onChange={this.selectHandleChangeProjecttype}>
                                     {this.state.projecttypes.map((ptype, index) => (
-                                        <MenuItem key={index} value={index}>{ptype.getName()}</MenuItem>
+                                        <MenuItem key={ptype.getID()} value={ptype.getID()}>{ptype.getName()}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>

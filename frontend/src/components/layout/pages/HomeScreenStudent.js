@@ -15,6 +15,8 @@ class HomeScreen extends Component {
             election: null,
             electionLoaded: false
         }
+
+        this.reload = this.reload.bind(this);
     }
 
     getAllSemester = () => {
@@ -33,7 +35,13 @@ class HomeScreen extends Component {
             )
     }
 
+    reload(){
+        console.log('Clicked');
+        this.getAllSemester();
+    }
+
     componentDidMount(){
+        
         this.getAllSemester();
       }
 
@@ -52,7 +60,7 @@ class HomeScreen extends Component {
                  <CssBaseline />
 
                   <Container maxWidth="md">
-                      {election ? <HomeScreenCompOne {...this.props}/> : <HomeScreenCompTwo {...this.props}/>}
+                      {election ? <HomeScreenCompOne reload ={this.reload} {...this.props}/> : <HomeScreenCompTwo reload ={this.reload}  {...this.props}/>}
 
 				  </Container>
                 </>

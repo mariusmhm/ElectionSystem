@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class BusinessObject(ABC):
     """Collective base class for the implementation of all relevant classes 
     within this project.

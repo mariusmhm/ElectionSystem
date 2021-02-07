@@ -157,31 +157,5 @@ class TableEntryAdmin extends Component {
 }
 
 
-const styles = theme => ({
-    grid: {
-        width: '100%',
-        margin: '0px',
-        paddingTop: theme.spacing(1)
-    },
-    button: {
-        marginTop: theme.spacing(3)
-    },
-    redHeader: {
-        color: theme.palette.red,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 20
-    },
 
-    grayHeader: {
-        color: theme.palette.gray,
-        fontFamily: 'Arial',
-        fontStyle: 'bold',
-        fontSize: 35
-    },
-
-
-
-});
-
-export default withStyles(styles) (TableEntryAdmin);
+export default TableEntryAdmin;
