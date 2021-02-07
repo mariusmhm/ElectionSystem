@@ -1,6 +1,6 @@
 # Wie Sie das Electionsystem-Beispiel starten
 In diesem Dokument skizzieren wir kurz, was Sie tun müssen, um das Electionsystem-Beispiel 
-erfolgreich **auf Ihrem Entwickluzngsrechner** zu starten. 
+erfolgreich auf Ihrem Entwickluzngsrechner zu starten. 
 
 
 ## Schritt 1: Starten des DBMS
@@ -17,5 +17,7 @@ INSTALLATION.md](INSTALLATION.md).
 ## Schritt 3: Starten des Frontend
 1. Sicherstellen, dass Sie sich im Verzeichnis ```/src/static/``` befinden. Für React-spezifischen Vorbereitungen
 siehe [Dokument INSTALLATION.md](INSTALLATION.md).
-2. Aufrufen der URL, die die Datei ```index.html``` innerhalb
-des React Client-Ordners korrekt adressiert. 
+2. Oder im Terminal in das Verzeichnis „frontend” navigieren
+3. “npm install” ausführen (dies kann einige Minuten dauern)
+4. “npm start” eingeben um das Projekt anschließend zu starten
+

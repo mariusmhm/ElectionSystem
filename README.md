@@ -3,7 +3,7 @@ Herzlich willkommen zum Electionsystem (Wahlsystem)
 
 ## Einleitung
 Dies ist die Realisierung der Electionsystem Applikation für das Software-Praktikum des Studiengangs 
-*WI7* Wintersemester 2021. 
+*WI7* Wintersemester 2020/21. 
 Das Electionsystem-Beispiel setzt auf einen modernen GUI-Ansatz auf Basis von React, mySQL als 
 Datenbank-Management-System, einem Python-Backend mit REST-Schnittstelle sowie dessen 
 Deployment auf die Google-Infrastruktur in der Cloud.

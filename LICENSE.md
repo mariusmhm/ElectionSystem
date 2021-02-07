@@ -2,7 +2,7 @@
 
 Copyright (c) 2021
 
-Die Nutzungsrechte bzgl. dieser Software sind beschränkt auf Studierende und Professoren der Hochschule der Medien in Verbindung mit dem SW-Praktikum. E
+Die Nutzungsrechte bzgl. dieser Software sind beschränkt auf Studierende, Professoren und Mitarbeiter der Hochschule der Medien in Verbindung mit dem SW-Praktikum. 
 
 Die Nutzung dieser Software erfolgt auf eigene Gefahr, eine Haftung jeglicher Art ist ausgeschlossen.
 
