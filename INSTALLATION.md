@@ -34,4 +34,4 @@ ODER: PyCharm --> Virtual Environment anlegen und die Packages nacheinander inst
 
 ### Wie wird der Server gestartet?
 --> ```main.py``` ausführen (PyCharm Rechtsklick auf die Datei ```main.py``` und dann ```Run main``` auswaehlen  )
-Voraussetzung: Ordentlich installierte Environment voraus (s.o.). Unter PyCharm genügt der Rechtsklick
+Voraussetzung: Ordentlich installierte Environment
