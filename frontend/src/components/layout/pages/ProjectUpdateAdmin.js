@@ -286,7 +286,7 @@ class ProjectUpdateAdmin extends Component {
                     <FormControl fullWidth variant="outlined" className={classes.FormControl}>
                                 <InputLabel>Project type</InputLabel>
                                 <Select label="Projecttype" defaultValue={this.state.ptSelected} onChange={this.selectHandleChangeProjecttype}>
-                                    {this.state.projecttypes.map((ptype, index) => (
+                                    {this.state.projecttypes.map((ptype) => (
                                         <MenuItem key={ptype.getID()} value={ptype.getID()}>{ptype.getName()}</MenuItem>
                                     ))}
                                 </Select>

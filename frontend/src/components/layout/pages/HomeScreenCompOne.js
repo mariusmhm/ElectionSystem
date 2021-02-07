@@ -127,16 +127,17 @@ class HomeScreenCompOne extends Component {
     }
 
     
-    reload (){
-        console.log("Clicked direct")
-        this.setState({
-            projects: [],
-            selectedProjects:[],
-            unselectedProjects: [],
-            participations: [],
-        }, () => this.getParticipationsForStudent());
-        
+
+    reload = () => {
+        this.props.history.push({
+                pathname:"/index.html",
+                state: {
+                cUserID: this.props.history.location.state.cUserID
+                }
+            }, window.location.reload())
     }
+    
+    
     
     
 
